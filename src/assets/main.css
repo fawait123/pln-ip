@@ -1,0 +1,84 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+@import "./base.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h1 {
+    @apply text-[42px] leading-[58.8px];
+  }
+  h2 {
+    @apply text-[42px] leading-[58.8px] font-bold;
+  }
+  h3 {
+    @apply text-[32px] leading-[44.8px];
+  }
+  h4 {
+    @apply text-[32px] leading-[44.8px] font-bold;
+  }
+  h5 {
+    @apply text-[20px] leading-[28px];
+  }
+  h6 {
+    @apply text-[20px] leading-[28px] font-bold;
+  }
+}
+
+body {
+  font-family: Lato, sans-serif, Inter;
+  background-color: white;
+}
+
+/* :root {
+  --main-background: #fcfcfd;
+  --main-surface: #f3f3f3;
+  --main-border: #cdced7;
+  --main-separator: #cdced7;
+  --main-row-hover: #f1f3fb;
+
+  --neutral-50: #f6f6f7;
+  --neutral-100: #eef0f1;
+  --neutral-200: #e0e3e5;
+  --neutral-300: #cdd1d4;
+  --neutral-400: #b7bcc2;
+  --neutral-500: #92969f;
+  --neutral-600: #82858e;
+  --neutral-700: #7b7e87;
+  --neutral-800: #65686e;
+  --neutral-900: #54575b;
+  --neutral-950: #313235;
+
+  --primary-50: #ebeffb;
+  --primary-100: #d7dff8;
+  --primary-200: #aebef1;
+  --primary-300: #9bbef5;
+  --primary-400: #5d7de2;
+  --primary-500: #355ddb;
+  --primary-600: #2a4aaf;
+  --primary-700: #203883;
+  --primary-800: #152558;
+  --primary-900: #0b132c;
+  --primary-950: #050916;
+
+  --blue-text: #0c66e4;
+  --blue-background: #e7f0fc;
+  --blue-border: #9ec2f4;
+
+  --green-text: #25ab73;
+  --green-background: #e9f7f1;
+  --green-border: #a8ddc7;
+
+  --yellow-text: #f5cd47;
+  --yellow-background: #fefaed;
+  --yellow-border: #fbebb5;
+
+  --red-text: #d3291d;
+  --red-background: #fbeae8;
+  --red-border: #eda9a5;
+
+  --grey-text: #6f6f6f;
+  --grey-background: #e3e3e3;
+  --grey-border: #d1d1d1;
+} */
