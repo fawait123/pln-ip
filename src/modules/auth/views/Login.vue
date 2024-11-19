@@ -109,6 +109,7 @@ watch(
                 :status_message="error_message"
               />
             </div>
+            <p class="forgot-password">Forgot password?</p>
             <Button
               text="SIGN IN"
               type="submit"
@@ -124,11 +125,11 @@ watch(
 
 <style lang="sass">
 .login-container
-  @apply w-full h-full min-h-screen flex items-center justify-center
+  @apply w-full h-full min-h-screen flex items-center justify-center bg-cyan-500
   .login-wrapper
     @apply flex justify-center gap-[190px] items-center mt-[-50px]
     .login-card
-      @apply py-9 px-[46px] rounded w-[468px] min-h-[480px] flex flex-col justify-center gap-[50px] bg-neutral-50
+      @apply py-9 px-[46px] rounded w-[468px] min-h-[480px] flex flex-col justify-center gap-[50px] bg-white shadow-xl
       &--wrapper
         @apply flex flex-col gap-10
       > img
@@ -140,7 +141,11 @@ watch(
         > h4
           @apply text-neutral-950 text-left font-bold
       form
-        @apply flex flex-col gap-6
+        @apply flex flex-col
         .form-wrapper
           @apply flex flex-col gap-3
+        .forgot-password
+          @apply ml-auto text-sm font-semibold text-neutral-500 cursor-pointer hover:text-cyan-500 mt-2
+        button
+          @apply mt-10
 </style>
