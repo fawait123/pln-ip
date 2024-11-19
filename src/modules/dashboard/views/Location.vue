@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 import { Icon } from "@/components";
 
 const router = useRouter();
+const route = useRoute();
+const locationId = route.params.id;
 
 const imgUrl = new URL("@/assets/images/priok.png", import.meta.url).href;
 
@@ -85,8 +87,11 @@ const back = () => {
 </script>
 
 <template>
-  <div class="back-button" @click="back">
-    <Icon name="caret-left" />
+  <div class="header-title">
+    <div class="back-button" @click="back">
+      <Icon name="caret-left" />
+    </div>
+    <p>{{ locationId.toString().toUpperCase() }}</p>
   </div>
   <div class="location">
     <div class="location-image">
@@ -114,8 +119,12 @@ const back = () => {
 </template>
 
 <style lang="sass">
-.back-button
-  @apply rounded h-10 w-10 bg-neutral-100 flex items-center justify-center text-base text-neutral-950 cursor-pointer hover:bg-neutral-200
+.header-title
+  @apply flex items-center gap-4
+  .back-button
+    @apply rounded h-10 w-10 bg-neutral-100 flex items-center justify-center text-base text-neutral-950 cursor-pointer hover:bg-neutral-200
+  > p
+    @apply text-xl font-bold text-neutral-950
 .location
   @apply w-full flex justify-between gap-20 mt-5
   &-image
