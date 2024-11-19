@@ -25,7 +25,6 @@ export const useAuthStore = defineStore(
     function clearToken() {
       access_token.value = "";
       encryptStorage.removeItem("access_token");
-      encryptStorage.removeItem("refresh_token");
       api.defaults.headers.common["Authorization"] = "";
     }
 
@@ -60,10 +59,10 @@ export const useAuthStore = defineStore(
     //     });
     // };
 
-    // const logout = async () => {
-    //   clearToken();
-    //   clearUsers();
-    // };
+    const logout = async () => {
+      clearToken();
+      clearUsers();
+    };
 
     return {
       access_token,
@@ -73,6 +72,7 @@ export const useAuthStore = defineStore(
       checkToken,
       setUsers,
       clearUsers,
+      logout,
     };
   },
   {

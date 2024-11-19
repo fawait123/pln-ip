@@ -7,4 +7,10 @@ export const routeDashboard = [
     component: () => import("@/modules/dashboard/views/Dashboard.vue"),
     meta: { layout: DefaultLayout, requireAuth: true },
   },
+  {
+    path: "/:id",
+    name: "blok",
+    component: () => import("@/modules/dashboard/views/Location.vue"),
+    meta: { layout: DefaultLayout, requireAuth: true },
+  },
 ];
