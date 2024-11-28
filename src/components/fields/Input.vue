@@ -417,7 +417,7 @@ function onKeyPress(e: KeyboardEvent) {
     case "number":
       {
         let char_number = String.fromCharCode(e.keyCode);
-        let disabled_char_number = null;
+        let disabled_char_number: any = null;
         if (props.min === "" && props.max === "") {
           disabled_char_number =
             props.custom_symbols !== undefined

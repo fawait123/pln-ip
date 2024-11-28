@@ -1,148 +1,65 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, onUnmounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
 
-import { Icon } from "@/components";
+import eventBus from "@/utils/eventBus";
+import { useGlobalStore } from "@/stores/GlobalStore";
 
+const imgUrl = new URL("@/assets/images/priok.png", import.meta.url).href;
+
+const globalStore = useGlobalStore();
+const { titleHeader } = storeToRefs(globalStore);
 const router = useRouter();
 const route = useRoute();
 const locationId = route.params.id;
 
-const imgUrl = new URL("@/assets/images/priok.png", import.meta.url).href;
-
-const data = ref([
-  {
-    name: "BLOK 1",
-    children: [
-      {
-        name: "GT 1.1 ABB13E1",
-      },
-      {
-        name: "GT 1.2 ABB13E1",
-      },
-      {
-        name: "GT 1.3 ABB13E1",
-      },
-      {
-        name: "GT 1.4 ABB13E1",
-      },
-    ],
-  },
-  {
-    name: "BLOK 2",
-    children: [
-      {
-        name: "GT 2.1 ABB13E1",
-      },
-      {
-        name: "GT 2.2 ABB13E1",
-      },
-      {
-        name: "GT 2.3 ABB13E1",
-      },
-      {
-        name: "GT 2.4 ABB13E1",
-      },
-    ],
-  },
-  {
-    name: "BLOK 3",
-    children: [
-      {
-        name: "GT 3.1 ABB13E1",
-      },
-      {
-        name: "GT 3.2 ABB13E1",
-      },
-      {
-        name: "GT 3.3 ABB13E1",
-      },
-      {
-        name: "GT 3.4 ABB13E1",
-      },
-    ],
-  },
-  {
-    name: "BLOK 4",
-    children: [
-      {
-        name: "GT 4.1 ABB13E1",
-      },
-      {
-        name: "GT 4.2 ABB13E1",
-      },
-      {
-        name: "GT 4.3 ABB13E1",
-      },
-      {
-        name: "GT 4.4 ABB13E1",
-      },
-    ],
-  },
-]);
-
-const back = () => {
-  router.push("/");
+const handleNext = () => {
+  router.push(`/create/${locationId}/unit`);
 };
+
+onMounted(() => {
+  titleHeader.value = `UBP ${locationId}`;
+  eventBus.on("next", handleNext);
+});
+
+onUnmounted(() => {
+  eventBus.off("next", handleNext);
+});
 </script>
 
 <template>
-  <div class="header-title">
-    <div class="back-button" @click="back">
-      <Icon name="caret-left" />
-    </div>
-    <p>{{ locationId.toString().toUpperCase() }}</p>
-  </div>
-  <div class="location">
-    <div class="location-image">
-      <img :src="imgUrl" />
-    </div>
-    <div class="location-list">
-      <div class="card-list">
-        <div class="card-wrapper">
-          <div v-for="(item, key) in data" :key="key" class="list-item">
-            <p>{{ item.name }}</p>
-            <div class="children">
-              <div
-                v-for="(element, index) in item.children"
-                :key="index"
-                class="children-item"
-              >
-                {{ element.name }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+  <div
+    class="w-full min-h-screen"
+    :style="{
+      backgroundImage: `url(${imgUrl})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    }"
+  >
+    <div class="trapezoid">
+      <p>UBP {{ locationId }}</p>
+      <p>
+        Unit Bisnis Pembangkitan Priok yang berlokasi di pantai utara Jakarta
+        mengelola 14 unit dengan 8 unit PLTGU dan 6 Pusat Listrik Tenaga Diesel
+        (PLTD )dengan total kapasitas terpasang 1.196,08 MW. Priok PGU
+        mengoperasikan 6 unit Pusat Listrik Tenaga Diesel (PLTD) di Senayan
+        berkapasitas 16,08 MW yang menjamin pasokan untuk kebutuhan
+        sidang-sidang MPR. Selain Priok POMU mengelola pembangkit yang dimiliki
+        Indonesia Power, Perusahaan juga mengelola jasa O&M milik PLN yaitu
+        PLTGU Priok Blok 3 dengan kapasitas terpasang 740 MW.
+      </p>
     </div>
   </div>
 </template>
 
 <style lang="sass">
-.header-title
-  @apply flex items-center gap-4
-  .back-button
-    @apply rounded h-10 w-10 bg-neutral-100 flex items-center justify-center text-base text-neutral-950 cursor-pointer hover:bg-neutral-200
+.trapezoid
+  @apply w-[40vw] min-h-screen bg-buttonGray bg-opacity-50 pt-[100px] pl-4 pr-16
+  clip-path: polygon(0 0, 100% 0, 80% 100%, 0 100%)
   > p
-    @apply text-xl font-bold text-neutral-950
-.location
-  @apply w-full flex justify-between gap-20 mt-5
-  &-image
-    @apply w-full h-[calc(100vh-200px)]
-    img
-      @apply object-cover object-center bg-no-repeat w-full h-full
-  &-list
-    @apply w-[500px]
-  .card-list
-    @apply rounded bg-white shadow w-full p-6 h-[calc(100vh-200px)]
-    .card-wrapper
-      @apply flex flex-col gap-4 max-h-full overflow-y-auto
-      .list-item
-        @apply flex flex-col
-        > p
-          @apply py-3 text-lg font-bold text-neutral-950 border-b border-neutral-100
-        .children
-          @apply flex flex-col gap-1 py-2
-          &-item
-            @apply text-base cursor-pointer text-neutral-950 py-2 px-4 hover:bg-neutral-100 rounded
+    &:first-child
+      @apply text-xl font-bold text-neutral-950
+    &:last-child
+      @apply text-base font-medium text-neutral-50 mt-4 ml-6
 </style>

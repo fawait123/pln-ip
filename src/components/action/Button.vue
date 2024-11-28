@@ -3,19 +3,32 @@ import { Icon, Loading } from "@/components";
 import { computed, type PropType } from "vue";
 import { RouterLink } from "vue-router";
 
+type Size = "lg" | "md" | "sm";
+type Variant = "primary" | "secondary" | "skin" | "danger";
+type Color = "default" | "green";
+type Type = "button" | "submit" | "reset" | undefined;
+type Rounded = "none" | "default" | "sm" | "md" | "lg" | "xl" | "full";
+
 const props = defineProps({
   size: {
-    type: String,
+    type: String as PropType<Size>,
     default: "md",
     validator: function (value: string) {
       return ["lg", "md", "sm"].indexOf(value) !== -1;
     },
   },
   variant: {
-    type: String,
+    type: String as PropType<Variant>,
     default: "primary",
     validator: function (value: string) {
       return ["primary", "secondary", "skin", "danger"].indexOf(value) !== -1;
+    },
+  },
+  color: {
+    type: String as PropType<Color>,
+    default: "default",
+    validator: function (value: string) {
+      return ["default", "green"].indexOf(value) !== -1;
     },
   },
   text: {
@@ -23,7 +36,7 @@ const props = defineProps({
     default: "",
   },
   type: {
-    type: String as PropType<"reset" | "submit" | "button" | undefined>,
+    type: String as PropType<Type>,
     default: "button",
     validator: function (value: string) {
       return ["button", "submit", "reset"].indexOf(value) !== -1;
@@ -58,7 +71,7 @@ const props = defineProps({
     default: false,
   },
   rounded: {
-    type: String,
+    type: String as PropType<Rounded>,
     default: "default",
     validator: function (value: string) {
       return (
@@ -91,19 +104,19 @@ const buttonsDesign = computed(() => {
     btn_size = "pln-btn--" + props.size;
   }
 
-  if (props.variant !== "") {
-    btn_variant = "pln-btn--" + props.variant;
+  if (props.variant) {
+    btn_variant = "pln-btn--" + props.variant + "--" + props.color;
   }
 
   if (props.disabled === true) {
     btn_variant = "";
-    disabled = "pln-btn--" + props.variant + "--disabled";
+    disabled = "pln-btn--" + props.variant + "--" + props.color + "--disabled";
   } else {
     disabled = "";
   }
 
   if (props.loading === true) {
-    loading = "pln-btn--" + props.variant + "--loading";
+    loading = "pln-btn--" + props.variant + "--" + props.color + "--loading";
   } else {
     loading = "";
   }
@@ -281,27 +294,54 @@ const heightLoading = computed(() => {
       @apply rounded-full
 
   &--primary
-    @apply bg-cyan-500 border-cyan-500 text-cyan-50
-    &:hover
-      @apply bg-cyan-600 border-cyan-600
-    &--disabled
-      @apply pointer-events-none shadow-none bg-cyan-300 border-cyan-300 text-neutral-50 #{!important}
-    &--loading
-      @apply border-cyan-500 bg-cyan-300 text-neutral-50
+    &--default
+      @apply bg-cyan-500 border-cyan-500 text-cyan-50
+      &:hover
+        @apply bg-cyan-600 border-cyan-600
+      &--disabled
+        @apply pointer-events-none shadow-none bg-cyan-300 border-cyan-300 text-neutral-50 #{!important}
+      &--loading
+        @apply border-cyan-500 bg-cyan-300 text-neutral-50
+    &--green
+      @apply bg-green-500 border-green-500 text-green-50
+      &:hover
+        @apply bg-green-600 border-green-600
+      &--disabled
+        @apply pointer-events-none shadow-none bg-green-300 border-green-300 text-neutral-50 #{!important}
+      &--loading
+        @apply border-green-500 bg-green-300 text-neutral-50
   &--secondary
-    @apply bg-transparent border-cyan-500 text-cyan-500
-    &:hover
-      @apply border-cyan-600 text-cyan-600
-    &--disabled
-      @apply bg-transparent pointer-events-none shadow-none border-cyan-300 text-cyan-300 #{!important}
-    &--loading
+    &--default
       @apply bg-transparent border-cyan-500 text-cyan-500
+      &:hover
+        @apply border-cyan-600 text-cyan-600
+      &--disabled
+        @apply bg-transparent pointer-events-none shadow-none border-cyan-300 text-cyan-300 #{!important}
+      &--loading
+        @apply bg-transparent border-cyan-500 text-cyan-500
+    &--default
+      @apply bg-transparent border-green-500 text-green-500
+      &:hover
+        @apply border-green-600 text-green-600
+      &--disabled
+        @apply bg-transparent pointer-events-none shadow-none border-green-300 text-green-300 #{!important}
+      &--loading
+        @apply bg-transparent border-green-500 text-green-500
   &--skin
-    @apply bg-transparent border-transparent text-cyan-500
-    &:hover
-      @apply bg-transparent border-transparent text-cyan-600
-    &--disabled
-      @apply bg-transparent border-transparent pointer-events-none text-cyan-300 #{!important}
-    &--loading
+    &--default
       @apply bg-transparent border-transparent text-cyan-500
+      &:hover
+        @apply bg-transparent border-transparent text-cyan-600
+      &--disabled
+        @apply bg-transparent border-transparent pointer-events-none text-cyan-300 #{!important}
+      &--loading
+        @apply bg-transparent border-transparent text-cyan-500
+    &--default
+      @apply bg-transparent border-transparent text-green-500
+      &:hover
+        @apply bg-transparent border-transparent text-green-600
+      &--disabled
+        @apply bg-transparent border-transparent pointer-events-none text-green-300 #{!important}
+      &--loading
+        @apply bg-transparent border-transparent text-green-500
 </style>
