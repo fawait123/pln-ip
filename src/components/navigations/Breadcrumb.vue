@@ -1,0 +1,62 @@
+<script setup lang="ts">
+import { type PropType } from "vue";
+
+import { Icon } from "@/components";
+import { RouterLink } from "vue-router";
+
+interface BreadcrumbType {
+  name: string;
+  as_link?: boolean;
+  url?: string;
+}
+
+const props = defineProps({
+  items: {
+    type: Array as PropType<BreadcrumbType[]>,
+    default: () => {
+      return [];
+    },
+  },
+});
+</script>
+
+<template>
+  <div class="breadcrumb">
+    <div v-for="(item, key) in items" :key="key" class="breadcrumb-container">
+      <RouterLink
+        v-if="item.as_link"
+        :to="item?.url || ''"
+        class="breadcrumb-link"
+        :class="
+          key + 1 === items.length
+            ? 'text-cyan-500'
+            : 'text-neutral-950 hover:text-[#668415] cursor-pointer'
+        "
+        >{{ item.name }}</RouterLink
+      >
+      <p
+        v-else
+        class="breadcrumb-normal"
+        :class="key + 1 === items.length ? 'text-cyan-500' : 'text-neutral-950'"
+      >
+        {{ item.name }}
+      </p>
+      <Icon
+        v-if="key + 1 !== items.length"
+        :class="key + 2 === items.length ? 'text-cyan-500' : 'text-neutral-950'"
+        name="caret-right"
+      />
+    </div>
+  </div>
+</template>
+
+<style lang="sass">
+.breadcrumb
+  @apply flex items-start gap-2
+  .breadcrumb-container
+    @apply flex items-center gap-2
+    .breadcrumb-link
+      @apply text-base font-bold
+    .breadcrumb-normal
+      @apply text-base font-bold
+</style>

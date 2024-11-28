@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import HiglightMap from './Partial/HiglightMap.vue';
-
+import HiglightMap from "./Partial/HiglightMap.vue";
 </script>
-
 
 <template>
   <div>
