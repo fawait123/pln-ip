@@ -15,7 +15,7 @@ const route = useRoute();
 const locationId = route.params.id;
 
 const handleBack = () => {
-  router.go(-1);
+  router.push("/");
 };
 
 onMounted(() => {
