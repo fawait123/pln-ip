@@ -105,7 +105,7 @@ const toScope = (id: string) => {
 };
 
 const handleBack = () => {
-  router.go(-1);
+  router.push(`/${locationId}`);
 };
 
 onMounted(() => {

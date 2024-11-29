@@ -84,7 +84,7 @@ const handleVideoEnd = () => {
 };
 
 const handleBack = () => {
-  router.go(-1);
+  router.push(`/${route.params.id}/create/unit`);
 };
 
 onMounted(() => {
