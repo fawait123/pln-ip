@@ -1,14 +1,20 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { onMounted, ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 
 import { useGlobalStore } from "@/stores/GlobalStore";
 import { Breadcrumb } from "@/components";
+import { useRoute, useRouter } from "vue-router";
+import { convertToKebabCase } from "@/helpers/global";
+import eventBus from "@/utils/eventBus";
 
 const imgUrl = new URL("@/assets/images/priok-unit.png", import.meta.url).href;
 
 const globalStore = useGlobalStore();
-const { titleHeader } = storeToRefs(globalStore);
+const { titleHeader, disabledNext } = storeToRefs(globalStore);
+const router = useRouter();
+const route = useRoute();
+const locationId = route.params.id;
 const breadcrumb = ref([
   {
     name: "UBP Priok",
@@ -94,8 +100,22 @@ const handleClick = (id: number) => {
   }
 };
 
+const toScope = (id: string) => {
+  router.push(`/${locationId}/create/unit/${convertToKebabCase(id)}`);
+};
+
+const handleBack = () => {
+  router.go(-1);
+};
+
 onMounted(() => {
   titleHeader.value = "Unit";
+  disabledNext.value = true;
+  eventBus.on("back", handleBack);
+});
+
+onUnmounted(() => {
+  eventBus.off("back", handleBack);
 });
 </script>
 
@@ -128,6 +148,7 @@ onMounted(() => {
                 v-for="(element, index) in item.children"
                 :key="index"
                 class="button-gt"
+                @click="toScope(element.name)"
               >
                 {{ element.name }}
               </button>
@@ -147,7 +168,7 @@ onMounted(() => {
   @apply max-h-full opacity-100 pointer-events-auto mt-4 #{!important}
 
 .container-unit
-  @apply pt-[120px] pl-4
+  @apply pt-[100px] pl-4
   .content-unit
     @apply p-10
     .wrapper-button-unit

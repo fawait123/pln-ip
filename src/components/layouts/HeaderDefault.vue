@@ -6,21 +6,23 @@ import { Icon } from "@/components";
 import eventBus from "@/utils/eventBus";
 import { useAuthStore } from "@/modules/auth/stores/AuthStore";
 import { useGlobalStore } from "@/stores/GlobalStore";
+import { computed } from "vue";
 
 const imgUrl = new URL("@/assets/images/logo.png", import.meta.url).href;
 
 const globalStore = useGlobalStore();
-const { titleHeader } = storeToRefs(globalStore);
+const { titleHeader, disabledBack, disabledNext } = storeToRefs(globalStore);
 const authStore = useAuthStore();
 const router = useRouter();
 const route = useRoute();
+const locationId = route.params.id;
 
 const toHome = () => {
   router.push("/");
 };
 
 const handleBack = () => {
-  router.go(-1);
+  eventBus.emit("back");
 };
 
 const handleNext = () => {
@@ -30,6 +32,10 @@ const handleNext = () => {
 const logout = () => {
   authStore.logout();
   router.push("/login");
+};
+
+const toCreate = () => {
+  router.push(`/${locationId}/create/unit`);
 };
 </script>
 
@@ -45,6 +51,7 @@ const logout = () => {
         <button
           class="menu-button"
           :class="{ active: route.path.includes('create') }"
+          @click="toCreate"
         >
           Create
         </button>
@@ -60,8 +67,20 @@ const logout = () => {
           <Icon name="home" class="text-white text-xl" />
         </div>
         <div class="arrow-buttons">
-          <button class="arrow-button back" @click="handleBack">Back</button>
-          <button class="arrow-button next" @click="handleNext">Next</button>
+          <button
+            class="arrow-button back"
+            :disabled="disabledBack"
+            @click="handleBack"
+          >
+            Back
+          </button>
+          <button
+            class="arrow-button next"
+            :disabled="disabledNext"
+            @click="handleNext"
+          >
+            Next
+          </button>
         </div>
       </div>
     </div>
@@ -112,12 +131,12 @@ const logout = () => {
           &:hover
             @apply bg-yellow-500
           &:disabled
-            @apply bg-neutral-500
+            @apply bg-neutral-500 cursor-default
         .next
           @apply bg-buttonGray
           clip-path: polygon(80% 0, 100% 50%, 80% 100%, 0 100%, 0 0)
           &:hover
             @apply bg-yellow-500
           &:disabled
-            @apply bg-neutral-500
+            @apply bg-neutral-500 cursor-default
 </style>

@@ -8,9 +8,13 @@ export const useGlobalStore = defineStore(
   "global",
   () => {
     const titleHeader = ref<string>("");
+    const disabledNext = ref(false);
+    const disabledBack = ref(false);
 
     return {
       titleHeader,
+      disabledNext,
+      disabledBack,
     };
   },
   {

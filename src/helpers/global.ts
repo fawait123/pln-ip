@@ -43,6 +43,23 @@ function numberFormat(inputNumber: number | string, isCurrency = false) {
 
   return data;
 }
+
+function convertToKebabCase(input: string): string {
+  return input
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9.-]/g, "");
+}
+
+function convertToOriginalFormat(input: string): string {
+  return input
+    .split("-")
+    .map((part) =>
+      part.match(/^[0-9]+(\.[0-9]+)?$/) ? part : part.toUpperCase()
+    )
+    .join(" ");
+}
+
 /* eslint-disable no-useless-escape */
 const all_characters = /[a-zA-Z0-9`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~\n ]/;
 const numbers_characters = /[0-9`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~\n]/;
@@ -60,6 +77,8 @@ const character_search = /[a-zA-Z0-9@. ]/;
 export {
   useScreen,
   numberFormat,
+  convertToKebabCase,
+  convertToOriginalFormat,
   all_characters,
   numbers_characters,
   numbers_letters,

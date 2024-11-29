@@ -9,13 +9,13 @@ export const routeDashboard = [
     meta: { layout: MapLayout, requireAuth: true },
   },
   {
-    path: "/create/:id",
+    path: "/:id",
     name: "blok",
     component: () => import("@/modules/dashboard/views/Location.vue"),
     meta: { layout: DefaultLayout, requireAuth: true },
   },
   {
-    path: "/create/:id/unit",
+    path: "/:id/create/unit",
     name: "unit",
     component: () => import("@/modules/dashboard/views/Unit.vue"),
     meta: { layout: DefaultLayout, requireAuth: true },
