@@ -8,6 +8,7 @@ import useVuelidate from "@vuelidate/core";
 import { email, helpers, required } from "@vuelidate/validators";
 import { email as emailSymbol } from "@/helpers/global";
 
+const imgBg = new URL("@/assets/images/bg-login.png", import.meta.url).href;
 const imgUrl = new URL("@/assets/images/logo.png", import.meta.url).href;
 
 const authStore = useAuthStore();
@@ -74,13 +75,20 @@ watch(
 </script>
 
 <template>
-  <div class="login-container">
+  <div
+    class="login-container"
+    :style="{
+      backgroundImage: `url(${imgBg})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    }"
+  >
     <div class="login-wrapper">
       <div class="login-card">
         <div class="login-card--wrapper">
           <div class="login-card--head">
             <img :src="imgUrl" />
-            <h4>Sign In</h4>
+            <h4>Hi, Welcome Back</h4>
           </div>
           <form @submit.prevent="onSubmit">
             <div class="form-wrapper">
@@ -116,6 +124,7 @@ watch(
               :loading="is_loading"
               :disabled="is_loading"
             />
+            <p class="title-ubh">Unit Bisnis Pemeliharaan 2025</p>
           </form>
         </div>
       </div>
@@ -125,11 +134,11 @@ watch(
 
 <style lang="sass">
 .login-container
-  @apply w-full h-full min-h-screen flex items-center justify-center bg-cyan-500
+  @apply w-full h-full min-h-screen flex items-center justify-center
   .login-wrapper
     @apply flex justify-center gap-[190px] items-center mt-[-50px]
     .login-card
-      @apply py-9 px-[46px] rounded w-[468px] min-h-[480px] flex flex-col justify-center gap-[50px] bg-white shadow-xl
+      @apply px-6 py-8 rounded-lg w-[468px] flex flex-col justify-center gap-[50px] bg-white shadow-xl
       &--wrapper
         @apply flex flex-col gap-10
       > img
@@ -139,7 +148,7 @@ watch(
         > img
           @apply h-10
         > h4
-          @apply text-neutral-950 text-left font-bold
+          @apply text-cyan-500 text-left font-[900]
       form
         @apply flex flex-col
         .form-wrapper
@@ -147,5 +156,7 @@ watch(
         .forgot-password
           @apply ml-auto text-sm font-semibold text-neutral-500 cursor-pointer hover:text-cyan-500 mt-2
         button
-          @apply mt-10
+          @apply mt-8
+        .title-ubh
+          @apply text-sm text-neutral-500 font-medium mt-4
 </style>
