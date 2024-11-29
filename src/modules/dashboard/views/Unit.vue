@@ -8,7 +8,11 @@ import { useRoute, useRouter } from "vue-router";
 import { convertToKebabCase } from "@/helpers/global";
 import eventBus from "@/utils/eventBus";
 
-const imgUrl = new URL("@/assets/images/priok-unit.png", import.meta.url).href;
+const imgBlok1 = new URL("@/assets/images/bg-blok1.png", import.meta.url).href;
+const imgBlok3 = new URL("@/assets/images/bg-blok3.png", import.meta.url).href;
+const imgBlok4 = new URL("@/assets/images/bg-blok4.png", import.meta.url).href;
+
+const dataBg = [imgBlok1, imgBlok3, imgBlok4];
 
 const globalStore = useGlobalStore();
 const { titleHeader, disabledNext } = storeToRefs(globalStore);
@@ -28,6 +32,7 @@ const breadcrumb = ref([
   },
 ]);
 const buttonActive = ref<number | null>(null);
+const bgActive = ref<number>(1);
 
 const data = ref([
   {
@@ -93,6 +98,7 @@ const data = ref([
 ]);
 
 const handleClick = (id: number) => {
+  bgActive.value = id;
   if (buttonActive.value === id) {
     buttonActive.value = null;
   } else {
@@ -112,6 +118,7 @@ onMounted(() => {
   titleHeader.value = "Unit";
   disabledNext.value = true;
   eventBus.on("back", handleBack);
+  buttonActive.value = 1;
 });
 
 onUnmounted(() => {
@@ -123,7 +130,7 @@ onUnmounted(() => {
   <div
     class="w-full min-h-screen"
     :style="{
-      backgroundImage: `url(${imgUrl})`,
+      backgroundImage: `url(${dataBg[bgActive - 1]})`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
     }"
