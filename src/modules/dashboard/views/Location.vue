@@ -9,22 +9,23 @@ import { useGlobalStore } from "@/stores/GlobalStore";
 const imgUrl = new URL("@/assets/images/priok.png", import.meta.url).href;
 
 const globalStore = useGlobalStore();
-const { titleHeader } = storeToRefs(globalStore);
+const { titleHeader, disabledNext } = storeToRefs(globalStore);
 const router = useRouter();
 const route = useRoute();
 const locationId = route.params.id;
 
-const handleNext = () => {
-  router.push(`/create/${locationId}/unit`);
+const handleBack = () => {
+  router.go(-1);
 };
 
 onMounted(() => {
   titleHeader.value = `UBP ${locationId}`;
-  eventBus.on("next", handleNext);
+  disabledNext.value = true;
+  eventBus.on("back", handleBack);
 });
 
 onUnmounted(() => {
-  eventBus.off("next", handleNext);
+  eventBus.off("back", handleBack);
 });
 </script>
 

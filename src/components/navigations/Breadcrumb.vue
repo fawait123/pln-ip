@@ -4,7 +4,7 @@ import { type PropType } from "vue";
 import { Icon } from "@/components";
 import { RouterLink } from "vue-router";
 
-interface BreadcrumbType {
+export interface BreadcrumbType {
   name: string;
   as_link?: boolean;
   url?: string;
@@ -52,9 +52,9 @@ const props = defineProps({
 
 <style lang="sass">
 .breadcrumb
-  @apply flex items-start gap-2
+  @apply flex items-start gap-1
   .breadcrumb-container
-    @apply flex items-center gap-2
+    @apply flex items-center gap-1
     .breadcrumb-link
       @apply text-base font-bold
     .breadcrumb-normal

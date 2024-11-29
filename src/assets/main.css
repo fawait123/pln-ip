@@ -31,6 +31,18 @@ body {
   background-color: white;
 }
 
+.scope-container {
+  @apply relative w-full h-full min-h-screen;
+}
+
+.scope-video {
+  @apply absolute top-0 right-0 bottom-0 left-0 w-full h-full object-cover;
+}
+
+.scope-breadcrumb {
+  @apply absolute z-[10] top-[100px] pl-4;
+}
+
 /* :root {
   --main-background: #fcfcfd;
   --main-surface: #f3f3f3;

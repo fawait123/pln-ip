@@ -93,7 +93,7 @@ async function loadMapData() {
 
 const handleClick = (event: any) => {
   console.log("clicked", event.point);
-  router.push(`/create/priok`);
+  router.push(`/priok`);
 };
 
 // Memuat data peta ketika komponen dipasang
