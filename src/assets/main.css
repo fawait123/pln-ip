@@ -35,8 +35,12 @@ body {
   @apply relative w-screen h-screen;
 }
 
+.scope-video-container {
+  @apply w-[1536px] h-[704px] relative mx-auto;
+}
+
 .scope-video {
-  @apply absolute top-0 right-0 bottom-0 left-0 w-[1536px] h-[1080px] object-fill;
+  @apply absolute w-full h-full object-fill;
 }
 
 .scope-breadcrumb {
