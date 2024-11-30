@@ -6,7 +6,7 @@ import { useRoute, useRouter } from "vue-router";
 import { useGlobalStore } from "@/stores/GlobalStore";
 import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 import { convertToOriginalFormat } from "@/helpers/global";
-import { Breadcrumb } from "@/components";
+import { Breadcrumb, ButtonInputData } from "@/components";
 import eventBus from "@/utils/eventBus";
 
 // VIDEO
@@ -193,12 +193,15 @@ onUnmounted(() => {
       muted
       playsinline
     ></video>
-    <button
+    <!-- <button
       v-if="isButtonVisible && currentVideoIndex === 0"
       class="button-ci mtc"
     >
       Manhole Turbine Cylinder
-    </button>
+    </button> -->
+    <div v-if="isButtonVisible && currentVideoIndex === 0" class="mtc">
+      <ButtonInputData />
+    </div>
     <button
       v-if="isButtonVisible && currentVideoIndex === 1"
       class="button-ci fd"
@@ -210,7 +213,7 @@ onUnmounted(() => {
 
 <style lang="sass">
 .mtc
-  @apply absolute z-[11] right-[calc((100vw/2)+12%)] top-[calc((100vh/2)-27%)]
+  @apply absolute z-[11] right-[calc((100vw/2)+25%)] top-[calc((100vh/2)-20%)]
 
 .fd
   @apply absolute z-[11] right-[calc((100vw/2)+5%)] top-[calc((100vh/2)-3%)]
@@ -219,4 +222,7 @@ onUnmounted(() => {
   @apply bg-cyan-500 py-2 w-[200px] text-center text-sm text-neutral-50 font-bold cursor-pointer rounded
   &:hover
     @apply bg-yellow-500
+
+.wrapper-bid
+  @apply absolute top-[120px] left-10 z-[100]
 </style>
