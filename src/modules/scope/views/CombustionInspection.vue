@@ -221,7 +221,25 @@ const styleFD = computed(() => {
     <div class="scope-breadcrumb">
       <Breadcrumb :items="breadcrumb" />
     </div>
-    <video
+    <div class="w-[1440px] h-[1080px] relative">
+      <video
+        ref="videoRef"
+        :src="videos[currentVideoIndex].video"
+        @ended="handleVideoEnd"
+        autoplay
+        muted
+        playsinline
+        class="absolute w-full h-full object-fill"
+      ></video>
+      <div
+        v-if="isButtonVisible && currentVideoIndex === 0"
+        class="absolute top-[350px] left-[280px]"
+      >
+        <ButtonPopover />
+      </div>
+    </div>
+  </div>
+  <!-- <video
       ref="videoRef"
       :src="videos[currentVideoIndex].video"
       class="scope-video"
@@ -243,8 +261,8 @@ const styleFD = computed(() => {
       :style="styleFD"
     >
       <ButtonPopover />
-    </div>
-  </div>
+    </div> -->
+  <!-- </div> -->
 </template>
 
 <style lang="sass">
