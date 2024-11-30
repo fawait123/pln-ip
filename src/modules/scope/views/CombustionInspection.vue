@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, watch } from "vue";
+import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useRoute, useRouter } from "vue-router";
 
@@ -15,7 +15,7 @@ import CI1 from "@/assets/videos/combustion-inspection/new-1-manhole-turbine-cyl
 import CI2 from "@/assets/videos/combustion-inspection/new-2-flame-detector.mp4";
 
 const videos = [
-  { video: CI1, duration: 5000 },
+  { video: CI1, duration: 5500 },
   { video: CI2, duration: 6000 },
 ];
 
@@ -196,6 +196,23 @@ watch(
   },
   { deep: true, immediate: true }
 );
+
+const styleMTC = computed(() => {
+  if (
+    screen_dimension.screenWidth.value >= 1912 &&
+    screen_dimension.screenHeight.value >= 1074
+  ) {
+    return {
+      right: "calc((100vw / 2) + 25%",
+      top: "calc((100vh / 2) - 18%)",
+    };
+  } else {
+    return {
+      right: "calc((100vw / 2) + 25%",
+      top: "calc((100vh / 2) - 20%)",
+    };
+  }
+});
 </script>
 
 <template>
@@ -218,7 +235,11 @@ watch(
     >
       Manhole Turbine Cylinder
     </button> -->
-    <div v-if="isButtonVisible && currentVideoIndex === 0" class="mtc">
+    <div
+      v-if="isButtonVisible && currentVideoIndex === 0"
+      class="mtc"
+      :style="styleMTC"
+    >
       <ButtonInputData />
     </div>
     <button
@@ -232,7 +253,7 @@ watch(
 
 <style lang="sass">
 .mtc
-  @apply absolute z-[11] right-[calc((100vw/2)+25%)] top-[calc((100vh/2)-20%)]
+  @apply absolute z-[11]
 
 .fd
   @apply absolute z-[11] right-[calc((100vw/2)+5%)] top-[calc((100vh/2)-3%)]
