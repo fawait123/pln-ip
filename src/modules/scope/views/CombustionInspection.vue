@@ -8,7 +8,7 @@ import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 import { convertToOriginalFormat } from "@/helpers/global";
 import { Breadcrumb, ButtonPopover } from "@/components";
 import eventBus from "@/utils/eventBus";
-import { useScreen } from "@/helpers/global";
+import ButtonPart from "../components/ButtonPart.vue";
 
 // VIDEO
 import CI1 from "@/assets/videos/combustion-inspection/new-1-manhole-turbine-cylinder.mp4";
@@ -178,42 +178,6 @@ onUnmounted(() => {
     clearInterval(rewindInterval);
   }
 });
-
-const screen_dimension = useScreen();
-
-const styleMTC = computed(() => {
-  if (
-    screen_dimension.screenWidth.value >= 1912 &&
-    screen_dimension.screenHeight.value >= 1074
-  ) {
-    return {
-      right: "calc((100vw / 2) + 15%",
-      top: "calc((100vh / 2) - 18%)",
-    };
-  } else {
-    return {
-      right: "calc((100vw / 2) + 13%",
-      top: "calc((100vh / 2) - 20%)",
-    };
-  }
-});
-
-const styleFD = computed(() => {
-  if (
-    screen_dimension.screenWidth.value >= 1912 &&
-    screen_dimension.screenHeight.value >= 1074
-  ) {
-    return {
-      right: "calc((100vw / 2) + 5%)",
-      top: "calc((100vh / 2) - 3%)",
-    };
-  } else {
-    return {
-      right: "calc((100vw / 2) + 5%)",
-      top: "calc((100vh / 2) - 3%)",
-    };
-  }
-});
 </script>
 
 <template>
@@ -221,7 +185,7 @@ const styleFD = computed(() => {
     <div class="scope-breadcrumb">
       <Breadcrumb :items="breadcrumb" />
     </div>
-    <div class="w-[1536px] h-[704px] relative mx-auto">
+    <div class="scope-video-container">
       <video
         ref="videoRef"
         :src="videos[currentVideoIndex].video"
@@ -229,11 +193,17 @@ const styleFD = computed(() => {
         autoplay
         muted
         playsinline
-        class="absolute w-full h-full object-fill"
+        class="scope-video"
       ></video>
       <div
         v-if="isButtonVisible && currentVideoIndex === 0"
-        class="absolute top-[350px] left-[300px]"
+        class="absolute top-[225px] left-[400px]"
+      >
+        <ButtonPart text="Manhole Turbine Cylinder" />
+      </div>
+      <div
+        v-if="isButtonVisible && currentVideoIndex === 1"
+        cclass="absolute top-[350px] left-[300px]"
       >
         <ButtonPopover />
       </div>
@@ -266,9 +236,6 @@ const styleFD = computed(() => {
 </template>
 
 <style lang="sass">
-.button-ci
-  @apply absolute z-[11]
-
 .wrapper-bid
   @apply absolute top-[120px] left-10 z-[100]
 </style>
