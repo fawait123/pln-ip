@@ -52,13 +52,13 @@ import { Icon } from "@/components";
     &--title
       @apply text-lg font-extrabold
     &--subtitle
-      @apply mt-3 text-base font-extrabold
+      @apply mt-3 text-sm font-extrabold
     &--url
-      @apply mt-1 text-base cursor-pointer
+      @apply mt-1 text-sm cursor-pointer
   .social-media
     @apply flex flex-col gap-3
     &--title
-      @apply text-neutral-50 text-base font-extrabold
+      @apply text-neutral-50 text-sm font-extrabold
     &--wrapper
       @apply flex items-center gap-4
       .social-media-icon
@@ -66,15 +66,15 @@ import { Icon } from "@/components";
   .link
     @apply flex flex-col gap-4
     &--title
-      @apply text-neutral-50 text-base font-extrabold
+      @apply text-neutral-50 text-sm font-extrabold
     &--wrapper
       @apply flex flex-col gap-1
       > a
-        @apply cursor-pointer text-base text-neutral-50
+        @apply cursor-pointer text-sm text-neutral-50
   .office
     @apply flex flex-col gap-4
     > p
-      @apply text-neutral-50 text-base
+      @apply text-neutral-50 text-sm
       &:first-child
         @apply font-extrabold
 </style>
