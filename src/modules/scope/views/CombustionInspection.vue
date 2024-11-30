@@ -15,8 +15,8 @@ import CI1 from "@/assets/videos/combustion-inspection/new-1-manhole-turbine-cyl
 import CI2 from "@/assets/videos/combustion-inspection/new-2-flame-detector.mp4";
 
 const videos = [
-  { video: CI1, duration: 6000 },
-  { video: CI2, duration: 6000 },
+  { video: CI1, duration: 5500 },
+  { video: CI2, duration: 5500 },
 ];
 
 const router = useRouter();
@@ -203,36 +203,12 @@ onUnmounted(() => {
       </div>
       <div
         v-if="isButtonVisible && currentVideoIndex === 1"
-        cclass="absolute top-[350px] left-[300px]"
+        class="absolute top-[140px] left-[520px]"
       >
-        <ButtonPopover />
+        <ButtonPart text="Flame Detector" />
       </div>
     </div>
   </div>
-  <!-- <video
-      ref="videoRef"
-      :src="videos[currentVideoIndex].video"
-      class="scope-video"
-      @ended="handleVideoEnd"
-      autoplay
-      muted
-      playsinline
-    ></video>
-    <div
-      v-if="isButtonVisible && currentVideoIndex === 0"
-      class="button-ci"
-      :style="styleMTC"
-    >
-      <ButtonPopover />
-    </div>
-    <div
-      v-if="isButtonVisible && currentVideoIndex === 1"
-      class="button-ci"
-      :style="styleFD"
-    >
-      <ButtonPopover />
-    </div> -->
-  <!-- </div> -->
 </template>
 
 <style lang="sass">
