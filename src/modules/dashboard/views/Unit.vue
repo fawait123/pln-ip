@@ -175,7 +175,7 @@ onUnmounted(() => {
   @apply max-h-full opacity-100 pointer-events-auto mt-4 #{!important}
 
 .container-unit
-  @apply pt-[100px] pl-4
+  @apply pt-[90px] pl-4
   .content-unit
     @apply p-10
     .wrapper-button-unit

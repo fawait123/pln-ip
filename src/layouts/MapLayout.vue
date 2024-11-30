@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { HeaderTransparant } from "@/components";
+import { HeaderMap } from "@/components";
 </script>
 
 <template>
   <div class="layout-map">
     <header>
-      <HeaderTransparant />
+      <HeaderMap />
     </header>
     <main>
       <slot />
@@ -19,5 +19,5 @@ import { HeaderTransparant } from "@/components";
   > header
     @apply fixed h-[80px] w-full z-[9999]
   > main
-    @apply mt-[80px] p-4 h-full w-full flex-1 relative
+    @apply mt-[70px] p-4 h-full w-full flex-1 relative
 </style>

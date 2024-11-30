@@ -3,7 +3,7 @@ import HiglightMap from "./Partial/HiglightMap.vue";
 </script>
 
 <template>
-  <div>
-    <HiglightMap />
-  </div>
+  <HiglightMap />
 </template>
+
+<style lang="sass"></style>

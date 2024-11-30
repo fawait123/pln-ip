@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { HeaderDefault } from "@/components";
+import { HeaderDefault, Footer } from "@/components";
+import { useRoute } from "vue-router";
+
+const page = ["blok", "unit"];
+
+const route = useRoute();
 </script>
 
 <template>
@@ -10,6 +15,9 @@ import { HeaderDefault } from "@/components";
     <main>
       <slot />
     </main>
+    <footer v-if="page.includes((route?.name || '') as string)">
+      <Footer />
+    </footer>
   </div>
 </template>
 
@@ -20,4 +28,6 @@ import { HeaderDefault } from "@/components";
     @apply fixed h-[80px] w-full z-[9999]
   > main
     @apply h-full w-full flex-1 relative
+  > footer
+    @apply fixed bottom-0 w-full z-[9999]
 </style>
