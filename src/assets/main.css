@@ -43,6 +43,34 @@ body {
   @apply absolute z-[10] top-[100px] pl-4;
 }
 
+.content-id-container {
+  @apply flex flex-col gap-3 mt-6;
+}
+
+.content-id-header {
+  @apply w-full flex gap-2 items-center;
+}
+
+.content-id-header-title {
+  @apply text-cyan-500 font-[900] text-lg h-fit;
+}
+
+.content-id-body {
+  @apply mt-4;
+}
+
+.content-id-body-title {
+  @apply text-cyan-500 text-lg font-[900];
+}
+
+.content-id-body-list {
+  @apply rounded bg-buttonGray bg-opacity-70 text-base text-neutral-950 min-h-[50px] mt-2 px-2 py-3 flex flex-col gap-1 max-h-[200px] overflow-y-scroll;
+}
+
+.content-id-action {
+  @apply mt-3 flex gap-2 justify-end;
+}
+
 /* :root {
   --main-background: #fcfcfd;
   --main-surface: #f3f3f3;
