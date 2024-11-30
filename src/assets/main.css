@@ -32,15 +32,47 @@ body {
 }
 
 .scope-container {
-  @apply relative w-screen h-screen overflow-hidden;
+  @apply relative w-screen h-screen;
+}
+
+.scope-video-container {
+  @apply w-[1536px] h-[704px] relative mx-auto;
 }
 
 .scope-video {
-  @apply absolute top-0 right-0 bottom-0 left-0 w-full h-full object-cover;
+  @apply absolute w-full h-full object-fill;
 }
 
 .scope-breadcrumb {
   @apply absolute z-[10] top-[100px] pl-4;
+}
+
+.bp-tab-content-container {
+  @apply flex flex-col gap-2 mt-6;
+}
+
+.bp-tab-content-header {
+  @apply w-full flex gap-2 items-center;
+}
+
+.bp-tab-content-header-title {
+  @apply text-cyan-500 font-[900] text-lg h-fit;
+}
+
+.bp-tab-content-body {
+  @apply mt-1;
+}
+
+.bp-tab-content-body-title {
+  @apply text-cyan-500 text-lg font-[900];
+}
+
+.bp-tab-content-body-list {
+  @apply rounded bg-white text-base text-neutral-950 min-h-[50px] mt-2 px-2 py-3 flex flex-col gap-1 max-h-[120px] overflow-y-scroll;
+}
+
+.bp-tab-content-action {
+  @apply mt-2 flex gap-2 justify-end;
 }
 
 /* :root {

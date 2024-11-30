@@ -4,6 +4,7 @@ import { storeToRefs } from "pinia";
 import { useRoute, useRouter } from "vue-router";
 
 import Home0 from "@/assets/videos/home/0-homepage.mp4";
+
 import { useGlobalStore } from "@/stores/GlobalStore";
 import { Breadcrumb } from "@/components";
 import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
@@ -108,48 +109,50 @@ const toCi = () => {
     <div class="scope-breadcrumb">
       <Breadcrumb :items="breadcrumb" />
     </div>
-    <video
-      ref="videoRef"
-      :src="videos[currentVideoIndex]"
-      class="scope-video"
-      @loadedmetadata="handleFirstVideoLoad"
-      @ended="handleVideoEnd"
-      autoplay
-      muted
-      playsinline
-    ></video>
-    <div class="scope-button-home-1">
-      <button
-        @mouseover="handleMouseOver"
-        @mouseleave="handleMouseLeave"
-        @click="toCi"
-      >
-        Combustion Inspection
-      </button>
-      <button>Turbine Inspection</button>
-      <button>Major Inspection</button>
-    </div>
-    <div class="scope-button-home-2">
-      <button>Exhaust Section</button>
-      <button>Turbine Section</button>
-      <button>Combustion Sec</button>
-      <button>Compressor Sec</button>
-      <button>Inlet Section</button>
-      <button>Generator Sec</button>
+    <div class="scope-video-container">
+      <video
+        ref="videoRef"
+        :src="videos[currentVideoIndex]"
+        class="scope-video"
+        @loadedmetadata="handleFirstVideoLoad"
+        @ended="handleVideoEnd"
+        autoplay
+        muted
+        playsinline
+      ></video>
+      <div class="scope-button-home-1">
+        <button
+          @mouseover="handleMouseOver"
+          @mouseleave="handleMouseLeave"
+          @click="toCi"
+        >
+          Combustion Inspection
+        </button>
+        <button>Turbine Inspection</button>
+        <button>Major Inspection</button>
+      </div>
+      <div class="scope-button-home-2">
+        <button>Exhaust Section</button>
+        <button>Turbine Section</button>
+        <button>Combustion Sec</button>
+        <button>Compressor Sec</button>
+        <button>Inlet Section</button>
+        <button>Generator Sec</button>
+      </div>
     </div>
   </div>
 </template>
 
 <style lang="sass">
 .scope-button-home-1
-  @apply absolute z-[11] top-[calc((100vh/2)-29%)] right-[calc((100vw/2)+26%)] flex flex-col gap-2
+  @apply absolute z-[11] flex flex-col gap-2 left-[180px] top-[165px] text-center text-sm text-neutral-50 font-bold
   > button
-    @apply bg-buttonGray py-2 w-[200px] text-center text-sm text-neutral-50 font-bold cursor-pointer rounded
+    @apply bg-buttonGray py-2 w-[200px] rounded shadow-md shadow-neutral-950
     &:hover
       @apply bg-cyan-500
 
 .scope-button-home-2
-  @apply flex text-sm text-neutral-50 absolute z-[11] top-[calc((100vh/2)+25%)] left-[50%] translate-x-[-50%]
+  @apply flex text-sm text-neutral-50 absolute z-[11] bottom-[120px] left-[50%] translate-x-[-50%]
   > button
     @apply px-6 py-2 bg-buttonGray w-[150px] mr-[-22px]
     clip-path: polygon(15% 0, 100% 0, 85% 100%, 0% 100%)

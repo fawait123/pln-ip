@@ -1,20 +1,21 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, watch } from "vue";
+import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useRoute, useRouter } from "vue-router";
 
 import { useGlobalStore } from "@/stores/GlobalStore";
 import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 import { convertToOriginalFormat } from "@/helpers/global";
-import { Breadcrumb } from "@/components";
+import { Breadcrumb, ButtonPopover } from "@/components";
 import eventBus from "@/utils/eventBus";
+import ButtonPart from "../components/ButtonPart.vue";
 
 // VIDEO
 import CI1 from "@/assets/videos/combustion-inspection/new-1-manhole-turbine-cylinder.mp4";
 import CI2 from "@/assets/videos/combustion-inspection/new-2-flame-detector.mp4";
 
 const videos = [
-  { video: CI1, duration: 5000 },
+  { video: CI1, duration: 6000 },
   { video: CI2, duration: 6000 },
 ];
 
@@ -184,7 +185,31 @@ onUnmounted(() => {
     <div class="scope-breadcrumb">
       <Breadcrumb :items="breadcrumb" />
     </div>
-    <video
+    <div class="scope-video-container">
+      <video
+        ref="videoRef"
+        :src="videos[currentVideoIndex].video"
+        @ended="handleVideoEnd"
+        autoplay
+        muted
+        playsinline
+        class="scope-video"
+      ></video>
+      <div
+        v-if="isButtonVisible && currentVideoIndex === 0"
+        class="absolute top-[147px] left-[400px]"
+      >
+        <ButtonPart text="Manhole Turbine Cylinder" />
+      </div>
+      <div
+        v-if="isButtonVisible && currentVideoIndex === 1"
+        cclass="absolute top-[350px] left-[300px]"
+      >
+        <ButtonPopover />
+      </div>
+    </div>
+  </div>
+  <!-- <video
       ref="videoRef"
       :src="videos[currentVideoIndex].video"
       class="scope-video"
@@ -193,30 +218,24 @@ onUnmounted(() => {
       muted
       playsinline
     ></video>
-    <button
+    <div
       v-if="isButtonVisible && currentVideoIndex === 0"
-      class="button-ci mtc"
+      class="button-ci"
+      :style="styleMTC"
     >
-      Manhole Turbine Cylinder
-    </button>
-    <button
+      <ButtonPopover />
+    </div>
+    <div
       v-if="isButtonVisible && currentVideoIndex === 1"
-      class="button-ci fd"
+      class="button-ci"
+      :style="styleFD"
     >
-      Flame Detector
-    </button>
-  </div>
+      <ButtonPopover />
+    </div> -->
+  <!-- </div> -->
 </template>
 
 <style lang="sass">
-.mtc
-  @apply absolute z-[11] right-[calc((100vw/2)+12%)] top-[calc((100vh/2)-27%)]
-
-.fd
-  @apply absolute z-[11] right-[calc((100vw/2)+5%)] top-[calc((100vh/2)-3%)]
-
-.button-ci
-  @apply bg-cyan-500 py-2 w-[200px] text-center text-sm text-neutral-50 font-bold cursor-pointer rounded
-  &:hover
-    @apply bg-yellow-500
+.wrapper-bid
+  @apply absolute top-[120px] left-10 z-[100]
 </style>

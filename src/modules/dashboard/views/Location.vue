@@ -56,11 +56,11 @@ onUnmounted(() => {
 
 <style lang="sass">
 .trapezoid
-  @apply w-[40vw] min-h-screen bg-buttonGray bg-opacity-50 pt-[100px] pl-4 pr-16
+  @apply w-[40vw] min-h-screen bg-neutral-950 bg-opacity-50 pt-[100px] pl-4 pr-[140px]
   clip-path: polygon(0 0, 100% 0, 80% 100%, 0 100%)
   > p
     &:first-child
-      @apply text-xl font-bold text-neutral-950
+      @apply text-[24px] font-extrabold text-cyan-500
     &:last-child
-      @apply text-base font-medium text-neutral-50 mt-4 ml-6
+      @apply text-[20px] font-medium text-neutral-50 mt-4 ml-6 text-justify
 </style>
