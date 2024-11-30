@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from "vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useRoute, useRouter } from "vue-router";
 
 import Home0 from "@/assets/videos/home/0-homepage.mp4";
+
 import { useGlobalStore } from "@/stores/GlobalStore";
 import { Breadcrumb } from "@/components";
 import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 import { convertToOriginalFormat } from "@/helpers/global";
 import eventBus from "@/utils/eventBus";
+import { useScreen } from "@/helpers/global";
 
 const videos = [Home0];
 
@@ -98,6 +100,26 @@ onUnmounted(() => {
 });
 
 //
+const screen_dimension = useScreen();
+
+const styleButton1 = computed(() => {
+  if (
+    screen_dimension.screenWidth.value >= 1912 &&
+    screen_dimension.screenHeight.value >= 1074
+  ) {
+    return {
+      right: "calc((100vw / 2) + 26%)",
+      top: "calc((100vh / 2) - 25.5%)",
+    };
+  } else {
+    return {
+      right: "calc((100vw / 2) + 26%)",
+      top: "calc((100vh / 2) - 29%)",
+    };
+  }
+});
+
+//
 const toCi = () => {
   router.push(`${route.path}/ci`);
 };
@@ -118,7 +140,7 @@ const toCi = () => {
       muted
       playsinline
     ></video>
-    <div class="scope-button-home-1">
+    <div class="scope-button-home-1" :style="styleButton1">
       <button
         @mouseover="handleMouseOver"
         @mouseleave="handleMouseLeave"
@@ -142,7 +164,7 @@ const toCi = () => {
 
 <style lang="sass">
 .scope-button-home-1
-  @apply absolute z-[11] top-[calc((100vh/2)-29%)] right-[calc((100vw/2)+26%)] flex flex-col gap-2
+  @apply absolute z-[11] flex flex-col gap-2
   > button
     @apply bg-buttonGray py-2 w-[200px] text-center text-sm text-neutral-50 font-bold cursor-pointer rounded
     &:hover

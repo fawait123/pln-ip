@@ -8,7 +8,7 @@ import Breadcrumb from "@/components/navigations/Breadcrumb.vue";
 import HeaderTransparant from "@/components/layouts/HeaderTransparant.vue";
 import HeaderDefault from "@/components/layouts/HeaderDefault.vue";
 import Template from "@/components/structures/Template.vue";
-import ButtonInputData from "@/components/action/ButtonInputData.vue";
+import ButtonPopover from "@/components/action/ButtonPopover.vue";
 
 export {
   Icon,
@@ -17,7 +17,7 @@ export {
   Select,
   Loading,
   Button,
-  ButtonInputData,
+  ButtonPopover,
   Breadcrumb,
   HeaderTransparant,
   HeaderDefault,
