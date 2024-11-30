@@ -8,6 +8,7 @@ import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 import { convertToOriginalFormat } from "@/helpers/global";
 import { Breadcrumb, ButtonInputData } from "@/components";
 import eventBus from "@/utils/eventBus";
+import { useScreen } from "@/helpers/global";
 
 // VIDEO
 import CI1 from "@/assets/videos/combustion-inspection/new-1-manhole-turbine-cylinder.mp4";
@@ -177,6 +178,24 @@ onUnmounted(() => {
     clearInterval(rewindInterval);
   }
 });
+
+const screen_dimension = useScreen();
+
+watch(
+  screen_dimension.screenWidth,
+  (value) => {
+    console.log("width: ", value);
+  },
+  { deep: true, immediate: true }
+);
+
+watch(
+  screen_dimension.screenHeight,
+  (value) => {
+    console.log("height: ", value);
+  },
+  { deep: true, immediate: true }
+);
 </script>
 
 <template>
