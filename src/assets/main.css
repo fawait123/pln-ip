@@ -32,7 +32,7 @@ body {
 }
 
 .scope-container {
-  @apply relative w-screen h-screen overflow-hidden;
+  @apply relative w-screen h-screen;
 }
 
 .scope-video {

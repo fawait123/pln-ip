@@ -221,7 +221,7 @@ const styleFD = computed(() => {
     <div class="scope-breadcrumb">
       <Breadcrumb :items="breadcrumb" />
     </div>
-    <div class="w-[1912px] h-[1074px] relative mx-auto">
+    <div class="w-[1536px] h-[704px] relative mx-auto">
       <video
         ref="videoRef"
         :src="videos[currentVideoIndex].video"
@@ -233,7 +233,7 @@ const styleFD = computed(() => {
       ></video>
       <div
         v-if="isButtonVisible && currentVideoIndex === 0"
-        class="absolute top-[350px] left-[400px]"
+        class="absolute top-[350px] left-[300px]"
       >
         <ButtonPopover />
       </div>
