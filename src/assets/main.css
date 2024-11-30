@@ -36,7 +36,7 @@ body {
 }
 
 .scope-video {
-  @apply absolute top-0 right-0 bottom-0 left-0 w-full h-full object-cover;
+  @apply absolute top-0 right-0 bottom-0 left-0 w-[1912px] h-[1074px] object-contain;
 }
 
 .scope-breadcrumb {
