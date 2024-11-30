@@ -543,7 +543,7 @@ onMounted(() => {
     .v-select-anchor
       @apply w-full min-w-14 inline-flex items-center justify-between gap-2 outline-none cursor-pointer relative
       .v-select-input
-        @apply w-full bg-transparent outline-none cursor-pointer pointer-events-none rounded text-neutral-950 bg-buttonGray bg-opacity-70
+        @apply w-full bg-transparent outline-none cursor-pointer pointer-events-none rounded text-neutral-950 bg-white
         &:hover
           @apply border-cyan-500
         &--disabled
@@ -583,11 +583,11 @@ onMounted(() => {
           .v-select-icon-search
             @apply text-base absolute left-3 top-[50%] translate-y-[-50%] text-neutral-500
           .v-select-icon-arrow
-            @apply text-base duration-300 absolute right-3 top-[50%] translate-y-[-50%] text-neutral-50
+            @apply text-base duration-300 absolute right-3 top-[50%] translate-y-[-50%] text-neutral-950
           .v-select-icon-active
             @apply rotate-180
     .v-select-content
-      @apply relative z-10 my-1 min-w-14 max-h-[200px] border overflow-x-auto rounded will-change-[opacity,transform] bg-buttonGray border-gray-500
+      @apply relative z-10 my-1 min-w-14 max-h-[200px] border overflow-x-auto rounded will-change-[opacity,transform] bg-white border-gray-500
       .v-select-viewport
         @apply py-2 flex flex-col gap-2
         .v-select-empty

@@ -106,7 +106,7 @@ const save = () => {
           options_value="value"
         />
       </div>
-      <button class="button-id" @click="add">Add</button>
+      <button class="bp-trigger" @click="add">Add</button>
     </div>
     <div class="bp-tab-content-body">
       <p class="bp-tab-content-body-title">List Material</p>
