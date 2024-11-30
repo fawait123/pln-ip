@@ -48,7 +48,7 @@ body {
 }
 
 .bp-tab-content-container {
-  @apply flex flex-col gap-3 mt-6;
+  @apply flex flex-col gap-2 mt-6;
 }
 
 .bp-tab-content-header {
@@ -60,7 +60,7 @@ body {
 }
 
 .bp-tab-content-body {
-  @apply mt-4;
+  @apply mt-1;
 }
 
 .bp-tab-content-body-title {
@@ -68,11 +68,11 @@ body {
 }
 
 .bp-tab-content-body-list {
-  @apply rounded bg-buttonGray bg-opacity-70 text-base text-neutral-950 min-h-[50px] mt-2 px-2 py-3 flex flex-col gap-1 max-h-[200px] overflow-y-scroll;
+  @apply rounded bg-white text-base text-neutral-950 min-h-[50px] mt-2 px-2 py-3 flex flex-col gap-1 max-h-[120px] overflow-y-scroll;
 }
 
 .bp-tab-content-action {
-  @apply mt-3 flex gap-2 justify-end;
+  @apply mt-2 flex gap-2 justify-end;
 }
 
 /* :root {

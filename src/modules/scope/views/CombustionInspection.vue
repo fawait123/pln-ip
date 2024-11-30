@@ -197,7 +197,7 @@ onUnmounted(() => {
       ></video>
       <div
         v-if="isButtonVisible && currentVideoIndex === 0"
-        class="absolute top-[225px] left-[400px]"
+        class="absolute top-[147px] left-[400px]"
       >
         <ButtonPart text="Manhole Turbine Cylinder" />
       </div>

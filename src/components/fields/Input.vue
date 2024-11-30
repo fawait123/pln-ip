@@ -717,7 +717,7 @@ input[type=number]::-webkit-outer-spin-button
   &--wrapper
     @apply relative
   &--input
-    @apply w-full outline-none text-neutral-950 bg-buttonGray bg-opacity-70
+    @apply w-full outline-none text-neutral-950 bg-white
     &:-webkit-autofill
       @apply text-neutral-950
       transition: background-color 9999s ease-in-out 0s

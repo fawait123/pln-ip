@@ -36,5 +36,5 @@ const download = () => {
 
 <style lang="sass">
 .bp-tab-content-body-list-ik
-  @apply rounded bg-buttonGray bg-opacity-70 text-base text-neutral-950 mt-2 px-2 py-3
+  @apply rounded bg-white text-base text-neutral-950 mt-2 px-2 py-3
 </style>
