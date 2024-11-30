@@ -6,7 +6,7 @@ import { useRoute, useRouter } from "vue-router";
 import { useGlobalStore } from "@/stores/GlobalStore";
 import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 import { convertToOriginalFormat } from "@/helpers/global";
-import { Breadcrumb, ButtonInputData } from "@/components";
+import { Breadcrumb, ButtonPopover } from "@/components";
 import eventBus from "@/utils/eventBus";
 import { useScreen } from "@/helpers/global";
 
@@ -15,7 +15,7 @@ import CI1 from "@/assets/videos/combustion-inspection/new-1-manhole-turbine-cyl
 import CI2 from "@/assets/videos/combustion-inspection/new-2-flame-detector.mp4";
 
 const videos = [
-  { video: CI1, duration: 5500 },
+  { video: CI1, duration: 6000 },
   { video: CI2, duration: 6000 },
 ];
 
@@ -181,35 +181,36 @@ onUnmounted(() => {
 
 const screen_dimension = useScreen();
 
-watch(
-  screen_dimension.screenWidth,
-  (value) => {
-    console.log("width: ", value);
-  },
-  { deep: true, immediate: true }
-);
-
-watch(
-  screen_dimension.screenHeight,
-  (value) => {
-    console.log("height: ", value);
-  },
-  { deep: true, immediate: true }
-);
-
 const styleMTC = computed(() => {
   if (
     screen_dimension.screenWidth.value >= 1912 &&
     screen_dimension.screenHeight.value >= 1074
   ) {
     return {
-      right: "calc((100vw / 2) + 25%",
+      right: "calc((100vw / 2) + 15%",
       top: "calc((100vh / 2) - 18%)",
     };
   } else {
     return {
-      right: "calc((100vw / 2) + 25%",
+      right: "calc((100vw / 2) + 13%",
       top: "calc((100vh / 2) - 20%)",
+    };
+  }
+});
+
+const styleFD = computed(() => {
+  if (
+    screen_dimension.screenWidth.value >= 1912 &&
+    screen_dimension.screenHeight.value >= 1074
+  ) {
+    return {
+      right: "calc((100vw / 2) + 5%)",
+      top: "calc((100vh / 2) - 3%)",
+    };
+  } else {
+    return {
+      right: "calc((100vw / 2) + 5%)",
+      top: "calc((100vh / 2) - 3%)",
     };
   }
 });
@@ -229,39 +230,26 @@ const styleMTC = computed(() => {
       muted
       playsinline
     ></video>
-    <!-- <button
-      v-if="isButtonVisible && currentVideoIndex === 0"
-      class="button-ci mtc"
-    >
-      Manhole Turbine Cylinder
-    </button> -->
     <div
       v-if="isButtonVisible && currentVideoIndex === 0"
-      class="mtc"
+      class="button-ci"
       :style="styleMTC"
     >
-      <ButtonInputData />
+      <ButtonPopover />
     </div>
-    <button
+    <div
       v-if="isButtonVisible && currentVideoIndex === 1"
-      class="button-ci fd"
+      class="button-ci"
+      :style="styleFD"
     >
-      Flame Detector
-    </button>
+      <ButtonPopover />
+    </div>
   </div>
 </template>
 
 <style lang="sass">
-.mtc
-  @apply absolute z-[11]
-
-.fd
-  @apply absolute z-[11] right-[calc((100vw/2)+5%)] top-[calc((100vh/2)-3%)]
-
 .button-ci
-  @apply bg-cyan-500 py-2 w-[200px] text-center text-sm text-neutral-50 font-bold cursor-pointer rounded
-  &:hover
-    @apply bg-yellow-500
+  @apply absolute z-[11]
 
 .wrapper-bid
   @apply absolute top-[120px] left-10 z-[100]

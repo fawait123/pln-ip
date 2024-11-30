@@ -67,20 +67,20 @@ const toCreate = () => {
           <Icon name="home" class="text-white text-xl" />
         </div>
         <div class="arrow-buttons">
-          <div
+          <button
             class="arrow-button back"
             :disabled="disabledBack"
             @click="handleBack"
           >
             Back
-          </div>
-          <div
+          </button>
+          <button
             class="arrow-button next"
             :disabled="disabledNext"
             @click="handleNext"
           >
             Next
-          </div>
+          </button>
         </div>
       </div>
     </div>
