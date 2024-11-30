@@ -221,7 +221,7 @@ const styleFD = computed(() => {
     <div class="scope-breadcrumb">
       <Breadcrumb :items="breadcrumb" />
     </div>
-    <div class="w-[1440px] h-[1080px] relative">
+    <div class="w-[1536px] h-[1080px] relative">
       <video
         ref="videoRef"
         :src="videos[currentVideoIndex].video"
