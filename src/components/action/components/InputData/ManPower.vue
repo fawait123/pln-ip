@@ -64,12 +64,14 @@ const save = () => {
           :options="dataManPower"
           options_label="label"
           options_value="value"
+          size="sm"
         />
       </div>
       <div class="w-[70px]">
         <Input
           id="input-man-power"
           type="number"
+          size="sm"
           v-model="modelManPower.input"
         />
       </div>

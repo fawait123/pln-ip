@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref, watch } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useRoute, useRouter } from "vue-router";
 
@@ -11,12 +11,44 @@ import eventBus from "@/utils/eventBus";
 import ButtonPart from "../components/ButtonPart.vue";
 
 // VIDEO
-import CI1 from "@/assets/videos/combustion-inspection/new-1-manhole-turbine-cylinder.mp4";
-import CI2 from "@/assets/videos/combustion-inspection/new-2-flame-detector.mp4";
+import CI1 from "@/assets/videos/combustion-inspection/1-manhole-turbine-cylinder.mp4";
+import CI2 from "@/assets/videos/combustion-inspection/2-flame-detector.mp4";
+import CI3 from "@/assets/videos/combustion-inspection/3-flame-igniter.mp4";
+import CI4 from "@/assets/videos/combustion-inspection/4-discavity-temperature.mp4";
+import CI5 from "@/assets/videos/combustion-inspection/5-black-patch-temperature.mp4";
+import CI6 from "@/assets/videos/combustion-inspection/6-fuel-branch-pipe.mp4";
+import CI7 from "@/assets/videos/combustion-inspection/7-cross-flame-tube.mp4";
+import CI8 from "@/assets/videos/combustion-inspection/8-top-hat.mp4";
+import CI9 from "@/assets/videos/combustion-inspection/9-fuel-nozzle.mp4";
+import CI10 from "@/assets/videos/combustion-inspection/10-combuster-basket.mp4";
+import CI11 from "@/assets/videos/combustion-inspection/11-top-hat.mp4";
+import CI12 from "@/assets/videos/combustion-inspection/12-u-support.mp4";
+import CI13 from "@/assets/videos/combustion-inspection/13-bypass-elbow.mp4";
+import CI14 from "@/assets/videos/combustion-inspection/14-transition-piece.mp4";
+import CI15 from "@/assets/videos/combustion-inspection/15.mp4";
+import CI16 from "@/assets/videos/combustion-inspection/16-transition-piece.mp4";
+import CI17 from "@/assets/videos/combustion-inspection/17-u-support.mp4";
+import CI18 from "@/assets/videos/combustion-inspection/18-bypass-elbow.mp4";
 
 const videos = [
   { video: CI1, duration: 5500 },
   { video: CI2, duration: 5500 },
+  { video: CI3, duration: 7500 },
+  { video: CI4, duration: 4500 },
+  { video: CI5, duration: 5500 },
+  { video: CI6, duration: 3500 },
+  { video: CI7, duration: 7500 },
+  { video: CI8, duration: 5500 },
+  { video: CI9, duration: 4500 },
+  { video: CI10, duration: 4500 },
+  { video: CI11, duration: 1500 },
+  { video: CI12, duration: 3500 },
+  { video: CI13, duration: 3500 },
+  { video: CI14, duration: 3500 },
+  { video: CI15, duration: 3500 },
+  { video: CI16, duration: 2500 },
+  { video: CI17, duration: 2500 },
+  { video: CI18, duration: 5500 },
 ];
 
 const router = useRouter();
@@ -64,7 +96,7 @@ const initializeFromURL = () => {
     disabledBack.value = false;
 
     const parsedIndex = parseInt(videoParam, 10) - 1;
-    if (parsedIndex) {
+    if (parsedIndex < 0) {
       router.push(`/${route.params.id}/create/unit/${route.params.scope}`);
     }
   } else if (videoParam && startParam !== "end") {
@@ -206,6 +238,96 @@ onUnmounted(() => {
         class="absolute top-[140px] left-[520px]"
       >
         <ButtonPart text="Flame Detector" />
+      </div>
+      <div
+        v-if="isButtonVisible && currentVideoIndex === 2"
+        class="absolute top-[148px] left-[390px]"
+      >
+        <ButtonPart text="Flame Igniter" />
+      </div>
+      <div
+        v-if="isButtonVisible && currentVideoIndex === 3"
+        class="absolute top-[130px] left-[320px]"
+      >
+        <ButtonPart text="Discavity Temperature" />
+      </div>
+      <div
+        v-if="isButtonVisible && currentVideoIndex === 4"
+        class="absolute top-[150px] left-[295px]"
+      >
+        <ButtonPart text="Black Patch Temperature" />
+      </div>
+      <div
+        v-if="isButtonVisible && currentVideoIndex === 5"
+        class="absolute top-[148px] left-[300px]"
+      >
+        <ButtonPart text="Fuel Branch Pipe" />
+      </div>
+      <div
+        v-if="isButtonVisible && currentVideoIndex === 6"
+        class="absolute top-[148px] left-[260px]"
+      >
+        <ButtonPart text="Cross Flame Tube" />
+      </div>
+      <div
+        v-if="isButtonVisible && currentVideoIndex === 7"
+        class="absolute top-[148px] left-[390px]"
+      >
+        <ButtonPart text="Top Hat" />
+      </div>
+      <div
+        v-if="isButtonVisible && currentVideoIndex === 8"
+        class="absolute top-[148px] left-[550px]"
+      >
+        <ButtonPart text="Fuel Nozzle" />
+      </div>
+      <div
+        v-if="isButtonVisible && currentVideoIndex === 9"
+        class="absolute top-[148px] left-[490px]"
+      >
+        <ButtonPart text="Combuster Basket" />
+      </div>
+      <div
+        v-if="isButtonVisible && currentVideoIndex === 10"
+        class="absolute top-[150px] left-[415px]"
+      >
+        <ButtonPart text="Top Hat" />
+      </div>
+      <div
+        v-if="isButtonVisible && currentVideoIndex === 11"
+        class="absolute top-[147px] left-[610px]"
+      >
+        <ButtonPart text="U-Support" />
+      </div>
+      <div
+        v-if="isButtonVisible && currentVideoIndex === 12"
+        class="absolute top-[147px] left-[385px]"
+      >
+        <ButtonPart text="Bypass Elbow" />
+      </div>
+      <div
+        v-if="isButtonVisible && currentVideoIndex === 13"
+        class="absolute top-[147px] left-[465px]"
+      >
+        <ButtonPart text="Transition Piece" />
+      </div>
+      <div
+        v-if="isButtonVisible && currentVideoIndex === 15"
+        class="absolute top-[147px] left-[465px]"
+      >
+        <ButtonPart text="Transition Piece" />
+      </div>
+      <div
+        v-if="isButtonVisible && currentVideoIndex === 16"
+        class="absolute top-[147px] left-[480px]"
+      >
+        <ButtonPart text="U-Support" />
+      </div>
+      <div
+        v-if="isButtonVisible && currentVideoIndex === 17"
+        class="absolute top-[147px] left-[635px]"
+      >
+        <ButtonPart text="Bypass Elbow" />
       </div>
     </div>
   </div>
