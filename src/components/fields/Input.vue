@@ -8,6 +8,7 @@ import {
   watch,
   nextTick,
   onBeforeUnmount,
+  type PropType,
 } from "vue";
 import { Icon } from "@/components";
 import {
@@ -29,7 +30,7 @@ const props = defineProps({
     type: String,
   },
   type: {
-    type: String,
+    type: String as PropType<"text" | "number" | "email" | "password" | "tel">,
     default: "text",
     validator: function (value: string) {
       return (
@@ -79,7 +80,7 @@ const props = defineProps({
     default: false,
   },
   status: {
-    type: String,
+    type: String as PropType<"default" | "error" | "success">,
     default: "default",
     validator: function (value: string) {
       return ["default", "error", "success"].indexOf(value) !== -1;
@@ -90,7 +91,7 @@ const props = defineProps({
     default: "",
   },
   size: {
-    type: String,
+    type: String as PropType<"sm" | "md" | "lg">,
     default: "md",
     validator: function (value: string) {
       return ["sm", "md", "lg"].indexOf(value) !== -1;
@@ -131,7 +132,9 @@ const props = defineProps({
     type: Object,
   },
   rounded: {
-    type: String,
+    type: String as PropType<
+      "none" | "default" | "sm" | "md" | "lg" | "xl" | "full"
+    >,
     default: "default",
     validator: function (value: string) {
       return (
