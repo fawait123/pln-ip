@@ -29,6 +29,15 @@ import CI15 from "@/assets/videos/combustion-inspection/15.mp4";
 import CI16 from "@/assets/videos/combustion-inspection/16-transition-piece.mp4";
 import CI17 from "@/assets/videos/combustion-inspection/17-u-support.mp4";
 import CI18 from "@/assets/videos/combustion-inspection/18-bypass-elbow.mp4";
+import CI19 from "@/assets/videos/combustion-inspection/19-top-hat.mp4";
+import CI20 from "@/assets/videos/combustion-inspection/20-cross-flame-tube.mp4";
+import CI21 from "@/assets/videos/combustion-inspection/21-flame-detector.mp4";
+import CI22 from "@/assets/videos/combustion-inspection/22-manhole-turbine.mp4";
+import CI23 from "@/assets/videos/combustion-inspection/23-discavity-temperature.mp4";
+import CI24 from "@/assets/videos/combustion-inspection/24-black-patch-temperature.mp4";
+import CI25 from "@/assets/videos/combustion-inspection/25-fuel-branch-pipe.mp4";
+import CI26 from "@/assets/videos/combustion-inspection/26-flame-igniter.mp4";
+import CI27 from "@/assets/videos/combustion-inspection/27.mp4";
 
 const videos = [
   { video: CI1, duration: 5500 },
@@ -49,6 +58,15 @@ const videos = [
   { video: CI16, duration: 2500 },
   { video: CI17, duration: 2500 },
   { video: CI18, duration: 5500 },
+  { video: CI19, duration: 5500 },
+  { video: CI20, duration: 4500 },
+  { video: CI21, duration: 5500 },
+  { video: CI22, duration: 8500 },
+  { video: CI23, duration: 5500 },
+  { video: CI24, duration: 3500 },
+  { video: CI25, duration: 5500 },
+  { video: CI26, duration: 4500 },
+  { video: CI27, duration: 4500 },
 ];
 
 const router = useRouter();
@@ -343,6 +361,54 @@ onUnmounted(() => {
         class="absolute top-[147px] left-[635px]"
       >
         <ButtonPart text="Bypass Elbow" />
+      </div>
+      <div
+        v-if="isButtonVisible && currentVideoIndex === 18"
+        class="absolute top-[147px] left-[530px]"
+      >
+        <ButtonPart text="Top Hat" />
+      </div>
+      <div
+        v-if="isButtonVisible && currentVideoIndex === 19"
+        class="absolute top-[147px] left-[430px]"
+      >
+        <ButtonPart text="Cross Flame Tube" />
+      </div>
+      <div
+        v-if="isButtonVisible && currentVideoIndex === 20"
+        class="absolute top-[147px] left-[600px]"
+      >
+        <ButtonPart text="Flame Detector" />
+      </div>
+      <div
+        v-if="isButtonVisible && currentVideoIndex === 21"
+        class="absolute top-[147px] left-[460px]"
+      >
+        <ButtonPart text="Manhole Turbine" />
+      </div>
+      <div
+        v-if="isButtonVisible && currentVideoIndex === 22"
+        class="absolute top-[143px] left-[470px]"
+      >
+        <ButtonPart text="Discavity Temperature" />
+      </div>
+      <div
+        v-if="isButtonVisible && currentVideoIndex === 23"
+        class="absolute top-[148px] left-[295px]"
+      >
+        <ButtonPart text="Black Patch Temperature" />
+      </div>
+      <div
+        v-if="isButtonVisible && currentVideoIndex === 24"
+        class="absolute top-[148px] left-[300px]"
+      >
+        <ButtonPart text="Fuel Branch Pipe" />
+      </div>
+      <div
+        v-if="isButtonVisible && currentVideoIndex === 25"
+        class="absolute top-[148px] left-[390px]"
+      >
+        <ButtonPart text="Flame Igniter" />
       </div>
     </div>
   </div>
