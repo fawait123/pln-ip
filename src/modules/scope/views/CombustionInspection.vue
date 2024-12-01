@@ -72,6 +72,19 @@ const handleVideoEnd = () => {
   }
 };
 
+const handleVideoTimeUpdate = () => {
+  if (videoRef.value) {
+    const currentTime = videoRef.value.currentTime;
+    const duration = videoRef.value.duration;
+
+    if (currentTime >= duration) {
+      isButtonVisible.value = true;
+      disabledNext.value = false;
+      disabledBack.value = false;
+    }
+  }
+};
+
 const initializeFromURL = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const videoParam = urlParams.get("video") || "1";
@@ -103,12 +116,6 @@ const initializeFromURL = () => {
     const parsedIndex = parseInt(videoParam, 10) - 1;
     if (parsedIndex >= 0 && parsedIndex < videos.length) {
       currentVideoIndex.value = parsedIndex;
-
-      setTimeout(() => {
-        isButtonVisible.value = true;
-        disabledNext.value = false;
-        disabledBack.value = false;
-      }, videos[currentVideoIndex.value].duration);
     } else {
       router.push(`${route.params.id}/create/unit/${route.params.scope}`);
     }
@@ -199,6 +206,10 @@ onMounted(() => {
   window.addEventListener("popstate", initializeFromURL);
   eventBus.on("next", handleNext);
   eventBus.on("back", handleBack);
+
+  if (videoRef.value) {
+    videoRef.value.addEventListener("timeupdate", handleVideoTimeUpdate);
+  }
 });
 
 onUnmounted(() => {
@@ -208,6 +219,10 @@ onUnmounted(() => {
 
   if (rewindInterval) {
     clearInterval(rewindInterval);
+  }
+
+  if (videoRef.value) {
+    videoRef.value.removeEventListener("timeupdate", handleVideoTimeUpdate);
   }
 });
 </script>
