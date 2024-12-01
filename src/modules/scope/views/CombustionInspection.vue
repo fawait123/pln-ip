@@ -6,7 +6,7 @@ import { useRoute, useRouter } from "vue-router";
 import { useGlobalStore } from "@/stores/GlobalStore";
 import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 import { convertToOriginalFormat } from "@/helpers/global";
-import { Breadcrumb, ButtonPopover } from "@/components";
+import { Breadcrumb } from "@/components";
 import eventBus from "@/utils/eventBus";
 import ButtonPart from "../components/ButtonPart.vue";
 
