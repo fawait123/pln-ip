@@ -240,22 +240,22 @@ const modelTabsAssetCondition = ref("");
 
 <style lang="sass">
 .bp-trigger
-  @apply rounded-full bg-buttonGray py-1 px-6 cursor-pointer text-sm text-neutral-50 shadow-lg shadow-neutral-700
+  @apply rounded-full bg-buttonGray py-1 px-3 cursor-pointer text-[13px] text-neutral-50 shadow-lg shadow-neutral-700
   &:hover
     @apply bg-cyan-500
 .bp-trigger-active
   @apply bg-cyan-500
 
 .bp-content
-  @apply rounded mx-4 p-5 min-w-[600px] bg-neutral-500 bg-opacity-80 shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)] will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade
+  @apply rounded mx-4 p-5 min-w-[400px] bg-neutral-950 bg-opacity-50 shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)] will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade
   &--tablist
-    @apply flex items-center justify-end min-w-[700px]
+    @apply flex items-center justify-end min-w-[600px]
     &-wrapper
       @apply grid grid-cols-5 gap-2
   .trigger-active
     @apply bg-yellow-500
   &--trigger
-    @apply w-[125px] shadow-lg shadow-neutral-700 rounded-full py-1 px-4 bg-buttonGray cursor-pointer text-sm text-neutral-50
+    @apply shadow-lg shadow-neutral-700 rounded-full py-1 px-3 bg-buttonGray cursor-pointer text-[13px] text-neutral-50
     &:hover
       @apply bg-yellow-500
 </style>
