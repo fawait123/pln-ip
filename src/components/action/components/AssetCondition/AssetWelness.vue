@@ -91,7 +91,7 @@ const save = () => {
 .wrapper-button-colors
   @apply flex items-center gap-2 mt-4
   > button
-    @apply w-[100px] rounded-full bg-buttonGray py-1 px-6 cursor-pointer text-sm text-neutral-50 shadow-lg shadow-neutral-700
+    @apply w-[60px] rounded-full bg-buttonGray py-1 px-3 cursor-pointer text-[13px] text-neutral-50 shadow-lg shadow-neutral-700
   .button-red
     @apply hover:bg-red-500
   .button-yellow
