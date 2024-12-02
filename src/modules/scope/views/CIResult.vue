@@ -74,7 +74,7 @@ onUnmounted(() => {
     <div class="scope-breadcrumb">
       <Breadcrumb :items="breadcrumb" />
     </div>
-    <div class="ci-result--wrapper mt-[150px]">
+    <div class="ci-result--wrapper pt-[150px]">
       <div class="ci-result-header ml-[100px]">Inspection</div>
       <div class="ci-result-header ml-10 mr-[100px]">Output Data</div>
     </div>
