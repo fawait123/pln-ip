@@ -72,7 +72,8 @@ const videos = [
 const router = useRouter();
 const route = useRoute();
 const globalStore = useGlobalStore();
-const { titleHeader, disabledBack, disabledNext } = storeToRefs(globalStore);
+const { titleHeader, disabledBack, disabledNext, isFinish, isAddScope } =
+  storeToRefs(globalStore);
 const breadcrumb = ref<BreadcrumbType[]>([]);
 
 const currentVideoIndex = ref(0);
@@ -134,6 +135,13 @@ const initializeFromURL = () => {
     const parsedIndex = parseInt(videoParam, 10) - 1;
     if (parsedIndex >= 0 && parsedIndex < videos.length) {
       currentVideoIndex.value = parsedIndex;
+      if (parsedIndex === videos.length - 1) {
+        isFinish.value = true;
+        isAddScope.value = true;
+      } else {
+        isFinish.value = false;
+        isAddScope.value = false;
+      }
     } else {
       router.push(`${route.params.id}/create/unit/${route.params.scope}`);
     }
@@ -163,6 +171,11 @@ const handleNext = () => {
 };
 
 const handleBack = () => {
+  if (currentVideoIndex.value === videos.length - 1) {
+    isFinish.value = false;
+    isAddScope.value = false;
+  }
+
   if (videoRef.value) {
     isRewinding.value = true;
     isButtonVisible.value = false;
@@ -191,6 +204,16 @@ const handleBack = () => {
       }
     }, 100);
   }
+};
+
+const handleAddScope = () => {
+  router.push(
+    `/${route.params.id}/create/unit/${route.params.scope}/add-scope`
+  );
+};
+
+const handleSave = () => {
+  router.push(`/${route.params.id}/create/unit/${route.params.scope}/result`);
 };
 
 onMounted(() => {
@@ -224,6 +247,8 @@ onMounted(() => {
   window.addEventListener("popstate", initializeFromURL);
   eventBus.on("next", handleNext);
   eventBus.on("back", handleBack);
+  eventBus.on("save", handleSave);
+  eventBus.on("addScope", handleAddScope);
 
   if (videoRef.value) {
     videoRef.value.addEventListener("timeupdate", handleVideoTimeUpdate);
@@ -234,6 +259,8 @@ onUnmounted(() => {
   window.removeEventListener("popstate", initializeFromURL);
   eventBus.off("next", handleNext);
   eventBus.off("back", handleBack);
+  eventBus.off("save", handleSave);
+  eventBus.off("addScope", handleAddScope);
 
   if (rewindInterval) {
     clearInterval(rewindInterval);

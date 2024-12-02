@@ -11,7 +11,14 @@ import { computed } from "vue";
 const imgUrl = new URL("@/assets/images/logo.png", import.meta.url).href;
 
 const globalStore = useGlobalStore();
-const { titleHeader, disabledBack, disabledNext } = storeToRefs(globalStore);
+const {
+  titleHeader,
+  disabledBack,
+  disabledNext,
+  isFinish,
+  isAddScope,
+  isRemoveNext,
+} = storeToRefs(globalStore);
 const authStore = useAuthStore();
 const router = useRouter();
 const route = useRoute();
@@ -27,6 +34,14 @@ const handleBack = () => {
 
 const handleNext = () => {
   eventBus.emit("next");
+};
+
+const handleSave = () => {
+  eventBus.emit("save");
+};
+
+const handleAddScope = () => {
+  eventBus.emit("addScope");
 };
 
 const logout = () => {
@@ -75,13 +90,27 @@ const toCreate = () => {
             Back
           </button>
           <button
+            v-if="!isFinish && !isRemoveNext"
             class="arrow-button next"
             :disabled="disabledNext"
             @click="handleNext"
           >
             Next
           </button>
+          <button
+            v-if="isFinish && !isRemoveNext"
+            class="arrow-button next"
+            :disabled="disabledNext"
+            @click="handleSave"
+          >
+            Save
+          </button>
         </div>
+      </div>
+      <div v-if="isAddScope" class="add-scope">
+        <button :disabled="disabledNext" @click="handleAddScope">
+          Add Scope
+        </button>
       </div>
     </div>
   </div>
@@ -139,4 +168,14 @@ const toCreate = () => {
             @apply bg-yellow-500
           &:disabled
             @apply bg-neutral-500 cursor-default
+
+    .add-scope
+      @apply mt-6 flex justify-end pr-4
+      > button
+        @apply bg-buttonGray flex items-center justify-start text-base font-bold text-neutral-50 py-1.5 pl-6 pr-12 border-0 cursor-pointer
+        clip-path: polygon(80% 0, 100% 50%, 80% 100%, 0 100%, 0 0)
+        &:hover
+          @apply bg-cyan-500
+        &:disabled
+          @apply bg-neutral-500 cursor-default
 </style>

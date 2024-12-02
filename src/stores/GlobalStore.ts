@@ -10,11 +10,17 @@ export const useGlobalStore = defineStore(
     const titleHeader = ref<string>("");
     const disabledNext = ref(false);
     const disabledBack = ref(false);
+    const isAddScope = ref(false);
+    const isFinish = ref(false);
+    const isRemoveNext = ref(false);
 
     return {
       titleHeader,
       disabledNext,
       disabledBack,
+      isAddScope,
+      isFinish,
+      isRemoveNext,
     };
   },
   {
