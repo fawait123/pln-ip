@@ -203,7 +203,7 @@ onUnmounted(() => {
 
 <style lang="sass">
 .section-result
-  @apply grid grid-cols-4 gap-10 mt-[170px] px-[100px] w-full
+  @apply grid grid-cols-4 gap-10 pt-[170px] px-[100px] w-full
   .wrapper-result
     @apply flex flex-col gap-4
     .group-result
