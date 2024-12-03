@@ -37,8 +37,14 @@ const additionalScope = {
 const router = useRouter();
 const route = useRoute();
 const globalStore = useGlobalStore();
-const { titleHeader, disabledNext, disabledBack, isFinish, isAddScope } =
-  storeToRefs(globalStore);
+const {
+  titleHeader,
+  disabledNext,
+  disabledBack,
+  isFinish,
+  isAddScope,
+  isStepNavigation,
+} = storeToRefs(globalStore);
 const breadcrumb = ref<BreadcrumbType[]>([]);
 
 const handleSave = () => {
@@ -85,6 +91,7 @@ onMounted(() => {
   isAddScope.value = false;
   disabledNext.value = false;
   disabledBack.value = false;
+  isStepNavigation.value = false;
 
   eventBus.on("save", handleSave);
   eventBus.on("back", handleBack);

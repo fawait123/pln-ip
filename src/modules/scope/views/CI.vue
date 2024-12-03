@@ -1,13 +1,25 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from "vue";
+import { onMounted, onUnmounted, ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useRoute, useRouter } from "vue-router";
 
 import { useGlobalStore } from "@/stores/GlobalStore";
 import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 import { convertToOriginalFormat } from "@/helpers/global";
-import { Breadcrumb } from "@/components";
+import { Breadcrumb, Icon } from "@/components";
 import eventBus from "@/utils/eventBus";
+import {
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogOverlay,
+  DialogPortal,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  VisuallyHidden,
+} from "radix-vue";
+
 import ButtonPart from "../components/ButtonPart.vue";
 
 // VIDEO
@@ -40,40 +52,106 @@ import CI26 from "@/assets/videos/combustion-inspection/26-flame-igniter.mp4";
 import CI27 from "@/assets/videos/combustion-inspection/27.mp4";
 
 const videos = [
-  { video: CI1, duration: 5500 },
-  { video: CI2, duration: 5500 },
-  { video: CI3, duration: 7500 },
-  { video: CI4, duration: 4500 },
-  { video: CI5, duration: 5500 },
-  { video: CI6, duration: 3500 },
-  { video: CI7, duration: 7500 },
-  { video: CI8, duration: 5500 },
-  { video: CI9, duration: 4500 },
-  { video: CI10, duration: 4500 },
-  { video: CI11, duration: 1500 },
-  { video: CI12, duration: 3500 },
-  { video: CI13, duration: 3500 },
-  { video: CI14, duration: 3500 },
-  { video: CI15, duration: 3500 },
-  { video: CI16, duration: 2500 },
-  { video: CI17, duration: 2500 },
-  { video: CI18, duration: 5500 },
-  { video: CI19, duration: 5500 },
-  { video: CI20, duration: 4500 },
-  { video: CI21, duration: 5500 },
-  { video: CI22, duration: 8500 },
-  { video: CI23, duration: 5500 },
-  { video: CI24, duration: 3500 },
-  { video: CI25, duration: 5500 },
-  { video: CI26, duration: 4500 },
-  { video: CI27, duration: 4500 },
+  {
+    video: CI1,
+    duration: 5500,
+    name: "Manhole Turbine Cylinder",
+    top: 147,
+    left: 400,
+  },
+  { video: CI2, duration: 5500, name: "Flame Detector", top: 140, left: 520 },
+  { video: CI3, duration: 7500, name: "Flame Igniter", top: 148, left: 390 },
+  {
+    video: CI4,
+    duration: 4500,
+    name: "Discavity Temperature",
+    top: 130,
+    left: 320,
+  },
+  {
+    video: CI5,
+    duration: 5500,
+    name: "Black Patch Temperature",
+    top: 150,
+    left: 295,
+  },
+  { video: CI6, duration: 3500, name: "Fuel Branch Pipe", top: 148, left: 300 },
+  { video: CI7, duration: 7500, name: "Cross Flame Tube", top: 148, left: 260 },
+  { video: CI8, duration: 5500, name: "Top Hat", top: 148, left: 390 },
+  { video: CI9, duration: 4500, name: "Fuel Nozzle", top: 148, left: 550 },
+  {
+    video: CI10,
+    duration: 4500,
+    name: "Combuster Basket",
+    top: 148,
+    left: 490,
+  },
+  { video: CI11, duration: 1500, name: "Top Hat", top: 150, left: 415 },
+  { video: CI12, duration: 3500, name: "U-Support", top: 147, left: 610 },
+  { video: CI13, duration: 3500, name: "Bypass Elbow", top: 147, left: 385 },
+  {
+    video: CI14,
+    duration: 3500,
+    name: "Transition Piece",
+    top: 147,
+    left: 465,
+  },
+  { video: CI15, duration: 3500, name: "", top: 0, left: 0 },
+  {
+    video: CI16,
+    duration: 2500,
+    name: "Transition Piece",
+    top: 147,
+    left: 465,
+  },
+  { video: CI17, duration: 2500, name: "U-Support", top: 147, left: 480 },
+  { video: CI18, duration: 5500, name: "Bypass Elbow", top: 147, left: 635 },
+  { video: CI19, duration: 5500, name: "Top Hat", top: 147, left: 530 },
+  {
+    video: CI20,
+    duration: 4500,
+    name: "Cross Flame Tube",
+    top: 147,
+    left: 430,
+  },
+  { video: CI21, duration: 5500, name: "Flame Detector", top: 147, left: 600 },
+  { video: CI22, duration: 8500, name: "Manhole Turbine", top: 147, left: 460 },
+  {
+    video: CI23,
+    duration: 5500,
+    name: "Discavity Temperature",
+    top: 143,
+    left: 470,
+  },
+  {
+    video: CI24,
+    duration: 3500,
+    name: "Black Patch Temperature",
+    top: 148,
+    left: 295,
+  },
+  {
+    video: CI25,
+    duration: 5500,
+    name: "Fuel Branch Pipe",
+    top: 148,
+    left: 300,
+  },
+  { video: CI26, duration: 4500, name: "Flame Igniter", top: 148, left: 390 },
+  { video: CI27, duration: 4500, name: "", top: 0, left: 0 },
 ];
 
 const router = useRouter();
 const route = useRoute();
 const globalStore = useGlobalStore();
-const { titleHeader, disabledBack, disabledNext, isFinish, isAddScope } =
-  storeToRefs(globalStore);
+const {
+  titleHeader,
+  disabledBack,
+  disabledNext,
+  isFinish,
+  isAddScope,
+  isStepNavigation,
+} = storeToRefs(globalStore);
 const breadcrumb = ref<BreadcrumbType[]>([]);
 
 const currentVideoIndex = ref(0);
@@ -82,6 +160,7 @@ const isVideoEnded = ref(false);
 const isRewinding = ref(false);
 let rewindInterval: ReturnType<typeof setInterval> | null = null;
 const isButtonVisible = ref(false);
+const openStep = ref(false);
 
 const handleVideoEnd = () => {
   isVideoEnded.value = true;
@@ -216,6 +295,22 @@ const handleSave = () => {
   router.push(`/${route.params.id}/create/unit/${route.params.scope}/result`);
 };
 
+const handleStepNavigation = () => {
+  openStep.value = true;
+};
+
+const handleCloseStep = () => {
+  openStep.value = false;
+};
+
+watch(openStep, (value) => {
+  if (value) {
+    isStepNavigation.value = false;
+  } else {
+    isStepNavigation.value = true;
+  }
+});
+
 onMounted(() => {
   breadcrumb.value = [
     {
@@ -243,12 +338,14 @@ onMounted(() => {
 
   disabledNext.value = true;
   disabledBack.value = true;
+  isStepNavigation.value = true;
   initializeFromURL();
   window.addEventListener("popstate", initializeFromURL);
   eventBus.on("next", handleNext);
   eventBus.on("back", handleBack);
   eventBus.on("save", handleSave);
   eventBus.on("addScope", handleAddScope);
+  eventBus.on("stepNavigation", handleStepNavigation);
 
   if (videoRef.value) {
     videoRef.value.addEventListener("timeupdate", handleVideoTimeUpdate);
@@ -261,6 +358,7 @@ onUnmounted(() => {
   eventBus.off("back", handleBack);
   eventBus.off("save", handleSave);
   eventBus.off("addScope", handleAddScope);
+  eventBus.off("stepNavigation", handleStepNavigation);
 
   if (rewindInterval) {
     clearInterval(rewindInterval);
@@ -287,158 +385,57 @@ onUnmounted(() => {
         playsinline
         class="scope-video"
       ></video>
-      <div
-        v-if="isButtonVisible && currentVideoIndex === 0"
-        class="absolute top-[147px] left-[400px]"
-      >
-        <ButtonPart text="Manhole Turbine Cylinder" />
-      </div>
-      <div
-        v-if="isButtonVisible && currentVideoIndex === 1"
-        class="absolute top-[140px] left-[520px]"
-      >
-        <ButtonPart text="Flame Detector" />
-      </div>
-      <div
-        v-if="isButtonVisible && currentVideoIndex === 2"
-        class="absolute top-[148px] left-[390px]"
-      >
-        <ButtonPart text="Flame Igniter" />
-      </div>
-      <div
-        v-if="isButtonVisible && currentVideoIndex === 3"
-        class="absolute top-[130px] left-[320px]"
-      >
-        <ButtonPart text="Discavity Temperature" />
-      </div>
-      <div
-        v-if="isButtonVisible && currentVideoIndex === 4"
-        class="absolute top-[150px] left-[295px]"
-      >
-        <ButtonPart text="Black Patch Temperature" />
-      </div>
-      <div
-        v-if="isButtonVisible && currentVideoIndex === 5"
-        class="absolute top-[148px] left-[300px]"
-      >
-        <ButtonPart text="Fuel Branch Pipe" />
-      </div>
-      <div
-        v-if="isButtonVisible && currentVideoIndex === 6"
-        class="absolute top-[148px] left-[260px]"
-      >
-        <ButtonPart text="Cross Flame Tube" />
-      </div>
-      <div
-        v-if="isButtonVisible && currentVideoIndex === 7"
-        class="absolute top-[148px] left-[390px]"
-      >
-        <ButtonPart text="Top Hat" />
-      </div>
-      <div
-        v-if="isButtonVisible && currentVideoIndex === 8"
-        class="absolute top-[148px] left-[550px]"
-      >
-        <ButtonPart text="Fuel Nozzle" />
-      </div>
-      <div
-        v-if="isButtonVisible && currentVideoIndex === 9"
-        class="absolute top-[148px] left-[490px]"
-      >
-        <ButtonPart text="Combuster Basket" />
-      </div>
-      <div
-        v-if="isButtonVisible && currentVideoIndex === 10"
-        class="absolute top-[150px] left-[415px]"
-      >
-        <ButtonPart text="Top Hat" />
-      </div>
-      <div
-        v-if="isButtonVisible && currentVideoIndex === 11"
-        class="absolute top-[147px] left-[610px]"
-      >
-        <ButtonPart text="U-Support" />
-      </div>
-      <div
-        v-if="isButtonVisible && currentVideoIndex === 12"
-        class="absolute top-[147px] left-[385px]"
-      >
-        <ButtonPart text="Bypass Elbow" />
-      </div>
-      <div
-        v-if="isButtonVisible && currentVideoIndex === 13"
-        class="absolute top-[147px] left-[465px]"
-      >
-        <ButtonPart text="Transition Piece" />
-      </div>
-      <div
-        v-if="isButtonVisible && currentVideoIndex === 15"
-        class="absolute top-[147px] left-[465px]"
-      >
-        <ButtonPart text="Transition Piece" />
-      </div>
-      <div
-        v-if="isButtonVisible && currentVideoIndex === 16"
-        class="absolute top-[147px] left-[480px]"
-      >
-        <ButtonPart text="U-Support" />
-      </div>
-      <div
-        v-if="isButtonVisible && currentVideoIndex === 17"
-        class="absolute top-[147px] left-[635px]"
-      >
-        <ButtonPart text="Bypass Elbow" />
-      </div>
-      <div
-        v-if="isButtonVisible && currentVideoIndex === 18"
-        class="absolute top-[147px] left-[530px]"
-      >
-        <ButtonPart text="Top Hat" />
-      </div>
-      <div
-        v-if="isButtonVisible && currentVideoIndex === 19"
-        class="absolute top-[147px] left-[430px]"
-      >
-        <ButtonPart text="Cross Flame Tube" />
-      </div>
-      <div
-        v-if="isButtonVisible && currentVideoIndex === 20"
-        class="absolute top-[147px] left-[600px]"
-      >
-        <ButtonPart text="Flame Detector" />
-      </div>
-      <div
-        v-if="isButtonVisible && currentVideoIndex === 21"
-        class="absolute top-[147px] left-[460px]"
-      >
-        <ButtonPart text="Manhole Turbine" />
-      </div>
-      <div
-        v-if="isButtonVisible && currentVideoIndex === 22"
-        class="absolute top-[143px] left-[470px]"
-      >
-        <ButtonPart text="Discavity Temperature" />
-      </div>
-      <div
-        v-if="isButtonVisible && currentVideoIndex === 23"
-        class="absolute top-[148px] left-[295px]"
-      >
-        <ButtonPart text="Black Patch Temperature" />
-      </div>
-      <div
-        v-if="isButtonVisible && currentVideoIndex === 24"
-        class="absolute top-[148px] left-[300px]"
-      >
-        <ButtonPart text="Fuel Branch Pipe" />
-      </div>
-      <div
-        v-if="isButtonVisible && currentVideoIndex === 25"
-        class="absolute top-[148px] left-[390px]"
-      >
-        <ButtonPart text="Flame Igniter" />
+      <div v-for="(item, key) in videos" :key="key">
+        <div
+          v-if="
+            isButtonVisible && currentVideoIndex === key && item.name !== ''
+          "
+          class="absolute"
+          :style="{ top: `${item.top}px`, left: `${item.left}px` }"
+        >
+          <ButtonPart :text="item.name" />
+        </div>
       </div>
     </div>
   </div>
+
+  <DialogRoot v-model:open="openStep">
+    <DialogPortal>
+      <DialogContent
+        class="v-drawer-content"
+        @interact-outside="(e) => (openStep = false)"
+      >
+        <VisuallyHidden>
+          <DialogTitle />
+          <DialogDescription />
+        </VisuallyHidden>
+        <div class="p-4">
+          <div class="flex justify-start">
+            <Icon
+              name="double-arrow-right"
+              class="text-[24px] text-neutral-50 cursor-pointer hover:text-cyan-500"
+              @click="handleCloseStep"
+            />
+          </div>
+          <p class="mt-6 text-2xl text-neutral-50 font-bold">
+            Inspection Squences:
+          </p>
+          <ul class="mt-2 max-h-[calc(100vh-220px)] overflow-y-auto">
+            <li
+              v-for="(item, key) in videos"
+              :key="key"
+              class="list-disc list-inside"
+              :class="{ hidden: item.name === '' }"
+            >
+              <a class="text-neutral-50 hover:text-cyan-500 cursor-pointer">
+                {{ item.name }}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </DialogContent>
+    </DialogPortal>
+  </DialogRoot>
 </template>
 
 <style lang="sass">

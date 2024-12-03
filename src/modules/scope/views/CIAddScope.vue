@@ -29,8 +29,14 @@ const section = [
 const router = useRouter();
 const route = useRoute();
 const globalStore = useGlobalStore();
-const { titleHeader, disabledNext, disabledBack, isFinish, isAddScope } =
-  storeToRefs(globalStore);
+const {
+  titleHeader,
+  disabledNext,
+  disabledBack,
+  isFinish,
+  isAddScope,
+  isStepNavigation,
+} = storeToRefs(globalStore);
 
 const breadcrumb = ref<BreadcrumbType[]>([]);
 const currentVideoIndex = ref(0);
@@ -150,6 +156,7 @@ onMounted(() => {
   isAddScope.value = false;
   disabledNext.value = true;
   disabledBack.value = false;
+  isStepNavigation.value = false;
 
   eventBus.on("back", handleBack);
 });

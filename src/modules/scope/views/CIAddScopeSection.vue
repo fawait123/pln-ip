@@ -15,7 +15,7 @@ const imgUrl = new URL("@/assets/images/bg-ci-section.png", import.meta.url)
 const router = useRouter();
 const route = useRoute();
 const globalStore = useGlobalStore();
-const { titleHeader, disabledNext, disabledBack, isFinish, isAddScope } =
+const { titleHeader, disabledNext, disabledBack, isFinish, isStepNavigation } =
   storeToRefs(globalStore);
 const breadcrumb = ref<BreadcrumbType[]>([]);
 
@@ -64,6 +64,7 @@ onMounted(() => {
   disabledNext.value = false;
   disabledBack.value = false;
   isFinish.value = false;
+  isStepNavigation.value = false;
 
   eventBus.on("next", handleNext);
   eventBus.on("back", handleBack);
