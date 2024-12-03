@@ -13,6 +13,7 @@ export const useGlobalStore = defineStore(
     const isAddScope = ref(false);
     const isFinish = ref(false);
     const isRemoveNext = ref(false);
+    const isStepNavigation = ref(false);
 
     return {
       titleHeader,
@@ -21,6 +22,7 @@ export const useGlobalStore = defineStore(
       isAddScope,
       isFinish,
       isRemoveNext,
+      isStepNavigation,
     };
   },
   {

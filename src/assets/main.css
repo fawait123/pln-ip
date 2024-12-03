@@ -75,6 +75,54 @@ body {
   @apply mt-2 flex gap-2 justify-end;
 }
 
+.v-drawer-overlay {
+  @apply backdrop-blur-[5px] fixed inset-0 z-30;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.v-drawer-overlay[data-state="open"] {
+  @apply animate-[overlayDrawerShow_150ms_cubic-bezier(0.16,_1,_0.3,_1)];
+}
+
+.v-drawer-content {
+  @apply max-w-[350px] fixed top-[90px] right-0 bottom-0 w-full h-full shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none z-[9999] bg-neutral-950 bg-opacity-50;
+}
+
+.v-drawer-content[data-state="open"] {
+  @apply animate-[contentDrawerShow_300ms_cubic-bezier(0.16,_1,_0.3,_1)];
+}
+
+.v-drawer-content[data-state="closed"] {
+  @apply animate-[contentDrawerClosed_300ms_cubic-bezier(0.16,_1,_0.3,_1)];
+}
+
+@keyframes overlayDrawerShow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes contentDrawerShow {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes contentDrawerClosed {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
 /* :root {
   --main-background: #fcfcfd;
   --main-surface: #f3f3f3;
