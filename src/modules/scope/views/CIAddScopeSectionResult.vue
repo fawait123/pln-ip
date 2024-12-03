@@ -146,14 +146,7 @@ onUnmounted(() => {
           </div>
         </div>
         <div class="group-result">
-          <div
-            class="result-arrow"
-            :class="{
-              'result-active': route.params.section === 'compressor-section',
-            }"
-          >
-            Compressor Section
-          </div>
+          <div class="result-arrow">Inlet Section</div>
         </div>
         <div class="group-result">
           <div
