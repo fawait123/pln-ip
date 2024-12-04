@@ -36,7 +36,7 @@ const save = () => {
   <div class="bp-tab-content-container">
     <div class="bp-tab-content-header">
       <div class="w-[400px]">
-        <Input id="input-duration" v-model="model" />
+        <Input id="input-duration" size="sm" v-model="model" />
       </div>
       <button class="bp-trigger" @click="add">Add</button>
     </div>

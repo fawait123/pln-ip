@@ -11,7 +11,15 @@ import { computed } from "vue";
 const imgUrl = new URL("@/assets/images/logo.png", import.meta.url).href;
 
 const globalStore = useGlobalStore();
-const { titleHeader, disabledBack, disabledNext } = storeToRefs(globalStore);
+const {
+  titleHeader,
+  disabledBack,
+  disabledNext,
+  isFinish,
+  isAddScope,
+  isRemoveNext,
+  isStepNavigation,
+} = storeToRefs(globalStore);
 const authStore = useAuthStore();
 const router = useRouter();
 const route = useRoute();
@@ -29,6 +37,18 @@ const handleNext = () => {
   eventBus.emit("next");
 };
 
+const handleSave = () => {
+  eventBus.emit("save");
+};
+
+const handleAddScope = () => {
+  eventBus.emit("addScope");
+};
+
+const handleStepNavigation = () => {
+  eventBus.emit("stepNavigation");
+};
+
 const logout = () => {
   authStore.logout();
   router.push("/login");
@@ -36,6 +56,19 @@ const logout = () => {
 
 const toCreate = () => {
   router.push(`/${locationId}/create/unit`);
+};
+
+const toReport = () => {
+  const name = route.name;
+
+  if (
+    name === "combustion inspection" ||
+    name === "combustion inspection add scope" ||
+    name === "combustion inspection add scope section" ||
+    name === "combustion inspection add scope section result"
+  ) {
+    router.push(`/${route.params.id}/create/unit/${route.params.scope}/result`);
+  }
 };
 </script>
 
@@ -56,7 +89,7 @@ const toCreate = () => {
           Create
         </button>
         <button class="menu-button">Timeline OH</button>
-        <button class="menu-button">Report</button>
+        <button class="menu-button" @click="toReport">Report</button>
         <button class="sign-out-button" @click="logout">Sign Out</button>
       </div>
       <div class="navigation">
@@ -75,13 +108,34 @@ const toCreate = () => {
             Back
           </button>
           <button
+            v-if="!isFinish && !isRemoveNext"
             class="arrow-button next"
             :disabled="disabledNext"
             @click="handleNext"
           >
             Next
           </button>
+          <button
+            v-if="isFinish && !isRemoveNext"
+            class="arrow-button next"
+            :disabled="disabledNext"
+            @click="handleSave"
+          >
+            Save
+          </button>
         </div>
+      </div>
+      <div v-if="isStepNavigation" class="step-navigation">
+        <Icon
+          name="double-arrow-left"
+          class="text-[24px] text-buttonGray cursor-pointer hover:text-cyan-500"
+          @click="handleStepNavigation"
+        />
+      </div>
+      <div v-if="isAddScope" class="add-scope">
+        <button :disabled="disabledNext" @click="handleAddScope">
+          Add Scope
+        </button>
       </div>
     </div>
   </div>
@@ -139,4 +193,17 @@ const toCreate = () => {
             @apply bg-yellow-500
           &:disabled
             @apply bg-neutral-500 cursor-default
+
+    .step-navigation
+      @apply absolute flex justify-end right-4 top-[105px]
+
+    .add-scope
+      @apply absolute flex justify-end right-4 top-[150px]
+      > button
+        @apply bg-buttonGray flex items-center justify-start text-base font-bold text-neutral-50 py-1.5 pl-6 pr-12 border-0 cursor-pointer
+        clip-path: polygon(80% 0, 100% 50%, 80% 100%, 0 100%, 0 0)
+        &:hover
+          @apply bg-cyan-500
+        &:disabled
+          @apply bg-neutral-500 cursor-default
 </style>

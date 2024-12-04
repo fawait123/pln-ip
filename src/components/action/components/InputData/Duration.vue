@@ -30,6 +30,7 @@ const save = () => {
         <Input
           id="input-duration"
           type="number"
+          size="sm"
           v-model="modelDuration.input"
         />
       </div>

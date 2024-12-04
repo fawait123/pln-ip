@@ -91,17 +91,19 @@ const save = () => {
         id="select-material"
         v-model="modelMaterial.material"
         :options="dataMaterial"
+        size="sm"
         options_label="label"
         options_value="value"
       />
       <div class="w-[70px]">
-        <Input id="input-material" v-model="modelMaterial.input" />
+        <Input id="input-material" size="sm" v-model="modelMaterial.input" />
       </div>
       <div class="w-[100px]">
         <Select
           id="select-unit-material"
           v-model="modelMaterial.unit"
           :options="dataUnitMaterial"
+          size="sm"
           options_label="label"
           options_value="value"
         />

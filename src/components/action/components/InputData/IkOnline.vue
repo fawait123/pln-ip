@@ -4,10 +4,8 @@ import { ref } from "vue";
 
 const emit = defineEmits(["view", "download"]);
 
-const modelTools = ref({
-  tools: "",
+const modelIkOnline = ref({
   input: "",
-  unit: "",
 });
 
 const view = () => {
@@ -21,11 +19,18 @@ const download = () => {
 
 <template>
   <div class="bp-tab-content-container">
-    <div>
+    <div class="bp-tab-content-body">
       <p class="bp-tab-content-body-title">Title</p>
-      <div class="bp-tab-content-body-list-ik">
+      <Input
+        id="input-ik-online"
+        type="number"
+        size="sm"
+        class="mt-2"
+        v-model="modelIkOnline.input"
+      />
+      <!-- <div class="bp-tab-content-body-list-ik">
         <p>Disassembly Top Hat</p>
-      </div>
+      </div> -->
     </div>
     <div class="bp-tab-content-action">
       <button class="bp-trigger" @click="view">View</button>
@@ -34,7 +39,4 @@ const download = () => {
   </div>
 </template>
 
-<style lang="sass">
-.bp-tab-content-body-list-ik
-  @apply rounded bg-white text-base text-neutral-950 mt-2 px-2 py-3
-</style>
+<style lang="sass"></style>

@@ -75,16 +75,18 @@ const save = () => {
         id="select-tools"
         v-model="modelTools.tools"
         :options="dataTools"
+        size="sm"
         options_label="label"
         options_value="value"
       />
       <div class="w-[70px]">
-        <Input id="input-tools" v-model="modelTools.input" />
+        <Input id="input-tools" size="sm" v-model="modelTools.input" />
       </div>
       <div class="w-[100px]">
         <Select
           id="select-unit-tools"
           v-model="modelTools.unit"
+          size="sm"
           :options="dataUnitTools"
           options_label="label"
           options_value="value"
