@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import { markerData } from '@/constants'
 
 const router = useRouter();
 
@@ -17,6 +18,7 @@ const chartOptions = ref<Record<string, any>>({
   },
   mapNavigation: {
     enabled: true,
+    enableDoubleClickZoomTo: true,
     buttonOptions: {
       alignTo: "spacingBox",
     },
@@ -30,8 +32,12 @@ const chartOptions = ref<Record<string, any>>({
     ],
   },
   tooltip: {
+    enabled: true,
     useHTML: true, // Menggunakan HTML untuk kustomisasi
-    pointFormat: '<b class="text-md">{point.name}</b>', // Format isi tooltip
+    // pointFormat: '<b class="text-md">{point.name}</b>', // Format isi tooltip
+    formatter: function () {
+      return this.series.name == "Lokasi" ? `<strong>${this.point.name}</strong>` : false; // Menampilkan nama marker saat di-hover
+    },
   },
   series: [
     {
@@ -42,20 +48,63 @@ const chartOptions = ref<Record<string, any>>({
         },
       },
       dataLabels: {
+        useHTML: true, // Menggunakan HTML untuk kustom
         enabled: true,
-        format: "{point.name}",
+        format: "<b>{point.name}</b>",
+        color: "#000000",
       },
       allAreas: true,
       data: [],
       joinBy: "slug",
       point: {
         events: {
+          /**
+           * Saat region di-klik, maka panggil fungsi `handleClick`
+           * dengan mengirimkan event sebagai argumen.
+           * @param {object} e - Event yang di-trigger saat region di-klik.
+           */
           click: (e) => {
             handleClick(e);
           },
+          /**
+           * Saat mouse di-hover ke suatu region, maka zoom ke region
+           * tersebut dan tambahkan efek tebal dan bayangan.
+           */
+          mouseOver: function () {
+            // Zoom ke region yang di-hover
+
+          },
+          mouseOut: function () {
+            // Reset zoom saat mouse keluar
+
+          }
         },
       },
     },
+    {
+      // Seri untuk marker atau poin yang ditambahkan
+      type: 'mappoint',
+      name: 'Lokasi',
+      dataLabels: {
+        enabled: false, // Data label tidak ditampilkan secara default
+      },
+      data: markerData,
+      marker: {
+        radius: 6, // Ukuran marker
+        symbol: 'circle', // Bentuk marker
+      },
+      point: {
+        events: {
+          click: function () {
+            // Logika ketika marker diklik
+            // alert(`Anda mengklik marker: ${this.name}`);
+            // Contoh: Navigasi ke halaman atau aksi lain
+            // console.log('Marker data:', this);
+            router.push(`/priok`);
+          },
+        },
+      },
+    }
   ],
 });
 
@@ -85,16 +134,16 @@ async function loadMapData() {
           ].includes(item.properties.state)
             ? "#0070c0"
             : [
-                "Kalimantan Timur",
-                "Papua",
-                "Maluku Utara",
-                "Sulawesi Selatan",
-                "Riau",
-                "Lampung",
-                "Nusa Tenggara Timur",
-              ].includes(item.properties.state)
-            ? "#00B0F0"
-            : "#2AB6C0",
+              "Kalimantan Timur",
+              "Papua",
+              "Maluku Utara",
+              "Sulawesi Selatan",
+              "Riau",
+              "Lampung",
+              "Nusa Tenggara Timur",
+            ].includes(item.properties.state)
+              ? "#00B0F0"
+              : "#2AB6C0",
           name: item.properties.state,
         };
       }
@@ -106,7 +155,7 @@ async function loadMapData() {
 
 const handleClick = (event: any) => {
   console.log("clicked", event.point);
-  router.push(`/priok`);
+  // router.push(`/priok`);
 };
 
 // Memuat data peta ketika komponen dipasang
@@ -122,15 +171,8 @@ onMounted(() => {
         UNIT PEMBANGKIT PT PLN INDONESIA POWER
       </p>
     </div>
-    <highcharts
-      :constructorType="'mapChart'"
-      class="hc"
-      :options="chartOptions"
-      ref="chart"
-    ></highcharts>
-    <div
-      class="absolute z-50 pointer-events-none bottom-10 left-10 text-[#2AB6C0] max-w-[400px]"
-    >
+    <highcharts :constructorType="'mapChart'" class="hc" :options="chartOptions" ref="chart"></highcharts>
+    <div class="absolute z-50 pointer-events-none bottom-10 left-10 text-[#2AB6C0] max-w-[400px]">
       <h1 class="text-2xl font-bold my-3 italic">GENERATE SCOPE</h1>
       <p class="text-justify indent-20">
         Aplikasi ini merupakan aplikasi berbasis web yang digunakan untuk
