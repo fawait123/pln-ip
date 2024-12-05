@@ -2,17 +2,14 @@
 import { onMounted, onUnmounted, ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useRoute, useRouter } from "vue-router";
-
 import { useGlobalStore } from "@/stores/GlobalStore";
 import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 import { convertToOriginalFormat } from "@/helpers/global";
 import { Breadcrumb, Icon } from "@/components";
 import eventBus from "@/utils/eventBus";
 import {
-  DialogClose,
   DialogContent,
   DialogDescription,
-  DialogOverlay,
   DialogPortal,
   DialogRoot,
   DialogTitle,
@@ -53,15 +50,31 @@ import CI27 from "@/assets/videos/combustion-inspection/27.mp4";
 
 const videos = [
   {
+    id: 0,
     video: CI1,
     duration: 5500,
     name: "Manhole Turbine Cylinder",
     top: 147,
     left: 400,
   },
-  { video: CI2, duration: 5500, name: "Flame Detector", top: 140, left: 520 },
-  { video: CI3, duration: 7500, name: "Flame Igniter", top: 148, left: 390 },
   {
+    id: 1,
+    video: CI2,
+    duration: 5500,
+    name: "Flame Detector",
+    top: 140,
+    left: 520,
+  },
+  {
+    id: 2,
+    video: CI3,
+    duration: 7500,
+    name: "Flame Igniter",
+    top: 148,
+    left: 390,
+  },
+  {
+    id: 3,
     video: CI4,
     duration: 4500,
     name: "Discavity Temperature",
@@ -69,54 +82,123 @@ const videos = [
     left: 320,
   },
   {
+    id: 4,
     video: CI5,
     duration: 5500,
     name: "Black Patch Temperature",
     top: 150,
     left: 295,
   },
-  { video: CI6, duration: 3500, name: "Fuel Branch Pipe", top: 148, left: 300 },
-  { video: CI7, duration: 7500, name: "Cross Flame Tube", top: 148, left: 260 },
-  { video: CI8, duration: 5500, name: "Top Hat", top: 148, left: 390 },
-  { video: CI9, duration: 4500, name: "Fuel Nozzle", top: 148, left: 550 },
   {
+    id: 5,
+    video: CI6,
+    duration: 3500,
+    name: "Fuel Branch Pipe",
+    top: 148,
+    left: 300,
+  },
+  {
+    id: 6,
+    video: CI7,
+    duration: 7500,
+    name: "Cross Flame Tube",
+    top: 148,
+    left: 260,
+  },
+  { id: 7, video: CI8, duration: 5500, name: "Top Hat", top: 148, left: 390 },
+  {
+    id: 8,
+    video: CI9,
+    duration: 4500,
+    name: "Fuel Nozzle",
+    top: 148,
+    left: 550,
+  },
+  {
+    id: 9,
     video: CI10,
     duration: 4500,
     name: "Combuster Basket",
     top: 148,
     left: 490,
   },
-  { video: CI11, duration: 1500, name: "Top Hat", top: 150, left: 415 },
-  { video: CI12, duration: 3500, name: "U-Support", top: 147, left: 610 },
-  { video: CI13, duration: 3500, name: "Bypass Elbow", top: 147, left: 385 },
+  { id: 10, video: CI11, duration: 1500, name: "Top Hat", top: 150, left: 415 },
   {
+    id: 11,
+    video: CI12,
+    duration: 3500,
+    name: "U-Support",
+    top: 147,
+    left: 610,
+  },
+  {
+    id: 12,
+    video: CI13,
+    duration: 3500,
+    name: "Bypass Elbow",
+    top: 147,
+    left: 385,
+  },
+  {
+    id: 13,
     video: CI14,
     duration: 3500,
     name: "Transition Piece",
     top: 147,
     left: 465,
   },
-  { video: CI15, duration: 3500, name: "", top: 0, left: 0 },
+  { id: 14, video: CI15, duration: 3500, name: "", top: 0, left: 0 },
   {
+    id: 15,
     video: CI16,
     duration: 2500,
     name: "Transition Piece",
     top: 147,
     left: 465,
   },
-  { video: CI17, duration: 2500, name: "U-Support", top: 147, left: 480 },
-  { video: CI18, duration: 5500, name: "Bypass Elbow", top: 147, left: 635 },
-  { video: CI19, duration: 5500, name: "Top Hat", top: 147, left: 530 },
   {
+    id: 16,
+    video: CI17,
+    duration: 2500,
+    name: "U-Support",
+    top: 147,
+    left: 480,
+  },
+  {
+    id: 17,
+    video: CI18,
+    duration: 5500,
+    name: "Bypass Elbow",
+    top: 147,
+    left: 635,
+  },
+  { id: 18, video: CI19, duration: 5500, name: "Top Hat", top: 147, left: 530 },
+  {
+    id: 19,
     video: CI20,
     duration: 4500,
     name: "Cross Flame Tube",
     top: 147,
     left: 430,
   },
-  { video: CI21, duration: 5500, name: "Flame Detector", top: 147, left: 600 },
-  { video: CI22, duration: 8500, name: "Manhole Turbine", top: 147, left: 460 },
   {
+    id: 20,
+    video: CI21,
+    duration: 5500,
+    name: "Flame Detector",
+    top: 147,
+    left: 600,
+  },
+  {
+    id: 21,
+    video: CI22,
+    duration: 8500,
+    name: "Manhole Turbine",
+    top: 147,
+    left: 460,
+  },
+  {
+    id: 22,
     video: CI23,
     duration: 5500,
     name: "Discavity Temperature",
@@ -124,6 +206,7 @@ const videos = [
     left: 470,
   },
   {
+    id: 23,
     video: CI24,
     duration: 3500,
     name: "Black Patch Temperature",
@@ -131,14 +214,22 @@ const videos = [
     left: 295,
   },
   {
+    id: 24,
     video: CI25,
     duration: 5500,
     name: "Fuel Branch Pipe",
     top: 148,
     left: 300,
   },
-  { video: CI26, duration: 4500, name: "Flame Igniter", top: 148, left: 390 },
-  { video: CI27, duration: 4500, name: "", top: 0, left: 0 },
+  {
+    id: 25,
+    video: CI26,
+    duration: 4500,
+    name: "Flame Igniter",
+    top: 148,
+    left: 390,
+  },
+  { id: 26, video: CI27, duration: 4500, name: "", top: 0, left: 0 },
 ];
 
 const router = useRouter();
@@ -152,136 +243,197 @@ const {
   isAddScope,
   isStepNavigation,
 } = storeToRefs(globalStore);
-const breadcrumb = ref<BreadcrumbType[]>([]);
 
+const breadcrumb = ref<BreadcrumbType[]>([]);
 const currentVideoIndex = ref(0);
 const videoRef = ref<HTMLVideoElement | null>(null);
-const isVideoEnded = ref(false);
-const isRewinding = ref(false);
-let rewindInterval: ReturnType<typeof setInterval> | null = null;
 const isButtonVisible = ref(false);
 const openStep = ref(false);
+const isReversing = ref(false);
+let reverseInterval: number | null = null;
+
+const videoState = ref({
+  isTransitioning: false,
+});
 
 const handleVideoEnd = () => {
-  isVideoEnded.value = true;
-  if (isRewinding.value) {
-    isRewinding.value = false;
-    videoRef.value?.pause();
-  }
-};
+  const urlParams = new URLSearchParams(window.location.search);
+  const videoParam = urlParams.get("video") || "1";
+  const toParam = urlParams.get("to");
 
-const handleVideoTimeUpdate = () => {
-  if (videoRef.value) {
-    const currentTime = videoRef.value.currentTime;
-    const duration = videoRef.value.duration;
-
-    if (currentTime >= duration) {
+  if (toParam) {
+    if (currentVideoIndex.value < parseInt(toParam) - 1) {
       isButtonVisible.value = true;
       disabledNext.value = false;
       disabledBack.value = false;
-    }
-  }
-};
+      setTimeout(() => {
+        const nextVideo = currentVideoIndex.value + 1;
+        currentVideoIndex.value = nextVideo;
+        isButtonVisible.value = false;
+        disabledNext.value = true;
+        disabledBack.value = true;
 
-const initializeFromURL = () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const videoParam = urlParams.get("video") || "1";
-  const startParam = urlParams.get("start");
-
-  isButtonVisible.value = false;
-
-  if (startParam === "end") {
-    isButtonVisible.value = true;
-
-    videoRef?.value?.addEventListener(
-      "loadedmetadata",
-      () => {
-        if (videoRef.value && isFinite(videoRef.value.duration)) {
-          videoRef.value.currentTime = videoRef.value.duration;
+        const url = new URL(window.location.href);
+        url.search = `?video=${parseInt(videoParam) + 1}&to=${toParam}`;
+        window.history.replaceState({}, "", url);
+      }, 500);
+    } else if (currentVideoIndex.value > parseInt(toParam) - 1) {
+      isButtonVisible.value = true;
+      disabledNext.value = false;
+      disabledBack.value = false;
+      setTimeout(() => {
+        isButtonVisible.value = false;
+        disabledNext.value = true;
+        disabledBack.value = true;
+        if (videoRef.value) {
+          reverseInterval = setInterval(reverseVideo, 100);
         }
-      },
-      { once: true }
-    );
+      }, 500);
+    } else if (currentVideoIndex.value === parseInt(toParam) - 1) {
+      isButtonVisible.value = true;
+      disabledNext.value = false;
+      disabledBack.value = false;
 
+      const { to, video, ...updatedQuery } = route.query;
+      router.replace({
+        path: route.path,
+        query: { video: currentVideoIndex.value + 1, ...updatedQuery },
+      });
+    }
+  } else {
+    isButtonVisible.value = true;
     disabledNext.value = false;
     disabledBack.value = false;
-
-    const parsedIndex = parseInt(videoParam, 10) - 1;
-    if (parsedIndex < 0) {
-      router.push(`/${route.params.id}/create/unit/${route.params.scope}`);
-    }
-  } else if (videoParam && startParam !== "end") {
-    const parsedIndex = parseInt(videoParam, 10) - 1;
-    if (parsedIndex >= 0 && parsedIndex < videos.length) {
-      currentVideoIndex.value = parsedIndex;
-      if (parsedIndex === videos.length - 1) {
-        isFinish.value = true;
-        isAddScope.value = true;
-      } else {
-        isFinish.value = false;
-        isAddScope.value = false;
-      }
-    } else {
-      router.push(`${route.params.id}/create/unit/${route.params.scope}`);
-    }
   }
 };
 
-const updateURLParameter = () => {
+const initializeVideo = async (index: number, startAtEnd = false) => {
+  videoState.value.isTransitioning = true;
+  isButtonVisible.value = false;
+  disabledNext.value = true;
+  disabledBack.value = true;
+
+  if (videoRef.value) {
+    videoRef.value.pause();
+  }
+
+  currentVideoIndex.value = index;
+  isFinish.value = index === videos.length - 1;
+  isAddScope.value = index === videos.length - 1;
+
+  await new Promise((resolve) => {
+    if (videoRef.value) {
+      videoRef.value.onloadedmetadata = () => {
+        if (startAtEnd && videoRef.value) {
+          videoRef.value.currentTime = videoRef.value.duration - 0.1;
+          isButtonVisible.value = true;
+          disabledNext.value = false;
+          disabledBack.value = false;
+        } else {
+          videoRef.value?.play();
+        }
+        resolve(null);
+      };
+    }
+  });
+
+  videoState.value.isTransitioning = false;
+};
+
+const updateURLParameter = (index: number, startAtEnd = false) => {
   const url = new URL(window.location.href);
-  url.searchParams.set("video", (currentVideoIndex.value + 1).toString());
+  url.searchParams.set("video", (index + 1).toString());
+  if (startAtEnd) {
+    url.searchParams.set("start", "end");
+  } else {
+    url.searchParams.delete("start");
+  }
   window.history.replaceState({}, "", url);
 };
 
-const handleNext = () => {
-  if (currentVideoIndex.value < videos.length - 1) {
-    currentVideoIndex.value++;
-    isVideoEnded.value = false;
-    isButtonVisible.value = false;
-    disabledNext.value = true;
-    disabledBack.value = true;
+const reverseVideo = () => {
+  if (!videoRef.value || videoRef.value.currentTime <= 0) {
+    if (reverseInterval) {
+      clearInterval(reverseInterval);
+      reverseInterval = null;
+    }
+    isReversing.value = false;
 
-    const url = new URL(window.location.href);
-    url.search = `?video=${currentVideoIndex.value + 1}`;
-    window.history.replaceState({}, "", url);
+    const prevIndex = currentVideoIndex.value - 1;
 
-    initializeFromURL();
+    if (prevIndex < 0) {
+      router.push(`/${route.params.id}/create/unit/${route.params.scope}`);
+      return;
+    }
+
+    currentVideoIndex.value = prevIndex;
+    updateURLParameter(prevIndex, true);
+    initializeVideo(prevIndex, true);
+    return;
+  }
+
+  videoRef.value.currentTime = Math.max(0, videoRef.value.currentTime - 0.1);
+};
+
+const handleBack = async () => {
+  if (videoState.value.isTransitioning) return;
+
+  isReversing.value = true;
+  videoState.value.isTransitioning = true;
+  isButtonVisible.value = false;
+  disabledNext.value = true;
+  disabledBack.value = true;
+
+  if (videoRef.value) {
+    reverseInterval = setInterval(reverseVideo, 100);
   }
 };
 
-const handleBack = () => {
-  if (currentVideoIndex.value === videos.length - 1) {
-    isFinish.value = false;
-    isAddScope.value = false;
-  }
+const handleNext = async () => {
+  if (
+    videoState.value.isTransitioning ||
+    currentVideoIndex.value >= videos.length - 1
+  )
+    return;
 
+  const nextIndex = currentVideoIndex.value + 1;
+  updateURLParameter(nextIndex);
+  await initializeVideo(nextIndex);
+};
+
+const handleJumpStep = async (index: number) => {
   if (videoRef.value) {
-    isRewinding.value = true;
-    isButtonVisible.value = false;
-    disabledNext.value = true;
-    disabledBack.value = true;
+    if (videoRef.value.currentTime === videoRef.value.duration) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const videoParam = urlParams.get("video") || "1";
+      const video = parseInt(videoParam, 10);
 
-    rewindInterval = setInterval(() => {
-      if (videoRef.value && videoRef.value.currentTime > 0) {
-        videoRef.value.currentTime -= 0.1;
+      if (index === video) {
+        return;
+      }
+
+      const { path } = route;
+
+      disabledNext.value = true;
+      disabledBack.value = true;
+      isButtonVisible.value = false;
+
+      if (index > video) {
+        const updatedQuery = { video: video + 1, to: index };
+        router.push({ path, query: updatedQuery });
+        const nextIndex = currentVideoIndex.value + 1;
+        currentVideoIndex.value = nextIndex;
+        await initializeVideo(nextIndex);
       } else {
-        clearInterval(rewindInterval!);
-        isRewinding.value = false;
-
-        currentVideoIndex.value--;
-
-        if (currentVideoIndex.value < 0) {
-          router.push(`/${route.params.id}/create/unit/${route.params.scope}`);
-        } else {
-          const url = new URL(window.location.href);
-          url.searchParams.set("start", "end");
-          window.history.replaceState({}, "", url);
-
-          updateURLParameter();
-          initializeFromURL();
+        const updatedQuery = { video: video, to: index };
+        router.push({ path, query: updatedQuery });
+        if (videoRef.value) {
+          reverseInterval = setInterval(reverseVideo, 100);
         }
       }
-    }, 100);
+
+      openStep.value = false;
+    }
   }
 };
 
@@ -311,6 +463,18 @@ watch(openStep, (value) => {
   }
 });
 
+const initializeFromURL = async () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const videoParam = urlParams.get("video") || "1";
+  const startParam = urlParams.get("start");
+  const index = Math.max(
+    0,
+    Math.min(parseInt(videoParam, 10) - 1, videos.length - 1)
+  );
+
+  await initializeVideo(index, startParam === "end");
+};
+
 onMounted(() => {
   breadcrumb.value = [
     {
@@ -334,12 +498,15 @@ onMounted(() => {
       url: "",
     },
   ];
+
   titleHeader.value = "Combustion Inspection";
 
   disabledNext.value = true;
   disabledBack.value = true;
   isStepNavigation.value = true;
+
   initializeFromURL();
+
   window.addEventListener("popstate", initializeFromURL);
   eventBus.on("next", handleNext);
   eventBus.on("back", handleBack);
@@ -347,9 +514,9 @@ onMounted(() => {
   eventBus.on("addScope", handleAddScope);
   eventBus.on("stepNavigation", handleStepNavigation);
 
-  if (videoRef.value) {
-    videoRef.value.addEventListener("timeupdate", handleVideoTimeUpdate);
-  }
+  // if (videoRef.value) {
+  //   videoRef.value.addEventListener("timeupdate", handleVideoTimeUpdate);
+  // }
 });
 
 onUnmounted(() => {
@@ -360,13 +527,9 @@ onUnmounted(() => {
   eventBus.off("addScope", handleAddScope);
   eventBus.off("stepNavigation", handleStepNavigation);
 
-  if (rewindInterval) {
-    clearInterval(rewindInterval);
-  }
-
-  if (videoRef.value) {
-    videoRef.value.removeEventListener("timeupdate", handleVideoTimeUpdate);
-  }
+  // if (videoRef.value) {
+  //   videoRef.value.removeEventListener("timeupdate", handleVideoTimeUpdate);
+  // }
 });
 </script>
 
@@ -403,7 +566,7 @@ onUnmounted(() => {
     <DialogPortal>
       <DialogContent
         class="v-drawer-content"
-        @interact-outside="(e) => (openStep = false)"
+        @interact-outside="() => (openStep = false)"
       >
         <VisuallyHidden>
           <DialogTitle />
@@ -418,14 +581,29 @@ onUnmounted(() => {
             />
           </div>
           <p class="mt-6 text-2xl text-neutral-50 font-bold">
-            Inspection Squences:
+            Inspection Sequences:
           </p>
           <ul class="mt-2 max-h-[calc(100vh-220px)] overflow-y-auto">
+            <p class="text-neutral-50 text-lg font-bold mt-1">Disassembly</p>
             <li
-              v-for="(item, key) in videos"
-              :key="key"
-              class="list-disc list-inside"
+              v-for="(item, key) in videos.slice(0, 14)"
+              :key="item.id"
+              class="list-disc list-inside mt-1"
               :class="{ hidden: item.name === '' }"
+              @click="handleJumpStep(item.id + 1)"
+            >
+              <a class="text-neutral-50 hover:text-cyan-500 cursor-pointer">
+                {{ item.name }}
+              </a>
+            </li>
+
+            <p class="text-neutral-50 text-lg font-bold mt-2">Assembly</p>
+            <li
+              v-for="(item, key) in videos.slice(15, 27)"
+              :key="item.id"
+              class="list-disc list-inside mt-1"
+              :class="{ hidden: item.name === '' }"
+              @click="handleJumpStep(item.id + 1)"
             >
               <a class="text-neutral-50 hover:text-cyan-500 cursor-pointer">
                 {{ item.name }}
@@ -438,7 +616,7 @@ onUnmounted(() => {
   </DialogRoot>
 </template>
 
-<style lang="sass">
+<style lang="sass" scoped>
 .wrapper-bid
   @apply absolute top-[120px] left-10 z-[100]
 </style>
