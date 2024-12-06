@@ -13,7 +13,6 @@ import {
   DialogPortal,
   DialogRoot,
   DialogTitle,
-  DialogTrigger,
   VisuallyHidden,
 } from "radix-vue";
 
