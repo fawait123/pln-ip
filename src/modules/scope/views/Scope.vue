@@ -11,12 +11,25 @@ import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 import { convertToOriginalFormat } from "@/helpers/global";
 import eventBus from "@/utils/eventBus";
 
-const videos = [Home0];
+const videos = [Home0, Home0, Home0];
+const scope = [
+  { label: "Combustion Inspection", url: "ci" },
+  { label: "Turbine Inspection", url: "ti" },
+  { label: "Major Inspection", url: "mi" },
+];
 
 const router = useRouter();
 const route = useRoute();
 const globalStore = useGlobalStore();
-const { titleHeader, disabledBack, disabledNext } = storeToRefs(globalStore);
+const {
+  titleHeader,
+  disabledBack,
+  disabledNext,
+  isAddScope,
+  isFinish,
+  isRemoveNext,
+  isStepNavigation,
+} = storeToRefs(globalStore);
 const breadcrumb = ref<BreadcrumbType[]>([]);
 
 const currentVideoIndex = ref(0);
@@ -27,8 +40,15 @@ let rewindInterval: ReturnType<typeof setInterval> | null = null;
 
 const handleFirstVideoLoad = () => {
   if (currentVideoIndex.value === 0 && videoRef.value) {
-    // videoRef.value.currentTime = videoRef.value.duration - 1;
     videoRef.value.pause();
+  }
+};
+
+const handleVideoEnd = () => {
+  isVideoEnded.value = true;
+  if (isRewinding.value) {
+    isRewinding.value = false;
+    videoRef.value?.pause();
   }
 };
 
@@ -53,11 +73,40 @@ onMounted(() => {
   titleHeader.value = convertToOriginalFormat(route.params.scope as string);
 });
 
-const handleMouseOver = () => {
+const handleMouseOver = async (section: number) => {
   if (rewindInterval) {
-    clearInterval(rewindInterval); // Stop rewind if hover occurs again
+    clearInterval(rewindInterval);
   }
-  videoRef.value?.play();
+
+  if (currentVideoIndex.value !== section) {
+    currentVideoIndex.value = section;
+
+    if (videoRef.value) {
+      try {
+        videoRef.value.src = videos[currentVideoIndex.value];
+        await videoRef.value.load();
+
+        if (videoRef.value.readyState >= 3) {
+          await videoRef.value.play();
+        } else {
+          videoRef.value.addEventListener(
+            "canplay",
+            async () => {
+              await videoRef.value?.play();
+            },
+            { once: true }
+          );
+        }
+      } catch (err) {
+        console.error("Error playing video:", err);
+      }
+    }
+  } else {
+    if (videoRef.value) {
+      await videoRef.value.play();
+    }
+  }
+
   isRewinding.value = false;
 };
 
@@ -66,7 +115,7 @@ const handleMouseLeave = () => {
     isRewinding.value = true;
     rewindInterval = setInterval(() => {
       if (videoRef.value && videoRef.value.currentTime > 0) {
-        videoRef.value.currentTime -= 0.1; // Rewind by 0.1 seconds
+        videoRef.value.currentTime -= 0.1;
       } else {
         clearInterval(rewindInterval!);
         videoRef.value?.pause();
@@ -76,12 +125,8 @@ const handleMouseLeave = () => {
   }
 };
 
-const handleVideoEnd = () => {
-  isVideoEnded.value = true;
-  if (isRewinding.value) {
-    isRewinding.value = false;
-    videoRef.value?.pause();
-  }
+const toScope = (url: string) => {
+  router.push(`${route.path}/${url}`);
 };
 
 const handleBack = () => {
@@ -91,17 +136,16 @@ const handleBack = () => {
 onMounted(() => {
   disabledBack.value = false;
   disabledNext.value = true;
+  isAddScope.value = false;
+  isFinish.value = false;
+  isRemoveNext.value = false;
+  isStepNavigation.value = false;
   eventBus.on("back", handleBack);
 });
 
 onUnmounted(() => {
   eventBus.off("back", handleBack);
 });
-
-//
-const toCi = () => {
-  router.push(`${route.path}/ci`);
-};
 </script>
 
 <template>
@@ -122,14 +166,14 @@ const toCi = () => {
       ></video>
       <div class="scope-button-home-1">
         <button
-          @mouseover="handleMouseOver"
+          v-for="(item, key) in scope"
+          :key="key"
+          @mouseover="handleMouseOver(key)"
           @mouseleave="handleMouseLeave"
-          @click="toCi"
+          @click="toScope(item.url)"
         >
-          Combustion Inspection
+          {{ item.label }}
         </button>
-        <button>Turbine Inspection</button>
-        <button>Major Inspection</button>
       </div>
       <div class="scope-button-home-2">
         <button>Exhaust Section</button>

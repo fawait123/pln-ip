@@ -58,6 +58,7 @@ const handleVideoEnd = () => {
     videoRef.value?.pause();
   }
 };
+
 const handleMouseOver = async (section: number) => {
   if (rewindInterval) {
     clearInterval(rewindInterval);
@@ -68,11 +69,9 @@ const handleMouseOver = async (section: number) => {
 
     if (videoRef.value) {
       try {
-        // Update source dan pastikan video dapat dimainkan
         videoRef.value.src = videos[currentVideoIndex.value];
         await videoRef.value.load();
 
-        // Pastikan video siap sebelum diputar
         if (videoRef.value.readyState >= 3) {
           await videoRef.value.play();
         } else {
@@ -87,6 +86,10 @@ const handleMouseOver = async (section: number) => {
       } catch (err) {
         console.error("Error playing video:", err);
       }
+    }
+  } else {
+    if (videoRef.value) {
+      await videoRef.value.play();
     }
   }
 
