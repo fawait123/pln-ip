@@ -59,7 +59,6 @@ const save = () => {
 watch(
   () => props.value,
   (val) => {
-    console.log("TESTTT", val);
     if (val) {
       resultNote.value = val.result;
       modelUpload.value = val.file;

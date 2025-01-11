@@ -14,7 +14,6 @@ import {
   TabsTrigger,
 } from "radix-vue";
 import { Input, Icon } from "@/components";
-import { l } from "node_modules/vite/dist/node/types.d-aGj9QkWt";
 
 const props = defineProps({
   value: {
