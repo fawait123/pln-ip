@@ -1,11 +1,12 @@
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
+import ScopeLayout from "@/layouts/ScopeLayout.vue";
 
 export const routeScope = [
   {
     path: "/:id/create/unit/:scope",
     name: "scope",
     component: () => import("@/modules/scope/views/Scope.vue"),
-    meta: { layout: DefaultLayout, requireAuth: true },
+    meta: { layout: ScopeLayout, requireAuth: true },
   },
   {
     path: "/:id/create/unit/:scope/ci",

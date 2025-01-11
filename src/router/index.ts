@@ -4,9 +4,10 @@ import { useAuthStore } from "@/modules/auth/stores/AuthStore";
 import { routeAuth } from "@/modules/auth/router/AuthRouter";
 import { routeScope } from "@/modules/scope/router/ScopeRouter";
 import { routeDashboard } from "@/modules/dashboard/router/DashboardRouter";
+import { routeMain } from "@/modules/main/router/MainRouter";
 // import { api } from "@/api/axios";
 
-const routes = [...routeAuth, ...routeDashboard, ...routeScope];
+const routes = [...routeAuth, ...routeDashboard, ...routeScope, ...routeMain];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

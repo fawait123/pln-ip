@@ -80,16 +80,16 @@ const toReport = () => {
         <div class="user-info">
           <p>User : superadmin@gmail.com</p>
         </div>
-        <button class="menu-button">UBH</button>
         <button
           class="menu-button"
           :class="{ active: route.path.includes('create') }"
           @click="toCreate"
         >
-          Create
+          Generate
         </button>
-        <button class="menu-button">Timeline OH</button>
-        <button class="menu-button" @click="toReport">Report</button>
+        <button class="menu-button">Preview</button>
+        <button class="menu-button">Judgement</button>
+        <!-- <button class="menu-button" @click="toReport">Report</button> -->
         <button class="sign-out-button" @click="logout">Sign Out</button>
       </div>
       <div class="navigation">
