@@ -75,6 +75,58 @@ body {
   @apply mt-2 flex gap-2 justify-end;
 }
 
+.popover-input {
+  @apply w-full flex gap-2 items-center;
+}
+
+.popover-button-trigger {
+  @apply rounded-full bg-buttonGray py-1 px-3 cursor-pointer text-[13px] text-neutral-50 shadow-md shadow-neutral-700;
+}
+
+.popover-button-trigger:hover {
+  @apply bg-cyan-500;
+}
+
+.popover-body {
+  @apply mt-2;
+}
+
+.popover-body-title {
+  @apply text-cyan-500 text-lg font-[900];
+}
+
+.popover-body-list {
+  @apply rounded bg-neutral-100 text-base text-neutral-950 min-h-[50px] px-2 py-1 flex flex-col gap-1 max-h-[120px] overflow-y-scroll;
+}
+
+.popover-body-empty {
+  @apply w-full justify-center items-center py-2 text-base font-bold text-neutral-950 text-center;
+}
+
+.popover-footer {
+  @apply w-full flex justify-end gap-2 mt-4;
+}
+
+.popover-footer > button {
+  @apply min-w-[100px];
+}
+
+.popover-footer--cancel {
+  @apply rounded-full bg-buttonGray py-1 px-3 cursor-pointer text-[13px] text-neutral-50 shadow-md shadow-neutral-700;
+}
+
+.popover-footer--save {
+  @apply rounded-full bg-blue-900 py-1 px-3 cursor-pointer text-[13px] text-neutral-50 shadow-md shadow-neutral-700;
+}
+
+.popover-footer--cancel:hover {
+  @apply bg-neutral-500;
+}
+
+.popover-footer--save:hover {
+  @apply bg-blue-950;
+}
+
 .v-drawer-overlay {
   @apply backdrop-blur-[5px] fixed inset-0 z-30;
   background: rgba(0, 0, 0, 0.2);

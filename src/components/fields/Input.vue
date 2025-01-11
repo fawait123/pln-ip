@@ -235,7 +235,7 @@ const styles = computed(() => {
       paddingRight: props.is_password
         ? "32px"
         : `${width_element_after.value + 16}px`,
-      paddingLeft: "8px",
+      paddingLeft: "12px",
     };
   } else if (
     (props.suffix_icon === "" &&
@@ -245,7 +245,7 @@ const styles = computed(() => {
   ) {
     return {
       paddingLeft: `${width_element_before.value + 16}px`,
-      paddingRight: "8px",
+      paddingRight: "12px",
     };
   } else if (
     (props.suffix_icon !== "" && props.prefix_icon !== "") ||
@@ -261,7 +261,7 @@ const styles = computed(() => {
       paddingLeft: `${width_element_before.value + 16}px`,
     };
   } else {
-    return { paddingRight: "8px", paddingLeft: "8px" };
+    return { paddingRight: "12px", paddingLeft: "12px" };
   }
 });
 
@@ -720,7 +720,7 @@ input[type=number]::-webkit-outer-spin-button
   &--wrapper
     @apply relative
   &--input
-    @apply w-full outline-none text-neutral-950 bg-white
+    @apply w-full outline-none text-neutral-950 bg-white border border-blue-900
     &:-webkit-autofill
       @apply text-neutral-950
       transition: background-color 9999s ease-in-out 0s
