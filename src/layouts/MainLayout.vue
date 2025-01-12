@@ -3,7 +3,7 @@ import { HeaderMain, Footer } from "@/components";
 import Sidebar from "@/components/layouts/Sidebar.vue";
 import { useRoute } from "vue-router";
 
-const imgUrl = new URL("@/assets/images/bg-ci-section.png", import.meta.url)
+const imgUrl = new URL("@/assets/images/bg-main-page.jpg", import.meta.url)
   .href;
 
 const page = ["blok", "unit"];

@@ -111,6 +111,7 @@ watch(Data, (value) => {
       <div class="w-full flex justify-center">
         <AssetWelness
           :value="entity.asset_welness"
+          :label="entity.asset"
           @save="(e) => saveAssetWelness(e, entity)"
         />
       </div>
@@ -119,6 +120,7 @@ watch(Data, (value) => {
       <div class="w-full flex justify-center">
         <FormWithFile
           :value="entity.oh_recom"
+          :label="entity.asset"
           @save="(e) => saveFieldWithFile(e, entity, 'oh_recom')"
         />
       </div>
@@ -127,6 +129,7 @@ watch(Data, (value) => {
       <div class="w-full flex justify-center">
         <FormWithFile
           :value="entity.wo_priority"
+          :label="entity.asset"
           @save="(e) => saveFieldWithFile(e, entity, 'wo_priority')"
         />
       </div>
@@ -135,6 +138,7 @@ watch(Data, (value) => {
       <div class="w-full flex justify-center">
         <FormWithFile
           :value="entity.history"
+          :label="entity.asset"
           @save="(e) => saveFieldWithFile(e, entity, 'history')"
         />
       </div>
@@ -143,6 +147,7 @@ watch(Data, (value) => {
       <div class="w-full flex justify-center">
         <FormWithFile
           :value="entity.rla"
+          :label="entity.asset"
           @save="(e) => saveFieldWithFile(e, entity, 'rla')"
         />
       </div>
@@ -151,6 +156,7 @@ watch(Data, (value) => {
       <div class="w-full flex justify-center">
         <FormWithFile
           :value="entity.etc"
+          :label="entity.asset"
           @save="(e) => saveFieldWithFile(e, entity, 'etc')"
         />
       </div>
