@@ -1,4 +1,5 @@
 import MainLayout from "@/layouts/MainLayout.vue";
+import DefaultLayout from "@/layouts/DefaultLayout.vue";
 
 export const routeMain = [
   {
@@ -42,5 +43,11 @@ export const routeMain = [
     name: "main qc plan",
     component: () => import("@/modules/main/views/QcPlan.vue"),
     meta: { layout: MainLayout, requireAuth: true },
+  },
+  {
+    path: "/:id/create/unit/:scope/squences",
+    name: "main squences",
+    component: () => import("@/modules/scope/views/Sequence.vue"),
+    meta: { layout: DefaultLayout, requireAuth: true },
   },
 ];
