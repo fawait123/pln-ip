@@ -22,6 +22,10 @@ const props = defineProps({
       result: { id: number; note: string }[];
     } | null>,
   },
+  label: {
+    type: String,
+    default: "",
+  },
 });
 
 const emit = defineEmits(["save"]);
@@ -93,7 +97,7 @@ watch(modelOpenInputData, (val) => {
           {
             'button-trigger-active': modelOpenInputData === true,
           },
-          value && value?.color !== '' && value?.result?.length > 0
+          (value && value?.color !== '') || (value && value?.result?.length > 0)
             ? value?.color === 'red'
               ? '!bg-red-500'
               : value?.color === 'yellow'
@@ -105,7 +109,7 @@ watch(modelOpenInputData, (val) => {
         ]"
       >
         {{
-          value && value?.color !== "" && value?.result?.length > 0
+          (value && value?.color !== "") || (value && value?.result?.length > 0)
             ? value.color === "red"
               ? "Red"
               : value.color === "yellow"
@@ -119,7 +123,7 @@ watch(modelOpenInputData, (val) => {
     </PopoverTrigger>
     <PopoverPortal>
       <PopoverContent :side-offset="5" class="popover-content">
-        <p class="popover-title">Cross Flame Tube</p>
+        <p class="popover-title">{{ label }}</p>
         <div class="button-colors">
           <button
             class="button-red"

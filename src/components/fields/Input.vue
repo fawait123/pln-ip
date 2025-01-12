@@ -657,7 +657,7 @@ onMounted(() => {
             :name="prefix_icon"
             :class="classIcon"
           />
-          <div v-if="showPrefix" name="prefix" />
+          <slot v-if="showPrefix" name="prefix" />
         </div>
         <div
           class="pln-input--icon--after"
