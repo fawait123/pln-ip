@@ -9,7 +9,7 @@ export const routeScope = [
     meta: { layout: ScopeLayout, requireAuth: true },
   },
   {
-    path: "/:id/create/unit/:scope/ci",
+    path: "/:id/create/unit/:scope/squences/ci",
     name: "combustion inspection",
     component: () => import("@/modules/scope/views/CI.vue"),
     meta: { layout: DefaultLayout, requireAuth: true },
@@ -40,7 +40,7 @@ export const routeScope = [
     meta: { layout: DefaultLayout, requireAuth: true },
   },
   {
-    path: "/:id/create/unit/:scope/mi",
+    path: "/:id/create/unit/:scope/squences/mi",
     name: "major inspection",
     component: () => import("@/modules/scope/views/MI.vue"),
     meta: { layout: DefaultLayout, requireAuth: true },

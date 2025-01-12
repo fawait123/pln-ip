@@ -2,7 +2,7 @@ export const Menus = [
   {
     id: 1,
     name: "Home",
-    url: "/home",
+    url: "/",
     icon: "home",
   },
   {

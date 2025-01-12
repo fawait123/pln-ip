@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from "vue";
-import { useRoute, useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
+import { useRoute, useRouter } from "vue-router";
 
 import Home0 from "@/assets/videos/home/0-homepage.mp4";
 
@@ -33,12 +33,13 @@ const {
   isStepNavigation,
 } = storeToRefs(globalStore);
 const breadcrumb = ref<BreadcrumbType[]>([]);
-const scopeSelected = ref("");
 
 const currentVideoIndex = ref(0);
 const videoRef = ref<HTMLVideoElement | null>(null);
-const rewindInterval = ref<number | null>(null);
+const isVideoEnded = ref(false);
 const isRewinding = ref(false);
+// let rewindInterval: ReturnType<typeof setInterval> | null = null;
+const rewindInterval = ref<number | null>(null);
 const is_image = ref(true);
 
 const handleFirstVideoLoad = () => {
@@ -47,8 +48,36 @@ const handleFirstVideoLoad = () => {
   }
 };
 
+const handleVideoEnd = () => {
+  isVideoEnded.value = true;
+  if (isRewinding.value) {
+    isRewinding.value = false;
+    videoRef.value?.pause();
+  }
+};
+
+onMounted(() => {
+  breadcrumb.value = [
+    {
+      name: "UBP Priok",
+      as_link: false,
+      url: "",
+    },
+    {
+      name: convertToOriginalFormat(route.params.scope as string),
+      as_link: false,
+      url: "",
+    },
+    {
+      name: "Scope Overhaul",
+      as_link: false,
+      url: "",
+    },
+  ];
+  titleHeader.value = convertToOriginalFormat(route.params.scope as string);
+});
+
 const handleMouseOver = async (section: number) => {
-  if (scopeSelected.value !== "") return;
   is_image.value = false;
 
   if (rewindInterval.value) {
@@ -84,10 +113,6 @@ const handleMouseOver = async (section: number) => {
     }
   }
 
-  // if (rewindInterval.value) {
-  //   clearInterval(rewindInterval.value);
-  // }
-
   // if (currentVideoIndex.value !== section) {
   //   currentVideoIndex.value = section;
 
@@ -117,21 +142,19 @@ const handleMouseOver = async (section: number) => {
   //   }
   // }
 
-  // isRewinding.value = false;
-  // is_image.value = false;
+  isRewinding.value = false;
 };
 
 const handleMouseLeave = () => {
-  if (videoRef.value && scopeSelected.value === "") {
+  if (videoRef.value) {
     isRewinding.value = true;
-    // rewindInterval.value = setInterval(() => {
+    // rewindInterval = setInterval(() => {
     //   if (videoRef.value && videoRef.value.currentTime > 0) {
     //     videoRef.value.currentTime -= 0.1;
     //   } else {
-    //     clearInterval(rewindInterval.value!);
+    //     clearInterval(rewindInterval!);
     //     videoRef.value?.pause();
     //     isRewinding.value = false;
-    //     is_image.value = true;
     //   }
     // }, 30);
     rewindInterval.value = setInterval(() => {
@@ -143,12 +166,12 @@ const handleMouseLeave = () => {
           is_image.value = true; // Switch back to image
         }
       }
-    }, 30);
+    }, 50);
   }
 };
 
 const toScope = (url: string) => {
-  scopeSelected.value = url;
+  router.push(`${route.path}/${url}`);
 };
 
 const handleBack = () => {
@@ -156,24 +179,6 @@ const handleBack = () => {
 };
 
 onMounted(() => {
-  breadcrumb.value = [
-    {
-      name: "UBP Priok",
-      as_link: false,
-      url: "",
-    },
-    {
-      name: convertToOriginalFormat(route.params.scope as string),
-      as_link: false,
-      url: "",
-    },
-    {
-      name: "Scope Overhaul",
-      as_link: false,
-      url: "",
-    },
-  ];
-  titleHeader.value = convertToOriginalFormat(route.params.scope as string);
   disabledBack.value = false;
   disabledNext.value = true;
   isAddScope.value = false;
@@ -181,24 +186,6 @@ onMounted(() => {
   isRemoveNext.value = false;
   isStepNavigation.value = false;
   eventBus.on("back", handleBack);
-
-  window.addEventListener("click", (e) => {
-    let isButtonClicked = false;
-
-    scope.forEach((_, key) => {
-      const button = document.getElementById(`button-home-${key}`);
-      if (button?.contains(e.target as Node)) {
-        isButtonClicked = true;
-      }
-    });
-
-    const scopeMenu = document.getElementById("scope-menu");
-    const isContainsScopeMenu = scopeMenu?.contains(e.target as Node);
-
-    if (!isButtonClicked && !isContainsScopeMenu) {
-      scopeSelected.value = "";
-    }
-  });
 });
 
 onUnmounted(() => {
@@ -223,16 +210,15 @@ onUnmounted(() => {
         :src="videos[currentVideoIndex]"
         class="scope-video"
         @loadedmetadata="handleFirstVideoLoad"
+        @ended="handleVideoEnd"
         autoplay
         muted
         playsinline
       ></video>
-      <div class="scope-button-home">
+      <div class="scope-button-home-1">
         <button
           v-for="(item, key) in scope"
-          :id="`button-home-${key}`"
           :key="key"
-          :class="{ 'scope-button-home--active': scopeSelected === item.url }"
           @mouseover="handleMouseOver(key)"
           @mouseleave="handleMouseLeave"
           @click="toScope(item.url)"
@@ -240,57 +226,31 @@ onUnmounted(() => {
           {{ item.label }}
         </button>
       </div>
-      <div
-        v-show="scopeSelected === 'ci'"
-        id="scope-menu"
-        class="scope-button-menus"
-      >
-        <button class="scope-button-menus--button">Squances</button>
-        <button
-          class="scope-button-menus--button"
-          @click="() => router.push(`${route.path}/scope`)"
-        >
-          Scope
-        </button>
-        <button class="scope-button-menus--button">IK</button>
-        <button class="scope-button-menus--button">Consmat</button>
-        <button class="scope-button-menus--button">Manpower</button>
-        <button class="scope-button-menus--button">Part</button>
-        <button class="scope-button-menus--button">HSE</button>
-        <button class="scope-button-menus--button-last">Add Scope</button>
-      </div>
-      <!-- <div class="scope-button-home-2">
+      <div class="scope-button-home-2">
         <button>Exhaust Section</button>
         <button>Turbine Section</button>
         <button>Combustion Sec</button>
         <button>Compressor Sec</button>
         <button>Inlet Section</button>
         <button>Generator Sec</button>
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
 
 <style lang="sass">
-.scope-button-home
+.scope-button-home-1
   @apply absolute z-[11] flex flex-col gap-2 left-[250px] top-[260px] text-center text-sm text-neutral-50 font-bold
   > button
     @apply bg-buttonGray py-2 w-[200px] rounded shadow-md shadow-neutral-950
     &:hover
       @apply bg-cyan-500
-  &--active
-    @apply bg-cyan-500 !important
 
-.scope-button-menus
-  @apply flex text-sm text-neutral-50 fixed z-[9999] top-[50px] right-0
-  &--button
+.scope-button-home-2
+  @apply flex text-sm text-neutral-50 absolute z-[11] bottom-[120px] left-[50%] translate-x-[-50%]
+  > button
     @apply px-6 py-2 bg-buttonGray w-[150px] mr-[-22px]
     clip-path: polygon(15% 0, 100% 0, 85% 100%, 0% 100%)
     &:hover
-      @apply bg-yellow-500
-  &--button-last
-    @apply px-6 py-2 bg-buttonGray w-[150px]
-    clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%)
-    &:hover
-      @apply bg-yellow-500
+      @apply bg-cyan-500
 </style>

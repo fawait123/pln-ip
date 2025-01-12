@@ -34,64 +34,64 @@ const videos = [
     video: MI1,
     duration: 5500,
     name: "Manhole Turbine Cylinder",
-    top: 147,
-    left: 400,
+    top: 233,
+    left: 550,
   },
   {
     id: 1,
     video: MI2,
     duration: 5500,
     name: "Inlet Duct",
-    top: 145,
-    left: 510,
+    top: 233,
+    left: 660,
   },
   {
     id: 2,
     video: MI3,
     duration: 7500,
     name: "Inlet Manifold",
-    top: 147,
-    left: 480,
+    top: 233,
+    left: 630,
   },
   {
     id: 3,
     video: MI4,
     duration: 4500,
     name: "Cover Coupling",
-    top: 150,
-    left: 470,
+    top: 237,
+    left: 625,
   },
   {
     id: 4,
     video: MI5,
     duration: 5500,
     name: "Vapor Pipe",
-    top: 148,
-    left: 445,
+    top: 237,
+    left: 585,
   },
   {
     id: 5,
     video: MI6,
     duration: 3500,
     name: "Coupling Bolt",
-    top: 148,
-    left: 440,
+    top: 237,
+    left: 585,
   },
   {
     id: 6,
     video: MI7,
     duration: 7500,
     name: "Coupling Spacer",
-    top: 148,
-    left: 370,
+    top: 237,
+    left: 500,
   },
   {
     id: 7,
     video: MI8,
     duration: 5500,
     name: "Black Patch Temperature",
-    top: 148,
-    left: 365,
+    top: 235,
+    left: 505,
   },
 ];
 
@@ -225,7 +225,9 @@ const reverseVideo = () => {
     const prevIndex = currentVideoIndex.value - 1;
 
     if (prevIndex < 0) {
-      router.push(`/${route.params.id}/create/unit/${route.params.scope}`);
+      router.push(
+        `/${route.params.id}/create/unit/${route.params.scope}/squences`
+      );
       return;
     }
 

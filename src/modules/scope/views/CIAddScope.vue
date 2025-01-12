@@ -113,7 +113,7 @@ const handleMouseLeave = () => {
 
 const handleBack = () => {
   router.push(
-    `/${route.params.id}/create/unit/${route.params.scope}/ci?video=27`
+    `/${route.params.id}/create/unit/${route.params.scope}/squences/ci?video=27`
   );
 };
 
@@ -202,10 +202,10 @@ onUnmounted(() => {
 
 <style lang="sass">
 .add-scope-ci
-  @apply absolute z-[11] top-[175px] left-[430px] flex
+  @apply absolute z-[11] top-[285px] left-[450px] flex
   > button
-    @apply px-6 py-1 bg-buttonGray w-[150px] mr-[-22px] h-[inherit] text-xs text-neutral-50
-    clip-path: polygon(15% 0, 100% 0, 85% 100%, 0% 100%)
+    @apply px-6 py-2 bg-buttonGray w-[210px] mr-[-22px] h-[inherit] text-base text-neutral-50
+    clip-path: polygon(13% 0, 100% 0, 87% 100%, 0% 100%)
     &:hover
       @apply bg-cyan-500
 </style>

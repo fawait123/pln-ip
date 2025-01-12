@@ -13,8 +13,18 @@ const route = useRoute();
       <RouterLink
         v-for="(item, key) in Menus"
         :key="key"
-        :to="`/${route.params?.id}/create/unit/${route.params?.scope}${item.url}`"
-        :class="{ 'menu-active': route.path.includes(item.url) }"
+        :to="
+          item.url === '/'
+            ? `/${route.params?.id}/create/unit/${route.params?.scope}`
+            : `/${route.params?.id}/create/unit/${route.params?.scope}${item.url}`
+        "
+        :class="
+          item.url === '/'
+            ? ''
+            : route.path.includes(item.url)
+            ? 'menu-active'
+            : ''
+        "
         class="menu-item"
       >
         <Icon :name="item.icon" class="menu-icon" />
