@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from "vue";
-import { useRoute, useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
+import { useRoute, useRouter } from "vue-router";
 
 import Home0 from "@/assets/videos/home/0-homepage.mp4";
 
@@ -10,8 +10,6 @@ import { Breadcrumb } from "@/components";
 import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 import { convertToOriginalFormat } from "@/helpers/global";
 import eventBus from "@/utils/eventBus";
-
-const imgUrl = new URL("@/assets/images/bg-scope.jpg", import.meta.url).href;
 
 const videos = [Home0, Home0, Home0];
 const scope = [
@@ -37,9 +35,9 @@ const scopeSelected = ref("");
 
 const currentVideoIndex = ref(0);
 const videoRef = ref<HTMLVideoElement | null>(null);
-const rewindInterval = ref<number | null>(null);
+const isVideoEnded = ref(false);
 const isRewinding = ref(false);
-const is_image = ref(true);
+let rewindInterval: ReturnType<typeof setInterval> | null = null;
 
 const handleFirstVideoLoad = () => {
   if (currentVideoIndex.value === 0 && videoRef.value) {
@@ -47,12 +45,40 @@ const handleFirstVideoLoad = () => {
   }
 };
 
+const handleVideoEnd = () => {
+  isVideoEnded.value = true;
+  if (isRewinding.value) {
+    isRewinding.value = false;
+    videoRef.value?.pause();
+  }
+};
+
+onMounted(() => {
+  breadcrumb.value = [
+    {
+      name: "UBP Priok",
+      as_link: false,
+      url: "",
+    },
+    {
+      name: convertToOriginalFormat(route.params.scope as string),
+      as_link: false,
+      url: "",
+    },
+    {
+      name: "Scope Overhaul",
+      as_link: false,
+      url: "",
+    },
+  ];
+  titleHeader.value = convertToOriginalFormat(route.params.scope as string);
+});
+
 const handleMouseOver = async (section: number) => {
   if (scopeSelected.value !== "") return;
-  is_image.value = false;
 
-  if (rewindInterval.value) {
-    clearInterval(rewindInterval.value);
+  if (rewindInterval) {
+    clearInterval(rewindInterval);
   }
 
   if (currentVideoIndex.value !== section) {
@@ -84,63 +110,18 @@ const handleMouseOver = async (section: number) => {
     }
   }
 
-  // if (rewindInterval.value) {
-  //   clearInterval(rewindInterval.value);
-  // }
-
-  // if (currentVideoIndex.value !== section) {
-  //   currentVideoIndex.value = section;
-
-  //   if (videoRef.value) {
-  //     try {
-  //       videoRef.value.src = videos[currentVideoIndex.value];
-  //       await videoRef.value.load();
-
-  //       if (videoRef.value.readyState >= 3) {
-  //         await videoRef.value.play();
-  //       } else {
-  //         videoRef.value.addEventListener(
-  //           "canplay",
-  //           async () => {
-  //             await videoRef.value?.play();
-  //           },
-  //           { once: true }
-  //         );
-  //       }
-  //     } catch (err) {
-  //       console.error("Error playing video:", err);
-  //     }
-  //   }
-  // } else {
-  //   if (videoRef.value) {
-  //     await videoRef.value.play();
-  //   }
-  // }
-
-  // isRewinding.value = false;
-  // is_image.value = false;
+  isRewinding.value = false;
 };
 
 const handleMouseLeave = () => {
   if (videoRef.value && scopeSelected.value === "") {
     isRewinding.value = true;
-    // rewindInterval.value = setInterval(() => {
-    //   if (videoRef.value && videoRef.value.currentTime > 0) {
-    //     videoRef.value.currentTime -= 0.1;
-    //   } else {
-    //     clearInterval(rewindInterval.value!);
-    //     videoRef.value?.pause();
-    //     isRewinding.value = false;
-    //     is_image.value = true;
-    //   }
-    // }, 30);
-    rewindInterval.value = setInterval(() => {
+    rewindInterval = setInterval(() => {
       if (videoRef.value) {
-        videoRef.value.currentTime -= 0.1; // Rewind video in small increments
+        videoRef.value.currentTime -= 0.1;
         if (videoRef.value.currentTime <= 0) {
-          clearInterval(rewindInterval.value || undefined);
+          clearInterval(rewindInterval || undefined);
           videoRef.value.pause();
-          is_image.value = true; // Switch back to image
         }
       }
     }, 30);
@@ -148,6 +129,8 @@ const handleMouseLeave = () => {
 };
 
 const toScope = (url: string) => {
+  console.log(url);
+  // router.push(`${route.path}/${url}`);
   scopeSelected.value = url;
 };
 
@@ -156,24 +139,6 @@ const handleBack = () => {
 };
 
 onMounted(() => {
-  breadcrumb.value = [
-    {
-      name: "UBP Priok",
-      as_link: false,
-      url: "",
-    },
-    {
-      name: convertToOriginalFormat(route.params.scope as string),
-      as_link: false,
-      url: "",
-    },
-    {
-      name: "Scope Overhaul",
-      as_link: false,
-      url: "",
-    },
-  ];
-  titleHeader.value = convertToOriginalFormat(route.params.scope as string);
   disabledBack.value = false;
   disabledNext.value = true;
   isAddScope.value = false;
@@ -197,6 +162,7 @@ onMounted(() => {
 
     if (!isButtonClicked && !isContainsScopeMenu) {
       scopeSelected.value = "";
+      handleMouseLeave();
     }
   });
 });
@@ -212,17 +178,12 @@ onUnmounted(() => {
       <Breadcrumb :items="breadcrumb" />
     </div>
     <div class="scope-video-container">
-      <img
-        v-show="is_image"
-        :src="imgUrl"
-        class="absolute w-full h-full object-fill"
-      />
       <video
-        v-show="!is_image"
         ref="videoRef"
         :src="videos[currentVideoIndex]"
         class="scope-video"
         @loadedmetadata="handleFirstVideoLoad"
+        @ended="handleVideoEnd"
         autoplay
         muted
         playsinline
@@ -273,7 +234,7 @@ onUnmounted(() => {
 
 <style lang="sass">
 .scope-button-home
-  @apply absolute z-[11] flex flex-col gap-2 left-[250px] top-[260px] text-center text-sm text-neutral-50 font-bold
+  @apply absolute z-[11] flex flex-col gap-2 left-[260px] top-[257px] text-center text-sm text-neutral-50 font-bold
   > button
     @apply bg-buttonGray py-2 w-[200px] rounded shadow-md shadow-neutral-950
     &:hover

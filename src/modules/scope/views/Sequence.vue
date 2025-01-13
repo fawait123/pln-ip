@@ -11,8 +11,6 @@ import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 import { convertToOriginalFormat } from "@/helpers/global";
 import eventBus from "@/utils/eventBus";
 
-const imgUrl = new URL("@/assets/images/bg-scope.jpg", import.meta.url).href;
-
 const videos = [Home0, Home0, Home0];
 const scope = [
   { label: "Combustion Inspection", url: "ci" },
@@ -38,9 +36,7 @@ const currentVideoIndex = ref(0);
 const videoRef = ref<HTMLVideoElement | null>(null);
 const isVideoEnded = ref(false);
 const isRewinding = ref(false);
-// let rewindInterval: ReturnType<typeof setInterval> | null = null;
-const rewindInterval = ref<number | null>(null);
-const is_image = ref(true);
+let rewindInterval: ReturnType<typeof setInterval> | null = null;
 
 const handleFirstVideoLoad = () => {
   if (currentVideoIndex.value === 0 && videoRef.value) {
@@ -78,10 +74,8 @@ onMounted(() => {
 });
 
 const handleMouseOver = async (section: number) => {
-  is_image.value = false;
-
-  if (rewindInterval.value) {
-    clearInterval(rewindInterval.value);
+  if (rewindInterval) {
+    clearInterval(rewindInterval);
   }
 
   if (currentVideoIndex.value !== section) {
@@ -157,13 +151,12 @@ const handleMouseLeave = () => {
     //     isRewinding.value = false;
     //   }
     // }, 30);
-    rewindInterval.value = setInterval(() => {
+    rewindInterval = setInterval(() => {
       if (videoRef.value) {
-        videoRef.value.currentTime -= 0.1; // Rewind video in small increments
+        videoRef.value.currentTime -= 0.1;
         if (videoRef.value.currentTime <= 0) {
-          clearInterval(rewindInterval.value || undefined);
+          clearInterval(rewindInterval || undefined);
           videoRef.value.pause();
-          is_image.value = true; // Switch back to image
         }
       }
     }, 50);
@@ -199,13 +192,7 @@ onUnmounted(() => {
       <Breadcrumb :items="breadcrumb" />
     </div>
     <div class="scope-video-container">
-      <img
-        v-show="is_image"
-        :src="imgUrl"
-        class="absolute w-full h-full object-fill"
-      />
       <video
-        v-show="!is_image"
         ref="videoRef"
         :src="videos[currentVideoIndex]"
         class="scope-video"
@@ -240,7 +227,7 @@ onUnmounted(() => {
 
 <style lang="sass">
 .scope-button-home-1
-  @apply absolute z-[11] flex flex-col gap-2 left-[250px] top-[260px] text-center text-sm text-neutral-50 font-bold
+  @apply absolute z-[11] flex flex-col gap-2 left-[260px] top-[257px] text-center text-sm text-neutral-50 font-bold
   > button
     @apply bg-buttonGray py-2 w-[200px] rounded shadow-md shadow-neutral-950
     &:hover
