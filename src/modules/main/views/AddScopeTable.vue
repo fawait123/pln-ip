@@ -99,10 +99,6 @@ const onCreate = (e: string) => {
 const onDelete = (e: ScopeInterface) => {
   Data.value = Data.value.filter((item) => item.id !== e.id);
 };
-
-watch(Data, (value) => {
-  console.log("AAA", value);
-});
 </script>
 
 <template>
@@ -110,7 +106,6 @@ watch(Data, (value) => {
     label-create="Asset"
     :columns="ColumnsScope"
     :entities="Data"
-    :is-create="false"
     @create="onCreate"
   >
     <template #column_asset_welness="{ entity }">

@@ -313,7 +313,10 @@ onUnmounted(() => {
         <button
           class="scope-button-menus--button-last"
           @click="
-            () => router.push(`${route.path}/${scopeSelected}/work-instruction`)
+            () =>
+              router.push(
+                `/${route.params?.id}/create/unit/${route.params?.scope}/${scopeSelected}/add-scope-table`
+              )
           "
         >
           Add Scope
