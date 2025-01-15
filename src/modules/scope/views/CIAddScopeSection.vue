@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, watch } from "vue";
+import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useRouter, useRoute } from "vue-router";
 
@@ -8,20 +8,194 @@ import { Breadcrumb } from "@/components";
 import { useGlobalStore } from "@/stores/GlobalStore";
 import { convertToOriginalFormat } from "@/helpers/global";
 import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
+import ButtonPart from "../components/ButtonPart.vue";
 
-// VIDEO
-import TurbineSection1 from "@/assets/videos/add-scope/turbine-section/turbine-section.mp4";
+// VIDEO INLET
+import InletSection1 from "@/assets/videos/add-scope/inlet-section/1-inlet.mp4";
+import InletSection2 from "@/assets/videos/add-scope/inlet-section/2-inlet.mp4";
+import InletSection3 from "@/assets/videos/add-scope/inlet-section/3-inlet.mp4";
+import InletSection4 from "@/assets/videos/add-scope/inlet-section/4-inlet.mp4";
+import InletSection5 from "@/assets/videos/add-scope/inlet-section/5-inlet.mp4";
 
-const videos = [
-  {
-    id: 0,
-    video: TurbineSection1,
-    duration: 155000,
-    name: "",
-    top: 0,
-    left: 0,
-  },
-];
+// VIDEO COMPRESSOR
+import CompressorSection1 from "@/assets/videos/add-scope/compressor-section/1-compressor.mp4";
+import CompressorSection2 from "@/assets/videos/add-scope/compressor-section/2-compressor.mp4";
+import CompressorSection3 from "@/assets/videos/add-scope/compressor-section/3-compressor.mp4";
+import CompressorSection4 from "@/assets/videos/add-scope/compressor-section/4-compressor.mp4";
+import CompressorSection5 from "@/assets/videos/add-scope/compressor-section/5-compressor.mp4";
+import CompressorSection6 from "@/assets/videos/add-scope/compressor-section/6-compressor.mp4";
+import CompressorSection7 from "@/assets/videos/add-scope/compressor-section/7-compressor.mp4";
+import CompressorSection8 from "@/assets/videos/add-scope/compressor-section/8-compressor.mp4";
+import CompressorSection9 from "@/assets/videos/add-scope/compressor-section/9-compressor.mp4";
+import CompressorSection10 from "@/assets/videos/add-scope/compressor-section/10-compressor.mp4";
+import CompressorSection11 from "@/assets/videos/add-scope/compressor-section/11-compressor.mp4";
+import CompressorSection12 from "@/assets/videos/add-scope/compressor-section/12-compressor.mp4";
+import CompressorSection13 from "@/assets/videos/add-scope/compressor-section/13-compressor.mp4";
+import CompressorSection14 from "@/assets/videos/add-scope/compressor-section/14-compressor.mp4";
+
+const videosData = ref({
+  ["inlet-section"]: [
+    {
+      id: 0,
+      video: InletSection1,
+      duration: 155000,
+      name: "Inlet Duct",
+      top: 235,
+      left: 560,
+    },
+    {
+      id: 1,
+      video: InletSection2,
+      duration: 155000,
+      name: "Inlet manifold",
+      top: 235,
+      left: 530,
+    },
+    {
+      id: 2,
+      video: InletSection3,
+      duration: 155000,
+      name: "Vapour Pipe",
+      top: 230,
+      left: 700,
+    },
+    {
+      id: 3,
+      video: InletSection4,
+      duration: 155000,
+      name: "Casing Upper",
+      top: 235,
+      left: 550,
+    },
+    {
+      id: 4,
+      video: InletSection5,
+      duration: 155000,
+      name: "Seal Housing Upper",
+      top: 235,
+      left: 510,
+    },
+  ],
+  ["compressor-section"]: [
+    {
+      id: 0,
+      video: CompressorSection1,
+      duration: 155000,
+      name: "Inlet Duct",
+      top: 235,
+      left: 560,
+    },
+    {
+      id: 1,
+      video: CompressorSection2,
+      duration: 155000,
+      name: "Inlet manifold",
+      top: 235,
+      left: 530,
+    },
+    {
+      id: 2,
+      video: CompressorSection3,
+      duration: 155000,
+      name: "Vapour Pipe",
+      top: 230,
+      left: 700,
+    },
+    {
+      id: 3,
+      video: CompressorSection4,
+      duration: 155000,
+      name: "Casing Upper",
+      top: 235,
+      left: 550,
+    },
+    {
+      id: 4,
+      video: CompressorSection5,
+      duration: 155000,
+      name: "Seal Housing Upper",
+      top: 235,
+      left: 510,
+    },
+    {
+      id: 5,
+      video: CompressorSection6,
+      duration: 155000,
+      name: "Bleed Pipe",
+      top: 235,
+      left: 410,
+    },
+    {
+      id: 6,
+      video: CompressorSection7,
+      duration: 165000,
+      name: "RCA Pipe",
+      top: 235,
+      left: 550,
+    },
+    {
+      id: 7,
+      video: CompressorSection8,
+      duration: 155000,
+      name: "Compressor Cylinder",
+      top: 235,
+      left: 470,
+    },
+    {
+      id: 8,
+      video: CompressorSection9,
+      duration: 155000,
+      name: "Compressor Vane Row 1 Lower",
+      top: 238,
+      left: 735,
+    },
+    {
+      id: 9,
+      video: CompressorSection10,
+      duration: 155000,
+      name: "Compressor Vane Row 2 Lower",
+      top: 238,
+      left: 730,
+    },
+    {
+      id: 10,
+      video: CompressorSection11,
+      duration: 155000,
+      name: "Compressor Vane Row 3 Lower",
+      top: 235,
+      left: 470,
+    },
+    {
+      id: 11,
+      video: CompressorSection12,
+      duration: 155000,
+      name: "Compressor Vane Row 4 Lower",
+      top: 235,
+      left: 360,
+    },
+    {
+      id: 12,
+      video: CompressorSection13,
+      duration: 155000,
+      name: "Compressor Vane Row 5 Lower",
+      top: 238,
+      left: 360,
+    },
+    {
+      id: 13,
+      video: CompressorSection14,
+      duration: 155000,
+      name: "Compressor Vane Row 6 Lower",
+      top: 235,
+      left: 265,
+    },
+  ],
+});
+
+const route = useRoute();
+const videos: any = computed(() => {
+  return videosData.value[(route.params.section as string) || "inlet-section"];
+});
 
 const currentVideoIndex = ref(0);
 const videoRef = ref<HTMLVideoElement | null>(null);
@@ -31,13 +205,12 @@ const isReversing = ref(false);
 let reverseInterval: number | null = null;
 
 const router = useRouter();
-const route = useRoute();
+
 const globalStore = useGlobalStore();
 const {
   titleHeader,
   disabledNext,
   disabledBack,
-  isFinish,
   isStepNavigation,
   isAddScope,
 } = storeToRefs(globalStore);
@@ -55,14 +228,14 @@ const handleVideoEnd = () => {
   if (toParam) {
     if (currentVideoIndex.value < parseInt(toParam) - 1) {
       isButtonVisible.value = true;
-      // disabledNext.value = false;
-      // disabledBack.value = false;
+      disabledNext.value = false;
+      disabledBack.value = false;
       setTimeout(() => {
         const nextVideo = currentVideoIndex.value + 1;
         currentVideoIndex.value = nextVideo;
         isButtonVisible.value = false;
-        // disabledNext.value = true;
-        // disabledBack.value = true;
+        disabledNext.value = true;
+        disabledBack.value = true;
 
         const url = new URL(window.location.href);
         url.search = `?video=${parseInt(videoParam) + 1}&to=${toParam}`;
@@ -70,20 +243,20 @@ const handleVideoEnd = () => {
       }, 500);
     } else if (currentVideoIndex.value > parseInt(toParam) - 1) {
       isButtonVisible.value = true;
-      // disabledNext.value = false;
-      // disabledBack.value = false;
+      disabledNext.value = false;
+      disabledBack.value = false;
       setTimeout(() => {
         isButtonVisible.value = false;
-        // disabledNext.value = true;
-        // disabledBack.value = true;
+        disabledNext.value = true;
+        disabledBack.value = true;
         if (videoRef.value) {
           reverseInterval = setInterval(reverseVideo, 100);
         }
       }, 500);
     } else if (currentVideoIndex.value === parseInt(toParam) - 1) {
       isButtonVisible.value = true;
-      // disabledNext.value = false;
-      // disabledBack.value = false;
+      disabledNext.value = false;
+      disabledBack.value = false;
 
       const { to, video, ...updatedQuery } = route.query;
       router.replace({
@@ -93,23 +266,23 @@ const handleVideoEnd = () => {
     }
   } else {
     isButtonVisible.value = true;
-    // disabledNext.value = false;
-    // disabledBack.value = false;
+    disabledNext.value = false;
+    disabledBack.value = false;
   }
 };
 
 const initializeVideo = async (index: number, startAtEnd = false) => {
   videoState.value.isTransitioning = true;
   isButtonVisible.value = false;
-  // disabledNext.value = true;
-  // disabledBack.value = true;
+  disabledNext.value = true;
+  disabledBack.value = true;
 
   if (videoRef.value) {
     videoRef.value.pause();
   }
 
   currentVideoIndex.value = index;
-  // isFinish.value = index === videos.length - 1;
+  // isFinish.value = index === videos.value.length - 1;
   // isAddScope.value = index === videos.length - 1;
 
   await new Promise((resolve) => {
@@ -153,9 +326,15 @@ const reverseVideo = () => {
     const prevIndex = currentVideoIndex.value - 1;
 
     if (prevIndex < 0) {
-      router.push(
-        `/${route.params.id}/create/unit/${route.params.scope}/ci/scope`
-      );
+      if (route.name === "main add scope squences section") {
+        router.push(
+          `/${route.params.id}/create/unit/${route.params.scope}/${route.params.menu}/add-scope-squences`
+        );
+      } else {
+        router.push(
+          `/${route.params.id}/create/unit/${route.params.scope}/add-scope`
+        );
+      }
       return;
     }
 
@@ -166,6 +345,41 @@ const reverseVideo = () => {
   }
 
   videoRef.value.currentTime = Math.max(0, videoRef.value.currentTime - 0.1);
+};
+
+const handleBack = () => {
+  if (videoState.value.isTransitioning) return;
+
+  isReversing.value = true;
+  videoState.value.isTransitioning = true;
+  isButtonVisible.value = false;
+  disabledNext.value = true;
+  disabledBack.value = true;
+
+  if (videoRef.value) {
+    reverseInterval = setInterval(reverseVideo, 100);
+  }
+};
+
+const handleNext = async () => {
+  if (
+    videoState.value.isTransitioning ||
+    currentVideoIndex.value >= videos.value.length - 1
+  ) {
+    if (route.name === "main add scope squences section") {
+      router.push(
+        `/${route.params.id}/create/unit/${route.params.scope}/${route.params.menu}/add-scope-squences/${route.params.section}/result`
+      );
+    } else {
+      router.push(
+        `/${route.params.id}/create/unit/${route.params.scope}/add-scope/${route.params.section}/result`
+      );
+    }
+  } else {
+    const nextIndex = currentVideoIndex.value + 1;
+    updateURLParameter(nextIndex);
+    await initializeVideo(nextIndex);
+  }
 };
 
 const handleJumpStep = async (index: number) => {
@@ -181,8 +395,8 @@ const handleJumpStep = async (index: number) => {
 
       const { path } = route;
 
-      // disabledNext.value = true;
-      // disabledBack.value = true;
+      disabledNext.value = true;
+      disabledBack.value = true;
       isButtonVisible.value = false;
 
       if (index > video) {
@@ -204,6 +418,14 @@ const handleJumpStep = async (index: number) => {
   }
 };
 
+const handleStepNavigation = () => {
+  openStep.value = true;
+};
+
+const handleCloseStep = () => {
+  openStep.value = false;
+};
+
 watch(openStep, (value) => {
   if (value) {
     isStepNavigation.value = false;
@@ -218,36 +440,10 @@ const initializeFromURL = async () => {
   const startParam = urlParams.get("start");
   const index = Math.max(
     0,
-    Math.min(parseInt(videoParam, 10) - 1, videos.length - 1)
+    Math.min(parseInt(videoParam, 10) - 1, videos.value.length - 1)
   );
 
   await initializeVideo(index, startParam === "end");
-};
-
-const handleNext = () => {
-  console.log("111");
-  if (route.name === "main add scope squences section") {
-    router.push(
-      `/${route.params.id}/create/unit/${route.params.scope}/${route.params.menu}/add-scope-squences/${route.params.section}/result`
-    );
-  } else {
-    router.push(
-      `/${route.params.id}/create/unit/${route.params.scope}/add-scope/${route.params.section}/result`
-    );
-  }
-};
-
-const handleBack = () => {
-  console.log("222");
-  if (route.name === "main add scope squences section") {
-    router.push(
-      `/${route.params.id}/create/unit/${route.params.scope}/${route.params.menu}/add-scope-squences`
-    );
-  } else {
-    router.push(
-      `/${route.params.id}/create/unit/${route.params.scope}/add-scope`
-    );
-  }
 };
 
 onMounted(() => {
@@ -280,23 +476,24 @@ onMounted(() => {
   ];
   titleHeader.value = convertToOriginalFormat(route.params.section as string);
 
-  disabledNext.value = false;
-  disabledBack.value = false;
-  isFinish.value = false;
-  isStepNavigation.value = false;
-
-  eventBus.on("next", handleNext);
-  eventBus.on("back", handleBack);
-
-  initializeFromURL();
+  disabledNext.value = true;
+  disabledBack.value = true;
+  // isFinish.value = false;
+  isStepNavigation.value = true;
 
   window.addEventListener("popstate", initializeFromURL);
+  eventBus.on("next", handleNext);
+  eventBus.on("back", handleBack);
+  eventBus.on("stepNavigation", handleStepNavigation);
+
+  initializeFromURL();
 });
 
 onUnmounted(() => {
   window.removeEventListener("popstate", initializeFromURL);
   eventBus.off("next", handleNext);
   eventBus.off("back", handleBack);
+  eventBus.off("stepNavigation", handleStepNavigation);
   if (reverseInterval) {
     clearInterval(reverseInterval);
     reverseInterval = null;
@@ -312,13 +509,24 @@ onUnmounted(() => {
     <div class="scope-video-container">
       <video
         ref="videoRef"
-        :src="videos[currentVideoIndex].video"
+        :src="videos[currentVideoIndex]?.video"
         @ended="handleVideoEnd"
         autoplay
         muted
         playsinline
         class="scope-video"
       ></video>
+      <div v-for="(item, key) in videos" :key="key">
+        <div
+          v-if="
+            isButtonVisible && currentVideoIndex === key && item.name !== ''
+          "
+          class="absolute"
+          :style="{ top: `${item.top}px`, left: `${item.left}px` }"
+        >
+          <ButtonPart :text="item.name" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
