@@ -45,4 +45,10 @@ export const routeScope = [
     component: () => import("@/modules/scope/views/MI.vue"),
     meta: { layout: DefaultLayout, requireAuth: true },
   },
+  {
+    path: "/:id/create/unit/:scope/ti/squences",
+    name: "turbine inspection",
+    component: () => import("@/modules/scope/views/TI.vue"),
+    meta: { layout: DefaultLayout, requireAuth: true },
+  },
 ];
