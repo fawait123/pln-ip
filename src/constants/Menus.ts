@@ -60,15 +60,27 @@ export const Menus = [
     icon: "login",
     children: [
       {
-        id: 11,
+        id: 101,
         name: "Table",
         url: "/add-scope-table",
       },
       {
-        id: 12,
+        id: 102,
         name: "Squences",
         url: "/add-scope-squences",
       },
     ],
+  },
+  {
+    id: 11,
+    name: "Preview",
+    url: "/preview",
+    icon: "magnifying-glass",
+  },
+  {
+    id: 12,
+    name: "Results",
+    url: "/results",
+    icon: "document-clean",
   },
 ];

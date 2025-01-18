@@ -1,14 +1,11 @@
 <script setup lang="ts">
-import { useRoute, useRouter } from "vue-router";
-
+import { useRouter } from "vue-router";
 import { useAuthStore } from "@/modules/auth/stores/AuthStore";
 
 const imgUrl = new URL("@/assets/images/logo.png", import.meta.url).href;
 
 const authStore = useAuthStore();
 const router = useRouter();
-const route = useRoute();
-const locationId = route.params.id;
 
 const toHome = () => {
   router.push("/");
@@ -18,14 +15,10 @@ const logout = () => {
   authStore.logout();
   router.push("/login");
 };
-
-const toCreate = () => {
-  router.push(`/${locationId}/create/unit`);
-};
 </script>
 
 <template>
-  <div class="pln-header-scope">
+  <div class="pln-header-user-history">
     <img :src="imgUrl" @click="toHome" />
     <div class="menu-bar">
       <div class="menu-wrapper">
@@ -33,16 +26,7 @@ const toCreate = () => {
           <p>User : superadmin@gmail.com</p>
         </div>
         <button class="menu-button" @click="router.push('/')">Location</button>
-        <button
-          class="menu-button"
-          :class="{ active: route.path.includes('create') }"
-          @click="toCreate"
-        >
-          Planner
-        </button>
-        <button class="menu-button">Preview</button>
-        <button class="menu-button">Expert</button>
-        <!-- <button class="menu-button" @click="toReport">Report</button> -->
+        <button class="menu-button active">User History</button>
         <button class="sign-out-button" @click="logout">Sign Out</button>
       </div>
     </div>
@@ -50,7 +34,7 @@ const toCreate = () => {
 </template>
 
 <style lang="sass">
-.pln-header-scope
+.pln-header-user-history
   @apply w-full h-full flex justify-between
   img
     @apply h-[50px] pl-4 pt-4

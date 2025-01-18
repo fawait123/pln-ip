@@ -27,7 +27,9 @@ const logout = () => {
         </div>
         <button class="menu-button">UBH</button>
         <button class="menu-button active">Location</button>
-        <button class="menu-button">Timeline OH</button>
+        <button class="menu-button" @click="router.push('/user-history')">
+          User History
+        </button>
         <button class="menu-button">Report</button>
         <button class="sign-out-button" @click="logout">Sign Out</button>
       </div>
@@ -55,8 +57,8 @@ const logout = () => {
       .active
         @apply bg-cyan-500
       .sign-out-button
-        @apply px-6 py-2 bg-buttonGray w-[150px]
+        @apply px-6 py-2 bg-red-500 w-[150px]
         clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%)
         &:hover
-          @apply bg-cyan-500
+          @apply bg-red-700
 </style>

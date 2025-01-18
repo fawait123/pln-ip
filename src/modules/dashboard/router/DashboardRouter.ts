@@ -1,5 +1,6 @@
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import MapLayout from "@/layouts/MapLayout.vue";
+import UserHistoryLayout from "@/layouts/UserHistoryLayout.vue";
 
 export const routeDashboard = [
   {
@@ -19,5 +20,11 @@ export const routeDashboard = [
     name: "unit",
     component: () => import("@/modules/dashboard/views/Unit.vue"),
     meta: { layout: DefaultLayout, requireAuth: true },
+  },
+  {
+    path: "/user-history",
+    name: "user history",
+    component: () => import("@/modules/dashboard/views/UserHistory.vue"),
+    meta: { layout: UserHistoryLayout, requireAuth: true },
   },
 ];

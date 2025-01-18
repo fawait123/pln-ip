@@ -51,15 +51,27 @@ export const routeMain = [
     meta: { layout: DefaultLayout, requireAuth: true },
   },
   {
-    path: "/:id/create/unit/:scope/:menu/add-scope-table",
-    name: "main add scope table",
-    component: () => import("@/modules/main/views/AddScopeTable.vue"),
+    path: "/:id/create/unit/:scope/:menu/preview",
+    name: "preview",
+    component: () => import("@/modules/main/views/Preview.vue"),
+    meta: { layout: MainLayout, requireAuth: true },
+  },
+  {
+    path: "/:id/create/unit/:scope/:menu/results",
+    name: "results",
+    component: () => import("@/modules/main/views/Results.vue"),
     meta: { layout: MainLayout, requireAuth: true },
   },
   {
     path: "/:id/create/unit/:scope/:menu/add-scope-squences",
     name: "main add scope squences",
     component: () => import("@/modules/main/views/AddScopeSquences.vue"),
+    meta: { layout: MainLayout, requireAuth: true },
+  },
+  {
+    path: "/:id/create/unit/:scope/:menu/add-scope-table",
+    name: "main add scope table",
+    component: () => import("@/modules/main/views/AddScopeTable.vue"),
     meta: { layout: MainLayout, requireAuth: true },
   },
   {

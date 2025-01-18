@@ -3,9 +3,9 @@ import { onMounted, onUnmounted, ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useRoute, useRouter } from "vue-router";
 import { useGlobalStore } from "@/stores/GlobalStore";
-import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
+// import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 import { convertToOriginalFormat } from "@/helpers/global";
-import { Breadcrumb, Icon } from "@/components";
+import { Icon } from "@/components";
 import eventBus from "@/utils/eventBus";
 import {
   DialogContent,
@@ -107,7 +107,7 @@ const {
   isStepNavigation,
 } = storeToRefs(globalStore);
 
-const breadcrumb = ref<BreadcrumbType[]>([]);
+// const breadcrumb = ref<BreadcrumbType[]>([]);
 const currentVideoIndex = ref(0);
 const videoRef = ref<HTMLVideoElement | null>(null);
 const isButtonVisible = ref(false);
@@ -341,28 +341,28 @@ const initializeFromURL = async () => {
 };
 
 onMounted(() => {
-  breadcrumb.value = [
-    {
-      name: "UBP Priok",
-      as_link: false,
-      url: "",
-    },
-    {
-      name: convertToOriginalFormat(route.params.scope as string),
-      as_link: false,
-      url: "",
-    },
-    {
-      name: "Scope Overhaul",
-      as_link: false,
-      url: "",
-    },
-    {
-      name: "MI",
-      as_link: false,
-      url: "",
-    },
-  ];
+  // breadcrumb.value = [
+  //   {
+  //     name: "UBP Priok",
+  //     as_link: false,
+  //     url: "",
+  //   },
+  //   {
+  //     name: convertToOriginalFormat(route.params.scope as string),
+  //     as_link: false,
+  //     url: "",
+  //   },
+  //   {
+  //     name: "Scope Overhaul",
+  //     as_link: false,
+  //     url: "",
+  //   },
+  //   {
+  //     name: "MI",
+  //     as_link: false,
+  //     url: "",
+  //   },
+  // ];
 
   titleHeader.value = "Major Inspection";
 
@@ -392,9 +392,9 @@ onUnmounted(() => {
 
 <template>
   <div class="scope-container">
-    <div class="scope-breadcrumb">
+    <!-- <div class="scope-breadcrumb">
       <Breadcrumb :items="breadcrumb" />
-    </div>
+    </div> -->
     <div class="scope-video-container">
       <video
         ref="videoRef"

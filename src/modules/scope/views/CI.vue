@@ -3,9 +3,9 @@ import { onMounted, onUnmounted, ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useRoute, useRouter } from "vue-router";
 import { useGlobalStore } from "@/stores/GlobalStore";
-import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
+// import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 import { convertToOriginalFormat } from "@/helpers/global";
-import { Breadcrumb, Icon } from "@/components";
+import { Icon } from "@/components";
 import eventBus from "@/utils/eventBus";
 import {
   DialogContent,
@@ -46,6 +46,7 @@ import CI24 from "@/assets/videos/combustion-inspection/24-black-patch-temperatu
 import CI25 from "@/assets/videos/combustion-inspection/25-fuel-branch-pipe.mp4";
 import CI26 from "@/assets/videos/combustion-inspection/26-flame-igniter.mp4";
 import CI27 from "@/assets/videos/combustion-inspection/27.mp4";
+import Sidebar from "@/components/layouts/Sidebar.vue";
 
 const videos = [
   {
@@ -243,7 +244,7 @@ const {
   isStepNavigation,
 } = storeToRefs(globalStore);
 
-const breadcrumb = ref<BreadcrumbType[]>([]);
+// const breadcrumb = ref<BreadcrumbType[]>([]);
 const currentVideoIndex = ref(0);
 const videoRef = ref<HTMLVideoElement | null>(null);
 const isButtonVisible = ref(false);
@@ -477,28 +478,28 @@ const initializeFromURL = async () => {
 };
 
 onMounted(() => {
-  breadcrumb.value = [
-    {
-      name: "UBP Priok",
-      as_link: false,
-      url: "",
-    },
-    {
-      name: convertToOriginalFormat(route.params.scope as string),
-      as_link: false,
-      url: "",
-    },
-    {
-      name: "Scope Overhaul",
-      as_link: false,
-      url: "",
-    },
-    {
-      name: "CI",
-      as_link: false,
-      url: "",
-    },
-  ];
+  // breadcrumb.value = [
+  //   {
+  //     name: "UBP Priok",
+  //     as_link: false,
+  //     url: "",
+  //   },
+  //   {
+  //     name: convertToOriginalFormat(route.params.scope as string),
+  //     as_link: false,
+  //     url: "",
+  //   },
+  //   {
+  //     name: "Scope Overhaul",
+  //     as_link: false,
+  //     url: "",
+  //   },
+  //   {
+  //     name: "CI",
+  //     as_link: false,
+  //     url: "",
+  //   },
+  // ];
 
   titleHeader.value = "Combustion Inspection";
 
@@ -536,9 +537,12 @@ onUnmounted(() => {
 
 <template>
   <div class="scope-container">
-    <div class="scope-breadcrumb">
-      <Breadcrumb :items="breadcrumb" />
+    <div>
+      <Sidebar />
     </div>
+    <!-- <div class="scope-breadcrumb">
+      <Breadcrumb :items="breadcrumb" />
+    </div> -->
     <div class="scope-video-container">
       <video
         ref="videoRef"

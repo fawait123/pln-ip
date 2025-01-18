@@ -4,7 +4,7 @@ export const ColumnsWorkInstruction: TableColumnType[] = [
   {
     key: "asset",
     label: "Asset",
-    align: "left",
+    align: "center",
     sort: false,
   },
   {
@@ -12,11 +12,13 @@ export const ColumnsWorkInstruction: TableColumnType[] = [
     label: "Add Document",
     align: "center",
     sort: false,
+    width: "150",
   },
   {
     key: "note",
     label: "Note",
     align: "center",
     sort: false,
+    width: "150",
   },
 ];

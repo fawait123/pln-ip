@@ -2,16 +2,116 @@
 import {
   AssetWelness,
   ButtonDots,
+  ButtonOptions,
   FormWithFile,
   Icon,
   Table,
 } from "@/components";
 import { ColumnsScope } from "../constants/ScopeConstant";
-import type { ScopeInterface } from "../types/ScopeType";
 import { ref, watch } from "vue";
 import type { ValueUploadType } from "@/components/fields/Upload.vue";
+import type { AddScopeTableInterface } from "../types/AddScopeTableType";
 
-const Data = ref<ScopeInterface[]>([
+const DataChildren = [
+  {
+    id: 1,
+    name: "Diassembly",
+    material: "",
+    duration: "",
+    manpower: "",
+    ik: "",
+    qc_plan: "",
+    part: "",
+  },
+  {
+    id: 2,
+    name: "Inspection",
+    material: "",
+    duration: "",
+    manpower: "",
+    ik: "",
+    qc_plan: "",
+    part: "",
+  },
+  {
+    id: 3,
+    name: "Assembly",
+    material: "",
+    duration: "",
+    manpower: "",
+    ik: "",
+    qc_plan: "",
+    part: "",
+  },
+];
+
+const OptionsMaterial = ref([
+  {
+    label: "Material A",
+    value: "Material A",
+  },
+  {
+    label: "Material B",
+    value: "Material B",
+  },
+]);
+
+const OptionsDuration = ref([
+  {
+    label: "Duration A",
+    value: "Duration A",
+  },
+  {
+    label: "Duration B",
+    value: "Duration B",
+  },
+]);
+
+const OptionsManpower = ref([
+  {
+    label: "Manpower A",
+    value: "Manpower A",
+  },
+  {
+    label: "Manpower B",
+    value: "Manpower B",
+  },
+]);
+
+const OptionsIk = ref([
+  {
+    label: "IK A",
+    value: "IK A",
+  },
+  {
+    label: "IK B",
+    value: "IK B",
+  },
+]);
+
+const OptionsQcPlan = ref([
+  {
+    label: "QC Plan A",
+    value: "QC Plan A",
+  },
+  {
+    label: "QC Plan B",
+    value: "QC Plan B",
+  },
+]);
+
+const OptionsPart = ref([
+  {
+    label: "Part A",
+    value: "Part A",
+  },
+  {
+    label: "Part B",
+    value: "Part B",
+  },
+]);
+
+const Data = ref<AddScopeTableInterface[]>([
   {
     id: 1,
     asset: "Vane Row 1",
@@ -21,12 +121,24 @@ const Data = ref<ScopeInterface[]>([
     history: null,
     rla: null,
     etc: null,
+    children: DataChildren,
+  },
+  {
+    id: 2,
+    asset: "Vane Row 2",
+    asset_welness: null,
+    oh_recom: null,
+    wo_priority: null,
+    history: null,
+    rla: null,
+    etc: null,
+    children: DataChildren,
   },
 ]);
 
 const saveAssetWelness = (
   e: { color: string; result: { id: number; note: string }[] },
-  entity: ScopeInterface
+  entity: AddScopeTableInterface
 ) => {
   const duplicate_data = [...Data.value];
   const find_index = Data.value.findIndex((item) => item.id === entity.id);
@@ -42,7 +154,7 @@ const saveAssetWelness = (
 
 const saveFieldWithFile = (
   e: { result: { id: number; note: string }[]; file: ValueUploadType[] },
-  entity: ScopeInterface,
+  entity: AddScopeTableInterface,
   field: string
 ) => {
   const duplicate_data = [...Data.value];
@@ -91,14 +203,48 @@ const onCreate = (e: string) => {
     history: null,
     rla: null,
     etc: null,
+    children: DataChildren,
   });
 
   Data.value = new_data;
 };
 
-const onDelete = (e: ScopeInterface) => {
+const onDelete = (e: AddScopeTableInterface) => {
   Data.value = Data.value.filter((item) => item.id !== e.id);
 };
+
+const clickOptions = (
+  parentIndex: number,
+  childIndex: number,
+  value: string,
+  field: "material" | "duration" | "manpower" | "ik" | "qc_plan" | "part"
+) => {
+  const new_data = Data.value.map((parent) => ({
+    ...parent,
+    children: parent.children.map((child) => ({ ...child })),
+  }));
+
+  if (field === "material")
+    new_data[parentIndex].children[childIndex].material = value;
+  if (field === "duration")
+    new_data[parentIndex].children[childIndex].duration = value;
+  if (field === "manpower")
+    new_data[parentIndex].children[childIndex].manpower = value;
+  if (field === "ik") new_data[parentIndex].children[childIndex].ik = value;
+  if (field === "qc_plan")
+    new_data[parentIndex].children[childIndex].qc_plan = value;
+  if (field === "part") new_data[parentIndex].children[childIndex].part = value;
+
+  Data.value = new_data;
+};
+
+watch(
+  Data,
+  (value) => {
+    console.log("AA", value);
+  },
+  { deep: true }
+);
 </script>
 
 <template>
@@ -167,6 +313,74 @@ const onDelete = (e: ScopeInterface) => {
         <ButtonDots />
         <Icon name="trash" class="table-delete" @click="onDelete(entity)" />
       </div>
+    </template>
+    <template #children="{ entity, index, parentActive }">
+      <tr
+        v-if="parentActive === index"
+        v-for="(child, childIndex) in entity.children"
+        :key="childIndex"
+      >
+        <td
+          v-for="(column, id) in ColumnsScope"
+          :key="`column.${index.toString() + id.toString()}`"
+          class="td-child"
+        >
+          <div v-if="id === 0" class="v-table-body">
+            <p class="v-table-body-text pl-11">
+              {{ child.name }}
+            </p>
+          </div>
+          <div v-if="id === 1" class="v-table-body flex justify-center">
+            <ButtonOptions
+              placeholder="Material"
+              :options="OptionsMaterial"
+              :value="Data[index].children[childIndex].material"
+              @select="(e) => clickOptions(index, childIndex, e, 'material')"
+            />
+          </div>
+          <div v-if="id === 2" class="v-table-body flex justify-center">
+            <ButtonOptions
+              placeholder="Duration"
+              :options="OptionsDuration"
+              :value="Data[index].children[childIndex].duration"
+              @select="(e) => clickOptions(index, childIndex, e, 'duration')"
+            />
+          </div>
+          <div v-if="id === 3" class="v-table-body flex justify-center">
+            <ButtonOptions
+              placeholder="Manpower"
+              :options="OptionsManpower"
+              :value="Data[index].children[childIndex].manpower"
+              @select="(e) => clickOptions(index, childIndex, e, 'manpower')"
+            />
+          </div>
+          <div v-if="id === 4" class="v-table-body flex justify-center">
+            <ButtonOptions
+              placeholder="IK"
+              :options="OptionsIk"
+              :value="Data[index].children[childIndex].ik"
+              @select="(e) => clickOptions(index, childIndex, e, 'ik')"
+            />
+          </div>
+          <div v-if="id === 5" class="v-table-body flex justify-center">
+            <ButtonOptions
+              placeholder="QC Plan"
+              :options="OptionsQcPlan"
+              :value="Data[index].children[childIndex].qc_plan"
+              @select="(e) => clickOptions(index, childIndex, e, 'qc_plan')"
+            />
+          </div>
+          <div v-if="id === 6" class="v-table-body flex justify-center">
+            <ButtonOptions
+              placeholder="Part"
+              :options="OptionsPart"
+              :value="Data[index].children[childIndex].part"
+              @select="(e) => clickOptions(index, childIndex, e, 'part')"
+            />
+          </div>
+        </td>
+        <td class="td-child w-[5%]"></td>
+      </tr>
     </template>
   </Table>
   <!-- <p class="font-bold text-black text-2xl">TEST</p> -->
