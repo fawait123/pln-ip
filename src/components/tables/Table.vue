@@ -39,6 +39,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  isSearch: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emit = defineEmits([
@@ -52,16 +56,18 @@ const emit = defineEmits([
 ]);
 
 const open_create = ref(false);
+const expandedRow = ref<number | null>(null);
 
-const styleWidthHeader = (width: string | number | undefined) => {
-  if (width !== undefined) {
-    return {
-      width:
-        typeof width === "number"
-          ? `${width}px`
-          : `${width.replace("px", "")}px`,
-    };
-  }
+const styleWidthHeader = (column: TableColumnType) => {
+  return {
+    width:
+      column.width !== undefined
+        ? typeof column.width === "number"
+          ? `${column.width}px`
+          : `${column.width.replace("px", "")}px`
+        : undefined,
+    textAlign: column.align !== undefined ? column.align : undefined,
+  };
 };
 
 const styleTitle = (align: string) => {
@@ -81,6 +87,10 @@ const styleTitle = (align: string) => {
   }
 };
 
+const toggleRow = (index: number) => {
+  expandedRow.value = expandedRow.value === index ? null : index;
+};
+
 const rowClick = (item: any, index: number) => {
   if (props.rowClickable) {
     emit("rowClick", { entity: item, index: index });
@@ -96,13 +106,18 @@ defineSlots<{
   [key: `header_${string}`]: (props: {
     header: TableColumnType | null;
   }) => VNode;
+  children: (props: {
+    entity: T;
+    index: number;
+    parentActive: number | null;
+  }) => VNode;
 }>();
 </script>
 
 <template>
   <div class="v-table">
-    <div class="v-table--head">
-      <div class="v-table-search">
+    <div v-if="isSearch || isCreate" class="v-table--head">
+      <div v-if="isSearch" class="v-table-search">
         <Input
           rounded="full"
           size="sm"
@@ -124,7 +139,8 @@ defineSlots<{
               <th
                 v-for="(column, index) in columns"
                 :key="index"
-                :style="styleWidthHeader(column.width)"
+                :style="styleWidthHeader(column)"
+                class="px-3 py-1.5"
               >
                 <div class="v-table-th-group" :style="styleTitle(column.align)">
                   <slot :name="`header_${column.key}`" :header="column">
@@ -138,45 +154,99 @@ defineSlots<{
             </tr>
           </thead>
           <tbody>
-            <tr
+            <template
               v-for="(entity, index) in entities"
               :key="`entity.${index}`"
-              :class="[{ 'row-clickable': rowClickable }, 'row-table']"
-              @click="rowClick(entity, index)"
             >
-              <td
-                v-for="(column, id) in columns"
-                :key="`column.${index.toString() + id.toString()}`"
+              <tr
+                :class="[{ 'row-clickable': rowClickable }, 'row-table']"
+                @click="rowClick(entity, index)"
               >
-                <div class="v-table-body">
-                  <slot
-                    :name="`column_${column.key}`"
-                    :entity="entity"
-                    :index="index"
-                  >
-                    <div :style="styleTitle(column.align)">
-                      <p
-                        class="v-table-body-text"
-                        :title="(entity as any)?.[column.key]"
+                <td
+                  v-for="(column, id) in columns"
+                  :key="`column.${index.toString() + id.toString()}`"
+                >
+                  <div class="v-table-body">
+                    <slot
+                      :name="`column_${column.key}`"
+                      :entity="entity"
+                      :index="index"
+                    >
+                      <div
+                        class="flex items-center gap-4"
+                        :style="styleTitle(column.align)"
                       >
-                        {{ getValueByKey(entity, column.key) || "-" }}
-                      </p>
+                        <Icon
+                          v-if="(entity as any)?.children"
+                          name="caret-down"
+                          class="cursor-pointer text-base transition-all duration-300"
+                          :class="{ 'rotate-180': expandedRow === index }"
+                          @click.stop="toggleRow(index)"
+                        />
+                        <p
+                          class="v-table-body-text"
+                          :title="(entity as any)?.[column.key]"
+                        >
+                          {{ getValueByKey(entity, column.key) || "-" }}
+                        </p>
+                      </div>
+                    </slot>
+                  </div>
+                </td>
+                <td v-if="isAction" :class="`w-[5%]`">
+                  <div class="v-table-body">
+                    <slot name="column_action" :entity="entity" :index="index">
+                      <Icon
+                        name="trash"
+                        class="table-delete"
+                        @click="() => $emit('delete', entity)"
+                      />
+                    </slot>
+                  </div>
+                </td>
+              </tr>
+              <slot
+                :name="'children'"
+                :entity="entity"
+                :index="index"
+                :parentActive="expandedRow"
+              />
+              <!-- <template
+                v-if="expandedRow === index"
+                v-for="(child, childIndex) in (entity as any)?.children"
+              >
+                <tr>
+                  <td
+                    v-for="(column, id) in columns"
+                    :key="`column.${index.toString() + id.toString()}`"
+                    class="td-child"
+                  >
+                    <div class="v-table-body">
+                      <slot
+                        :name="`column_child_${column.key}`"
+                        :parentEntity="entity"
+                        :childEntity="child"
+                        :parentIndex="index"
+                        :childIndex="childIndex"
+                      >
+                        <div
+                          class="flex items-center gap-4"
+                          :style="styleTitle(column.align)"
+                        >
+                          <p
+                            class="v-table-body-text"
+                            :title="(child as any)?.[column.key]"
+                          >
+                            {{ getValueByKey(entity, column.key) || "-" }}
+                          </p>
+                        </div>
+                      </slot>
                     </div>
-                  </slot>
-                </div>
-              </td>
-              <td v-if="isAction" :class="`w-[5%]`">
-                <div class="v-table-body">
-                  <slot name="column_action" :entity="entity" :index="index">
-                    <Icon
-                      name="trash"
-                      class="table-delete"
-                      @click="() => $emit('delete', entity)"
-                    />
-                  </slot>
-                </div>
-              </td>
-            </tr>
+                  </td>
+                  <td v-if="isAction" class="td-child w-[5%]"></td>
+                </tr>
+              </template> -->
+            </template>
           </tbody>
         </table>
       </div>
@@ -190,7 +260,7 @@ defineSlots<{
   &--head
     @apply flex justify-between items-center gap-5
     .v-table-search
-      @apply max-w-[350px]
+      @apply w-[25%]
   &--body
     .v-table-wrapper
       @apply overflow-x-auto
@@ -215,4 +285,6 @@ defineSlots<{
                 @apply rounded-r-lg
               .table-delete
                 @apply text-neutral-50 cursor-pointer w-fit
+            .td-child
+              @apply bg-neutral-700/50
 </style>

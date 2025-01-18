@@ -86,10 +86,10 @@ const toReport = () => {
           :class="{ active: route.path.includes('create') }"
           @click="toCreate"
         >
-          Generate
+          Planner
         </button>
         <button class="menu-button">Preview</button>
-        <button class="menu-button">Judgement</button>
+        <button class="menu-button">Expert</button>
         <!-- <button class="menu-button" @click="toReport">Report</button> -->
         <button class="sign-out-button" @click="logout">Sign Out</button>
       </div>
@@ -162,10 +162,10 @@ const toReport = () => {
       .active
         @apply bg-cyan-500
       .sign-out-button
-        @apply px-6 py-2 bg-buttonGray w-[150px]
+        @apply px-6 py-2 bg-red-500 w-[150px]
         clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%)
         &:hover
-          @apply bg-cyan-500
+          @apply bg-red-700
 
     .navigation
       @apply flex items-center gap-2 justify-end

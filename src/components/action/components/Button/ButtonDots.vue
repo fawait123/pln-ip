@@ -22,7 +22,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["squences", "drawing"]);
+const emit = defineEmits(["squences", "drawing", "detail"]);
 
 const modelOpenInputData = ref(false);
 
@@ -32,6 +32,10 @@ const squences = () => {
 
 const drawing = () => {
   emit("drawing");
+};
+
+const detail = () => {
+  emit("detail");
 };
 </script>
 
@@ -49,6 +53,9 @@ const drawing = () => {
         </button>
         <button class="popover-content-dots--drawing" @click="drawing">
           Drawing
+        </button>
+        <button class="popover-content-dots--drawing" @click="detail">
+          Detail
         </button>
       </PopoverContent>
     </PopoverPortal>

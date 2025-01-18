@@ -11,6 +11,7 @@ import HeaderDefault from "@/components/layouts/HeaderDefault.vue";
 import HeaderMap from "@/components/layouts/HeaderMap.vue";
 import HeaderScope from "@/components/layouts/HeaderScope.vue";
 import HeaderMain from "@/components/layouts/HeaderMain.vue";
+import HeaderUserHistory from "@/components/layouts/HeaderUserHistory.vue";
 import Footer from "@/components/layouts/Footer.vue";
 import Template from "@/components/structures/Template.vue";
 import ButtonPopover from "@/components/action/ButtonPopover.vue";
@@ -24,6 +25,7 @@ import Quantity from "@/components/action/components/Button/Quantity.vue";
 import Volume from "@/components/action/components/Button/Volume.vue";
 import Modal from "@/components/overlays/Modal.vue";
 import ButtonDots from "@/components/action/components/Button/ButtonDots.vue";
+import ButtonOptions from "@/components/action/components/Button/ButtonOptions.vue";
 
 export {
   Icon,
@@ -40,6 +42,7 @@ export {
   HeaderMap,
   HeaderScope,
   HeaderMain,
+  HeaderUserHistory,
   Footer,
   Template,
   Table,
@@ -52,4 +55,5 @@ export {
   Volume,
   Modal,
   ButtonDots,
+  ButtonOptions,
 };

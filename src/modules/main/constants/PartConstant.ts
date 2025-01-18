@@ -4,7 +4,7 @@ export const ColumnsPart: TableColumnType[] = [
   {
     key: "part",
     label: "Main Part",
-    align: "left",
+    align: "center",
     sort: false,
   },
   {
@@ -12,23 +12,27 @@ export const ColumnsPart: TableColumnType[] = [
     label: "",
     align: "center",
     sort: false,
+    width: "150",
   },
   {
     key: "quantity",
     label: "Quantity",
     align: "center",
     sort: false,
+    width: "150",
   },
   {
     key: "volume",
     label: "Volume",
     align: "center",
     sort: false,
+    width: "150",
   },
   {
     key: "note",
     label: "Note",
     align: "center",
     sort: false,
+    width: "150",
   },
 ];

@@ -186,7 +186,7 @@ watch(modelOpenInputData, (val) => {
 
 <style lang="sass">
 .button-trigger
-  @apply bg-transparent border border-neutral-50 rounded-lg px-2 min-w-[100px] text-base text-neutral-50 hover:bg-cyan-500
+  @apply bg-transparent border border-neutral-50 rounded-lg px-2 min-w-[120px] text-base text-neutral-50 hover:bg-cyan-500
 
 .button-trigger-active
   @apply bg-cyan-500

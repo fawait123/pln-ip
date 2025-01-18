@@ -16,57 +16,22 @@ import {
 import { Input } from "@/components";
 import { numbers_positive_negative } from "@/helpers/global";
 
-const Options = {
-  material: [
-    {
-      label: "Can",
-      value: "Can",
-    },
-    {
-      label: "Kg",
-      value: "Kg",
-    },
-    {
-      label: "Pcs",
-      value: "Pcs",
-    },
-    {
-      label: "Set",
-      value: "Set",
-    },
-    {
-      label: "Batang",
-      value: "Batang",
-    },
-    {
-      label: "Box",
-      value: "Box",
-    },
-  ],
-  part: [
-    {
-      label: "Pcs",
-      value: "Pcs",
-    },
-    {
-      label: "Set",
-      value: "Set",
-    },
-  ],
-};
-
 const props = defineProps({
+  options: {
+    type: Array as PropType<{ label: string; value: string }[]>,
+    required: true,
+  },
+  placeholder: {
+    type: String,
+    default: "",
+  },
   value: {
     type: String,
     default: "",
   },
-  type: {
-    type: String as PropType<"material" | "part">,
-    default: "material",
-  },
 });
 
-const emit = defineEmits(["save"]);
+const emit = defineEmits(["select", "save"]);
 
 const modelOpenInputData = ref(false);
 
@@ -75,13 +40,13 @@ const cancel = () => {
 };
 
 const clickItem = (e: string) => {
-  emit("save", { volume: e });
+  emit("select", e);
   cancel();
 };
 
 const classOptionsItem = (e: string) => {
   if (e === props.value) {
-    return "popover-options-volume-item-active";
+    return "popover-button-options-item-active";
   }
 };
 </script>
@@ -97,17 +62,17 @@ const classOptionsItem = (e: string) => {
           },
         ]"
       >
-        {{ value !== "" ? value : "+" }}
+        {{ value !== "" ? value : placeholder }}
       </button>
     </PopoverTrigger>
     <PopoverPortal>
-      <PopoverContent :side-offset="5" class="popover-content-volume">
-        <div class="popover-options-volume">
+      <PopoverContent :side-offset="5" class="popover-button-options-content">
+        <div class="popover-button-options">
           <p
-            v-for="(item, key) in Options[type]"
+            v-for="(item, key) in options"
             :key="key"
             :class="classOptionsItem(item.value)"
-            class="popover-options-volume-item"
+            class="popover-button-options-item"
             @click="() => clickItem(item.value)"
           >
             {{ item.label }}
@@ -120,18 +85,18 @@ const classOptionsItem = (e: string) => {
 
 <style lang="sass">
 .button-trigger
-  @apply bg-transparent border border-neutral-50 rounded-lg px-2 min-w-[120px] text-base text-neutral-50
+  @apply bg-transparent border border-neutral-50 rounded-lg px-2 min-w-[100px] text-base text-neutral-50
   &:hover
     @apply bg-cyan-500
 .button-trigger-active
   @apply bg-cyan-500
 
-.popover-content-volume
+.popover-button-options-content
   @apply rounded mx-4 px-2 py-2 min-w-[200px] bg-white shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)] will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade
-  .popover-options-volume
+  .popover-button-options
     @apply flex flex-col gap-1
-    .popover-options-volume-item
+    .popover-button-options-item
       @apply text-base text-neutral-950 hover:text-cyan-500 cursor-pointer
-    .popover-options-volume-item-active
+    .popover-button-options-item-active
       @apply text-cyan-500
 </style>

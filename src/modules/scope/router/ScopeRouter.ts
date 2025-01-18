@@ -9,12 +9,6 @@ export const routeScope = [
     meta: { layout: ScopeLayout, requireAuth: true },
   },
   {
-    path: "/:id/create/unit/:scope/ci/squences",
-    name: "combustion inspection",
-    component: () => import("@/modules/scope/views/CI.vue"),
-    meta: { layout: DefaultLayout, requireAuth: true },
-  },
-  {
     path: "/:id/create/unit/:scope/add-scope",
     name: "combustion inspection add scope",
     component: () => import("@/modules/scope/views/CIAddScope.vue"),
@@ -39,16 +33,22 @@ export const routeScope = [
     component: () => import("@/modules/scope/views/CIResult.vue"),
     meta: { layout: DefaultLayout, requireAuth: true },
   },
-  {
-    path: "/:id/create/unit/:scope/mi/squences",
-    name: "major inspection",
-    component: () => import("@/modules/scope/views/MI.vue"),
-    meta: { layout: DefaultLayout, requireAuth: true },
-  },
-  {
-    path: "/:id/create/unit/:scope/ti/squences",
-    name: "turbine inspection",
-    component: () => import("@/modules/scope/views/TI.vue"),
-    meta: { layout: DefaultLayout, requireAuth: true },
-  },
+  // {
+  //   path: "/:id/create/unit/:scope/ci/squences",
+  //   name: "combustion inspection",
+  //   component: () => import("@/modules/scope/views/CI.vue"),
+  //   meta: { layout: DefaultLayout, requireAuth: true },
+  // },
+  // {
+  //   path: "/:id/create/unit/:scope/mi/squences",
+  //   name: "major inspection",
+  //   component: () => import("@/modules/scope/views/MI.vue"),
+  //   meta: { layout: DefaultLayout, requireAuth: true },
+  // },
+  // {
+  //   path: "/:id/create/unit/:scope/ti/squences",
+  //   name: "turbine inspection",
+  //   component: () => import("@/modules/scope/views/TI.vue"),
+  //   meta: { layout: DefaultLayout, requireAuth: true },
+  // },
 ];

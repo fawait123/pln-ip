@@ -3,9 +3,9 @@ import { onMounted, onUnmounted, ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useRoute, useRouter } from "vue-router";
 import { useGlobalStore } from "@/stores/GlobalStore";
-import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
+// import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 import { convertToOriginalFormat } from "@/helpers/global";
-import { Breadcrumb, Icon } from "@/components";
+import { Icon } from "@/components";
 import eventBus from "@/utils/eventBus";
 import {
   DialogContent,
@@ -30,22 +30,6 @@ import CI8 from "@/assets/videos/combustion-inspection/8-top-hat.mp4";
 import CI9 from "@/assets/videos/combustion-inspection/9-fuel-nozzle.mp4";
 import CI10 from "@/assets/videos/combustion-inspection/10-combuster-basket.mp4";
 import CI11 from "@/assets/videos/combustion-inspection/11-top-hat.mp4";
-import CI12 from "@/assets/videos/combustion-inspection/12-u-support.mp4";
-import CI13 from "@/assets/videos/combustion-inspection/13-bypass-elbow.mp4";
-import CI14 from "@/assets/videos/combustion-inspection/14-transition-piece.mp4";
-import CI15 from "@/assets/videos/combustion-inspection/15.mp4";
-import CI16 from "@/assets/videos/combustion-inspection/16-transition-piece.mp4";
-import CI17 from "@/assets/videos/combustion-inspection/17-u-support.mp4";
-import CI18 from "@/assets/videos/combustion-inspection/18-bypass-elbow.mp4";
-import CI19 from "@/assets/videos/combustion-inspection/19-top-hat.mp4";
-import CI20 from "@/assets/videos/combustion-inspection/20-cross-flame-tube.mp4";
-import CI21 from "@/assets/videos/combustion-inspection/21-flame-detector.mp4";
-import CI22 from "@/assets/videos/combustion-inspection/22-manhole-turbine.mp4";
-import CI23 from "@/assets/videos/combustion-inspection/23-discavity-temperature.mp4";
-import CI24 from "@/assets/videos/combustion-inspection/24-black-patch-temperature.mp4";
-import CI25 from "@/assets/videos/combustion-inspection/25-fuel-branch-pipe.mp4";
-import CI26 from "@/assets/videos/combustion-inspection/26-flame-igniter.mp4";
-import CI27 from "@/assets/videos/combustion-inspection/27.mp4";
 
 const videos = [
   {
@@ -136,7 +120,7 @@ const {
   isStepNavigation,
 } = storeToRefs(globalStore);
 
-const breadcrumb = ref<BreadcrumbType[]>([]);
+// const breadcrumb = ref<BreadcrumbType[]>([]);
 const currentVideoIndex = ref(0);
 const videoRef = ref<HTMLVideoElement | null>(null);
 const isButtonVisible = ref(false);
@@ -370,28 +354,28 @@ const initializeFromURL = async () => {
 };
 
 onMounted(() => {
-  breadcrumb.value = [
-    {
-      name: "UBP Priok",
-      as_link: false,
-      url: "",
-    },
-    {
-      name: convertToOriginalFormat(route.params.scope as string),
-      as_link: false,
-      url: "",
-    },
-    {
-      name: "Scope Overhaul",
-      as_link: false,
-      url: "",
-    },
-    {
-      name: "TI",
-      as_link: false,
-      url: "",
-    },
-  ];
+  // breadcrumb.value = [
+  //   {
+  //     name: "UBP Priok",
+  //     as_link: false,
+  //     url: "",
+  //   },
+  //   {
+  //     name: convertToOriginalFormat(route.params.scope as string),
+  //     as_link: false,
+  //     url: "",
+  //   },
+  //   {
+  //     name: "Scope Overhaul",
+  //     as_link: false,
+  //     url: "",
+  //   },
+  //   {
+  //     name: "TI",
+  //     as_link: false,
+  //     url: "",
+  //   },
+  // ];
 
   titleHeader.value = "Turbine Inspection";
 
@@ -429,9 +413,10 @@ onUnmounted(() => {
 
 <template>
   <div class="scope-container">
-    <div class="scope-breadcrumb">
+    <!-- <div class="scope-breadcrumb">
       <Breadcrumb :items="breadcrumb" />
-    </div>
+    </div> -->
+    <div></div>
     <div class="scope-video-container">
       <video
         ref="videoRef"

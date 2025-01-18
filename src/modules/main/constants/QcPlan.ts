@@ -4,7 +4,7 @@ export const ColumnsQcPlan: TableColumnType[] = [
   {
     key: "name",
     label: "QC Plan Document",
-    align: "left",
+    align: "center",
     sort: false,
   },
   {
@@ -12,11 +12,13 @@ export const ColumnsQcPlan: TableColumnType[] = [
     label: "Add Document",
     align: "center",
     sort: false,
+    width: "150",
   },
   {
     key: "note",
     label: "Note",
     align: "center",
     sort: false,
+    width: "150",
   },
 ];
