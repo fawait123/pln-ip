@@ -15,6 +15,7 @@ import {
   DialogTitle,
   VisuallyHidden,
 } from "radix-vue";
+import Sidebar from "@/components/layouts/Sidebar.vue";
 
 import ButtonPart from "../components/ButtonPart.vue";
 
@@ -46,7 +47,6 @@ import CI24 from "@/assets/videos/combustion-inspection/24-black-patch-temperatu
 import CI25 from "@/assets/videos/combustion-inspection/25-fuel-branch-pipe.mp4";
 import CI26 from "@/assets/videos/combustion-inspection/26-flame-igniter.mp4";
 import CI27 from "@/assets/videos/combustion-inspection/27.mp4";
-import Sidebar from "@/components/layouts/Sidebar.vue";
 
 // VIDEO MI
 import MI1 from "@/assets/videos/major-inspection/1-manhole-turbine-cylinder.mp4";
