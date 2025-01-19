@@ -36,72 +36,60 @@ import CICompressorSection13 from "@/assets/videos/add-scope/compressor-section/
 import CICompressorSection14 from "@/assets/videos/add-scope/compressor-section/14-compressor.mp4";
 
 // VIDEO GENERATOR
-import CIGeneratorSection1 from "@/assets/videos/add-scope/generator-section/1-cover-bearing-5.mp4";
-import CIGeneratorSection2 from "@/assets/videos/add-scope/generator-section/2-turning-device.mp4";
-import CIGeneratorSection3 from "@/assets/videos/add-scope/generator-section/3-base-plate-turning-device.mp4";
-import CIGeneratorSection4 from "@/assets/videos/add-scope/generator-section/4-cover-coupling-lower.mp4";
-import CIGeneratorSection5 from "@/assets/videos/add-scope/generator-section/5-air-seal-cover-exciter.mp4";
-import CIGeneratorSection6 from "@/assets/videos/add-scope/generator-section/6-cover-exciter.mp4";
-import CIGeneratorSection7 from "@/assets/videos/add-scope/generator-section/7-cover-bearing-5.mp4";
-import CIGeneratorSection8 from "@/assets/videos/add-scope/generator-section/8-bearing-5.mp4";
-import CIGeneratorSection9 from "@/assets/videos/add-scope/generator-section/9-pedestal-bearing-5.mp4";
-import CIGeneratorSection10 from "@/assets/videos/add-scope/generator-section/10-cover-fan-outer-seal.mp4";
-import CIGeneratorSection11 from "@/assets/videos/add-scope/generator-section/11-brush.mp4";
-import CIGeneratorSection12 from "@/assets/videos/add-scope/generator-section/12-brush-rigging.mp4";
-import CIGeneratorSection13 from "@/assets/videos/add-scope/generator-section/13-base-plate-bearing 5.mp4";
-import CIGeneratorSection14 from "@/assets/videos/add-scope/generator-section/14-outer-oil-deflector-nde.mp4";
-import CIGeneratorSection15 from "@/assets/videos/add-scope/generator-section/15-upper-outer-braket-nde.mp4";
-import CIGeneratorSection16 from "@/assets/videos/add-scope/generator-section/16-upper-bearing-4.mp4";
-import CIGeneratorSection17 from "@/assets/videos/add-scope/generator-section/17-outer-oil-deflector-de.mp4";
-import CIGeneratorSection18 from "@/assets/videos/add-scope/generator-section/18-upper-outer-bracket-nde.mp4";
-import CIGeneratorSection19 from "@/assets/videos/add-scope/generator-section/19-upper-bearing-3.mp4";
-import CIGeneratorSection20 from "@/assets/videos/add-scope/generator-section/20-lower-bearing-4.mp4";
+import GeneratorSection1 from "@/assets/videos/add-scope/generator-section/1-cover-bearing-5.mp4";
+import GeneratorSection2 from "@/assets/videos/add-scope/generator-section/2-turning-device.mp4";
+import GeneratorSection3 from "@/assets/videos/add-scope/generator-section/3-base-plate-turning-device.mp4";
+import GeneratorSection4 from "@/assets/videos/add-scope/generator-section/4-cover-coupling-lower.mp4";
+import GeneratorSection5 from "@/assets/videos/add-scope/generator-section/5-air-seal-cover-exciter.mp4";
+import GeneratorSection6 from "@/assets/videos/add-scope/generator-section/6-cover-exciter.mp4";
+import GeneratorSection7 from "@/assets/videos/add-scope/generator-section/7-cover-bearing-5.mp4";
+import GeneratorSection8 from "@/assets/videos/add-scope/generator-section/8-bearing-5.mp4";
+import GeneratorSection9 from "@/assets/videos/add-scope/generator-section/9-pedestal-bearing-5.mp4";
+import GeneratorSection10 from "@/assets/videos/add-scope/generator-section/10-cover-fan-outer-seal.mp4";
+import GeneratorSection11 from "@/assets/videos/add-scope/generator-section/11-brush.mp4";
+import GeneratorSection12 from "@/assets/videos/add-scope/generator-section/12-brush-rigging.mp4";
+import GeneratorSection13 from "@/assets/videos/add-scope/generator-section/13-base-plate-bearing 5.mp4";
+import GeneratorSection14 from "@/assets/videos/add-scope/generator-section/14-outer-oil-deflector-nde.mp4";
+import GeneratorSection15 from "@/assets/videos/add-scope/generator-section/15-upper-outer-braket-nde.mp4";
+import GeneratorSection16 from "@/assets/videos/add-scope/generator-section/16-upper-bearing-4.mp4";
+import GeneratorSection17 from "@/assets/videos/add-scope/generator-section/17-outer-oil-deflector-de.mp4";
+import GeneratorSection18 from "@/assets/videos/add-scope/generator-section/18-upper-outer-bracket-nde.mp4";
+import GeneratorSection19 from "@/assets/videos/add-scope/generator-section/19-upper-bearing-3.mp4";
+import GeneratorSection20 from "@/assets/videos/add-scope/generator-section/20-lower-bearing-4.mp4";
+import GeneratorSection21 from "@/assets/videos/add-scope/generator-section/21-lower-outer-bracket-nde.mp4";
+import GeneratorSection22 from "@/assets/videos/add-scope/generator-section/22-lower-bearing-3.mp4";
+import GeneratorSection23 from "@/assets/videos/add-scope/generator-section/23-lower-outer-bracket-nde.mp4";
+import GeneratorSection24 from "@/assets/videos/add-scope/generator-section/24-rotor-generator.mp4";
+import GeneratorSection25 from "@/assets/videos/add-scope/generator-section/25-rotor-generator.mp4";
+import GeneratorSection26 from "@/assets/videos/add-scope/generator-section/26-lower-outer-bracket-nde.mp4";
+import GeneratorSection27 from "@/assets/videos/add-scope/generator-section/27-lower-bearing-3.mp4";
+import GeneratorSection28 from "@/assets/videos/add-scope/generator-section/28-lower-outer-bracket-nde.mp4";
+import GeneratorSection29 from "@/assets/videos/add-scope/generator-section/29-lower-bearing-4.mp4";
+import GeneratorSection30 from "@/assets/videos/add-scope/generator-section/30-upper-bearing-4.mp4";
+import GeneratorSection31 from "@/assets/videos/add-scope/generator-section/31-upper-outer-bracket-nde.mp4";
+import GeneratorSection32 from "@/assets/videos/add-scope/generator-section/32-upper-bearing-3.mp4";
+import GeneratorSection33 from "@/assets/videos/add-scope/generator-section/33-upper-outer-bracket-nde.mp4";
+import GeneratorSection34 from "@/assets/videos/add-scope/generator-section/34-outer-oil-deflector-de.mp4";
+import GeneratorSection35 from "@/assets/videos/add-scope/generator-section/35-outer-oil-deflector-nde.mp4";
+import GeneratorSection36 from "@/assets/videos/add-scope/generator-section/36-base-plate-bearing-5.mp4";
+import GeneratorSection37 from "@/assets/videos/add-scope/generator-section/37-brush-rigging.mp4";
+import GeneratorSection38 from "@/assets/videos/add-scope/generator-section/38-brush.mp4";
+import GeneratorSection39 from "@/assets/videos/add-scope/generator-section/39-cover-fan-outer-seal.mp4";
+import GeneratorSection40 from "@/assets/videos/add-scope/generator-section/40-pedestal-bearing-5.mp4";
+import GeneratorSection41 from "@/assets/videos/add-scope/generator-section/41-bearing-5.mp4";
+import GeneratorSection42 from "@/assets/videos/add-scope/generator-section/42-cover-bearing-5.mp4";
+import GeneratorSection43 from "@/assets/videos/add-scope/generator-section/43-cover-exciter.mp4";
+import GeneratorSection44 from "@/assets/videos/add-scope/generator-section/44-air-seal-cover-exciter.mp4";
+import GeneratorSection45 from "@/assets/videos/add-scope/generator-section/45-base-plate-turning-device.mp4";
+import GeneratorSection46 from "@/assets/videos/add-scope/generator-section/46-housing-coupling-turning-device.mp4";
+import GeneratorSection47 from "@/assets/videos/add-scope/generator-section/47-turning-device.mp4";
+import GeneratorSection48 from "@/assets/videos/add-scope/generator-section/48-cover-coupling-turning-device.mp4";
 
 // TI
 // VIDEO GENERATOR
-import TIGeneratorSection1 from "@/assets/videos/add-scope/generator-section/1-cover-bearing-5.mp4";
-import TIGeneratorSection2 from "@/assets/videos/add-scope/generator-section/2-turning-device.mp4";
-import TIGeneratorSection3 from "@/assets/videos/add-scope/generator-section/3-base-plate-turning-device.mp4";
-import TIGeneratorSection4 from "@/assets/videos/add-scope/generator-section/4-cover-coupling-lower.mp4";
-import TIGeneratorSection5 from "@/assets/videos/add-scope/generator-section/5-air-seal-cover-exciter.mp4";
-import TIGeneratorSection6 from "@/assets/videos/add-scope/generator-section/6-cover-exciter.mp4";
-import TIGeneratorSection7 from "@/assets/videos/add-scope/generator-section/7-cover-bearing-5.mp4";
-import TIGeneratorSection8 from "@/assets/videos/add-scope/generator-section/8-bearing-5.mp4";
-import TIGeneratorSection9 from "@/assets/videos/add-scope/generator-section/9-pedestal-bearing-5.mp4";
-import TIGeneratorSection10 from "@/assets/videos/add-scope/generator-section/10-cover-fan-outer-seal.mp4";
-import TIGeneratorSection11 from "@/assets/videos/add-scope/generator-section/11-brush.mp4";
-import TIGeneratorSection12 from "@/assets/videos/add-scope/generator-section/12-brush-rigging.mp4";
-import TIGeneratorSection13 from "@/assets/videos/add-scope/generator-section/13-base-plate-bearing 5.mp4";
-import TIGeneratorSection14 from "@/assets/videos/add-scope/generator-section/14-outer-oil-deflector-nde.mp4";
-import TIGeneratorSection15 from "@/assets/videos/add-scope/generator-section/15-upper-outer-braket-nde.mp4";
-import TIGeneratorSection16 from "@/assets/videos/add-scope/generator-section/16-upper-bearing-4.mp4";
-import TIGeneratorSection17 from "@/assets/videos/add-scope/generator-section/17-outer-oil-deflector-de.mp4";
-import TIGeneratorSection18 from "@/assets/videos/add-scope/generator-section/18-upper-outer-bracket-nde.mp4";
-import TIGeneratorSection19 from "@/assets/videos/add-scope/generator-section/19-upper-bearing-3.mp4";
-import TIGeneratorSection20 from "@/assets/videos/add-scope/generator-section/20-lower-bearing-4.mp4";
 
 // MI
 // VIDEO GENERATOR
-import MIGeneratorSection1 from "@/assets/videos/add-scope/generator-section/1-cover-bearing-5.mp4";
-import MIGeneratorSection2 from "@/assets/videos/add-scope/generator-section/2-turning-device.mp4";
-import MIGeneratorSection3 from "@/assets/videos/add-scope/generator-section/3-base-plate-turning-device.mp4";
-import MIGeneratorSection4 from "@/assets/videos/add-scope/generator-section/4-cover-coupling-lower.mp4";
-import MIGeneratorSection5 from "@/assets/videos/add-scope/generator-section/5-air-seal-cover-exciter.mp4";
-import MIGeneratorSection6 from "@/assets/videos/add-scope/generator-section/6-cover-exciter.mp4";
-import MIGeneratorSection7 from "@/assets/videos/add-scope/generator-section/7-cover-bearing-5.mp4";
-import MIGeneratorSection8 from "@/assets/videos/add-scope/generator-section/8-bearing-5.mp4";
-import MIGeneratorSection9 from "@/assets/videos/add-scope/generator-section/9-pedestal-bearing-5.mp4";
-import MIGeneratorSection10 from "@/assets/videos/add-scope/generator-section/10-cover-fan-outer-seal.mp4";
-import MIGeneratorSection11 from "@/assets/videos/add-scope/generator-section/11-brush.mp4";
-import MIGeneratorSection12 from "@/assets/videos/add-scope/generator-section/12-brush-rigging.mp4";
-import MIGeneratorSection13 from "@/assets/videos/add-scope/generator-section/13-base-plate-bearing 5.mp4";
-import MIGeneratorSection14 from "@/assets/videos/add-scope/generator-section/14-outer-oil-deflector-nde.mp4";
-import MIGeneratorSection15 from "@/assets/videos/add-scope/generator-section/15-upper-outer-braket-nde.mp4";
-import MIGeneratorSection16 from "@/assets/videos/add-scope/generator-section/16-upper-bearing-4.mp4";
-import MIGeneratorSection17 from "@/assets/videos/add-scope/generator-section/17-outer-oil-deflector-de.mp4";
-import MIGeneratorSection18 from "@/assets/videos/add-scope/generator-section/18-upper-outer-bracket-nde.mp4";
-import MIGeneratorSection19 from "@/assets/videos/add-scope/generator-section/19-upper-bearing-3.mp4";
-import MIGeneratorSection20 from "@/assets/videos/add-scope/generator-section/20-lower-bearing-4.mp4";
 
 // MI
 const videosData = ref({
@@ -265,7 +253,7 @@ const videosData = ref({
     ["generator-section"]: [
       {
         id: 0,
-        video: CIGeneratorSection1,
+        video: GeneratorSection1,
         duration: 155000,
         name: "Cover Bearing 5",
         top: 235,
@@ -273,7 +261,7 @@ const videosData = ref({
       },
       {
         id: 1,
-        video: CIGeneratorSection2,
+        video: GeneratorSection2,
         duration: 155000,
         name: "Turning Device",
         top: 233,
@@ -281,7 +269,7 @@ const videosData = ref({
       },
       {
         id: 2,
-        video: CIGeneratorSection3,
+        video: GeneratorSection3,
         duration: 155000,
         name: "Base Plate Turning Device",
         top: 235,
@@ -289,7 +277,7 @@ const videosData = ref({
       },
       {
         id: 3,
-        video: CIGeneratorSection4,
+        video: GeneratorSection4,
         duration: 155000,
         name: "Cover Coupling Lower",
         top: 235,
@@ -297,7 +285,7 @@ const videosData = ref({
       },
       {
         id: 4,
-        video: CIGeneratorSection5,
+        video: GeneratorSection5,
         duration: 155000,
         name: "Air Seal Cover Exciter",
         top: 235,
@@ -305,7 +293,7 @@ const videosData = ref({
       },
       {
         id: 5,
-        video: CIGeneratorSection6,
+        video: GeneratorSection6,
         duration: 155000,
         name: "Cover Exciter",
         top: 235,
@@ -313,7 +301,7 @@ const videosData = ref({
       },
       {
         id: 6,
-        video: CIGeneratorSection7,
+        video: GeneratorSection7,
         duration: 155000,
         name: "Cover Bearing 5",
         top: 235,
@@ -321,7 +309,7 @@ const videosData = ref({
       },
       {
         id: 7,
-        video: CIGeneratorSection8,
+        video: GeneratorSection8,
         duration: 155000,
         name: "Bearing 5",
         top: 240,
@@ -329,7 +317,7 @@ const videosData = ref({
       },
       {
         id: 8,
-        video: CIGeneratorSection9,
+        video: GeneratorSection9,
         duration: 155000,
         name: "Pedestal Bearing 5",
         top: 235,
@@ -337,7 +325,7 @@ const videosData = ref({
       },
       {
         id: 9,
-        video: CIGeneratorSection10,
+        video: GeneratorSection10,
         duration: 155000,
         name: "Cover Fan Outer Seal",
         top: 235,
@@ -345,7 +333,7 @@ const videosData = ref({
       },
       {
         id: 10,
-        video: CIGeneratorSection11,
+        video: GeneratorSection11,
         duration: 155000,
         name: "Brush",
         top: 238,
@@ -353,7 +341,7 @@ const videosData = ref({
       },
       {
         id: 11,
-        video: CIGeneratorSection12,
+        video: GeneratorSection12,
         duration: 155000,
         name: "Brush Rigging",
         top: 236,
@@ -361,7 +349,7 @@ const videosData = ref({
       },
       {
         id: 12,
-        video: CIGeneratorSection13,
+        video: GeneratorSection13,
         duration: 155000,
         name: "Base Plate Bearing 5",
         top: 235,
@@ -369,7 +357,7 @@ const videosData = ref({
       },
       {
         id: 13,
-        video: CIGeneratorSection14,
+        video: GeneratorSection14,
         duration: 155000,
         name: "Outer Oil Deflector NDE",
         top: 235,
@@ -377,7 +365,7 @@ const videosData = ref({
       },
       {
         id: 14,
-        video: CIGeneratorSection15,
+        video: GeneratorSection15,
         duration: 155000,
         name: "Upper Outer Braket NDE",
         top: 238,
@@ -385,7 +373,7 @@ const videosData = ref({
       },
       {
         id: 15,
-        video: CIGeneratorSection16,
+        video: GeneratorSection16,
         duration: 155000,
         name: "Upper Bearing 4",
         top: 235,
@@ -393,7 +381,7 @@ const videosData = ref({
       },
       {
         id: 16,
-        video: CIGeneratorSection17,
+        video: GeneratorSection17,
         duration: 155000,
         name: "Outer Oil Deflector DE",
         top: 235,
@@ -401,7 +389,7 @@ const videosData = ref({
       },
       {
         id: 17,
-        video: CIGeneratorSection18,
+        video: GeneratorSection18,
         duration: 155000,
         name: "Upper Outer Bracket NDE",
         top: 235,
@@ -409,7 +397,7 @@ const videosData = ref({
       },
       {
         id: 18,
-        video: CIGeneratorSection19,
+        video: GeneratorSection19,
         duration: 155000,
         name: "Upper Bearing 3",
         top: 235,
@@ -417,11 +405,235 @@ const videosData = ref({
       },
       {
         id: 19,
-        video: CIGeneratorSection20,
+        video: GeneratorSection20,
         duration: 155000,
         name: "Lower Bearing 4",
         top: 235,
         left: 660,
+      },
+      {
+        id: 20,
+        video: GeneratorSection21,
+        duration: 155000,
+        name: "Lower Outer Bracket NDE",
+        top: 238,
+        left: 590,
+      },
+      {
+        id: 21,
+        video: GeneratorSection22,
+        duration: 155000,
+        name: "Lower Bearing 3",
+        top: 238,
+        left: 580,
+      },
+      {
+        id: 22,
+        video: GeneratorSection23,
+        duration: 155000,
+        name: "Lower Outer Bracket NDE",
+        top: 236,
+        left: 535,
+      },
+      {
+        id: 23,
+        video: GeneratorSection24,
+        duration: 155000,
+        name: "Rotor Generator",
+        top: 236,
+        left: 740,
+      },
+      {
+        id: 24,
+        video: GeneratorSection25,
+        duration: 155000,
+        name: "Rotor Generator",
+        top: 238,
+        left: 700,
+      },
+      {
+        id: 25,
+        video: GeneratorSection26,
+        duration: 155000,
+        name: "Lower Outer Bracket NDE",
+        top: 238,
+        left: 595,
+      },
+      {
+        id: 26,
+        video: GeneratorSection27,
+        duration: 155000,
+        name: "Lower Bearing 3",
+        top: 237,
+        left: 580,
+      },
+      {
+        id: 27,
+        video: GeneratorSection28,
+        duration: 155000,
+        name: "Lower Outer Bracket NDE",
+        top: 236,
+        left: 590,
+      },
+      {
+        id: 28,
+        video: GeneratorSection29,
+        duration: 155000,
+        name: "Lower Bearing 4",
+        top: 236,
+        left: 660,
+      },
+      {
+        id: 29,
+        video: GeneratorSection30,
+        duration: 155000,
+        name: "Upper Bearing 4",
+        top: 236,
+        left: 660,
+      },
+      {
+        id: 30,
+        video: GeneratorSection31,
+        duration: 155000,
+        name: "Upper Outer Bracket NDE",
+        top: 235,
+        left: 560,
+      },
+      {
+        id: 31,
+        video: GeneratorSection32,
+        duration: 155000,
+        name: "Upper Bearing 3",
+        top: 236,
+        left: 580,
+      },
+      {
+        id: 32,
+        video: GeneratorSection33,
+        duration: 155000,
+        name: "Upper Outer Bracket NDE",
+        top: 236,
+        left: 560,
+      },
+      {
+        id: 33,
+        video: GeneratorSection34,
+        duration: 155000,
+        name: "Outer Oil Deflector DE",
+        top: 236,
+        left: 620,
+      },
+      {
+        id: 34,
+        video: GeneratorSection35,
+        duration: 155000,
+        name: "Outer Oil Deflector NDE",
+        top: 236,
+        left: 615,
+      },
+      {
+        id: 35,
+        video: GeneratorSection36,
+        duration: 155000,
+        name: "Base Plate Bearing 5",
+        top: 236,
+        left: 580,
+      },
+      {
+        id: 36,
+        video: GeneratorSection37,
+        duration: 155000,
+        name: "Brush Rigging",
+        top: 236,
+        left: 660,
+      },
+      {
+        id: 37,
+        video: GeneratorSection38,
+        duration: 155000,
+        name: "Brush",
+        top: 236,
+        left: 710,
+      },
+      {
+        id: 38,
+        video: GeneratorSection39,
+        duration: 155000,
+        name: "Cover Fan Outer Seal",
+        top: 235,
+        left: 570,
+      },
+      {
+        id: 39,
+        video: GeneratorSection40,
+        duration: 155000,
+        name: "Pedestal Bearing 5",
+        top: 235,
+        left: 570,
+      },
+      {
+        id: 40,
+        video: GeneratorSection41,
+        duration: 155000,
+        name: "Bearing 5",
+        top: 240,
+        left: 630,
+      },
+      {
+        id: 41,
+        video: GeneratorSection42,
+        duration: 155000,
+        name: "Cover Bearing 5",
+        top: 236,
+        left: 585,
+      },
+      {
+        id: 42,
+        video: GeneratorSection43,
+        duration: 155000,
+        name: "Cover Exciter",
+        top: 235,
+        left: 590,
+      },
+      {
+        id: 43,
+        video: GeneratorSection44,
+        duration: 155000,
+        name: "Air Seal Cover Exciter",
+        top: 235,
+        left: 530,
+      },
+      {
+        id: 44,
+        video: GeneratorSection45,
+        duration: 155000,
+        name: "Base Plate Turning Device",
+        top: 237,
+        left: 415,
+      },
+      {
+        id: 45,
+        video: GeneratorSection46,
+        duration: 155000,
+        name: "Housing Coupling Turning Device",
+        top: 235,
+        left: 470,
+      },
+      {
+        id: 46,
+        video: GeneratorSection47,
+        duration: 155000,
+        name: "Turning Device",
+        top: 233,
+        left: 545,
+      },
+      {
+        id: 47,
+        video: GeneratorSection48,
+        duration: 155000,
+        name: "Cover Coupling Turning Device",
+        top: 235,
+        left: 465,
       },
     ],
   },
@@ -429,7 +641,7 @@ const videosData = ref({
     ["generator-section"]: [
       {
         id: 0,
-        video: MIGeneratorSection1,
+        video: GeneratorSection1,
         duration: 155000,
         name: "Cover Bearing 5",
         top: 235,
@@ -437,7 +649,7 @@ const videosData = ref({
       },
       {
         id: 1,
-        video: MIGeneratorSection2,
+        video: GeneratorSection2,
         duration: 155000,
         name: "Turning Device",
         top: 233,
@@ -445,7 +657,7 @@ const videosData = ref({
       },
       {
         id: 2,
-        video: MIGeneratorSection3,
+        video: GeneratorSection3,
         duration: 155000,
         name: "Base Plate Turning Device",
         top: 235,
@@ -453,7 +665,7 @@ const videosData = ref({
       },
       {
         id: 3,
-        video: MIGeneratorSection4,
+        video: GeneratorSection4,
         duration: 155000,
         name: "Cover Coupling Lower",
         top: 235,
@@ -461,7 +673,7 @@ const videosData = ref({
       },
       {
         id: 4,
-        video: MIGeneratorSection5,
+        video: GeneratorSection5,
         duration: 155000,
         name: "Air Seal Cover Exciter",
         top: 235,
@@ -469,7 +681,7 @@ const videosData = ref({
       },
       {
         id: 5,
-        video: MIGeneratorSection6,
+        video: GeneratorSection6,
         duration: 155000,
         name: "Cover Exciter",
         top: 235,
@@ -477,7 +689,7 @@ const videosData = ref({
       },
       {
         id: 6,
-        video: MIGeneratorSection7,
+        video: GeneratorSection7,
         duration: 155000,
         name: "Cover Bearing 5",
         top: 235,
@@ -485,7 +697,7 @@ const videosData = ref({
       },
       {
         id: 7,
-        video: MIGeneratorSection8,
+        video: GeneratorSection8,
         duration: 155000,
         name: "Bearing 5",
         top: 240,
@@ -493,7 +705,7 @@ const videosData = ref({
       },
       {
         id: 8,
-        video: MIGeneratorSection9,
+        video: GeneratorSection9,
         duration: 155000,
         name: "Pedestal Bearing 5",
         top: 235,
@@ -501,7 +713,7 @@ const videosData = ref({
       },
       {
         id: 9,
-        video: MIGeneratorSection10,
+        video: GeneratorSection10,
         duration: 155000,
         name: "Cover Fan Outer Seal",
         top: 235,
@@ -509,7 +721,7 @@ const videosData = ref({
       },
       {
         id: 10,
-        video: MIGeneratorSection11,
+        video: GeneratorSection11,
         duration: 155000,
         name: "Brush",
         top: 238,
@@ -517,7 +729,7 @@ const videosData = ref({
       },
       {
         id: 11,
-        video: MIGeneratorSection12,
+        video: GeneratorSection12,
         duration: 155000,
         name: "Brush Rigging",
         top: 236,
@@ -525,7 +737,7 @@ const videosData = ref({
       },
       {
         id: 12,
-        video: MIGeneratorSection13,
+        video: GeneratorSection13,
         duration: 155000,
         name: "Base Plate Bearing 5",
         top: 235,
@@ -533,7 +745,7 @@ const videosData = ref({
       },
       {
         id: 13,
-        video: MIGeneratorSection14,
+        video: GeneratorSection14,
         duration: 155000,
         name: "Outer Oil Deflector NDE",
         top: 235,
@@ -541,7 +753,7 @@ const videosData = ref({
       },
       {
         id: 14,
-        video: MIGeneratorSection15,
+        video: GeneratorSection15,
         duration: 155000,
         name: "Upper Outer Braket NDE",
         top: 238,
@@ -549,7 +761,7 @@ const videosData = ref({
       },
       {
         id: 15,
-        video: MIGeneratorSection16,
+        video: GeneratorSection16,
         duration: 155000,
         name: "Upper Bearing 4",
         top: 235,
@@ -557,7 +769,7 @@ const videosData = ref({
       },
       {
         id: 16,
-        video: MIGeneratorSection17,
+        video: GeneratorSection17,
         duration: 155000,
         name: "Outer Oil Deflector DE",
         top: 235,
@@ -565,7 +777,7 @@ const videosData = ref({
       },
       {
         id: 17,
-        video: MIGeneratorSection18,
+        video: GeneratorSection18,
         duration: 155000,
         name: "Upper Outer Bracket NDE",
         top: 235,
@@ -573,7 +785,7 @@ const videosData = ref({
       },
       {
         id: 18,
-        video: MIGeneratorSection19,
+        video: GeneratorSection19,
         duration: 155000,
         name: "Upper Bearing 3",
         top: 235,
@@ -581,11 +793,235 @@ const videosData = ref({
       },
       {
         id: 19,
-        video: MIGeneratorSection20,
+        video: GeneratorSection20,
         duration: 155000,
         name: "Lower Bearing 4",
         top: 235,
         left: 660,
+      },
+      {
+        id: 20,
+        video: GeneratorSection21,
+        duration: 155000,
+        name: "Lower Outer Bracket NDE",
+        top: 238,
+        left: 590,
+      },
+      {
+        id: 21,
+        video: GeneratorSection22,
+        duration: 155000,
+        name: "Lower Bearing 3",
+        top: 238,
+        left: 580,
+      },
+      {
+        id: 22,
+        video: GeneratorSection23,
+        duration: 155000,
+        name: "Lower Outer Bracket NDE",
+        top: 236,
+        left: 535,
+      },
+      {
+        id: 23,
+        video: GeneratorSection24,
+        duration: 155000,
+        name: "Rotor Generator",
+        top: 236,
+        left: 740,
+      },
+      {
+        id: 24,
+        video: GeneratorSection25,
+        duration: 155000,
+        name: "Rotor Generator",
+        top: 238,
+        left: 700,
+      },
+      {
+        id: 25,
+        video: GeneratorSection26,
+        duration: 155000,
+        name: "Lower Outer Bracket NDE",
+        top: 238,
+        left: 595,
+      },
+      {
+        id: 26,
+        video: GeneratorSection27,
+        duration: 155000,
+        name: "Lower Bearing 3",
+        top: 237,
+        left: 580,
+      },
+      {
+        id: 27,
+        video: GeneratorSection28,
+        duration: 155000,
+        name: "Lower Outer Bracket NDE",
+        top: 236,
+        left: 590,
+      },
+      {
+        id: 28,
+        video: GeneratorSection29,
+        duration: 155000,
+        name: "Lower Bearing 4",
+        top: 236,
+        left: 660,
+      },
+      {
+        id: 29,
+        video: GeneratorSection30,
+        duration: 155000,
+        name: "Upper Bearing 4",
+        top: 236,
+        left: 660,
+      },
+      {
+        id: 30,
+        video: GeneratorSection31,
+        duration: 155000,
+        name: "Upper Outer Bracket NDE",
+        top: 235,
+        left: 560,
+      },
+      {
+        id: 31,
+        video: GeneratorSection32,
+        duration: 155000,
+        name: "Upper Bearing 3",
+        top: 236,
+        left: 580,
+      },
+      {
+        id: 32,
+        video: GeneratorSection33,
+        duration: 155000,
+        name: "Upper Outer Bracket NDE",
+        top: 236,
+        left: 560,
+      },
+      {
+        id: 33,
+        video: GeneratorSection34,
+        duration: 155000,
+        name: "Outer Oil Deflector DE",
+        top: 236,
+        left: 620,
+      },
+      {
+        id: 34,
+        video: GeneratorSection35,
+        duration: 155000,
+        name: "Outer Oil Deflector NDE",
+        top: 236,
+        left: 615,
+      },
+      {
+        id: 35,
+        video: GeneratorSection36,
+        duration: 155000,
+        name: "Base Plate Bearing 5",
+        top: 236,
+        left: 580,
+      },
+      {
+        id: 36,
+        video: GeneratorSection37,
+        duration: 155000,
+        name: "Brush Rigging",
+        top: 236,
+        left: 660,
+      },
+      {
+        id: 37,
+        video: GeneratorSection38,
+        duration: 155000,
+        name: "Brush",
+        top: 236,
+        left: 710,
+      },
+      {
+        id: 38,
+        video: GeneratorSection39,
+        duration: 155000,
+        name: "Cover Fan Outer Seal",
+        top: 235,
+        left: 570,
+      },
+      {
+        id: 39,
+        video: GeneratorSection40,
+        duration: 155000,
+        name: "Pedestal Bearing 5",
+        top: 235,
+        left: 570,
+      },
+      {
+        id: 40,
+        video: GeneratorSection41,
+        duration: 155000,
+        name: "Bearing 5",
+        top: 240,
+        left: 630,
+      },
+      {
+        id: 41,
+        video: GeneratorSection42,
+        duration: 155000,
+        name: "Cover Bearing 5",
+        top: 236,
+        left: 585,
+      },
+      {
+        id: 42,
+        video: GeneratorSection43,
+        duration: 155000,
+        name: "Cover Exciter",
+        top: 235,
+        left: 590,
+      },
+      {
+        id: 43,
+        video: GeneratorSection44,
+        duration: 155000,
+        name: "Air Seal Cover Exciter",
+        top: 235,
+        left: 530,
+      },
+      {
+        id: 44,
+        video: GeneratorSection45,
+        duration: 155000,
+        name: "Base Plate Turning Device",
+        top: 237,
+        left: 415,
+      },
+      {
+        id: 45,
+        video: GeneratorSection46,
+        duration: 155000,
+        name: "Housing Coupling Turning Device",
+        top: 235,
+        left: 470,
+      },
+      {
+        id: 46,
+        video: GeneratorSection47,
+        duration: 155000,
+        name: "Turning Device",
+        top: 233,
+        left: 545,
+      },
+      {
+        id: 47,
+        video: GeneratorSection48,
+        duration: 155000,
+        name: "Cover Coupling Turning Device",
+        top: 235,
+        left: 465,
       },
     ],
   },
@@ -593,7 +1029,7 @@ const videosData = ref({
     ["generator-section"]: [
       {
         id: 0,
-        video: TIGeneratorSection1,
+        video: GeneratorSection1,
         duration: 155000,
         name: "Cover Bearing 5",
         top: 235,
@@ -601,7 +1037,7 @@ const videosData = ref({
       },
       {
         id: 1,
-        video: TIGeneratorSection2,
+        video: GeneratorSection2,
         duration: 155000,
         name: "Turning Device",
         top: 233,
@@ -609,7 +1045,7 @@ const videosData = ref({
       },
       {
         id: 2,
-        video: TIGeneratorSection3,
+        video: GeneratorSection3,
         duration: 155000,
         name: "Base Plate Turning Device",
         top: 235,
@@ -617,7 +1053,7 @@ const videosData = ref({
       },
       {
         id: 3,
-        video: TIGeneratorSection4,
+        video: GeneratorSection4,
         duration: 155000,
         name: "Cover Coupling Lower",
         top: 235,
@@ -625,7 +1061,7 @@ const videosData = ref({
       },
       {
         id: 4,
-        video: TIGeneratorSection5,
+        video: GeneratorSection5,
         duration: 155000,
         name: "Air Seal Cover Exciter",
         top: 235,
@@ -633,7 +1069,7 @@ const videosData = ref({
       },
       {
         id: 5,
-        video: TIGeneratorSection6,
+        video: GeneratorSection6,
         duration: 155000,
         name: "Cover Exciter",
         top: 235,
@@ -641,7 +1077,7 @@ const videosData = ref({
       },
       {
         id: 6,
-        video: TIGeneratorSection7,
+        video: GeneratorSection7,
         duration: 155000,
         name: "Cover Bearing 5",
         top: 235,
@@ -649,7 +1085,7 @@ const videosData = ref({
       },
       {
         id: 7,
-        video: TIGeneratorSection8,
+        video: GeneratorSection8,
         duration: 155000,
         name: "Bearing 5",
         top: 240,
@@ -657,7 +1093,7 @@ const videosData = ref({
       },
       {
         id: 8,
-        video: TIGeneratorSection9,
+        video: GeneratorSection9,
         duration: 155000,
         name: "Pedestal Bearing 5",
         top: 235,
@@ -665,7 +1101,7 @@ const videosData = ref({
       },
       {
         id: 9,
-        video: TIGeneratorSection10,
+        video: GeneratorSection10,
         duration: 155000,
         name: "Cover Fan Outer Seal",
         top: 235,
@@ -673,7 +1109,7 @@ const videosData = ref({
       },
       {
         id: 10,
-        video: TIGeneratorSection11,
+        video: GeneratorSection11,
         duration: 155000,
         name: "Brush",
         top: 238,
@@ -681,7 +1117,7 @@ const videosData = ref({
       },
       {
         id: 11,
-        video: TIGeneratorSection12,
+        video: GeneratorSection12,
         duration: 155000,
         name: "Brush Rigging",
         top: 236,
@@ -689,7 +1125,7 @@ const videosData = ref({
       },
       {
         id: 12,
-        video: TIGeneratorSection13,
+        video: GeneratorSection13,
         duration: 155000,
         name: "Base Plate Bearing 5",
         top: 235,
@@ -697,7 +1133,7 @@ const videosData = ref({
       },
       {
         id: 13,
-        video: TIGeneratorSection14,
+        video: GeneratorSection14,
         duration: 155000,
         name: "Outer Oil Deflector NDE",
         top: 235,
@@ -705,7 +1141,7 @@ const videosData = ref({
       },
       {
         id: 14,
-        video: TIGeneratorSection15,
+        video: GeneratorSection15,
         duration: 155000,
         name: "Upper Outer Braket NDE",
         top: 238,
@@ -713,7 +1149,7 @@ const videosData = ref({
       },
       {
         id: 15,
-        video: TIGeneratorSection16,
+        video: GeneratorSection16,
         duration: 155000,
         name: "Upper Bearing 4",
         top: 235,
@@ -721,7 +1157,7 @@ const videosData = ref({
       },
       {
         id: 16,
-        video: TIGeneratorSection17,
+        video: GeneratorSection17,
         duration: 155000,
         name: "Outer Oil Deflector DE",
         top: 235,
@@ -729,7 +1165,7 @@ const videosData = ref({
       },
       {
         id: 17,
-        video: TIGeneratorSection18,
+        video: GeneratorSection18,
         duration: 155000,
         name: "Upper Outer Bracket NDE",
         top: 235,
@@ -737,7 +1173,7 @@ const videosData = ref({
       },
       {
         id: 18,
-        video: TIGeneratorSection19,
+        video: GeneratorSection19,
         duration: 155000,
         name: "Upper Bearing 3",
         top: 235,
@@ -745,11 +1181,235 @@ const videosData = ref({
       },
       {
         id: 19,
-        video: TIGeneratorSection20,
+        video: GeneratorSection20,
         duration: 155000,
         name: "Lower Bearing 4",
         top: 235,
         left: 660,
+      },
+      {
+        id: 20,
+        video: GeneratorSection21,
+        duration: 155000,
+        name: "Lower Outer Bracket NDE",
+        top: 238,
+        left: 590,
+      },
+      {
+        id: 21,
+        video: GeneratorSection22,
+        duration: 155000,
+        name: "Lower Bearing 3",
+        top: 238,
+        left: 580,
+      },
+      {
+        id: 22,
+        video: GeneratorSection23,
+        duration: 155000,
+        name: "Lower Outer Bracket NDE",
+        top: 236,
+        left: 535,
+      },
+      {
+        id: 23,
+        video: GeneratorSection24,
+        duration: 155000,
+        name: "Rotor Generator",
+        top: 236,
+        left: 740,
+      },
+      {
+        id: 24,
+        video: GeneratorSection25,
+        duration: 155000,
+        name: "Rotor Generator",
+        top: 238,
+        left: 700,
+      },
+      {
+        id: 25,
+        video: GeneratorSection26,
+        duration: 155000,
+        name: "Lower Outer Bracket NDE",
+        top: 238,
+        left: 595,
+      },
+      {
+        id: 26,
+        video: GeneratorSection27,
+        duration: 155000,
+        name: "Lower Bearing 3",
+        top: 237,
+        left: 580,
+      },
+      {
+        id: 27,
+        video: GeneratorSection28,
+        duration: 155000,
+        name: "Lower Outer Bracket NDE",
+        top: 236,
+        left: 590,
+      },
+      {
+        id: 28,
+        video: GeneratorSection29,
+        duration: 155000,
+        name: "Lower Bearing 4",
+        top: 236,
+        left: 660,
+      },
+      {
+        id: 29,
+        video: GeneratorSection30,
+        duration: 155000,
+        name: "Upper Bearing 4",
+        top: 236,
+        left: 660,
+      },
+      {
+        id: 30,
+        video: GeneratorSection31,
+        duration: 155000,
+        name: "Upper Outer Bracket NDE",
+        top: 235,
+        left: 560,
+      },
+      {
+        id: 31,
+        video: GeneratorSection32,
+        duration: 155000,
+        name: "Upper Bearing 3",
+        top: 236,
+        left: 580,
+      },
+      {
+        id: 32,
+        video: GeneratorSection33,
+        duration: 155000,
+        name: "Upper Outer Bracket NDE",
+        top: 236,
+        left: 560,
+      },
+      {
+        id: 33,
+        video: GeneratorSection34,
+        duration: 155000,
+        name: "Outer Oil Deflector DE",
+        top: 236,
+        left: 620,
+      },
+      {
+        id: 34,
+        video: GeneratorSection35,
+        duration: 155000,
+        name: "Outer Oil Deflector NDE",
+        top: 236,
+        left: 615,
+      },
+      {
+        id: 35,
+        video: GeneratorSection36,
+        duration: 155000,
+        name: "Base Plate Bearing 5",
+        top: 236,
+        left: 580,
+      },
+      {
+        id: 36,
+        video: GeneratorSection37,
+        duration: 155000,
+        name: "Brush Rigging",
+        top: 236,
+        left: 660,
+      },
+      {
+        id: 37,
+        video: GeneratorSection38,
+        duration: 155000,
+        name: "Brush",
+        top: 236,
+        left: 710,
+      },
+      {
+        id: 38,
+        video: GeneratorSection39,
+        duration: 155000,
+        name: "Cover Fan Outer Seal",
+        top: 235,
+        left: 570,
+      },
+      {
+        id: 39,
+        video: GeneratorSection40,
+        duration: 155000,
+        name: "Pedestal Bearing 5",
+        top: 235,
+        left: 570,
+      },
+      {
+        id: 40,
+        video: GeneratorSection41,
+        duration: 155000,
+        name: "Bearing 5",
+        top: 240,
+        left: 630,
+      },
+      {
+        id: 41,
+        video: GeneratorSection42,
+        duration: 155000,
+        name: "Cover Bearing 5",
+        top: 236,
+        left: 585,
+      },
+      {
+        id: 42,
+        video: GeneratorSection43,
+        duration: 155000,
+        name: "Cover Exciter",
+        top: 235,
+        left: 590,
+      },
+      {
+        id: 43,
+        video: GeneratorSection44,
+        duration: 155000,
+        name: "Air Seal Cover Exciter",
+        top: 235,
+        left: 530,
+      },
+      {
+        id: 44,
+        video: GeneratorSection45,
+        duration: 155000,
+        name: "Base Plate Turning Device",
+        top: 237,
+        left: 415,
+      },
+      {
+        id: 45,
+        video: GeneratorSection46,
+        duration: 155000,
+        name: "Housing Coupling Turning Device",
+        top: 235,
+        left: 470,
+      },
+      {
+        id: 46,
+        video: GeneratorSection47,
+        duration: 155000,
+        name: "Turning Device",
+        top: 233,
+        left: 545,
+      },
+      {
+        id: 47,
+        video: GeneratorSection48,
+        duration: 155000,
+        name: "Cover Coupling Turning Device",
+        top: 235,
+        left: 465,
       },
     ],
   },
@@ -1109,108 +1769,3 @@ onUnmounted(() => {
 </template>
 
 <style lang="sass"></style>
-
-<!-- <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from "vue";
-import { storeToRefs } from "pinia";
-import { useRouter, useRoute } from "vue-router";
-
-import eventBus from "@/utils/eventBus";
-import { Breadcrumb } from "@/components";
-import { useGlobalStore } from "@/stores/GlobalStore";
-import { convertToOriginalFormat } from "@/helpers/global";
-import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
-
-const imgUrl = new URL("@/assets/images/bg-ci-section.png", import.meta.url)
-  .href;
-
-const router = useRouter();
-const route = useRoute();
-const globalStore = useGlobalStore();
-const { titleHeader, disabledNext, disabledBack, isFinish, isStepNavigation } =
-  storeToRefs(globalStore);
-const breadcrumb = ref<BreadcrumbType[]>([]);
-
-const handleNext = () => {
-  if (route.name === "main add scope squences section") {
-    router.push(
-      `/${route.params.id}/create/unit/${route.params.scope}/${route.params.menu}/add-scope-squences/${route.params.section}/result`
-    );
-  } else {
-    router.push(
-      `/${route.params.id}/create/unit/${route.params.scope}/add-scope/${route.params.section}/result`
-    );
-  }
-};
-
-const handleBack = () => {
-  if (route.name === "main add scope squences section") {
-    router.push(
-      `/${route.params.id}/create/unit/${route.params.scope}/add-scope`
-    );
-  } else {
-    router.push(
-      `/${route.params.id}/create/unit/${route.params.scope}/add-scope`
-    );
-  }
-};
-
-onMounted(() => {
-  breadcrumb.value = [
-    {
-      name: "UBP Priok",
-      as_link: false,
-      url: "",
-    },
-    {
-      name: convertToOriginalFormat(route.params.scope as string),
-      as_link: false,
-      url: "",
-    },
-    {
-      name: "Scope Overhaul",
-      as_link: false,
-      url: "",
-    },
-    {
-      name: "CI",
-      as_link: false,
-      url: "",
-    },
-    {
-      name: "Add Scope",
-      as_link: false,
-      url: "",
-    },
-  ];
-  titleHeader.value = convertToOriginalFormat(route.params.section as string);
-
-  disabledNext.value = false;
-  disabledBack.value = false;
-  isFinish.value = false;
-  isStepNavigation.value = false;
-
-  eventBus.on("next", handleNext);
-  eventBus.on("back", handleBack);
-});
-
-onUnmounted(() => {
-  eventBus.off("next", handleNext);
-  eventBus.off("back", handleBack);
-});
-</script>
-
-<template>
-  <div
-    class="w-full min-h-screen"
-    :style="{
-      backgroundImage: `url(${imgUrl})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    }"
-  >
-    <div class="scope-breadcrumb">
-      <Breadcrumb :items="breadcrumb" />
-    </div>
-  </div>
-</template> -->
