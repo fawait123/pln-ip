@@ -13,27 +13,69 @@ import Sidebar from "@/components/layouts/Sidebar.vue";
 
 // CI
 // VIDEO INLET
-import CIInletSection1 from "@/assets/videos/add-scope/inlet-section/1-inlet.mp4";
-import CIInletSection2 from "@/assets/videos/add-scope/inlet-section/2-inlet.mp4";
-import CIInletSection3 from "@/assets/videos/add-scope/inlet-section/3-inlet.mp4";
-import CIInletSection4 from "@/assets/videos/add-scope/inlet-section/4-inlet.mp4";
-import CIInletSection5 from "@/assets/videos/add-scope/inlet-section/5-inlet.mp4";
+import CIInletSection1 from "@/assets/videos/add-scope/ci/inlet-section/1-inlet.mp4";
+import CIInletSection2 from "@/assets/videos/add-scope/ci/inlet-section/2-inlet.mp4";
+import CIInletSection3 from "@/assets/videos/add-scope/ci/inlet-section/3-inlet.mp4";
+import CIInletSection4 from "@/assets/videos/add-scope/ci/inlet-section/4-inlet.mp4";
+import CIInletSection5 from "@/assets/videos/add-scope/ci/inlet-section/5-inlet.mp4";
 
 // VIDEO COMPRESSOR
-import CICompressorSection1 from "@/assets/videos/add-scope/compressor-section/1-compressor.mp4";
-import CICompressorSection2 from "@/assets/videos/add-scope/compressor-section/2-compressor.mp4";
-import CICompressorSection3 from "@/assets/videos/add-scope/compressor-section/3-compressor.mp4";
-import CICompressorSection4 from "@/assets/videos/add-scope/compressor-section/4-compressor.mp4";
-import CICompressorSection5 from "@/assets/videos/add-scope/compressor-section/5-compressor.mp4";
-import CICompressorSection6 from "@/assets/videos/add-scope/compressor-section/6-compressor.mp4";
-import CICompressorSection7 from "@/assets/videos/add-scope/compressor-section/7-compressor.mp4";
-import CICompressorSection8 from "@/assets/videos/add-scope/compressor-section/8-compressor.mp4";
-import CICompressorSection9 from "@/assets/videos/add-scope/compressor-section/9-compressor.mp4";
-import CICompressorSection10 from "@/assets/videos/add-scope/compressor-section/10-compressor.mp4";
-import CICompressorSection11 from "@/assets/videos/add-scope/compressor-section/11-compressor.mp4";
-import CICompressorSection12 from "@/assets/videos/add-scope/compressor-section/12-compressor.mp4";
-import CICompressorSection13 from "@/assets/videos/add-scope/compressor-section/13-compressor.mp4";
-import CICompressorSection14 from "@/assets/videos/add-scope/compressor-section/14-compressor.mp4";
+import CICompressorSection1 from "@/assets/videos/add-scope/ci/compressor-section/1-compressor.mp4";
+import CICompressorSection2 from "@/assets/videos/add-scope/ci/compressor-section/2-compressor.mp4";
+import CICompressorSection3 from "@/assets/videos/add-scope/ci/compressor-section/3-compressor.mp4";
+import CICompressorSection4 from "@/assets/videos/add-scope/ci/compressor-section/4-compressor.mp4";
+import CICompressorSection5 from "@/assets/videos/add-scope/ci/compressor-section/5-compressor.mp4";
+import CICompressorSection6 from "@/assets/videos/add-scope/ci/compressor-section/6-compressor.mp4";
+import CICompressorSection7 from "@/assets/videos/add-scope/ci/compressor-section/7-compressor.mp4";
+import CICompressorSection8 from "@/assets/videos/add-scope/ci/compressor-section/8-compressor.mp4";
+import CICompressorSection9 from "@/assets/videos/add-scope/ci/compressor-section/9-compressor.mp4";
+import CICompressorSection10 from "@/assets/videos/add-scope/ci/compressor-section/10-compressor.mp4";
+import CICompressorSection11 from "@/assets/videos/add-scope/ci/compressor-section/11-compressor.mp4";
+import CICompressorSection12 from "@/assets/videos/add-scope/ci/compressor-section/12-compressor.mp4";
+import CICompressorSection13 from "@/assets/videos/add-scope/ci/compressor-section/13-compressor.mp4";
+import CICompressorSection14 from "@/assets/videos/add-scope/ci/compressor-section/14-compressor.mp4";
+import CICompressorSection15 from "@/assets/videos/add-scope/ci/compressor-section/15-compressor-vane-row-1-upper.mp4";
+import CICompressorSection16 from "@/assets/videos/add-scope/ci/compressor-section/16-compressor-vane-row-2-upper.mp4";
+import CICompressorSection17 from "@/assets/videos/add-scope/ci/compressor-section/17-compressor-vane-row-3-upper.mp4";
+import CICompressorSection18 from "@/assets/videos/add-scope/ci/compressor-section/18-compressor-vane-row-4-upper.mp4";
+import CICompressorSection19 from "@/assets/videos/add-scope/ci/compressor-section/19-compressor-vane-row-5-upper.mp4";
+import CICompressorSection20 from "@/assets/videos/add-scope/ci/compressor-section/20-compressor-vane-row-6-upper.mp4";
+import CICompressorSection21 from "@/assets/videos/add-scope/ci/compressor-section/21-compressor-blade-row-1.mp4";
+import CICompressorSection22 from "@/assets/videos/add-scope/ci/compressor-section/22-compressor-blade-row-2.mp4";
+import CICompressorSection23 from "@/assets/videos/add-scope/ci/compressor-section/23-compressor-blade-row-3.mp4";
+import CICompressorSection24 from "@/assets/videos/add-scope/ci/compressor-section/24-compressor-blade-row-4.mp4";
+import CICompressorSection25 from "@/assets/videos/add-scope/ci/compressor-section/25-compressor-blade-row-5.mp4";
+import CICompressorSection26 from "@/assets/videos/add-scope/ci/compressor-section/26-compressor-blade-row-6.mp4";
+import CICompressorSection27 from "@/assets/videos/add-scope/ci/compressor-section/27.mov";
+import CICompressorSection28 from "@/assets/videos/add-scope/ci/compressor-section/28-compressor-blade-row-6.mp4";
+import CICompressorSection29 from "@/assets/videos/add-scope/ci/compressor-section/29-compressor-blade-row-5.mp4";
+import CICompressorSection30 from "@/assets/videos/add-scope/ci/compressor-section/30-compressor-blade-row-4.mp4";
+import CICompressorSection31 from "@/assets/videos/add-scope/ci/compressor-section/31-compressor-blade-row-3.mp4";
+import CICompressorSection32 from "@/assets/videos/add-scope/ci/compressor-section/32-compressor-blade-row-2.mp4";
+import CICompressorSection33 from "@/assets/videos/add-scope/ci/compressor-section/33-compressor-blade-row-1.mp4";
+import CICompressorSection34 from "@/assets/videos/add-scope/ci/compressor-section/34-compressor-vane-row-1-upper.mp4";
+import CICompressorSection35 from "@/assets/videos/add-scope/ci/compressor-section/35-compressor-vane-row-2-upper.mp4";
+import CICompressorSection36 from "@/assets/videos/add-scope/ci/compressor-section/36-compressor-vane-row-3-upper.mp4";
+import CICompressorSection37 from "@/assets/videos/add-scope/ci/compressor-section/37-compressor-vane-row-4-upper.mp4";
+import CICompressorSection38 from "@/assets/videos/add-scope/ci/compressor-section/38-compressor-vane-row-5-upper.mp4";
+import CICompressorSection39 from "@/assets/videos/add-scope/ci/compressor-section/39-compressor-vane-row-6-upper.mp4";
+import CICompressorSection40 from "@/assets/videos/add-scope/ci/compressor-section/40-compressor-vane-row-1-lower.mp4";
+import CICompressorSection41 from "@/assets/videos/add-scope/ci/compressor-section/41-compressor-vane-row-2-lower.mp4";
+import CICompressorSection42 from "@/assets/videos/add-scope/ci/compressor-section/42-compressor-vane-row-3-lower.mp4";
+import CICompressorSection43 from "@/assets/videos/add-scope/ci/compressor-section/43-compressor-vane-row-4-lower.mp4";
+import CICompressorSection44 from "@/assets/videos/add-scope/ci/compressor-section/44-compressor-vane-row-5-lower.mp4";
+import CICompressorSection45 from "@/assets/videos/add-scope/ci/compressor-section/45-compressor-vane-row-6-lower.mp4";
+import CICompressorSection46 from "@/assets/videos/add-scope/ci/compressor-section/46-compressor-cylinder.mp4";
+import CICompressorSection47 from "@/assets/videos/add-scope/ci/compressor-section/47-rca-pipe.mp4";
+import CICompressorSection48 from "@/assets/videos/add-scope/ci/compressor-section/48-cooling-pipe.mp4";
+import CICompressorSection49 from "@/assets/videos/add-scope/ci/compressor-section/49-fuel-manifold.mp4";
+import CICompressorSection50 from "@/assets/videos/add-scope/ci/compressor-section/50-igv-upper.mp4";
+import CICompressorSection51 from "@/assets/videos/add-scope/ci/compressor-section/51-seal-housing.mp4";
+import CICompressorSection52 from "@/assets/videos/add-scope/ci/compressor-section/52-igv-link.mp4";
+import CICompressorSection53 from "@/assets/videos/add-scope/ci/compressor-section/53-casing-upper.mp4";
+import CICompressorSection54 from "@/assets/videos/add-scope/ci/compressor-section/54-vapour-pipe.mp4";
+import CICompressorSection55 from "@/assets/videos/add-scope/ci/compressor-section/55-inlet-manifold.mp4";
+import CICompressorSection56 from "@/assets/videos/add-scope/ci/compressor-section/56-inlet-duct.mp4";
 
 // VIDEO GENERATOR
 import GeneratorSection1 from "@/assets/videos/add-scope/generator-section/1-cover-bearing-5.mp4";
@@ -248,6 +290,342 @@ const videosData = ref({
         name: "Compressor Vane Row 6 Lower",
         top: 235,
         left: 265,
+      },
+      {
+        id: 14,
+        video: CICompressorSection15,
+        duration: 155000,
+        name: "Compressor Vane Row 1 Upper",
+        top: 237,
+        left: 780,
+      },
+      {
+        id: 15,
+        video: CICompressorSection16,
+        duration: 155000,
+        name: "Compressor Vane Row 2 Upper",
+        top: 235,
+        left: 410,
+      },
+      {
+        id: 16,
+        video: CICompressorSection17,
+        duration: 155000,
+        name: "Compressor Vane Row 3 Upper",
+        top: 235,
+        left: 420,
+      },
+      {
+        id: 17,
+        video: CICompressorSection18,
+        duration: 155000,
+        name: "Compressor Vane Row 4 Upper",
+        top: 235,
+        left: 435,
+      },
+      {
+        id: 18,
+        video: CICompressorSection19,
+        duration: 155000,
+        name: "Compressor Vane Row 5 Upper",
+        top: 225,
+        left: 520,
+      },
+      {
+        id: 19,
+        video: CICompressorSection20,
+        duration: 155000,
+        name: "Compressor Vane Row 6 Upper",
+        top: 236,
+        left: 540,
+      },
+      {
+        id: 20,
+        video: CICompressorSection21,
+        duration: 155000,
+        name: "Compressor Blade Row 1",
+        top: 233,
+        left: 620,
+      },
+      {
+        id: 21,
+        video: CICompressorSection22,
+        duration: 155000,
+        name: "Compressor Blade Row 2",
+        top: 237,
+        left: 560,
+      },
+      {
+        id: 22,
+        video: CICompressorSection23,
+        duration: 155000,
+        name: "Compressor Blade Row 3",
+        top: 236,
+        left: 480,
+      },
+      {
+        id: 23,
+        video: CICompressorSection24,
+        duration: 155000,
+        name: "Compressor Blade Row 4",
+        top: 233,
+        left: 480,
+      },
+      {
+        id: 24,
+        video: CICompressorSection25,
+        duration: 155000,
+        name: "Compressor Blade Row 5",
+        top: 235,
+        left: 390,
+      },
+      {
+        id: 25,
+        video: CICompressorSection26,
+        duration: 155000,
+        name: "Compressor Blade Row 6",
+        top: 235,
+        left: 295,
+      },
+      {
+        id: 26,
+        video: CICompressorSection27,
+        duration: 155000,
+        name: "",
+        top: 0,
+        left: 0,
+      },
+      {
+        id: 27,
+        video: CICompressorSection28,
+        duration: 155000,
+        name: "Compressor Blade Row 6",
+        top: 235,
+        left: 290,
+      },
+      {
+        id: 28,
+        video: CICompressorSection29,
+        duration: 155000,
+        name: "Compressor Blade Row 5",
+        top: 235,
+        left: 380,
+      },
+      {
+        id: 29,
+        video: CICompressorSection30,
+        duration: 155000,
+        name: "Compressor Blade Row 4",
+        top: 233,
+        left: 480,
+      },
+      {
+        id: 30,
+        video: CICompressorSection31,
+        duration: 155000,
+        name: "Compressor Blade Row 3",
+        top: 237,
+        left: 480,
+      },
+      {
+        id: 31,
+        video: CICompressorSection32,
+        duration: 155000,
+        name: "Compressor Blade Row 2",
+        top: 236,
+        left: 560,
+      },
+      {
+        id: 32,
+        video: CICompressorSection33,
+        duration: 155000,
+        name: "Compressor Blade Row 1",
+        top: 233,
+        left: 620,
+      },
+      {
+        id: 33,
+        video: CICompressorSection34,
+        duration: 155000,
+        name: "Compressor Vane Row 1 Upper",
+        top: 242,
+        left: 350,
+      },
+      {
+        id: 34,
+        video: CICompressorSection35,
+        duration: 155000,
+        name: "Compressor Vane Row 2 Upper",
+        top: 238,
+        left: 350,
+      },
+      {
+        id: 35,
+        video: CICompressorSection36,
+        duration: 155000,
+        name: "Compressor Vane Row 3 Upper",
+        top: 237,
+        left: 380,
+      },
+      {
+        id: 36,
+        video: CICompressorSection37,
+        duration: 155000,
+        name: "Compressor Vane Row 4 Upper",
+        top: 238,
+        left: 1050,
+      },
+      {
+        id: 37,
+        video: CICompressorSection38,
+        duration: 155000,
+        name: "Compressor Vane Row 5 Upper",
+        top: 237,
+        left: 1090,
+      },
+      {
+        id: 38,
+        video: CICompressorSection39,
+        duration: 155000,
+        name: "Compressor Vane Row 6 Upper",
+        top: 237,
+        left: 550,
+      },
+      {
+        id: 39,
+        video: CICompressorSection40,
+        duration: 155000,
+        name: "Compressor Vane Row 1 Lower",
+        top: 240,
+        left: 730,
+      },
+      {
+        id: 40,
+        video: CICompressorSection41,
+        duration: 155000,
+        name: "Compressor Vane Row 2 Lower",
+        top: 240,
+        left: 580,
+      },
+      {
+        id: 41,
+        video: CICompressorSection42,
+        duration: 155000,
+        name: "Compressor Vane Row 3 Lower",
+        top: 233,
+        left: 470,
+      },
+      {
+        id: 42,
+        video: CICompressorSection43,
+        duration: 155000,
+        name: "Compressor Vane Row 4 Lower",
+        top: 232,
+        left: 1010,
+      },
+      {
+        id: 43,
+        video: CICompressorSection44,
+        duration: 155000,
+        name: "Compressor Vane Row 5 Lower",
+        top: 237,
+        left: 910,
+      },
+      {
+        id: 44,
+        video: CICompressorSection45,
+        duration: 155000,
+        name: "Compressor Vane Row 6 Lower",
+        top: 237,
+        left: 720,
+      },
+      {
+        id: 45,
+        video: CICompressorSection46,
+        duration: 155000,
+        name: "Compressor Cylinder",
+        top: 236,
+        left: 870,
+      },
+      {
+        id: 46,
+        video: CICompressorSection47,
+        duration: 155000,
+        name: "RCA Pipe",
+        top: 237,
+        left: 870,
+      },
+      {
+        id: 47,
+        video: CICompressorSection48,
+        duration: 155000,
+        name: "Cooling Pipe",
+        top: 237,
+        left: 740,
+      },
+      {
+        id: 48,
+        video: CICompressorSection49,
+        duration: 155000,
+        name: "Fuel Manifold",
+        top: 236,
+        left: 910,
+      },
+      {
+        id: 49,
+        video: CICompressorSection50,
+        duration: 155000,
+        name: "IGV Upper",
+        top: 237,
+        left: 575,
+      },
+      {
+        id: 50,
+        video: CICompressorSection51,
+        duration: 155000,
+        name: "Seal Housing",
+        top: 236,
+        left: 560,
+      },
+      {
+        id: 51,
+        video: CICompressorSection52,
+        duration: 155000,
+        name: "IGV Link",
+        top: 233,
+        left: 810,
+      },
+      {
+        id: 52,
+        video: CICompressorSection53,
+        duration: 155000,
+        name: "Casing Upper",
+        top: 235,
+        left: 1000,
+      },
+      {
+        id: 53,
+        video: CICompressorSection54,
+        duration: 155000,
+        name: "Vapour Piper",
+        top: 240,
+        left: 595,
+      },
+      {
+        id: 54,
+        video: CICompressorSection55,
+        duration: 155000,
+        name: "Inlet Manifold",
+        top: 238,
+        left: 520,
+      },
+      {
+        id: 55,
+        video: CICompressorSection56,
+        duration: 155000,
+        name: "Inlet Duct",
+        top: 238,
+        left: 560,
       },
     ],
     ["generator-section"]: [

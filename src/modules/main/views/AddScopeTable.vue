@@ -3,6 +3,9 @@ import {
   AssetWelness,
   ButtonDots,
   ButtonOptions,
+  FormDuration,
+  FormIK,
+  FormQcPlan,
   FormWithFile,
   Icon,
   Table,
@@ -19,8 +22,8 @@ const DataChildren = [
     material: "",
     duration: "",
     manpower: "",
-    ik: "",
-    qc_plan: "",
+    ik: null,
+    qc_plan: null,
     part: "",
   },
   {
@@ -29,8 +32,8 @@ const DataChildren = [
     material: "",
     duration: "",
     manpower: "",
-    ik: "",
-    qc_plan: "",
+    ik: null,
+    qc_plan: null,
     part: "",
   },
   {
@@ -39,8 +42,8 @@ const DataChildren = [
     material: "",
     duration: "",
     manpower: "",
-    ik: "",
-    qc_plan: "",
+    ik: null,
+    qc_plan: null,
     part: "",
   },
 ];
@@ -216,7 +219,7 @@ const onDelete = (e: AddScopeTableInterface) => {
 const clickOptions = (
   parentIndex: number,
   childIndex: number,
-  value: string,
+  value: any,
   field: "material" | "duration" | "manpower" | "ik" | "qc_plan" | "part"
 ) => {
   const new_data = Data.value.map((parent) => ({
@@ -339,11 +342,9 @@ watch(
             />
           </div>
           <div v-if="id === 2" class="v-table-body flex justify-center">
-            <ButtonOptions
-              placeholder="Duration"
-              :options="OptionsDuration"
+            <FormDuration
               :value="Data[index].children[childIndex].duration"
-              @select="(e) => clickOptions(index, childIndex, e, 'duration')"
+              @save="(e) => clickOptions(index, childIndex, e, 'duration')"
             />
           </div>
           <div v-if="id === 3" class="v-table-body flex justify-center">
@@ -355,19 +356,15 @@ watch(
             />
           </div>
           <div v-if="id === 4" class="v-table-body flex justify-center">
-            <ButtonOptions
-              placeholder="IK"
-              :options="OptionsIk"
-              :value="Data[index].children[childIndex].ik"
-              @select="(e) => clickOptions(index, childIndex, e, 'ik')"
+            <FormIK
+              :value="Data[index].children[childIndex].ik || []"
+              @save="(e) => clickOptions(index, childIndex, e, 'ik')"
             />
           </div>
           <div v-if="id === 5" class="v-table-body flex justify-center">
-            <ButtonOptions
-              placeholder="QC Plan"
-              :options="OptionsQcPlan"
-              :value="Data[index].children[childIndex].qc_plan"
-              @select="(e) => clickOptions(index, childIndex, e, 'qc_plan')"
+            <FormQcPlan
+              :value="Data[index].children[childIndex].qc_plan || []"
+              @save="(e) => clickOptions(index, childIndex, e, 'qc_plan')"
             />
           </div>
           <div v-if="id === 6" class="v-table-body flex justify-center">
