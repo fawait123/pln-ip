@@ -23,6 +23,9 @@ import FormUploadOnly from "@/components/action/components/Button/FormUploadOnly
 import FormAddNote from "@/components/action/components/Button/FormAddNote.vue";
 import Quantity from "@/components/action/components/Button/Quantity.vue";
 import Volume from "@/components/action/components/Button/Volume.vue";
+import FormDuration from "@/components/action/components/Button/FormDuration.vue";
+import FormIK from "@/components/action/components/Button/FormIK.vue";
+import FormQcPlan from "@/components/action/components/Button/FormQcPlan.vue";
 import Modal from "@/components/overlays/Modal.vue";
 import ButtonDots from "@/components/action/components/Button/ButtonDots.vue";
 import ButtonOptions from "@/components/action/components/Button/ButtonOptions.vue";
@@ -53,6 +56,9 @@ export {
   FormAddNote,
   Quantity,
   Volume,
+  FormDuration,
+  FormIK,
+  FormQcPlan,
   Modal,
   ButtonDots,
   ButtonOptions,

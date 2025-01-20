@@ -23,8 +23,8 @@ export interface AddScopeTableInterface {
     material: string;
     duration: string;
     manpower: string;
-    ik: string;
-    qc_plan: string;
+    ik: ValueUploadType[] | null;
+    qc_plan: ValueUploadType[] | null;
     part: string;
   }[];
 }
