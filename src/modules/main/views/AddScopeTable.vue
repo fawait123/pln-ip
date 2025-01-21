@@ -9,6 +9,9 @@ import {
   FormWithFile,
   Icon,
   Table,
+  FormMaterial,
+  FormManpower,
+  FormPart,
 } from "@/components";
 import { ColumnsScope } from "../constants/ScopeConstant";
 import { ref, watch } from "vue";
@@ -19,32 +22,32 @@ const DataChildren = [
   {
     id: 1,
     name: "Diassembly",
-    material: "",
+    material: null,
     duration: "",
-    manpower: "",
+    manpower: null,
     ik: null,
     qc_plan: null,
-    part: "",
+    part: null,
   },
   {
     id: 2,
     name: "Inspection",
-    material: "",
+    material: null,
     duration: "",
-    manpower: "",
+    manpower: null,
     ik: null,
     qc_plan: null,
-    part: "",
+    part: null,
   },
   {
     id: 3,
     name: "Assembly",
-    material: "",
+    material: null,
     duration: "",
-    manpower: "",
+    manpower: null,
     ik: null,
     qc_plan: null,
-    part: "",
+    part: null,
   },
 ];
 
@@ -334,11 +337,9 @@ watch(
             </p>
           </div>
           <div v-if="id === 1" class="v-table-body flex justify-center">
-            <ButtonOptions
-              placeholder="Material"
-              :options="OptionsMaterial"
-              :value="Data[index].children[childIndex].material"
-              @select="(e) => clickOptions(index, childIndex, e, 'material')"
+            <FormMaterial
+              :value="Data[index].children[childIndex].material || undefined"
+              @save="(e) => clickOptions(index, childIndex, e, 'material')"
             />
           </div>
           <div v-if="id === 2" class="v-table-body flex justify-center">
@@ -348,11 +349,9 @@ watch(
             />
           </div>
           <div v-if="id === 3" class="v-table-body flex justify-center">
-            <ButtonOptions
-              placeholder="Manpower"
-              :options="OptionsManpower"
-              :value="Data[index].children[childIndex].manpower"
-              @select="(e) => clickOptions(index, childIndex, e, 'manpower')"
+            <FormManpower
+              :value="Data[index].children[childIndex].manpower || undefined"
+              @save="(e) => clickOptions(index, childIndex, e, 'manpower')"
             />
           </div>
           <div v-if="id === 4" class="v-table-body flex justify-center">
@@ -368,11 +367,9 @@ watch(
             />
           </div>
           <div v-if="id === 6" class="v-table-body flex justify-center">
-            <ButtonOptions
-              placeholder="Part"
-              :options="OptionsPart"
-              :value="Data[index].children[childIndex].part"
-              @select="(e) => clickOptions(index, childIndex, e, 'part')"
+            <FormPart
+              :value="Data[index].children[childIndex].part || undefined"
+              @save="(e) => clickOptions(index, childIndex, e, 'part')"
             />
           </div>
         </td>

@@ -20,11 +20,31 @@ export interface AddScopeTableInterface {
   children: {
     id: number;
     name: string;
-    material: string;
+    material:
+      | {
+          id: number;
+          material: string;
+          quantity: string;
+          unit: string;
+        }[]
+      | null;
     duration: string;
-    manpower: string;
+    manpower:
+      | {
+          id: number;
+          manpower: string;
+          quantity: string;
+        }[]
+      | null;
     ik: ValueUploadType[] | null;
     qc_plan: ValueUploadType[] | null;
-    part: string;
+    part:
+      | {
+          id: number;
+          part: string;
+          quantity: string;
+          unit: string;
+        }[]
+      | null;
   }[];
 }
