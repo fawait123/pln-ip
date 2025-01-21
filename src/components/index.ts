@@ -26,6 +26,9 @@ import Volume from "@/components/action/components/Button/Volume.vue";
 import FormDuration from "@/components/action/components/Button/FormDuration.vue";
 import FormIK from "@/components/action/components/Button/FormIK.vue";
 import FormQcPlan from "@/components/action/components/Button/FormQcPlan.vue";
+import FormMaterial from "@/components/action/components/Button/FormMaterial.vue";
+import FormManpower from "@/components/action/components/Button/FormManpower.vue";
+import FormPart from "@/components/action/components/Button/FormPart.vue";
 import Modal from "@/components/overlays/Modal.vue";
 import ButtonDots from "@/components/action/components/Button/ButtonDots.vue";
 import ButtonOptions from "@/components/action/components/Button/ButtonOptions.vue";
@@ -59,6 +62,9 @@ export {
   FormDuration,
   FormIK,
   FormQcPlan,
+  FormMaterial,
+  FormManpower,
+  FormPart,
   Modal,
   ButtonDots,
   ButtonOptions,

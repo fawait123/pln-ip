@@ -543,7 +543,7 @@ onMounted(() => {
     .v-select-anchor
       @apply w-full min-w-14 inline-flex items-center justify-between gap-2 outline-none cursor-pointer relative
       .v-select-input
-        @apply w-full bg-transparent outline-none cursor-pointer pointer-events-none rounded text-neutral-950 bg-white
+        @apply w-full bg-transparent outline-none cursor-pointer pointer-events-none rounded text-neutral-950 bg-white border border-blue-900
         &:hover
           @apply border-cyan-500
         &--disabled

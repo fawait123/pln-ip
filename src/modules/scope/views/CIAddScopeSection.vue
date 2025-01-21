@@ -13,11 +13,15 @@ import Sidebar from "@/components/layouts/Sidebar.vue";
 
 // CI
 // VIDEO INLET
-import CIInletSection1 from "@/assets/videos/add-scope/ci/inlet-section/1-inlet.mp4";
-import CIInletSection2 from "@/assets/videos/add-scope/ci/inlet-section/2-inlet.mp4";
-import CIInletSection3 from "@/assets/videos/add-scope/ci/inlet-section/3-inlet.mp4";
-import CIInletSection4 from "@/assets/videos/add-scope/ci/inlet-section/4-inlet.mp4";
-import CIInletSection5 from "@/assets/videos/add-scope/ci/inlet-section/5-inlet.mp4";
+import CIInletSection1 from "@/assets/videos/add-scope/ci/inlet-section/1-inlet-duct.mp4";
+import CIInletSection2 from "@/assets/videos/add-scope/ci/inlet-section/2-inlet-manifold.mp4";
+import CIInletSection3 from "@/assets/videos/add-scope/ci/inlet-section/3-vapour-pipe.mp4";
+import CIInletSection4 from "@/assets/videos/add-scope/ci/inlet-section/4-casing-upper.mp4";
+import CIInletSection5 from "@/assets/videos/add-scope/ci/inlet-section/5-igv-link.mp4";
+import CIInletSection6 from "@/assets/videos/add-scope/ci/inlet-section/6-seal-housing-upper.mp4";
+import CIInletSection7 from "@/assets/videos/add-scope/ci/inlet-section/7-igv-upper.mp4";
+import CIInletSection8 from "@/assets/videos/add-scope/ci/inlet-section/8.mov";
+import CIInletSection9 from "@/assets/videos/add-scope/ci/inlet-section/9-igv-upper.mp4";
 
 // VIDEO COMPRESSOR
 import CICompressorSection1 from "@/assets/videos/add-scope/ci/compressor-section/1-compressor.mp4";
@@ -173,9 +177,41 @@ const videosData = ref({
         id: 4,
         video: CIInletSection5,
         duration: 155000,
+        name: "IGV Link",
+        top: 233,
+        left: 815,
+      },
+      {
+        id: 5,
+        video: CIInletSection6,
+        duration: 155000,
         name: "Seal Housing Upper",
         top: 235,
         left: 510,
+      },
+      {
+        id: 6,
+        video: CIInletSection7,
+        duration: 155000,
+        name: "IGV Upper",
+        top: 235,
+        left: 570,
+      },
+      {
+        id: 7,
+        video: CIInletSection8,
+        duration: 155000,
+        name: "",
+        top: 0,
+        left: 0,
+      },
+      {
+        id: 8,
+        video: CIInletSection9,
+        duration: 155000,
+        name: "IGV Upper",
+        top: 232,
+        left: 795,
       },
     ],
     ["compressor-section"]: [
