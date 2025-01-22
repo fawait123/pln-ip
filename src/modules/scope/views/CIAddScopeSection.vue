@@ -132,7 +132,20 @@ import GeneratorSection47 from "@/assets/videos/add-scope/generator-section/47-t
 import GeneratorSection48 from "@/assets/videos/add-scope/generator-section/48-cover-coupling-turning-device.mp4";
 
 // TI
-// VIDEO GENERATOR
+// VIDEO EXHAUST
+import TIExhaustSection1 from "@/assets/videos/add-scope/ti/exhaust-section/1-exhaust-manifold.mp4";
+import TIExhaustSection2 from "@/assets/videos/add-scope/ti/exhaust-section/2-ost-pipe.mp4";
+import TIExhaustSection3 from "@/assets/videos/add-scope/ti/exhaust-section/3-ost-cover.mp4";
+import TIExhaustSection4 from "@/assets/videos/add-scope/ti/exhaust-section/4-ost-device.mp4";
+import TIExhaustSection5 from "@/assets/videos/add-scope/ti/exhaust-section/5-exhaust-cylinder.mp4";
+import TIExhaustSection6 from "@/assets/videos/add-scope/ti/exhaust-section/6-upper-bearing-1.mp4";
+import TIExhaustSection7 from "@/assets/videos/add-scope/ti/exhaust-section/7.mp4";
+import TIExhaustSection8 from "@/assets/videos/add-scope/ti/exhaust-section/8-upper-bearing-1.mp4";
+import TIExhaustSection9 from "@/assets/videos/add-scope/ti/exhaust-section/9-exhaust-cylinder.mp4";
+import TIExhaustSection10 from "@/assets/videos/add-scope/ti/exhaust-section/10-ost-device.mp4";
+import TIExhaustSection11 from "@/assets/videos/add-scope/ti/exhaust-section/11-ost-cover.mp4";
+import TIExhaustSection12 from "@/assets/videos/add-scope/ti/exhaust-section/12-ost-pipe.mp4";
+import TIExhaustSection13 from "@/assets/videos/add-scope/ti/exhaust-section/13-exhaust-manifold.mp4";
 
 // MI
 // VIDEO GENERATOR
@@ -1824,6 +1837,112 @@ const videosData = ref({
         name: "Cover Coupling Turning Device",
         top: 235,
         left: 465,
+      },
+    ],
+    ["exhaust-section"]: [
+      {
+        id: 0,
+        video: TIExhaustSection1,
+        duration: 155000,
+        name: "Exhaust Manifold",
+        top: 237,
+        left: 910,
+      },
+      {
+        id: 1,
+        video: TIExhaustSection2,
+        duration: 155000,
+        name: "OST Pipe",
+        top: 238,
+        left: 1110,
+      },
+      {
+        id: 2,
+        video: TIExhaustSection3,
+        duration: 155000,
+        name: "OST Cover",
+        top: 242,
+        left: 850,
+      },
+      {
+        id: 3,
+        video: TIExhaustSection4,
+        duration: 155000,
+        name: "OST Device",
+        top: 240,
+        left: 830,
+      },
+      {
+        id: 4,
+        video: TIExhaustSection5,
+        duration: 155000,
+        name: "Exhaust Cylinder",
+        top: 238,
+        left: 1170,
+      },
+      {
+        id: 5,
+        video: TIExhaustSection6,
+        duration: 155000,
+        name: "Upper Bearing 1",
+        top: 238,
+        left: 810,
+      },
+      {
+        id: 6,
+        video: TIExhaustSection7,
+        duration: 155000,
+        name: "",
+        top: 0,
+        left: 0,
+      },
+      {
+        id: 7,
+        video: TIExhaustSection8,
+        duration: 155000,
+        name: "Upper Bearing 1",
+        top: 238,
+        left: 810,
+      },
+      {
+        id: 8,
+        video: TIExhaustSection9,
+        duration: 155000,
+        name: "Exhaust Cylinder",
+        top: 238,
+        left: 590,
+      },
+      {
+        id: 9,
+        video: TIExhaustSection10,
+        duration: 155000,
+        name: "OST Device",
+        top: 240,
+        left: 830,
+      },
+      {
+        id: 10,
+        video: TIExhaustSection11,
+        duration: 155000,
+        name: "OST Cover",
+        top: 242,
+        left: 850,
+      },
+      {
+        id: 11,
+        video: TIExhaustSection12,
+        duration: 155000,
+        name: "OST Pipe",
+        top: 238,
+        left: 1110,
+      },
+      {
+        id: 12,
+        video: TIExhaustSection13,
+        duration: 155000,
+        name: "Exhaust Manifold",
+        top: 238,
+        left: 910,
       },
     ],
   },
