@@ -22,7 +22,6 @@ import CIInletSection6 from "@/assets/videos/add-scope/ci/inlet-section/6-seal-h
 import CIInletSection7 from "@/assets/videos/add-scope/ci/inlet-section/7-igv-upper.mp4";
 import CIInletSection8 from "@/assets/videos/add-scope/ci/inlet-section/8.mov";
 import CIInletSection9 from "@/assets/videos/add-scope/ci/inlet-section/9-igv-upper.mp4";
-
 // VIDEO COMPRESSOR
 import CICompressorSection1 from "@/assets/videos/add-scope/ci/compressor-section/1-inlet-duct.mp4";
 import CICompressorSection2 from "@/assets/videos/add-scope/ci/compressor-section/2-inlet-manifold.mp4";
@@ -41,7 +40,6 @@ import CICompressorSection14 from "@/assets/videos/add-scope/ci/compressor-secti
 import CICompressorSection15 from "@/assets/videos/add-scope/ci/compressor-section/15-compressor-vane-row-4-lower.mp4";
 import CICompressorSection16 from "@/assets/videos/add-scope/ci/compressor-section/16-compressor-vane-row-5-lower.mp4";
 import CICompressorSection17 from "@/assets/videos/add-scope/ci/compressor-section/17-compressor-vane-row-6-lower.mp4";
-
 import CICompressorSection18 from "@/assets/videos/add-scope/ci/compressor-section/18-compressor-vane-row-1-upper.mp4";
 import CICompressorSection19 from "@/assets/videos/add-scope/ci/compressor-section/19-compressor-vane-row-2-upper.mp4";
 import CICompressorSection20 from "@/assets/videos/add-scope/ci/compressor-section/20-compressor-vane-row-3-upper.mp4";
@@ -84,7 +82,6 @@ import CICompressorSection56 from "@/assets/videos/add-scope/ci/compressor-secti
 import CICompressorSection57 from "@/assets/videos/add-scope/ci/compressor-section/57-vapour-pipe.mp4";
 import CICompressorSection58 from "@/assets/videos/add-scope/ci/compressor-section/58-inlet-manifold.mp4";
 import CICompressorSection59 from "@/assets/videos/add-scope/ci/compressor-section/59-inlet-duct.mp4";
-
 // VIDEO GENERATOR
 import GeneratorSection1 from "@/assets/videos/add-scope/generator-section/1-cover-bearing-5.mp4";
 import GeneratorSection2 from "@/assets/videos/add-scope/generator-section/2-turning-device.mp4";
@@ -150,6 +147,22 @@ import TIExhaustSection10 from "@/assets/videos/add-scope/ti/exhaust-section/10-
 import TIExhaustSection11 from "@/assets/videos/add-scope/ti/exhaust-section/11-ost-cover.mp4";
 import TIExhaustSection12 from "@/assets/videos/add-scope/ti/exhaust-section/12-ost-pipe.mp4";
 import TIExhaustSection13 from "@/assets/videos/add-scope/ti/exhaust-section/13-exhaust-manifold.mp4";
+// VIDEO INLET
+import TIInletSection1 from "@/assets/videos/add-scope/ti/inlet-section/1-inlet-duct.mp4";
+import TIInletSection2 from "@/assets/videos/add-scope/ti/inlet-section/2-inlet-manifold.mp4";
+import TIInletSection3 from "@/assets/videos/add-scope/ti/inlet-section/3-vapour-pipe.mp4";
+import TIInletSection4 from "@/assets/videos/add-scope/ti/inlet-section/4-casing-upper.mp4";
+import TIInletSection5 from "@/assets/videos/add-scope/ti/inlet-section/5-igv-link.mp4";
+import TIInletSection6 from "@/assets/videos/add-scope/ti/inlet-section/6-seal-housing-upper.mp4";
+import TIInletSection7 from "@/assets/videos/add-scope/ti/inlet-section/7-igv-upper.mp4";
+import TIInletSection8 from "@/assets/videos/add-scope/ti/inlet-section/8.mp4";
+import TIInletSection9 from "@/assets/videos/add-scope/ti/inlet-section/9-igv-upper.mp4";
+import TIInletSection10 from "@/assets/videos/add-scope/ti/inlet-section/10-seal-housing.mp4";
+import TIInletSection11 from "@/assets/videos/add-scope/ti/inlet-section/11-igv-link.mp4";
+import TIInletSection12 from "@/assets/videos/add-scope/ti/inlet-section/12-casing-upper.mp4";
+import TIInletSection13 from "@/assets/videos/add-scope/ti/inlet-section/13-vapour-pipe.mp4";
+import TIInletSection14 from "@/assets/videos/add-scope/ti/inlet-section/14-inlet-manifold.mp4";
+import TIInletSection15 from "@/assets/videos/add-scope/ti/inlet-section/15-inlet-duct.mp4";
 
 // MI
 // VIDEO GENERATOR
@@ -1971,6 +1984,128 @@ const videosData = ref({
         name: "Exhaust Manifold",
         top: 238,
         left: 910,
+      },
+    ],
+    ["inlet-section"]: [
+      {
+        id: 0,
+        video: TIInletSection1,
+        duration: 155000,
+        name: "Inlet Duct",
+        top: 237,
+        left: 555,
+      },
+      {
+        id: 1,
+        video: TIInletSection2,
+        duration: 155000,
+        name: "Inlet Manifold",
+        top: 240,
+        left: 520,
+      },
+      {
+        id: 2,
+        video: TIInletSection3,
+        duration: 155000,
+        name: "Vapour Pipe",
+        top: 239,
+        left: 700,
+      },
+      {
+        id: 3,
+        video: TIInletSection4,
+        duration: 155000,
+        name: "Casing Upper",
+        top: 235,
+        left: 1000,
+      },
+      {
+        id: 4,
+        video: TIInletSection5,
+        duration: 155000,
+        name: "IGV Link",
+        top: 232,
+        left: 810,
+      },
+      {
+        id: 5,
+        video: TIInletSection6,
+        duration: 155000,
+        name: "Seal Housing Upper",
+        top: 236,
+        left: 510,
+      },
+      {
+        id: 6,
+        video: TIInletSection7,
+        duration: 155000,
+        name: "IGV Upper",
+        top: 236,
+        left: 570,
+      },
+      {
+        id: 7,
+        video: TIInletSection8,
+        duration: 155000,
+        name: "",
+        top: 0,
+        left: 0,
+      },
+      {
+        id: 8,
+        video: TIInletSection9,
+        duration: 155000,
+        name: "IGV Upper",
+        top: 232,
+        left: 800,
+      },
+      {
+        id: 9,
+        video: TIInletSection10,
+        duration: 155000,
+        name: "Seal Housing Upper",
+        top: 236,
+        left: 560,
+      },
+      {
+        id: 10,
+        video: TIInletSection11,
+        duration: 155000,
+        name: "IGV Link",
+        top: 233,
+        left: 810,
+      },
+      {
+        id: 11,
+        video: TIInletSection12,
+        duration: 155000,
+        name: "Casing Upper",
+        top: 240,
+        left: 980,
+      },
+      {
+        id: 12,
+        video: TIInletSection13,
+        duration: 155000,
+        name: "Vapour Pipe",
+        top: 241,
+        left: 670,
+      },
+      {
+        id: 13,
+        video: TIInletSection14,
+        duration: 155000,
+        name: "Inlet Manifold",
+        top: 238,
+        left: 585,
+      },
+      {
+        id: 14,
+        video: TIInletSection15,
+        duration: 155000,
+        name: "Inlet Duct",
+        top: 237,
+        left: 560,
       },
     ],
   },
