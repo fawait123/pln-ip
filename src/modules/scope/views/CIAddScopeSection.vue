@@ -163,6 +163,21 @@ import TIInletSection12 from "@/assets/videos/add-scope/ti/inlet-section/12-casi
 import TIInletSection13 from "@/assets/videos/add-scope/ti/inlet-section/13-vapour-pipe.mp4";
 import TIInletSection14 from "@/assets/videos/add-scope/ti/inlet-section/14-inlet-manifold.mp4";
 import TIInletSection15 from "@/assets/videos/add-scope/ti/inlet-section/15-inlet-duct.mp4";
+// VIDEO TURBINE
+import TITurbineSection1 from "@/assets/videos/add-scope/ti/turbine-section/1-turbine-blade-row-4.mp4";
+import TITurbineSection2 from "@/assets/videos/add-scope/ti/turbine-section/2-turbine-ring-segment-row-4-upper.mp4";
+import TITurbineSection3 from "@/assets/videos/add-scope/ti/turbine-section/3-turbine-vane-segment-row-4-upper.mp4";
+import TITurbineSection4 from "@/assets/videos/add-scope/ti/turbine-section/4.mp4";
+import TITurbineSection5 from "@/assets/videos/add-scope/ti/turbine-section/5-turbine-vane-segment-row-4-upper.mp4";
+import TITurbineSection6 from "@/assets/videos/add-scope/ti/turbine-section/6-turbine-ring-segment-row-4-upper.mp4";
+import TITurbineSection7 from "@/assets/videos/add-scope/ti/turbine-section/7-turbine-seal-housing-row-4-lower.mp4";
+import TITurbineSection8 from "@/assets/videos/add-scope/ti/turbine-section/8-turbine-ring-segment-row-4-lower.mp4";
+import TITurbineSection9 from "@/assets/videos/add-scope/ti/turbine-section/9-turbine-vane-segment-row-4-lower.mp4";
+import TITurbineSection10 from "@/assets/videos/add-scope/ti/turbine-section/10.mp4";
+import TITurbineSection11 from "@/assets/videos/add-scope/ti/turbine-section/11-turbine-vane-segment-row-4-lower.mp4";
+import TITurbineSection12 from "@/assets/videos/add-scope/ti/turbine-section/12-turbine-ring-segment-row-4-lower.mp4";
+import TITurbineSection13 from "@/assets/videos/add-scope/ti/turbine-section/13-turbine-seal-housing-row-4-lower.mp4";
+import TITurbineSection14 from "@/assets/videos/add-scope/ti/turbine-section/14-turbine-blade-row-4.mp4";
 
 // MI
 // VIDEO GENERATOR
@@ -2106,6 +2121,120 @@ const videosData = ref({
         name: "Inlet Duct",
         top: 237,
         left: 560,
+      },
+    ],
+    ["turbine-section"]: [
+      {
+        id: 0,
+        video: TITurbineSection1,
+        duration: 155000,
+        name: "Blade Row 4",
+        top: 238,
+        left: 900,
+      },
+      {
+        id: 1,
+        video: TITurbineSection2,
+        duration: 155000,
+        name: "Ring Segment Row 4 Upper",
+        top: 240,
+        left: 630,
+      },
+      {
+        id: 2,
+        video: TITurbineSection3,
+        duration: 155000,
+        name: "Vane Segment Row 4 Upper",
+        top: 240,
+        left: 780,
+      },
+      {
+        id: 3,
+        video: TITurbineSection4,
+        duration: 155000,
+        name: "",
+        top: 0,
+        left: 0,
+      },
+      {
+        id: 4,
+        video: TITurbineSection5,
+        duration: 155000,
+        name: "Vane Segment Row 4 Upper",
+        top: 240,
+        left: 780,
+      },
+      {
+        id: 5,
+        video: TITurbineSection6,
+        duration: 155000,
+        name: "Ring Segment Row 4 Upper",
+        top: 240,
+        left: 630,
+      },
+      {
+        id: 6,
+        video: TITurbineSection7,
+        duration: 155000,
+        name: "Seal Housing Row 4 Lower",
+        top: 241,
+        left: 1140,
+      },
+      {
+        id: 7,
+        video: TITurbineSection8,
+        duration: 155000,
+        name: "Ring Segment Row 4 Lower",
+        top: 240,
+        left: 750,
+      },
+      {
+        id: 8,
+        video: TITurbineSection9,
+        duration: 155000,
+        name: "Vane Segment Row 4 Lower",
+        top: 240,
+        left: 940,
+      },
+      {
+        id: 9,
+        video: TITurbineSection10,
+        duration: 155000,
+        name: "",
+        top: 0,
+        left: 0,
+      },
+      {
+        id: 10,
+        video: TITurbineSection11,
+        duration: 155000,
+        name: "Vane Segment Row 4 Lower",
+        top: 241,
+        left: 940,
+      },
+      {
+        id: 11,
+        video: TITurbineSection12,
+        duration: 155000,
+        name: "Ring Segment Row 4 Lower",
+        top: 240,
+        left: 750,
+      },
+      {
+        id: 12,
+        video: TITurbineSection13,
+        duration: 155000,
+        name: "Seal Housing Row 4 Lower",
+        top: 241,
+        left: 1140,
+      },
+      {
+        id: 13,
+        video: TITurbineSection14,
+        duration: 155000,
+        name: "Blade Row 4",
+        top: 238,
+        left: 900,
       },
     ],
   },
