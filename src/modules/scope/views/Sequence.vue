@@ -57,6 +57,51 @@ import MI5 from "@/assets/videos/major-inspection/5-vapor-pipe.mp4";
 import MI6 from "@/assets/videos/major-inspection/6-coupling-bolt.mp4";
 import MI7 from "@/assets/videos/major-inspection/7-coupling-spacer.mp4";
 import MI8 from "@/assets/videos/major-inspection/8-black-patch-temperature.mp4";
+import MI9 from "@/assets/videos/major-inspection/9-discavity.mp4";
+import MI10 from "@/assets/videos/major-inspection/10-flame-detector.mp4";
+import MI11 from "@/assets/videos/major-inspection/11-flame-igniter.mp4";
+import MI12 from "@/assets/videos/major-inspection/12-cross-flame.mp4";
+import MI13 from "@/assets/videos/major-inspection/13-cooling-pipe.mp4";
+import MI14 from "@/assets/videos/major-inspection/14-fuel-branch-pipe.mp4";
+import MI15 from "@/assets/videos/major-inspection/15-rca-pipe.mp4";
+import MI16 from "@/assets/videos/major-inspection/16-bleed-pipe.mp4";
+import MI17 from "@/assets/videos/major-inspection/17-exhaust-manifold.mp4";
+import MI18 from "@/assets/videos/major-inspection/18-top-hat.mp4";
+import MI19 from "@/assets/videos/major-inspection/19-fuel-nozzle.mp4";
+import MI20 from "@/assets/videos/major-inspection/20-combustor-basket.mp4";
+import MI21 from "@/assets/videos/major-inspection/21-top-hat.mp4";
+import MI22 from "@/assets/videos/major-inspection/22-combustor-basket.mp4";
+import MI23 from "@/assets/videos/major-inspection/23-fuel-nozzle.mp4";
+import MI24 from "@/assets/videos/major-inspection/24-turbine-cylinder.mp4";
+import MI25 from "@/assets/videos/major-inspection/25-bypass-elbow.mp4";
+import MI26 from "@/assets/videos/major-inspection/26-transition-piece.mp4";
+import MI27 from "@/assets/videos/major-inspection/27-u-support.mp4";
+import MI28 from "@/assets/videos/major-inspection/28-bypass-ring.mp4";
+import MI29 from "@/assets/videos/major-inspection/29-turbine-vane-row-1.mp4";
+import MI30 from "@/assets/videos/major-inspection/30-turbine-blade-ring-row-4.mp4";
+import MI31 from "@/assets/videos/major-inspection/31-turbine-blade-ring-row-3.mp4";
+import MI32 from "@/assets/videos/major-inspection/32-turbine-blade-ring-row-2.mp4";
+import MI33 from "@/assets/videos/major-inspection/33-turbine-blade-ring-row-1.mp4";
+import MI34 from "@/assets/videos/major-inspection/34-turbine-seal-housing-row-2.mp4";
+import MI35 from "@/assets/videos/major-inspection/35-turbine-seal-housing-row-3.mp4";
+import MI36 from "@/assets/videos/major-inspection/36-turbine-seal-housing-row-4.mp4";
+import MI37 from "@/assets/videos/major-inspection/37-rca-flexible-pipe-upper.mp4";
+import MI38 from "@/assets/videos/major-inspection/38-compressor-comb-cylinder-upper.mp4";
+import MI39 from "@/assets/videos/major-inspection/39-compressor-blade-ring-row-1-upper.mp4";
+import MI40 from "@/assets/videos/major-inspection/40-compressor-blade-ring-row-2-upper.mp4";
+import MI41 from "@/assets/videos/major-inspection/41-compressor-blade-ring-row-3-upper.mp4";
+import MI42 from "@/assets/videos/major-inspection/42-inlet-casing-upper.mp4";
+import MI43 from "@/assets/videos/major-inspection/43-exhaust-manifold-upper.mp4";
+import MI44 from "@/assets/videos/major-inspection/44-torque-tube-cover-upper.mp4";
+import MI45 from "@/assets/videos/major-inspection/45-seal-housing-torque-tube-cover-upper.mp4";
+import MI46 from "@/assets/videos/major-inspection/46-ost-pipe.mp4";
+import MI47 from "@/assets/videos/major-inspection/47-ost-cover.mp4";
+import MI48 from "@/assets/videos/major-inspection/48-exhaust-cylinder-upper.mp4";
+import MI49 from "@/assets/videos/major-inspection/49-thrust-bearing-cover.mp4";
+import MI50 from "@/assets/videos/major-inspection/50-thrust-bearing-upper.mp4";
+import MI51 from "@/assets/videos/major-inspection/51-thrust-bearing-lower.mp4";
+import MI52 from "@/assets/videos/major-inspection/52-bearing-2-upper.mp4";
+import MI53 from "@/assets/videos/major-inspection/53-bearing-1-upper.mp4";
 
 // VIDEO TI
 import TI1 from "@/assets/videos/combustion-inspection/1-manhole-turbine-cylinder.mp4";
@@ -70,6 +115,88 @@ import TI8 from "@/assets/videos/combustion-inspection/8-top-hat.mp4";
 import TI9 from "@/assets/videos/combustion-inspection/9-fuel-nozzle.mp4";
 import TI10 from "@/assets/videos/combustion-inspection/10-combuster-basket.mp4";
 import TI11 from "@/assets/videos/combustion-inspection/11-top-hat.mp4";
+import TI12 from "@/assets/videos/turbine-inspection/12-cooling-pipe.mp4";
+import TI13 from "@/assets/videos/turbine-inspection/13-turbine-cylinder.mp4";
+import TI14 from "@/assets/videos/turbine-inspection/14-bypass-elbow.mp4";
+import TI15 from "@/assets/videos/turbine-inspection/15-transition-piece.mp4";
+import TI16 from "@/assets/videos/turbine-inspection/16-u-support.mp4";
+import TI17 from "@/assets/videos/turbine-inspection/17-bypass-ring.mp4";
+import TI18 from "@/assets/videos/turbine-inspection/18-turbine-vane-row-1-upper.mp4";
+import TI19 from "@/assets/videos/turbine-inspection/19-turbine-vane-row-4-upper.mp4";
+import TI20 from "@/assets/videos/turbine-inspection/20-turbine-vane-row-3-upper.mp4";
+import TI21 from "@/assets/videos/turbine-inspection/21-turbine-vane-row-2-upper.mp4";
+import TI22 from "@/assets/videos/turbine-inspection/22-turbine-blade-ring-1.mp4";
+import TI23 from "@/assets/videos/turbine-inspection/23-turbine-seal-housing-row-2.mp4";
+import TI24 from "@/assets/videos/turbine-inspection/24-turbine-seal-housing-row-3.mp4";
+import TI25 from "@/assets/videos/turbine-inspection/25-turbine-seal-housing-row-4-lower.mp4";
+import TI26 from "@/assets/videos/turbine-inspection/26-turbine-blade-ring-row-1-lower.mp4";
+import TI27 from "@/assets/videos/turbine-inspection/27-turbine-blade-ring-row-2-lower.mp4";
+import TI28 from "@/assets/videos/turbine-inspection/28-turbine-blade-ring-row-3-lower.mp4";
+import TI29 from "@/assets/videos/turbine-inspection/29-turbine-blade-ring-row-4-lower.mp4";
+import TI30 from "@/assets/videos/turbine-inspection/30-turbine-blade-row-1.mp4";
+import TI31 from "@/assets/videos/turbine-inspection/31-turbine-blade-row-2.mp4";
+import TI32 from "@/assets/videos/turbine-inspection/32-turbine-blade-row-3.mp4";
+import TI33 from "@/assets/videos/turbine-inspection/33-turbine-ring-segment-row-1-upper.mp4";
+import TI34 from "@/assets/videos/turbine-inspection/34.mp4";
+import TI35 from "@/assets/videos/turbine-inspection/35-turbine-ring-segment-row-1-upper .mp4";
+import TI36 from "@/assets/videos/turbine-inspection/36-turbine-ring-segment-row-2-upper.mp4";
+import TI37 from "@/assets/videos/turbine-inspection/37-turbine-vane-segment-row-2-upper.mp4";
+import TI38 from "@/assets/videos/turbine-inspection/38.mp4";
+import TI39 from "@/assets/videos/turbine-inspection/39-turbine-vane-segment-row-2-upper.mp4";
+import TI40 from "@/assets/videos/turbine-inspection/40-turbine-ring-segment-row-2-upper.mp4";
+import TI41 from "@/assets/videos/turbine-inspection/41-turbine-ring-segment-row-3-upper.mp4";
+import TI42 from "@/assets/videos/turbine-inspection/42-turbine-vane-segment-row-3-upper.mp4";
+import TI43 from "@/assets/videos/turbine-inspection/43.mp4";
+import TI44 from "@/assets/videos/turbine-inspection/44-turbine-vane-segment-row-3-upper.mp4";
+import TI45 from "@/assets/videos/turbine-inspection/45-turbine-ring-segment-row-3-upper.mp4";
+import TI46 from "@/assets/videos/turbine-inspection/46-turbine-ring-segment-row-4-upper.mp4";
+import TI47 from "@/assets/videos/turbine-inspection/47-turbine-vane-segment-row-4-upper.mp4";
+import TI48 from "@/assets/videos/turbine-inspection/48.mp4";
+import TI49 from "@/assets/videos/turbine-inspection/49-turbine-vane-segment-row-4-upper.mp4";
+import TI50 from "@/assets/videos/turbine-inspection/50-turbine-ring-segment-row-4-upper.mp4";
+import TI51 from "@/assets/videos/turbine-inspection/51-turbine-ring-segment-row-1-lower.mp4";
+import TI52 from "@/assets/videos/turbine-inspection/52.mp4";
+import TI53 from "@/assets/videos/turbine-inspection/53-turbine-ring-segment-row-1-lower.mp4";
+import TI54 from "@/assets/videos/turbine-inspection/54-turbine-seal-housing-row-2-lower.mp4";
+import TI55 from "@/assets/videos/turbine-inspection/55-turbine-ring-segment-row-2-lower.mp4";
+import TI56 from "@/assets/videos/turbine-inspection/56-turbine-vane-segment-row-2-lower.mp4";
+import TI57 from "@/assets/videos/turbine-inspection/57.mp4";
+import TI58 from "@/assets/videos/turbine-inspection/58-turbine-vane-segment-row-2-lower.mp4";
+import TI59 from "@/assets/videos/turbine-inspection/59-turbine-ring-segment-row-2-lower.mp4";
+import TI60 from "@/assets/videos/turbine-inspection/60-turbine-seal-housing-row-2-lower.mp4";
+import TI61 from "@/assets/videos/turbine-inspection/61-turbine-seal-housing-row-3-lower.mp4";
+import TI62 from "@/assets/videos/turbine-inspection/62-turbine-ring-segment-row-3-lower.mp4";
+import TI63 from "@/assets/videos/turbine-inspection/63-turbine-vane-segment-row-3-lower.mp4";
+import TI64 from "@/assets/videos/turbine-inspection/64.mp4";
+import TI65 from "@/assets/videos/turbine-inspection/65-turbine-vane-segment-row-3-lower.mp4";
+import TI66 from "@/assets/videos/turbine-inspection/66-turbine-ring-segment-row-3-lower.mp4";
+import TI67 from "@/assets/videos/turbine-inspection/67-turbine-seal-housing-row-3-lower.mp4";
+import TI68 from "@/assets/videos/turbine-inspection/68-turbine-seal-housing-row-4-lower.mp4";
+import TI69 from "@/assets/videos/add-scope/ti/turbine-section/8-turbine-ring-segment-row-4-lower.mp4";
+import TI70 from "@/assets/videos/add-scope/ti/turbine-section/9-turbine-vane-segment-row-4-lower.mp4";
+import TI71 from "@/assets/videos/add-scope/ti/turbine-section/10.mp4";
+import TI72 from "@/assets/videos/add-scope/ti/turbine-section/11-turbine-vane-segment-row-4-lower.mp4";
+import TI73 from "@/assets/videos/add-scope/ti/turbine-section/12-turbine-ring-segment-row-4-lower.mp4";
+import TI74 from "@/assets/videos/add-scope/ti/turbine-section/13-turbine-seal-housing-row-4-lower.mp4";
+import TI75 from "@/assets/videos/turbine-inspection/75-turbine-blade-row-3.mp4";
+import TI76 from "@/assets/videos/turbine-inspection/76-turbine-blade-row-2.mp4";
+import TI77 from "@/assets/videos/turbine-inspection/77-turbine-blade-row-1.mp4";
+import TI78 from "@/assets/videos/turbine-inspection/78-turbine-blade-ring-row-4-lower.mp4";
+import TI79 from "@/assets/videos/turbine-inspection/79-turbine-blade-ring-row-3-lower.mp4";
+import TI80 from "@/assets/videos/turbine-inspection/80-turbine-blade-ring-row-2-lower.mp4";
+import TI81 from "@/assets/videos/turbine-inspection/81-turbine-blade-ring-row-1-lower.mp4";
+import TI82 from "@/assets/videos/turbine-inspection/82-turbine-seal-housing-row-2-upper.mp4";
+import TI83 from "@/assets/videos/turbine-inspection/83-turbine-seal-housing-row-3-upper.mp4";
+import TI84 from "@/assets/videos/turbine-inspection/84-turbine-seal-housing-row-4-upper.mp4";
+import TI85 from "@/assets/videos/turbine-inspection/85-turbine-blade-ring-row-1-upper.mp4";
+import TI86 from "@/assets/videos/turbine-inspection/86-turbine-blade-ring-row-2-upper.mp4";
+import TI87 from "@/assets/videos/turbine-inspection/87-turbine-blade-ring-row-3-upper.mp4";
+import TI88 from "@/assets/videos/turbine-inspection/88-turbine-blade-ring-row-4-upper.mp4";
+import TI89 from "@/assets/videos/turbine-inspection/89-turbine-van-row-1-upper.mp4";
+import TI90 from "@/assets/videos/turbine-inspection/90-bypass-ring.mp4";
+import TI91 from "@/assets/videos/turbine-inspection/91-turbine-cylinder.mp4";
+import TI92 from "@/assets/videos/turbine-inspection/92-cooling-pipe.mp4";
+import TI93 from "@/assets/videos/turbine-inspection/93-transition-piece.mp4";
 
 const videosData = ref({
   ci: [
@@ -334,6 +461,366 @@ const videosData = ref({
       top: 235,
       left: 505,
     },
+    {
+      id: 8,
+      video: MI9,
+      duration: 5500,
+      name: "Discavity",
+      top: 210,
+      left: 535,
+    },
+    {
+      id: 9,
+      video: MI10,
+      duration: 5500,
+      name: "Flame Detector",
+      top: 225,
+      left: 690,
+    },
+    {
+      id: 10,
+      video: MI11,
+      duration: 5500,
+      name: "Flame Igniter",
+      top: 236,
+      left: 535,
+    },
+    {
+      id: 11,
+      video: MI12,
+      duration: 5500,
+      name: "Cross Flame",
+      top: 235,
+      left: 520,
+    },
+    {
+      id: 12,
+      video: MI13,
+      duration: 5500,
+      name: "Cooling Pipe",
+      top: 236,
+      left: 600,
+    },
+    {
+      id: 13,
+      video: MI14,
+      duration: 5500,
+      name: "Fuel Branch Pipe",
+      top: 230,
+      left: 730,
+    },
+    {
+      id: 14,
+      video: MI15,
+      duration: 5500,
+      name: "RCA Pipe",
+      top: 236,
+      left: 850,
+    },
+    {
+      id: 15,
+      video: MI16,
+      duration: 5500,
+      name: "Bleed Pipe",
+      top: 235,
+      left: 615,
+    },
+    {
+      id: 16,
+      video: MI17,
+      duration: 5500,
+      name: "Exhaust Manifold",
+      top: 235,
+      left: 565,
+    },
+    {
+      id: 17,
+      video: MI18,
+      duration: 5500,
+      name: "Top Hat",
+      top: 238,
+      left: 540,
+    },
+    {
+      id: 18,
+      video: MI19,
+      duration: 5500,
+      name: "Fuel Nozzle",
+      top: 237,
+      left: 1180,
+    },
+    {
+      id: 19,
+      video: MI20,
+      duration: 5500,
+      name: "Combustor Basket",
+      top: 237,
+      left: 1180,
+    },
+    {
+      id: 20,
+      video: MI21,
+      duration: 5500,
+      name: "Top Hat",
+      top: 238,
+      left: 1180,
+    },
+    {
+      id: 21,
+      video: MI22,
+      duration: 5500,
+      name: "Combustor Basket",
+      top: 238,
+      left: 1180,
+    },
+    {
+      id: 22,
+      video: MI23,
+      duration: 5500,
+      name: "Fuel Nozzle",
+      top: 238,
+      left: 1180,
+    },
+    {
+      id: 23,
+      video: MI24,
+      duration: 5500,
+      name: "Turbine Cylinder",
+      top: 238,
+      left: 1140,
+    },
+    {
+      id: 24,
+      video: MI25,
+      duration: 5500,
+      name: "Bypass Elbow",
+      top: 240,
+      left: 1080,
+    },
+    {
+      id: 25,
+      video: MI26,
+      duration: 5500,
+      name: "Transition Piece",
+      top: 240,
+      left: 1135,
+    },
+    {
+      id: 26,
+      video: MI27,
+      duration: 5500,
+      name: "U-Support",
+      top: 240,
+      left: 1210,
+    },
+    {
+      id: 27,
+      video: MI28,
+      duration: 5500,
+      name: "Bypass Ring",
+      top: 240,
+      left: 1140,
+    },
+    {
+      id: 28,
+      video: MI29,
+      duration: 5500,
+      name: "Turbine Vane Row 1",
+      top: 240,
+      left: 1040,
+    },
+    {
+      id: 29,
+      video: MI30,
+      duration: 5500,
+      name: "Turbine Blade Ring Row 4",
+      top: 240,
+      left: 1100,
+    },
+    {
+      id: 30,
+      video: MI31,
+      duration: 5500,
+      name: "Turbine Blade Ring Row 3",
+      top: 242,
+      left: 675,
+    },
+    {
+      id: 31,
+      video: MI32,
+      duration: 5500,
+      name: "Turbine Blade Ring Row 2",
+      top: 240,
+      left: 720,
+    },
+    {
+      id: 32,
+      video: MI33,
+      duration: 5500,
+      name: "Turbine Blade Ring Row 1",
+      top: 240,
+      left: 660,
+    },
+    {
+      id: 33,
+      video: MI34,
+      duration: 5500,
+      name: "Turbine Seal Housing Row 2",
+      top: 240,
+      left: 610,
+    },
+    {
+      id: 34,
+      video: MI35,
+      duration: 5500,
+      name: "Turbine Seal Housing Row 3",
+      top: 240,
+      left: 610,
+    },
+    {
+      id: 35,
+      video: MI36,
+      duration: 5500,
+      name: "Turbine Seal Housing Row 4",
+      top: 242,
+      left: 1180,
+    },
+    {
+      id: 36,
+      video: MI37,
+      duration: 5500,
+      name: "RCA Flexible Pipe Upper",
+      top: 238,
+      left: 1030,
+    },
+    {
+      id: 37,
+      video: MI38,
+      duration: 5500,
+      name: "Compressor-Comb Cylinder Upper",
+      top: 240,
+      left: 1050,
+    },
+    {
+      id: 38,
+      video: MI39,
+      duration: 5500,
+      name: "Compressor Blade Ring Row 1 Upper",
+      top: 240,
+      left: 1180,
+    },
+    {
+      id: 39,
+      video: MI40,
+      duration: 5500,
+      name: "Compressor Blade Ring Row 2 Upper",
+      top: 240,
+      left: 1180,
+    },
+    {
+      id: 40,
+      video: MI41,
+      duration: 5500,
+      name: "Compressor Blade Ring Row 3 Upper",
+      top: 240,
+      left: 1060,
+    },
+    {
+      id: 41,
+      video: MI42,
+      duration: 5500,
+      name: "Inlet Casing Upper",
+      top: 238,
+      left: 1180,
+    },
+    {
+      id: 42,
+      video: MI43,
+      duration: 5500,
+      name: "Exhaust Manifold Upper",
+      top: 238,
+      left: 1180,
+    },
+    {
+      id: 43,
+      video: MI44,
+      duration: 5500,
+      name: "Torque Tube Cover Upper",
+      top: 240,
+      left: 1010,
+    },
+    {
+      id: 44,
+      video: MI45,
+      duration: 5500,
+      name: "Seal Housing Torque Tube Cover Upper",
+      top: 238,
+      left: 1100,
+    },
+    {
+      id: 45,
+      video: MI46,
+      duration: 5500,
+      name: "OST Pipe",
+      top: 240,
+      left: 780,
+    },
+    {
+      id: 46,
+      video: MI47,
+      duration: 5500,
+      name: "OST Cover",
+      top: 238,
+      left: 740,
+    },
+    {
+      id: 47,
+      video: MI48,
+      duration: 5500,
+      name: "Exhaust Cylinder Upper",
+      top: 240,
+      left: 1000,
+    },
+    {
+      id: 48,
+      video: MI49,
+      duration: 5500,
+      name: "Thrust Bearing Cover",
+      top: 240,
+      left: 640,
+    },
+    {
+      id: 49,
+      video: MI50,
+      duration: 5500,
+      name: "Thrust Bearing Upper",
+      top: 240,
+      left: 700,
+    },
+    {
+      id: 50,
+      video: MI51,
+      duration: 5500,
+      name: "Thrust Bearing Lower",
+      top: 240,
+      left: 630,
+    },
+    {
+      id: 51,
+      video: MI52,
+      duration: 5500,
+      name: "Bearing 2 Upper",
+      top: 240,
+      left: 950,
+    },
+    {
+      id: 52,
+      video: MI53,
+      duration: 5500,
+      name: "Bearing 1 Upper",
+      top: 237,
+      left: 965,
+    },
   ],
   ti: [
     {
@@ -417,6 +904,776 @@ const videosData = ref({
       top: 240,
       left: 540,
     },
+    {
+      id: 11,
+      video: TI12,
+      duration: 1500,
+      name: "Cooling Pipe",
+      top: 240,
+      left: 700,
+    },
+    {
+      id: 12,
+      video: TI13,
+      duration: 1500,
+      name: "Turbine Cylinder",
+      top: 241,
+      left: 1010,
+    },
+    {
+      id: 13,
+      video: TI14,
+      duration: 1500,
+      name: "Bypass Elbow",
+      top: 240,
+      left: 970,
+    },
+    {
+      id: 14,
+      video: TI15,
+      duration: 1500,
+      name: "Transition Piece",
+      top: 240,
+      left: 1010,
+    },
+    {
+      id: 15,
+      video: TI16,
+      duration: 1500,
+      name: "U Support",
+      top: 240,
+      left: 1180,
+    },
+    {
+      id: 16,
+      video: TI17,
+      duration: 1500,
+      name: "Bypass Ring",
+      top: 240,
+      left: 960,
+    },
+    {
+      id: 17,
+      video: TI18,
+      duration: 1500,
+      name: "Turbine Vane Row 1 Upper",
+      top: 240,
+      left: 770,
+    },
+    {
+      id: 18,
+      video: TI19,
+      duration: 1500,
+      name: "Turbine Vane Row 4 Upper",
+      top: 240,
+      left: 860,
+    },
+    {
+      id: 19,
+      video: TI20,
+      duration: 1500,
+      name: "Turbine Vane Row 3 Upper",
+      top: 240,
+      left: 980,
+    },
+    {
+      id: 20,
+      video: TI21,
+      duration: 1500,
+      name: "Turbine Vane Row 2 Upper",
+      top: 240,
+      left: 640,
+    },
+    {
+      id: 21,
+      video: TI22,
+      duration: 1500,
+      name: "Turbine Blade Ring 1",
+      top: 240,
+      left: 815,
+    },
+    {
+      id: 22,
+      video: TI23,
+      duration: 1500,
+      name: "Turbine Seal Housing Row 2",
+      top: 240,
+      left: 690,
+    },
+    {
+      id: 23,
+      video: TI24,
+      duration: 1500,
+      name: "Turbine Seal Housing Row 3",
+      top: 240,
+      left: 1100,
+    },
+    {
+      id: 24,
+      video: TI25,
+      duration: 1500,
+      name: "Turbine Seal Housing Row 4 Lower",
+      top: 240,
+      left: 1090,
+    },
+    {
+      id: 25,
+      video: TI26,
+      duration: 1500,
+      name: "Turbine Blade Ring Row 1 Lower",
+      top: 428,
+      left: 780,
+    },
+    {
+      id: 26,
+      video: TI27,
+      duration: 1500,
+      name: "Turbine Blade Ring Row 2 Lower",
+      top: 240,
+      left: 610,
+    },
+    {
+      id: 27,
+      video: TI28,
+      duration: 1500,
+      name: "Turbine Blade Ring Row 3 Lower",
+      top: 240,
+      left: 1000,
+    },
+    {
+      id: 28,
+      video: TI29,
+      duration: 1500,
+      name: "Turbine Blade Ring Row 4 Lower",
+      top: 241,
+      left: 830,
+    },
+    {
+      id: 29,
+      video: TI30,
+      duration: 1500,
+      name: "Turbine Blade Row 1",
+      top: 243,
+      left: 750,
+    },
+    {
+      id: 30,
+      video: TI31,
+      duration: 1500,
+      name: "Turbine Blade Row 2",
+      top: 242,
+      left: 640,
+    },
+    {
+      id: 31,
+      video: TI32,
+      duration: 1500,
+      name: "Turbine Blade Row 3",
+      top: 241,
+      left: 950,
+    },
+    {
+      id: 32,
+      video: TI33,
+      duration: 1500,
+      name: "Turbine Ring Segment Row 1 Upper",
+      top: 240,
+      left: 880,
+    },
+    {
+      id: 33,
+      video: TI34,
+      duration: 1500,
+      name: "",
+      top: 0,
+      left: 0,
+    },
+    {
+      id: 34,
+      video: TI35,
+      duration: 1500,
+      name: "Turbine Ring Segment Row 1 Upper",
+      top: 240,
+      left: 725,
+    },
+    {
+      id: 35,
+      video: TI36,
+      duration: 1500,
+      name: "Turbine Ring Segment Row 2 Upper",
+      top: 240,
+      left: 770,
+    },
+    {
+      id: 36,
+      video: TI37,
+      duration: 1500,
+      name: "Turbine Vane Segment Row 2 Upper",
+      top: 240,
+      left: 890,
+    },
+    {
+      id: 37,
+      video: TI38,
+      duration: 1500,
+      name: "",
+      top: 0,
+      left: 0,
+    },
+    {
+      id: 38,
+      video: TI39,
+      duration: 1500,
+      name: "Turbine Vane Segment Row 2 Upper",
+      top: 240,
+      left: 890,
+    },
+    {
+      id: 39,
+      video: TI40,
+      duration: 1500,
+      name: "Turbine Ring Segment Row 2 Upper",
+      top: 240,
+      left: 770,
+    },
+    {
+      id: 40,
+      video: TI41,
+      duration: 1500,
+      name: "Turbine Ring Segment Row 3 Upper",
+      top: 241,
+      left: 680,
+    },
+    {
+      id: 41,
+      video: TI42,
+      duration: 1500,
+      name: "Turbine Vane Segment Row 3 Upper",
+      top: 241,
+      left: 890,
+    },
+    {
+      id: 42,
+      video: TI43,
+      duration: 1500,
+      name: "",
+      top: 0,
+      left: 0,
+    },
+    {
+      id: 43,
+      video: TI44,
+      duration: 1500,
+      name: "Turbine Vane Segment Row 3 Upper",
+      top: 241,
+      left: 890,
+    },
+    {
+      id: 44,
+      video: TI45,
+      duration: 1500,
+      name: "Turbine Ring Segment Row 3 Upper",
+      top: 241,
+      left: 690,
+    },
+    {
+      id: 45,
+      video: TI46,
+      duration: 1500,
+      name: "Turbine Ring Segment Row 4 Upper",
+      top: 241,
+      left: 690,
+    },
+    {
+      id: 46,
+      video: TI47,
+      duration: 1500,
+      name: "Turbine Vane Segment Row 4 Upper",
+      top: 241,
+      left: 890,
+    },
+    {
+      id: 47,
+      video: TI48,
+      duration: 1500,
+      name: "",
+      top: 0,
+      left: 0,
+    },
+    {
+      id: 48,
+      video: TI49,
+      duration: 1500,
+      name: "Turbine Vane Segment Row 4 Upper",
+      top: 241,
+      left: 890,
+    },
+    {
+      id: 49,
+      video: TI50,
+      duration: 1500,
+      name: "Turbine Ring Segment Row 4 Upper",
+      top: 241,
+      left: 690,
+    },
+    {
+      id: 50,
+      video: TI51,
+      duration: 1500,
+      name: "Turbine Ring Segment Row 1 Lower",
+      top: 241,
+      left: 690,
+    },
+    {
+      id: 51,
+      video: TI52,
+      duration: 1500,
+      name: "",
+      top: 0,
+      left: 0,
+    },
+    {
+      id: 52,
+      video: TI53,
+      duration: 1500,
+      name: "Turbine Ring Segment Row 1 Lower",
+      top: 241,
+      left: 690,
+    },
+    {
+      id: 53,
+      video: TI54,
+      duration: 1500,
+      name: "Turbine Seal Housing Row 2 Lower",
+      top: 241,
+      left: 930,
+    },
+    {
+      id: 54,
+      video: TI55,
+      duration: 1500,
+      name: "Turbine Ring Segment Row 2 Lower",
+      top: 241,
+      left: 730,
+    },
+    {
+      id: 55,
+      video: TI56,
+      duration: 1500,
+      name: "Turbine Vane Segment Row 2 Lower",
+      top: 240,
+      left: 810,
+    },
+    {
+      id: 56,
+      video: TI57,
+      duration: 1500,
+      name: "",
+      top: 0,
+      left: 0,
+    },
+    {
+      id: 57,
+      video: TI58,
+      duration: 1500,
+      name: "Turbine Vane Segment Row 2 Lower",
+      top: 240,
+      left: 810,
+    },
+    {
+      id: 58,
+      video: TI59,
+      duration: 1500,
+      name: "Turbine Ring Segment Row 2 Lower",
+      top: 240,
+      left: 730,
+    },
+    {
+      id: 59,
+      video: TI60,
+      duration: 1500,
+      name: "Turbine Seal Housing Row 2 Lower",
+      top: 241,
+      left: 935,
+    },
+    {
+      id: 60,
+      video: TI61,
+      duration: 1500,
+      name: "Turbine Seal Housing Row 3 Lower",
+      top: 242,
+      left: 1110,
+    },
+    {
+      id: 61,
+      video: TI62,
+      duration: 1500,
+      name: "Turbine Ring Segment Row 3 Lower",
+      top: 241,
+      left: 860,
+    },
+    {
+      id: 62,
+      video: TI63,
+      duration: 1500,
+      name: "Turbine Vane Segment Row 3 Lower",
+      top: 241,
+      left: 1005,
+    },
+    {
+      id: 63,
+      video: TI64,
+      duration: 1500,
+      name: "",
+      top: 0,
+      left: 0,
+    },
+    {
+      id: 64,
+      video: TI65,
+      duration: 1500,
+      name: "Turbine Vane Segment Row 3 Lower",
+      top: 241,
+      left: 1010,
+    },
+    {
+      id: 65,
+      video: TI66,
+      duration: 1500,
+      name: "Turbine Ring Segment Row 3 Lower",
+      top: 241,
+      left: 860,
+    },
+    {
+      id: 66,
+      video: TI67,
+      duration: 1500,
+      name: "Turbine Seal Housing Row 3 Lower",
+      top: 242,
+      left: 1110,
+    },
+    {
+      id: 67,
+      video: TI68,
+      duration: 1500,
+      name: "Turbine Seal Housing Row 4 Lower",
+      top: 241,
+      left: 1090,
+    },
+    {
+      id: 68,
+      video: TI69,
+      duration: 155000,
+      name: "Turbine Ring Segment Row 4 Lower",
+      top: 240,
+      left: 750,
+    },
+    {
+      id: 69,
+      video: TI70,
+      duration: 155000,
+      name: "Turbine Vane Segment Row 4 Lower",
+      top: 240,
+      left: 940,
+    },
+    {
+      id: 70,
+      video: TI71,
+      duration: 155000,
+      name: "",
+      top: 0,
+      left: 0,
+    },
+    {
+      id: 71,
+      video: TI72,
+      duration: 155000,
+      name: "Turbine Vane Segment Row 4 Lower",
+      top: 241,
+      left: 940,
+    },
+    {
+      id: 72,
+      video: TI73,
+      duration: 155000,
+      name: "Turbine Ring Segment Row 4 Lower",
+      top: 240,
+      left: 750,
+    },
+    {
+      id: 73,
+      video: TI74,
+      duration: 155000,
+      name: "Turbine Seal Housing Row 4 Lower",
+      top: 241,
+      left: 1140,
+    },
+    {
+      id: 74,
+      video: TI75,
+      duration: 155000,
+      name: "Turbine Blade Row 3",
+      top: 241,
+      left: 1090,
+    },
+    {
+      id: 75,
+      video: TI76,
+      duration: 155000,
+      name: "Turbine Blade Row 2",
+      top: 240,
+      left: 620,
+    },
+    {
+      id: 76,
+      video: TI77,
+      duration: 155000,
+      name: "Turbine Blade Row 1",
+      top: 240,
+      left: 785,
+    },
+    {
+      id: 77,
+      video: TI78,
+      duration: 155000,
+      name: "Turbine Blade Ring Row 4 Lower",
+      top: 241,
+      left: 920,
+    },
+    {
+      id: 78,
+      video: TI79,
+      duration: 155000,
+      name: "Turbine Blade Ring Row 3 Lower",
+      top: 241,
+      left: 1120,
+    },
+    {
+      id: 79,
+      video: TI80,
+      duration: 155000,
+      name: "Turbine Blade Ring Row 2 Lower",
+      top: 241,
+      left: 545,
+    },
+    {
+      id: 80,
+      video: TI81,
+      duration: 155000,
+      name: "Turbine Blade Ring Row 1 Lower",
+      top: 241,
+      left: 645,
+    },
+    {
+      id: 81,
+      video: TI82,
+      duration: 155000,
+      name: "Turbine Seal Housing Row 2 Upper",
+      top: 241,
+      left: 550,
+    },
+    {
+      id: 82,
+      video: TI83,
+      duration: 155000,
+      name: "Turbine Seal Housing Row 3 Upper",
+      top: 241,
+      left: 445,
+    },
+    {
+      id: 83,
+      video: TI84,
+      duration: 155000,
+      name: "Turbine Seal Housing Row 4 Upper",
+      top: 240,
+      left: 1030,
+    },
+    {
+      id: 84,
+      video: TI85,
+      duration: 155000,
+      name: "Turbine Blade Ring Row 1 Upper",
+      top: 238,
+      left: 620,
+    },
+    {
+      id: 85,
+      video: TI86,
+      duration: 155000,
+      name: "Turbine Blade Ring Row 2 Upper",
+      top: 238,
+      left: 1120,
+    },
+    {
+      id: 86,
+      video: TI87,
+      duration: 155000,
+      name: "Turbine Blade Ring Row 3 Upper",
+      top: 239,
+      left: 990,
+    },
+    {
+      id: 87,
+      video: TI88,
+      duration: 155000,
+      name: "Turbine Blade Ring Row 4 Upper",
+      top: 239,
+      left: 850,
+    },
+    {
+      id: 88,
+      video: TI89,
+      duration: 155000,
+      name: "Turbine Van Row 1 Upper",
+      top: 239,
+      left: 710,
+    },
+    {
+      id: 89,
+      video: TI90,
+      duration: 155000,
+      name: "Bypass Ring",
+      top: 238,
+      left: 840,
+    },
+    {
+      id: 90,
+      video: TI91,
+      duration: 155000,
+      name: "Turbine Cylinder",
+      top: 238,
+      left: 1085,
+    },
+    {
+      id: 91,
+      video: TI92,
+      duration: 155000,
+      name: "Cooling Pipe",
+      top: 238,
+      left: 1060,
+    },
+    {
+      id: 92,
+      video: TI93,
+      duration: 155000,
+      name: "Transition Piece",
+      top: 241,
+      left: 1090,
+    },
+    {
+      id: 93,
+      video: CI12,
+      duration: 3500,
+      name: "U-Support",
+      top: 235,
+      left: 785,
+    },
+    {
+      id: 94,
+      video: CI13,
+      duration: 3500,
+      name: "Bypass Elbow",
+      top: 235,
+      left: 515,
+    },
+    {
+      id: 95,
+      video: CI14,
+      duration: 3500,
+      name: "Transition Piece",
+      top: 237,
+      left: 615,
+    },
+    { id: 96, video: CI15, duration: 3500, name: "", top: 0, left: 0 },
+    {
+      id: 97,
+      video: CI16,
+      duration: 2500,
+      name: "Transition Piece",
+      top: 237,
+      left: 615,
+    },
+    {
+      id: 98,
+      video: CI17,
+      duration: 2500,
+      name: "U-Support",
+      top: 237,
+      left: 630,
+    },
+    {
+      id: 99,
+      video: CI18,
+      duration: 5500,
+      name: "Bypass Elbow",
+      top: 235,
+      left: 790,
+    },
+    {
+      id: 100,
+      video: CI19,
+      duration: 5500,
+      name: "Top Hat",
+      top: 233,
+      left: 685,
+    },
+    {
+      id: 101,
+      video: CI20,
+      duration: 4500,
+      name: "Cross Flame Tube",
+      top: 237,
+      left: 580,
+    },
+    {
+      id: 102,
+      video: CI21,
+      duration: 5500,
+      name: "Flame Detector",
+      top: 237,
+      left: 785,
+    },
+    {
+      id: 103,
+      video: CI22,
+      duration: 8500,
+      name: "Manhole Turbine",
+      top: 235,
+      left: 615,
+    },
+    {
+      id: 104,
+      video: CI23,
+      duration: 5500,
+      name: "Discavity Temperature",
+      top: 230,
+      left: 630,
+    },
+    {
+      id: 105,
+      video: CI24,
+      duration: 3500,
+      name: "Black Patch Temperature",
+      top: 238,
+      left: 420,
+    },
+    {
+      id: 106,
+      video: CI25,
+      duration: 5500,
+      name: "Fuel Branch Pipe",
+      top: 237,
+      left: 420,
+    },
+    {
+      id: 107,
+      video: CI26,
+      duration: 4500,
+      name: "Flame Igniter",
+      top: 236,
+      left: 525,
+    },
+    { id: 108, video: CI27, duration: 4500, name: "", top: 0, left: 0 },
   ],
 });
 
