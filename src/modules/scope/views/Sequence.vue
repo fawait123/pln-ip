@@ -57,6 +57,51 @@ import MI5 from "@/assets/videos/major-inspection/5-vapor-pipe.mp4";
 import MI6 from "@/assets/videos/major-inspection/6-coupling-bolt.mp4";
 import MI7 from "@/assets/videos/major-inspection/7-coupling-spacer.mp4";
 import MI8 from "@/assets/videos/major-inspection/8-black-patch-temperature.mp4";
+import MI9 from "@/assets/videos/major-inspection/9-discavity.mp4";
+import MI10 from "@/assets/videos/major-inspection/10-flame-detector.mp4";
+import MI11 from "@/assets/videos/major-inspection/11-flame-igniter.mp4";
+import MI12 from "@/assets/videos/major-inspection/12-cross-flame.mp4";
+import MI13 from "@/assets/videos/major-inspection/13-cooling-pipe.mp4";
+import MI14 from "@/assets/videos/major-inspection/14-fuel-branch-pipe.mp4";
+import MI15 from "@/assets/videos/major-inspection/15-rca-pipe.mp4";
+import MI16 from "@/assets/videos/major-inspection/16-bleed-pipe.mp4";
+import MI17 from "@/assets/videos/major-inspection/17-exhaust-manifold.mp4";
+import MI18 from "@/assets/videos/major-inspection/18-top-hat.mp4";
+import MI19 from "@/assets/videos/major-inspection/19-fuel-nozzle.mp4";
+import MI20 from "@/assets/videos/major-inspection/20-combustor-basket.mp4";
+import MI21 from "@/assets/videos/major-inspection/21-top-hat.mp4";
+import MI22 from "@/assets/videos/major-inspection/22-combustor-basket.mp4";
+import MI23 from "@/assets/videos/major-inspection/23-fuel-nozzle.mp4";
+import MI24 from "@/assets/videos/major-inspection/24-turbine-cylinder.mp4";
+import MI25 from "@/assets/videos/major-inspection/25-bypass-elbow.mp4";
+import MI26 from "@/assets/videos/major-inspection/26-transition-piece.mp4";
+import MI27 from "@/assets/videos/major-inspection/27-u-support.mp4";
+import MI28 from "@/assets/videos/major-inspection/28-bypass-ring.mp4";
+import MI29 from "@/assets/videos/major-inspection/29-turbine-vane-row-1.mp4";
+import MI30 from "@/assets/videos/major-inspection/30-turbine-blade-ring-row-4.mp4";
+import MI31 from "@/assets/videos/major-inspection/31-turbine-blade-ring-row-3.mp4";
+import MI32 from "@/assets/videos/major-inspection/32-turbine-blade-ring-row-2.mp4";
+import MI33 from "@/assets/videos/major-inspection/33-turbine-blade-ring-row-1.mp4";
+import MI34 from "@/assets/videos/major-inspection/34-turbine-seal-housing-row-2.mp4";
+import MI35 from "@/assets/videos/major-inspection/35-turbine-seal-housing-row-3.mp4";
+import MI36 from "@/assets/videos/major-inspection/36-turbine-seal-housing-row-4.mp4";
+import MI37 from "@/assets/videos/major-inspection/37-rca-flexible-pipe-upper.mp4";
+import MI38 from "@/assets/videos/major-inspection/38-compressor-comb-cylinder-upper.mp4";
+import MI39 from "@/assets/videos/major-inspection/39-compressor-blade-ring-row-1-upper.mp4";
+import MI40 from "@/assets/videos/major-inspection/40-compressor-blade-ring-row-2-upper.mp4";
+import MI41 from "@/assets/videos/major-inspection/41-compressor-blade-ring-row-3-upper.mp4";
+import MI42 from "@/assets/videos/major-inspection/42-inlet-casing-upper.mp4";
+import MI43 from "@/assets/videos/major-inspection/43-exhaust-manifold-upper.mp4";
+import MI44 from "@/assets/videos/major-inspection/44-torque-tube-cover-upper.mp4";
+import MI45 from "@/assets/videos/major-inspection/45-seal-housing-torque-tube-cover-upper.mp4";
+import MI46 from "@/assets/videos/major-inspection/46-ost-pipe.mp4";
+import MI47 from "@/assets/videos/major-inspection/47-ost-cover.mp4";
+import MI48 from "@/assets/videos/major-inspection/48-exhaust-cylinder-upper.mp4";
+import MI49 from "@/assets/videos/major-inspection/49-thrust-bearing-cover.mp4";
+import MI50 from "@/assets/videos/major-inspection/50-thrust-bearing-upper.mp4";
+import MI51 from "@/assets/videos/major-inspection/51-thrust-bearing-lower.mp4";
+import MI52 from "@/assets/videos/major-inspection/52-bearing-2-upper.mp4";
+import MI53 from "@/assets/videos/major-inspection/53-bearing-1-upper.mp4";
 
 // VIDEO TI
 import TI1 from "@/assets/videos/combustion-inspection/1-manhole-turbine-cylinder.mp4";
@@ -415,6 +460,366 @@ const videosData = ref({
       name: "Black Patch Temperature",
       top: 235,
       left: 505,
+    },
+    {
+      id: 8,
+      video: MI9,
+      duration: 5500,
+      name: "Discavity",
+      top: 210,
+      left: 535,
+    },
+    {
+      id: 9,
+      video: MI10,
+      duration: 5500,
+      name: "Flame Detector",
+      top: 225,
+      left: 690,
+    },
+    {
+      id: 10,
+      video: MI11,
+      duration: 5500,
+      name: "Flame Igniter",
+      top: 236,
+      left: 535,
+    },
+    {
+      id: 11,
+      video: MI12,
+      duration: 5500,
+      name: "Cross Flame",
+      top: 235,
+      left: 520,
+    },
+    {
+      id: 12,
+      video: MI13,
+      duration: 5500,
+      name: "Cooling Pipe",
+      top: 236,
+      left: 600,
+    },
+    {
+      id: 13,
+      video: MI14,
+      duration: 5500,
+      name: "Fuel Branch Pipe",
+      top: 230,
+      left: 730,
+    },
+    {
+      id: 14,
+      video: MI15,
+      duration: 5500,
+      name: "RCA Pipe",
+      top: 236,
+      left: 850,
+    },
+    {
+      id: 15,
+      video: MI16,
+      duration: 5500,
+      name: "Bleed Pipe",
+      top: 235,
+      left: 615,
+    },
+    {
+      id: 16,
+      video: MI17,
+      duration: 5500,
+      name: "Exhaust Manifold",
+      top: 235,
+      left: 565,
+    },
+    {
+      id: 17,
+      video: MI18,
+      duration: 5500,
+      name: "Top Hat",
+      top: 238,
+      left: 540,
+    },
+    {
+      id: 18,
+      video: MI19,
+      duration: 5500,
+      name: "Fuel Nozzle",
+      top: 237,
+      left: 1180,
+    },
+    {
+      id: 19,
+      video: MI20,
+      duration: 5500,
+      name: "Combustor Basket",
+      top: 237,
+      left: 1180,
+    },
+    {
+      id: 20,
+      video: MI21,
+      duration: 5500,
+      name: "Top Hat",
+      top: 238,
+      left: 1180,
+    },
+    {
+      id: 21,
+      video: MI22,
+      duration: 5500,
+      name: "Combustor Basket",
+      top: 238,
+      left: 1180,
+    },
+    {
+      id: 22,
+      video: MI23,
+      duration: 5500,
+      name: "Fuel Nozzle",
+      top: 238,
+      left: 1180,
+    },
+    {
+      id: 23,
+      video: MI24,
+      duration: 5500,
+      name: "Turbine Cylinder",
+      top: 238,
+      left: 1140,
+    },
+    {
+      id: 24,
+      video: MI25,
+      duration: 5500,
+      name: "Bypass Elbow",
+      top: 240,
+      left: 1080,
+    },
+    {
+      id: 25,
+      video: MI26,
+      duration: 5500,
+      name: "Transition Piece",
+      top: 240,
+      left: 1135,
+    },
+    {
+      id: 26,
+      video: MI27,
+      duration: 5500,
+      name: "U-Support",
+      top: 240,
+      left: 1210,
+    },
+    {
+      id: 27,
+      video: MI28,
+      duration: 5500,
+      name: "Bypass Ring",
+      top: 240,
+      left: 1140,
+    },
+    {
+      id: 28,
+      video: MI29,
+      duration: 5500,
+      name: "Turbine Vane Row 1",
+      top: 240,
+      left: 1040,
+    },
+    {
+      id: 29,
+      video: MI30,
+      duration: 5500,
+      name: "Turbine Blade Ring Row 4",
+      top: 240,
+      left: 1100,
+    },
+    {
+      id: 30,
+      video: MI31,
+      duration: 5500,
+      name: "Turbine Blade Ring Row 3",
+      top: 242,
+      left: 675,
+    },
+    {
+      id: 31,
+      video: MI32,
+      duration: 5500,
+      name: "Turbine Blade Ring Row 2",
+      top: 240,
+      left: 720,
+    },
+    {
+      id: 32,
+      video: MI33,
+      duration: 5500,
+      name: "Turbine Blade Ring Row 1",
+      top: 240,
+      left: 660,
+    },
+    {
+      id: 33,
+      video: MI34,
+      duration: 5500,
+      name: "Turbine Seal Housing Row 2",
+      top: 240,
+      left: 610,
+    },
+    {
+      id: 34,
+      video: MI35,
+      duration: 5500,
+      name: "Turbine Seal Housing Row 3",
+      top: 240,
+      left: 610,
+    },
+    {
+      id: 35,
+      video: MI36,
+      duration: 5500,
+      name: "Turbine Seal Housing Row 4",
+      top: 242,
+      left: 1180,
+    },
+    {
+      id: 36,
+      video: MI37,
+      duration: 5500,
+      name: "RCA Flexible Pipe Upper",
+      top: 238,
+      left: 1030,
+    },
+    {
+      id: 37,
+      video: MI38,
+      duration: 5500,
+      name: "Compressor-Comb Cylinder Upper",
+      top: 240,
+      left: 1050,
+    },
+    {
+      id: 38,
+      video: MI39,
+      duration: 5500,
+      name: "Compressor Blade Ring Row 1 Upper",
+      top: 240,
+      left: 1180,
+    },
+    {
+      id: 39,
+      video: MI40,
+      duration: 5500,
+      name: "Compressor Blade Ring Row 2 Upper",
+      top: 240,
+      left: 1180,
+    },
+    {
+      id: 40,
+      video: MI41,
+      duration: 5500,
+      name: "Compressor Blade Ring Row 3 Upper",
+      top: 240,
+      left: 1060,
+    },
+    {
+      id: 41,
+      video: MI42,
+      duration: 5500,
+      name: "Inlet Casing Upper",
+      top: 238,
+      left: 1180,
+    },
+    {
+      id: 42,
+      video: MI43,
+      duration: 5500,
+      name: "Exhaust Manifold Upper",
+      top: 238,
+      left: 1180,
+    },
+    {
+      id: 43,
+      video: MI44,
+      duration: 5500,
+      name: "Torque Tube Cover Upper",
+      top: 240,
+      left: 1010,
+    },
+    {
+      id: 44,
+      video: MI45,
+      duration: 5500,
+      name: "Seal Housing Torque Tube Cover Upper",
+      top: 238,
+      left: 1100,
+    },
+    {
+      id: 45,
+      video: MI46,
+      duration: 5500,
+      name: "OST Pipe",
+      top: 240,
+      left: 780,
+    },
+    {
+      id: 46,
+      video: MI47,
+      duration: 5500,
+      name: "OST Cover",
+      top: 238,
+      left: 740,
+    },
+    {
+      id: 47,
+      video: MI48,
+      duration: 5500,
+      name: "Exhaust Cylinder Upper",
+      top: 240,
+      left: 1000,
+    },
+    {
+      id: 48,
+      video: MI49,
+      duration: 5500,
+      name: "Thrust Bearing Cover",
+      top: 240,
+      left: 640,
+    },
+    {
+      id: 49,
+      video: MI50,
+      duration: 5500,
+      name: "Thrust Bearing Upper",
+      top: 240,
+      left: 700,
+    },
+    {
+      id: 50,
+      video: MI51,
+      duration: 5500,
+      name: "Thrust Bearing Lower",
+      top: 240,
+      left: 630,
+    },
+    {
+      id: 51,
+      video: MI52,
+      duration: 5500,
+      name: "Bearing 2 Upper",
+      top: 240,
+      left: 950,
+    },
+    {
+      id: 52,
+      video: MI53,
+      duration: 5500,
+      name: "Bearing 1 Upper",
+      top: 237,
+      left: 965,
     },
   ],
   ti: [
