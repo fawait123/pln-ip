@@ -130,6 +130,75 @@ import MI113 from "@/assets/videos/add-scope/ti/turbine-section/10.mp4";
 import MI114 from "@/assets/videos/add-scope/ti/turbine-section/11-turbine-vane-segment-row-4-lower.mp4";
 import MI115 from "@/assets/videos/add-scope/ti/turbine-section/12-turbine-ring-segment-row-4-lower.mp4";
 import MI116 from "@/assets/videos/add-scope/ti/turbine-section/13-turbine-seal-housing-row-4-lower.mp4";
+import MI117 from "@/assets/videos/major-inspection/117-compressor-diaphragm-row-1-upper.mp4";
+import MI118 from "@/assets/videos/major-inspection/118-compressor-diaphragm-row-2-upper.mp4";
+import MI119 from "@/assets/videos/major-inspection/119-compressor-diaphragm-row-3-upper.mp4";
+import MI120 from "@/assets/videos/major-inspection/120-compressor-diaphragm-row-4-upper.mp4";
+import MI121 from "@/assets/videos/major-inspection/121-compressor-diaphragm-row-5-upper.mp4";
+import MI122 from "@/assets/videos/major-inspection/122-compressor-diaphragm-row-6-upper.mp4";
+import MI123 from "@/assets/videos/major-inspection/123-compressor-diaphragm-row-1-upper.mp4";
+import MI124 from "@/assets/videos/major-inspection/124-compressor-diaphragm-row-2-upper.mp4";
+import MI125 from "@/assets/videos/major-inspection/125-compressor-diaphragm-row-3-upper.mp4";
+import MI126 from "@/assets/videos/major-inspection/126-compressor-diaphragm-row-4-upper.mp4";
+import MI127 from "@/assets/videos/major-inspection/127-compressor-diaphragm-row-5-upper.mp4";
+import MI128 from "@/assets/videos/major-inspection/128-compressor-diaphragm-row-6-upper.mp4";
+import MI129 from "@/assets/videos/major-inspection/129-compressor-diaphragm-row-15-lower.mp4";
+import MI130 from "@/assets/videos/major-inspection/130-compressor-diaphragm-row-16-lower.mp4";
+import MI131 from "@/assets/videos/major-inspection/131-ogv-lower.mp4";
+import MI132 from "@/assets/videos/major-inspection/132.mp4";
+import MI133 from "@/assets/videos/major-inspection/133-ogv-lower.mp4";
+import MI134 from "@/assets/videos/major-inspection/134-compressor-diaphragm-row-17-lower.mp4";
+import MI135 from "@/assets/videos/major-inspection/135-compressor-diaphragm-row-16-lower.mp4";
+import MI136 from "@/assets/videos/major-inspection/136-compressor-diaphragm-row-15-lower.mp4";
+import MI137 from "@/assets/videos/major-inspection/137-compressor-diaphragm-row-14-lower.mp4";
+import MI138 from "@/assets/videos/major-inspection/138-compressor-diaphragm-row-13-lower.mp4";
+import MI139 from "@/assets/videos/major-inspection/139-compressor-diaphragm-row-12-lower.mp4";
+import MI140 from "@/assets/videos/major-inspection/140.mp4";
+import MI141 from "@/assets/videos/major-inspection/141-compressor-diaphragm-row-12-lower.mp4";
+import MI142 from "@/assets/videos/major-inspection/142-compressor-diaphragm-row-13-lower.mp4";
+import MI143 from "@/assets/videos/major-inspection/143-compressor-diaphragm-row-12-lower.mp4";
+import MI144 from "@/assets/videos/major-inspection/144-compressor-diaphragm-row-11-lower.mp4";
+import MI145 from "@/assets/videos/major-inspection/145-compressor-diaphragm-row-10-lower.mp4";
+import MI146 from "@/assets/videos/major-inspection/146-compressor-diaphragm-row-9-lower.mp4";
+import MI147 from "@/assets/videos/major-inspection/147-compressor-diaphragm-row-8-lower.mp4";
+import MI148 from "@/assets/videos/major-inspection/148-compressor-diaphragm-row-7-lower.mp4";
+import MI149 from "@/assets/videos/major-inspection/149.mp4";
+import MI150 from "@/assets/videos/major-inspection/150-compressor-diaphragm-row-7-lower.mp4";
+import MI151 from "@/assets/videos/major-inspection/151-compressor-diaphragm-row-8-lower.mp4";
+import MI152 from "@/assets/videos/major-inspection/152-compressor-diaphragm-row-9-lower.mp4";
+import MI153 from "@/assets/videos/major-inspection/153-compressor-diaphragm-row-10-lower.mp4";
+import MI154 from "@/assets/videos/major-inspection/154-compressor-diaphragm-row-11-lower.mp4";
+import MI155 from "@/assets/videos/major-inspection/155-compressor-diaphragm-row-15-upper.mp4";
+import MI156 from "@/assets/videos/major-inspection/156-compressor-diaphragm-row-16-upper.mp4";
+import MI157 from "@/assets/videos/major-inspection/157-compressor-diaphragm-row-17-upper.mp4";
+import MI158 from "@/assets/videos/major-inspection/158-ogv-upper.mp4";
+import MI159 from "@/assets/videos/major-inspection/159.mp4";
+import MI160 from "@/assets/videos/major-inspection/160-ogv-upper.mp4";
+import MI161 from "@/assets/videos/major-inspection/161-compressor-diaphragm-row-17-upper.mp4";
+import MI162 from "@/assets/videos/major-inspection/162-compressor-diaphragm-row-16-upper.mp4";
+import MI163 from "@/assets/videos/major-inspection/163-compressor-diaphragm-row-14-upper.mp4";
+import MI164 from "@/assets/videos/major-inspection/164-compressor-diaphragm-row-13-upper.mp4";
+import MI165 from "@/assets/videos/major-inspection/165-compressor-diaphragm-row-12-upper.mp4";
+import MI166 from "@/assets/videos/major-inspection/166.mp4";
+import MI167 from "@/assets/videos/major-inspection/167-compressor-diaphragm-row-12-upper.mp4";
+import MI168 from "@/assets/videos/major-inspection/168-compressor-diaphragm-row-13-upper.mp4";
+import MI169 from "@/assets/videos/major-inspection/169-compressor-diaphragm-row-14-upper.mp4";
+import MI170 from "@/assets/videos/major-inspection/170-compressor-diaphragm-row-11-upper.mp4";
+import MI171 from "@/assets/videos/major-inspection/171-compressor-diaphragm-row-10-upper.mp4";
+import MI172 from "@/assets/videos/major-inspection/172-compressor-diaphragm-row-9-upper.mp4";
+import MI173 from "@/assets/videos/major-inspection/173-compressor-diaphragm-row-8-upper.mp4";
+import MI174 from "@/assets/videos/major-inspection/174-compressor-diaphragm-row-7-upper.mp4";
+import MI175 from "@/assets/videos/major-inspection/175.mp4";
+import MI176 from "@/assets/videos/major-inspection/176-compressor-diaphragm-row-7-upper.mp4";
+import MI177 from "@/assets/videos/major-inspection/177-compressor-diaphragm-row-8-upper.mp4";
+import MI178 from "@/assets/videos/major-inspection/178-compressor-diaphragm-row-9-upper.mp4";
+import MI179 from "@/assets/videos/major-inspection/179-compressor-diaphragm-row-10-upper.mp4";
+import MI180 from "@/assets/videos/major-inspection/180-compressor-diaphragm-row-11-upper.mp4";
+import MI181 from "@/assets/videos/major-inspection/181-igv-link.mp4";
+import MI182 from "@/assets/videos/add-scope/ci/compressor-section/6-seal-housing-upper.mp4";
+import MI183 from "@/assets/videos/add-scope/ci/compressor-section/7-igv-upper.mp4";
+import MI184 from "@/assets/videos/add-scope/ci/compressor-section/54-seal-housing.mp4";
+import MI185 from "@/assets/videos/add-scope/ci/compressor-section/55-igv-link.mp4";
 
 // VIDEO TI
 import TI1 from "@/assets/videos/combustion-inspection/1-manhole-turbine-cylinder.mp4";
@@ -1352,6 +1421,558 @@ const videosData = ref({
       name: "Seal Housing Row 4 Lower",
       top: 241,
       left: 1140,
+    },
+    {
+      id: 116,
+      video: MI117,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 1 Upper",
+      top: 239,
+      left: 750,
+    },
+    {
+      id: 117,
+      video: MI118,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 2 Upper",
+      top: 239,
+      left: 630,
+    },
+    {
+      id: 118,
+      video: MI119,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 3 Upper",
+      top: 239,
+      left: 550,
+    },
+    {
+      id: 119,
+      video: MI120,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 4 Upper",
+      top: 239,
+      left: 640,
+    },
+    {
+      id: 120,
+      video: MI121,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 5 Upper",
+      top: 239,
+      left: 580,
+    },
+    {
+      id: 121,
+      video: MI122,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 6 Upper",
+      top: 239,
+      left: 520,
+    },
+    {
+      id: 122,
+      video: MI123,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 1 Upper",
+      top: 240,
+      left: 900,
+    },
+    {
+      id: 123,
+      video: MI124,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 2 Upper",
+      top: 240,
+      left: 790,
+    },
+    {
+      id: 124,
+      video: MI125,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 3 Upper",
+      top: 241,
+      left: 700,
+    },
+    {
+      id: 125,
+      video: MI126,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 4 Upper",
+      top: 241,
+      left: 640,
+    },
+    {
+      id: 126,
+      video: MI127,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 5 Upper",
+      top: 241,
+      left: 570,
+    },
+    {
+      id: 127,
+      video: MI128,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 6 Upper",
+      top: 240,
+      left: 520,
+    },
+    {
+      id: 128,
+      video: MI129,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 15 Lower",
+      top: 241,
+      left: 990,
+    },
+    {
+      id: 129,
+      video: MI130,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 16 Lower",
+      top: 241,
+      left: 985,
+    },
+    {
+      id: 130,
+      video: MI131,
+      duration: 155000,
+      name: "OGV Lower",
+      top: 239,
+      left: 970,
+    },
+    {
+      id: 131,
+      video: MI132,
+      duration: 155000,
+      name: "",
+      top: 0,
+      left: 0,
+    },
+    {
+      id: 132,
+      video: MI133,
+      duration: 155000,
+      name: "OGV Lower",
+      top: 239,
+      left: 970,
+    },
+    {
+      id: 133,
+      video: MI134,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 17 Lower",
+      top: 243,
+      left: 1140,
+    },
+    {
+      id: 134,
+      video: MI135,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 16 Lower",
+      top: 241,
+      left: 980,
+    },
+    {
+      id: 135,
+      video: MI136,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 15 Lower",
+      top: 241,
+      left: 985,
+    },
+    {
+      id: 136,
+      video: MI137,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 14 Lower",
+      top: 241,
+      left: 1010,
+    },
+    {
+      id: 137,
+      video: MI138,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 13 Lower",
+      top: 239,
+      left: 1010,
+    },
+    {
+      id: 138,
+      video: MI139,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 12 Lower",
+      top: 240,
+      left: 1090,
+    },
+    {
+      id: 139,
+      video: MI140,
+      duration: 155000,
+      name: "",
+      top: 0,
+      left: 0,
+    },
+    {
+      id: 140,
+      video: MI141,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 12 Lower",
+      top: 240,
+      left: 1090,
+    },
+    {
+      id: 141,
+      video: MI142,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 13 Lower",
+      top: 240,
+      left: 1010,
+    },
+    {
+      id: 142,
+      video: MI143,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 12 Lower",
+      top: 239,
+      left: 970,
+    },
+    {
+      id: 143,
+      video: MI144,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 11 Lower",
+      top: 241,
+      left: 1205,
+    },
+    {
+      id: 144,
+      video: MI145,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 10 Lower",
+      top: 239,
+      left: 1205,
+    },
+    {
+      id: 145,
+      video: MI146,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 9 Lower",
+      top: 239,
+      left: 1205,
+    },
+    {
+      id: 146,
+      video: MI147,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 8 Lower",
+      top: 237,
+      left: 1205,
+    },
+    {
+      id: 147,
+      video: MI148,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 7 Lower",
+      top: 237,
+      left: 1200,
+    },
+    {
+      id: 148,
+      video: MI149,
+      duration: 155000,
+      name: "",
+      top: 0,
+      left: 0,
+    },
+    {
+      id: 149,
+      video: MI150,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 7 Lower",
+      top: 237,
+      left: 1190,
+    },
+    {
+      id: 150,
+      video: MI151,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 8 Lower",
+      top: 237,
+      left: 1205,
+    },
+    {
+      id: 151,
+      video: MI152,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 9 Lower",
+      top: 238,
+      left: 1205,
+    },
+    {
+      id: 152,
+      video: MI153,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 10 Lower",
+      top: 238,
+      left: 1205,
+    },
+    {
+      id: 153,
+      video: MI154,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 11 Lower",
+      top: 240,
+      left: 1205,
+    },
+    {
+      id: 154,
+      video: MI155,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 15 Upper",
+      top: 241,
+      left: 1210,
+    },
+    {
+      id: 155,
+      video: MI156,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 16 Upper",
+      top: 240,
+      left: 1195,
+    },
+    {
+      id: 156,
+      video: MI157,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 17 Upper",
+      top: 240,
+      left: 1210,
+    },
+    {
+      id: 157,
+      video: MI158,
+      duration: 155000,
+      name: "OGV Upper",
+      top: 237,
+      left: 1210,
+    },
+    {
+      id: 158,
+      video: MI159,
+      duration: 155000,
+      name: "",
+      top: 0,
+      left: 0,
+    },
+    {
+      id: 159,
+      video: MI160,
+      duration: 155000,
+      name: "OGV Upper",
+      top: 237,
+      left: 1210,
+    },
+    {
+      id: 160,
+      video: MI161,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 17 Upper",
+      top: 240,
+      left: 1210,
+    },
+    {
+      id: 161,
+      video: MI162,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 16 Upper",
+      top: 240,
+      left: 1195,
+    },
+    {
+      id: 162,
+      video: MI163,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 14 Upper",
+      top: 238,
+      left: 1090,
+    },
+    {
+      id: 163,
+      video: MI164,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 13 Upper",
+      top: 241,
+      left: 1090,
+    },
+    {
+      id: 164,
+      video: MI165,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 12 Upper",
+      top: 240,
+      left: 1090,
+    },
+    {
+      id: 165,
+      video: MI166,
+      duration: 155000,
+      name: "",
+      top: 0,
+      left: 0,
+    },
+    {
+      id: 166,
+      video: MI167,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 12 Upper",
+      top: 241,
+      left: 1090,
+    },
+    {
+      id: 167,
+      video: MI168,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 13 Upper",
+      top: 241,
+      left: 1090,
+    },
+    {
+      id: 168,
+      video: MI169,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 14 Upper",
+      top: 238,
+      left: 1090,
+    },
+    {
+      id: 169,
+      video: MI170,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 11 Upper",
+      top: 240,
+      left: 1100,
+    },
+    {
+      id: 170,
+      video: MI171,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 10 Upper",
+      top: 240,
+      left: 1090,
+    },
+    {
+      id: 171,
+      video: MI172,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 9 Upper",
+      top: 238,
+      left: 1090,
+    },
+    {
+      id: 172,
+      video: MI173,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 8 Upper",
+      top: 241,
+      left: 1160,
+    },
+    {
+      id: 173,
+      video: MI174,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 7 Upper",
+      top: 241,
+      left: 1160,
+    },
+    {
+      id: 174,
+      video: MI175,
+      duration: 155000,
+      name: "",
+      top: 0,
+      left: 0,
+    },
+    {
+      id: 175,
+      video: MI176,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 7 Upper",
+      top: 241,
+      left: 1155,
+    },
+    {
+      id: 176,
+      video: MI177,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 8 Upper",
+      top: 241,
+      left: 1160,
+    },
+    {
+      id: 177,
+      video: MI178,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 9 Upper",
+      top: 238,
+      left: 1090,
+    },
+    {
+      id: 178,
+      video: MI179,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 10 Upper",
+      top: 239,
+      left: 1090,
+    },
+    {
+      id: 179,
+      video: MI180,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 11 Upper",
+      top: 240,
+      left: 1100,
+    },
+    {
+      id: 180,
+      video: MI181,
+      duration: 155000,
+      name: "IGV Link",
+      top: 241,
+      left: 840,
+    },
+    {
+      id: 181,
+      video: MI182,
+      duration: 155000,
+      name: "Seal Housing Upper",
+      top: 235,
+      left: 510,
+    },
+    {
+      id: 182,
+      video: MI183,
+      duration: 155000,
+      name: "IGV Upper",
+      top: 235,
+      left: 570,
+    },
+    {
+      id: 183,
+      video: MI184,
+      duration: 155000,
+      name: "Seal Housing Upper",
+      top: 236,
+      left: 515,
+    },
+    {
+      id: 184,
+      video: MI185,
+      duration: 155000,
+      name: "IGV Link",
+      top: 233,
+      left: 810,
     },
   ],
   ti: [
