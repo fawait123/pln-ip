@@ -240,6 +240,26 @@ import MI223 from "@/assets/videos/major-inspection/223-turbine-blade-ring-row-2
 import MI224 from "@/assets/videos/major-inspection/224-bearing-1-lower .mp4";
 import MI225 from "@/assets/videos/major-inspection/225-bearing-2-lower.mp4";
 import MI226 from "@/assets/videos/major-inspection/226-turbine-compressor-rotor.mp4";
+import MI227 from "@/assets/videos/major-inspection/227-bearing-2-upper.mp4";
+import MI228 from "@/assets/videos/major-inspection/228-bearing-1-upper.mp4";
+import MI229 from "@/assets/videos/major-inspection/229-exhaust-cylinder-upper.mp4";
+import MI230 from "@/assets/videos/major-inspection/230-seal-housing-torque-cover-upper.mp4";
+import MI231 from "@/assets/videos/major-inspection/231-inlet-casing-upper.mp4";
+import MI232 from "@/assets/videos/major-inspection/232-torque-tube-cover-upper.mp4";
+import MI233 from "@/assets/videos/major-inspection/233-compressor-blade-ring-row-1-upper.mp4";
+import MI234 from "@/assets/videos/major-inspection/234-compressor-blade-ring-row-2-upper.mp4";
+import MI235 from "@/assets/videos/major-inspection/235-compressor-blade-ring-row-3-upper.mp4";
+import MI236 from "@/assets/videos/major-inspection/236-compressor-comb-cylinder-upper.mp4";
+import MI237 from "@/assets/videos/major-inspection/237-rca-flexible-pipe-upper.mp4";
+import MI238 from "@/assets/videos/major-inspection/238-turbine-seal-housing-row-2-upper.mp4";
+import MI239 from "@/assets/videos/major-inspection/239-turbine-seal-housing-row-3-upper.mp4";
+import MI240 from "@/assets/videos/major-inspection/240-turbine-seal-housing-row-4-upper.mp4";
+import MI241 from "@/assets/videos/major-inspection/241-turbine-blade-ring-row-4-upper.mp4";
+import MI242 from "@/assets/videos/major-inspection/242-turbine-blade-ring-row-3-upper.mp4";
+import MI243 from "@/assets/videos/major-inspection/243-turbine-blade-ring-row-2-upper.mp4";
+import MI244 from "@/assets/videos/major-inspection/244-turbine-blade-ring-row-1-upper.mp4";
+import MI245 from "@/assets/videos/major-inspection/245-turbine-vane-segment-row-1.mp4";
+import MI246 from "@/assets/videos/major-inspection/246-bypass-ring-upper.mp4";
 
 // VIDEO TI
 import TI1 from "@/assets/videos/combustion-inspection/1-manhole-turbine-cylinder.mp4";
@@ -2343,6 +2363,166 @@ const videosData = ref({
       name: "Turbine Compressor Rotor",
       top: 238,
       left: 760,
+    },
+    {
+      id: 226,
+      video: MI227,
+      duration: 155000,
+      name: "Bearing 2 Upper",
+      top: 239,
+      left: 910,
+    },
+    {
+      id: 227,
+      video: MI228,
+      duration: 155000,
+      name: "Bearing 1 Upper",
+      top: 238,
+      left: 1070,
+    },
+    {
+      id: 228,
+      video: MI229,
+      duration: 155000,
+      name: "Exhaust Cylinder Upper",
+      top: 237,
+      left: 1070,
+    },
+    {
+      id: 229,
+      video: MI230,
+      duration: 155000,
+      name: "Seal Housing Torque Cover Upper",
+      top: 238,
+      left: 1110,
+    },
+    {
+      id: 230,
+      video: MI231,
+      duration: 155000,
+      name: "Inlet Casing Upper",
+      top: 238,
+      left: 1290,
+    },
+    {
+      id: 231,
+      video: MI232,
+      duration: 155000,
+      name: "Torque Tube Cover Upper",
+      top: 240,
+      left: 1110,
+    },
+    {
+      id: 232,
+      video: MI233,
+      duration: 155000,
+      name: "Compressor Blade Ring Row 1 Upper",
+      top: 239,
+      left: 1320,
+    },
+    {
+      id: 233,
+      video: MI234,
+      duration: 155000,
+      name: "Compressor Blade Ring Row 2 Upper",
+      top: 239,
+      left: 1160,
+    },
+    {
+      id: 234,
+      video: MI235,
+      duration: 155000,
+      name: "Compressor Blade Ring Row 3 Upper",
+      top: 239,
+      left: 1180,
+    },
+    {
+      id: 235,
+      video: MI236,
+      duration: 155000,
+      name: "Compressor-comb Cylinder Upper",
+      top: 240,
+      left: 1270,
+    },
+    {
+      id: 236,
+      video: MI237,
+      duration: 155000,
+      name: "RCA Flexible Pipe Upper",
+      top: 239,
+      left: 1210,
+    },
+    {
+      id: 237,
+      video: MI238,
+      duration: 155000,
+      name: "Turbine Seal Housing Row 2 Upper",
+      top: 239,
+      left: 1210,
+    },
+    {
+      id: 238,
+      video: MI239,
+      duration: 155000,
+      name: "Compressor Blade Ring Row 3 Upper",
+      top: 239,
+      left: 1180,
+    },
+    {
+      id: 239,
+      video: MI240,
+      duration: 155000,
+      name: "Compressor Blade Ring Row 4 Upper",
+      top: 239,
+      left: 1210,
+    },
+    {
+      id: 240,
+      video: MI241,
+      duration: 155000,
+      name: "Turbine Blade Ring Row 4 Upper",
+      top: 239,
+      left: 1210,
+    },
+    {
+      id: 241,
+      video: MI242,
+      duration: 155000,
+      name: "Turbine Blade Ring Row 3 Upper",
+      top: 239,
+      left: 1210,
+    },
+    {
+      id: 242,
+      video: MI243,
+      duration: 155000,
+      name: "Turbine Blade Ring Row 2 Upper",
+      top: 239,
+      left: 1320,
+    },
+    {
+      id: 243,
+      video: MI244,
+      duration: 155000,
+      name: "Turbine Blade Ring Row 1 Upper",
+      top: 239,
+      left: 1320,
+    },
+    {
+      id: 244,
+      video: MI245,
+      duration: 155000,
+      name: "Turbine Vane Segment Row 1",
+      top: 239,
+      left: 1420,
+    },
+    {
+      id: 245,
+      video: MI246,
+      duration: 155000,
+      name: "Bypass Ring Upper",
+      top: 239,
+      left: 1540,
     },
   ],
   ti: [
