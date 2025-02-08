@@ -260,6 +260,36 @@ import MI243 from "@/assets/videos/major-inspection/243-turbine-blade-ring-row-2
 import MI244 from "@/assets/videos/major-inspection/244-turbine-blade-ring-row-1-upper.mp4";
 import MI245 from "@/assets/videos/major-inspection/245-turbine-vane-segment-row-1.mp4";
 import MI246 from "@/assets/videos/major-inspection/246-bypass-ring-upper.mp4";
+import MI247 from "@/assets/videos/major-inspection/247-ost-device.mp4";
+import MI248 from "@/assets/videos/major-inspection/248-ost-cover.mp4";
+import MI249 from "@/assets/videos/major-inspection/249-ost-pipe.mp4";
+import MI250 from "@/assets/videos/major-inspection/250-exhaust-manifold-upper.mp4";
+import MI251 from "@/assets/videos/major-inspection/251-u-support.mp4";
+import MI252 from "@/assets/videos/major-inspection/252-transition-piece.mp4";
+import MI253 from "@/assets/videos/major-inspection/253-bypass-elbow.mp4";
+import MI254 from "@/assets/videos/major-inspection/254-turbine-cylinder-upper.mp4";
+import MI255 from "@/assets/videos/major-inspection/255-top-hat.mp4";
+import MI256 from "@/assets/videos/major-inspection/256-cooling-pipe.mp4";
+import MI257 from "@/assets/videos/major-inspection/257-rca-pipe.mp4";
+import MI258 from "@/assets/videos/major-inspection/258-bleed-pipe.mp4";
+import MI259 from "@/assets/videos/major-inspection/259-fuel-gas-manifold.mp4";
+import MI260 from "@/assets/videos/major-inspection/260-fuel-branch-pipe.mp4";
+import MI261 from "@/assets/videos/major-inspection/261-cross-flame-tube.mp4";
+import MI262 from "@/assets/videos/major-inspection/262-flame-detector.mp4";
+import MI263 from "@/assets/videos/major-inspection/263-manhole-turbine-cylinder.mp4";
+import MI264 from "@/assets/videos/major-inspection/264-discavity-temperature.mp4";
+import MI265 from "@/assets/videos/major-inspection/265-black-patch-temperature.mp4";
+import MI266 from "@/assets/videos/major-inspection/266-flame-igniter.mp4";
+import MI267 from "@/assets/videos/major-inspection/267-thrust-bearing-lower.mp4";
+import MI268 from "@/assets/videos/major-inspection/268-thrust-bearing-upper.mp4";
+import MI269 from "@/assets/videos/major-inspection/269-thrust-bearing-cover.mp4";
+import MI270 from "@/assets/videos/major-inspection/270-coupling-spacer.mp4";
+import MI271 from "@/assets/videos/major-inspection/271-coupling-bolt.mp4";
+import MI272 from "@/assets/videos/major-inspection/272-vapour-pipe.mp4";
+import MI273 from "@/assets/videos/major-inspection/273-coupling-cover-lower.mp4";
+import MI274 from "@/assets/videos/major-inspection/274-coupling-cover-upper.mp4";
+import MI275 from "@/assets/videos/major-inspection/275-inlet-manifold.mp4";
+import MI276 from "@/assets/videos/major-inspection/276-inlet-duct.mp4";
 
 // VIDEO TI
 import TI1 from "@/assets/videos/combustion-inspection/1-manhole-turbine-cylinder.mp4";
@@ -2523,6 +2553,246 @@ const videosData = ref({
       name: "Bypass Ring Upper",
       top: 239,
       left: 1540,
+    },
+    {
+      id: 246,
+      video: MI247,
+      duration: 155000,
+      name: "OST Device",
+      top: 239,
+      left: 1260,
+    },
+    {
+      id: 247,
+      video: MI248,
+      duration: 155000,
+      name: "OST Cover",
+      top: 239,
+      left: 1400,
+    },
+    {
+      id: 248,
+      video: MI249,
+      duration: 155000,
+      name: "OST Pipe",
+      top: 239,
+      left: 1280,
+    },
+    {
+      id: 249,
+      video: MI250,
+      duration: 155000,
+      name: "Exhaust Manifold Upper",
+      top: 239,
+      left: 1350,
+    },
+    {
+      id: 250,
+      video: MI251,
+      duration: 155000,
+      name: "U-Support",
+      top: 239,
+      left: 1420,
+    },
+    {
+      id: 251,
+      video: MI252,
+      duration: 155000,
+      name: "Transition Piece",
+      top: 239,
+      left: 1360,
+    },
+    {
+      id: 252,
+      video: MI253,
+      duration: 155000,
+      name: "Bypass Elbow",
+      top: 239,
+      left: 1290,
+    },
+    {
+      id: 253,
+      video: MI254,
+      duration: 155000,
+      name: "Turbine Cylinder Upper",
+      top: 239,
+      left: 1350,
+    },
+    {
+      id: 254,
+      video: MI255,
+      duration: 155000,
+      name: "Top Hat",
+      top: 239,
+      left: 1340,
+    },
+    {
+      id: 255,
+      video: MI256,
+      duration: 155000,
+      name: "Cooling Pipe",
+      top: 239,
+      left: 1260,
+    },
+    {
+      id: 256,
+      video: MI257,
+      duration: 155000,
+      name: "RCA Pipe",
+      top: 239,
+      left: 1420,
+    },
+    {
+      id: 257,
+      video: MI258,
+      duration: 155000,
+      name: "Bleed Pipe",
+      top: 239,
+      left: 1320,
+    },
+    {
+      id: 258,
+      video: MI259,
+      duration: 155000,
+      name: "Fuel Gas Manifold",
+      top: 239,
+      left: 1355,
+    },
+    {
+      id: 259,
+      video: MI260,
+      duration: 155000,
+      name: "Fuel Branch Pipe",
+      top: 239,
+      left: 1340,
+    },
+    {
+      id: 260,
+      video: MI261,
+      duration: 155000,
+      name: "Cross Flame Tube",
+      top: 239,
+      left: 1210,
+    },
+    {
+      id: 261,
+      video: MI262,
+      duration: 155000,
+      name: "Flame Detector",
+      top: 239,
+      left: 1535,
+    },
+    {
+      id: 262,
+      video: MI263,
+      duration: 155000,
+      name: "Manhole Turbine Cylinder",
+      top: 239,
+      left: 1350,
+    },
+    {
+      id: 263,
+      video: MI264,
+      duration: 155000,
+      name: "Discavity Temperature",
+      top: 239,
+      left: 1300,
+    },
+    {
+      id: 264,
+      video: MI265,
+      duration: 155000,
+      name: "Black Patch Temperature",
+      top: 239,
+      left: 1270,
+    },
+    {
+      id: 265,
+      video: MI266,
+      duration: 155000,
+      name: "Flame Igniter",
+      top: 239,
+      left: 1320,
+    },
+    {
+      id: 266,
+      video: MI267,
+      duration: 155000,
+      name: "Thrust Bearing Lower",
+      top: 239,
+      left: 1470,
+    },
+    {
+      id: 267,
+      video: MI268,
+      duration: 155000,
+      name: "Thrust Bearing Upper",
+      top: 239,
+      left: 1420,
+    },
+    {
+      id: 268,
+      video: MI269,
+      duration: 155000,
+      name: "Thrust Bearing Cover",
+      top: 239,
+      left: 1210,
+    },
+    {
+      id: 269,
+      video: MI270,
+      duration: 155000,
+      name: "Coupling Spacer",
+      top: 239,
+      left: 1145,
+    },
+    {
+      id: 270,
+      video: MI271,
+      duration: 155000,
+      name: "Coupling Bolt",
+      top: 239,
+      left: 1230,
+    },
+    {
+      id: 271,
+      video: MI272,
+      duration: 155000,
+      name: "Vapour Pipe",
+      top: 239,
+      left: 1180,
+    },
+    {
+      id: 272,
+      video: MI273,
+      duration: 155000,
+      name: "Coupling Cover Lower",
+      top: 239,
+      left: 1210,
+    },
+    {
+      id: 273,
+      video: MI274,
+      duration: 155000,
+      name: "Coupling Cover Upper",
+      top: 239,
+      left: 1310,
+    },
+    {
+      id: 274,
+      video: MI275,
+      duration: 155000,
+      name: "Inlet Manifold",
+      top: 239,
+      left: 1210,
+    },
+    {
+      id: 275,
+      video: MI276,
+      duration: 155000,
+      name: "Inlet Duct",
+      top: 239,
+      left: 1215,
     },
   ],
   ti: [
