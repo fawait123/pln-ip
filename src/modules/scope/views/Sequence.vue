@@ -220,6 +220,26 @@ import MI203 from "@/assets/videos/major-inspection/203-compressor-blade-row-4.m
 import MI204 from "@/assets/videos/major-inspection/204-compressor-blade-row-3.mp4";
 import MI205 from "@/assets/videos/major-inspection/205-compressor-blade-row-2.mp4";
 import MI206 from "@/assets/videos/major-inspection/206-compressor-blade-row-1.mp4";
+import MI207 from "@/assets/videos/major-inspection/207-igv-lower.mp4";
+import MI208 from "@/assets/videos/major-inspection/208-igv-link-lower.mp4";
+import MI209 from "@/assets/videos/major-inspection/209-inlet-seal-housing-lower.mp4";
+import MI210 from "@/assets/videos/major-inspection/210-compressor-diaphragm-row-6-lower.mp4";
+import MI211 from "@/assets/videos/major-inspection/211-compressor-diaphragm-row-5-lower.mp4";
+import MI212 from "@/assets/videos/major-inspection/212-compressor-diaphragm-row-4-lower.mp4";
+import MI213 from "@/assets/videos/major-inspection/213-compressor-diaphragm-row-3-lower.mp4";
+import MI214 from "@/assets/videos/major-inspection/214-compressor-diaphragm-row-2-lower.mp4";
+import MI215 from "@/assets/videos/major-inspection/215-compressor-diaphragm-row-1-lower.mp4";
+import MI216 from "@/assets/videos/major-inspection/216-compressor-blade-ring-row-3-lower.mp4";
+import MI217 from "@/assets/videos/major-inspection/217-compressor-blade-ring-row-2-lower.mp4";
+import MI218 from "@/assets/videos/major-inspection/218-compressor-blade-ring-row-1-lower.mp4";
+import MI219 from "@/assets/videos/major-inspection/219-seal-housing-torque-tube-cover-lower.mp4";
+import MI220 from "@/assets/videos/major-inspection/220-turbine-blade-ring-row-4-lower.mp4";
+import MI221 from "@/assets/videos/major-inspection/221-turbine-blade-ring-row-1-lower.mp4";
+import MI222 from "@/assets/videos/major-inspection/222-turbine-blade-ring-row-2-lower.mp4";
+import MI223 from "@/assets/videos/major-inspection/223-turbine-blade-ring-row-2-lower.mp4";
+import MI224 from "@/assets/videos/major-inspection/224-bearing-1-lower .mp4";
+import MI225 from "@/assets/videos/major-inspection/225-bearing-2-lower.mp4";
+import MI226 from "@/assets/videos/major-inspection/226-turbine-compressor-rotor.mp4";
 
 // VIDEO TI
 import TI1 from "@/assets/videos/combustion-inspection/1-manhole-turbine-cylinder.mp4";
@@ -2162,6 +2182,167 @@ const videosData = ref({
       name: "Compressor Blade Row 1",
       top: 238,
       left: 1310,
+    },
+
+    {
+      id: 206,
+      video: MI207,
+      duration: 155000,
+      name: "IGV Lower",
+      top: 238,
+      left: 1185,
+    },
+    {
+      id: 207,
+      video: MI208,
+      duration: 155000,
+      name: "IGV Link Lower",
+      top: 238,
+      left: 1185,
+    },
+    {
+      id: 208,
+      video: MI209,
+      duration: 155000,
+      name: "Inlet Seal Housing Lower",
+      top: 238,
+      left: 1185,
+    },
+    {
+      id: 209,
+      video: MI210,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 6 Lower",
+      top: 238,
+      left: 1185,
+    },
+    {
+      id: 210,
+      video: MI211,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 5 Lower",
+      top: 238,
+      left: 1120,
+    },
+    {
+      id: 211,
+      video: MI212,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 4 Lower",
+      top: 238,
+      left: 1120,
+    },
+    {
+      id: 212,
+      video: MI213,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 3 Lower",
+      top: 238,
+      left: 1120,
+    },
+    {
+      id: 213,
+      video: MI214,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 2 Lower",
+      top: 238,
+      left: 1120,
+    },
+    {
+      id: 214,
+      video: MI215,
+      duration: 155000,
+      name: "Compressor Diaphragm Row 1 Lower",
+      top: 238,
+      left: 1120,
+    },
+    {
+      id: 215,
+      video: MI216,
+      duration: 155000,
+      name: "Compressor Blade Ring Row 3 Lower",
+      top: 238,
+      left: 1120,
+    },
+    {
+      id: 216,
+      video: MI217,
+      duration: 155000,
+      name: "Compressor Blade Ring Row 2 Lower",
+      top: 238,
+      left: 1120,
+    },
+    {
+      id: 217,
+      video: MI218,
+      duration: 155000,
+      name: "Compressor Blade Ring Row 1 Lower",
+      top: 238,
+      left: 1120,
+    },
+    {
+      id: 218,
+      video: MI219,
+      duration: 155000,
+      name: "Seal Housing Torque Tube Cover Lower",
+      top: 238,
+      left: 665,
+    },
+    {
+      id: 219,
+      video: MI220,
+      duration: 155000,
+      name: "Turbine Blade Ring Row 4 Lower",
+      top: 238,
+      left: 870,
+    },
+    {
+      id: 220,
+      video: MI221,
+      duration: 155000,
+      name: "Turbine Blade Ring Row 1 Lower",
+      top: 238,
+      left: 1270,
+    },
+    {
+      id: 221,
+      video: MI222,
+      duration: 155000,
+      name: "Turbine Blade Ring Row 2 Lower",
+      top: 238,
+      left: 1270,
+    },
+    {
+      id: 222,
+      video: MI223,
+      duration: 155000,
+      name: "Turbine Blade Ring Row 2 Lower",
+      top: 239,
+      left: 940,
+    },
+    {
+      id: 223,
+      video: MI224,
+      duration: 155000,
+      name: "Bearing 1 Lower",
+      top: 238,
+      left: 1290,
+    },
+    {
+      id: 224,
+      video: MI225,
+      duration: 155000,
+      name: "Bearing 2 Lower",
+      top: 238,
+      left: 1290,
+    },
+    {
+      id: 225,
+      video: MI226,
+      duration: 155000,
+      name: "Turbine Compressor Rotor",
+      top: 238,
+      left: 760,
     },
   ],
   ti: [
