@@ -199,6 +199,27 @@ import MI182 from "@/assets/videos/add-scope/ci/compressor-section/6-seal-housin
 import MI183 from "@/assets/videos/add-scope/ci/compressor-section/7-igv-upper.mp4";
 import MI184 from "@/assets/videos/add-scope/ci/compressor-section/54-seal-housing.mp4";
 import MI185 from "@/assets/videos/add-scope/ci/compressor-section/55-igv-link.mp4";
+import MI186 from "@/assets/videos/major-inspection/186-turbine-blade-row-4.mp4";
+import MI187 from "@/assets/videos/major-inspection/187-turbine-blade-row-3.mp4";
+import MI188 from "@/assets/videos/major-inspection/188-turbine-blade-row-2.mp4";
+import MI189 from "@/assets/videos/major-inspection/189-turbine-blade-row-1.mp4";
+import MI190 from "@/assets/videos/major-inspection/190-turbine-blade-row-4.mp4";
+import MI191 from "@/assets/videos/major-inspection/191-turbine-blade-row-3.mp4";
+import MI192 from "@/assets/videos/major-inspection/192-turbine-blade-row-2.mp4";
+import MI193 from "@/assets/videos/major-inspection/193-turbine-blade-row-1.mp4";
+import MI194 from "@/assets/videos/major-inspection/194-compressor-blade-row-1.mp4";
+import MI195 from "@/assets/videos/major-inspection/195-compressor-blade-row-2.mp4";
+import MI196 from "@/assets/videos/major-inspection/196-compressor-blade-row-3.mp4";
+import MI197 from "@/assets/videos/major-inspection/197-compressor-blade-row-4.mp4";
+import MI198 from "@/assets/videos/major-inspection/198-compressor-blade-row-5.mp4";
+import MI199 from "@/assets/videos/major-inspection/199-compressor-blade-row-6.mp4";
+import MI200 from "@/assets/videos/major-inspection/200.mp4";
+import MI201 from "@/assets/videos/major-inspection/201-compressor-blade-row-6.mp4";
+import MI202 from "@/assets/videos/major-inspection/202-compressor-blade-row-5.mp4";
+import MI203 from "@/assets/videos/major-inspection/203-compressor-blade-row-4.mp4";
+import MI204 from "@/assets/videos/major-inspection/204-compressor-blade-row-3.mp4";
+import MI205 from "@/assets/videos/major-inspection/205-compressor-blade-row-2.mp4";
+import MI206 from "@/assets/videos/major-inspection/206-compressor-blade-row-1.mp4";
 
 // VIDEO TI
 import TI1 from "@/assets/videos/combustion-inspection/1-manhole-turbine-cylinder.mp4";
@@ -1973,6 +1994,174 @@ const videosData = ref({
       name: "IGV Link",
       top: 233,
       left: 810,
+    },
+    {
+      id: 185,
+      video: MI186,
+      duration: 155000,
+      name: "Turbine Blade Row 4",
+      top: 238,
+      left: 890,
+    },
+    {
+      id: 186,
+      video: MI187,
+      duration: 155000,
+      name: "Turbine Blade Row 3",
+      top: 238,
+      left: 990,
+    },
+    {
+      id: 187,
+      video: MI188,
+      duration: 155000,
+      name: "Turbine Blade Row 2",
+      top: 238,
+      left: 1090,
+    },
+    {
+      id: 188,
+      video: MI189,
+      duration: 155000,
+      name: "Turbine Blade Row 1",
+      top: 238,
+      left: 1175,
+    },
+    {
+      id: 189,
+      video: MI190,
+      duration: 155000,
+      name: "Turbine Blade Row 4",
+      top: 238,
+      left: 895,
+    },
+    {
+      id: 190,
+      video: MI191,
+      duration: 155000,
+      name: "Turbine Blade Row 3",
+      top: 238,
+      left: 990,
+    },
+    {
+      id: 191,
+      video: MI192,
+      duration: 155000,
+      name: "Turbine Blade Row 2",
+      top: 237,
+      left: 1090,
+    },
+    {
+      id: 192,
+      video: MI193,
+      duration: 155000,
+      name: "Turbine Blade Row 1",
+      top: 237,
+      left: 1180,
+    },
+    {
+      id: 193,
+      video: MI194,
+      duration: 155000,
+      name: "Compressor Blade Row 1",
+      top: 238,
+      left: 1310,
+    },
+    {
+      id: 194,
+      video: MI195,
+      duration: 155000,
+      name: "Compressor Blade Row 2",
+      top: 236,
+      left: 1100,
+    },
+    {
+      id: 195,
+      video: MI196,
+      duration: 155000,
+      name: "Compressor Blade Row 3",
+      top: 237,
+      left: 940,
+    },
+    {
+      id: 196,
+      video: MI197,
+      duration: 155000,
+      name: "Compressor Blade Row 4",
+      top: 237,
+      left: 830,
+    },
+    {
+      id: 197,
+      video: MI198,
+      duration: 155000,
+      name: "Compressor Blade Row 5",
+      top: 237,
+      left: 730,
+    },
+    {
+      id: 198,
+      video: MI199,
+      duration: 155000,
+      name: "Compressor Blade Row 6",
+      top: 238,
+      left: 620,
+    },
+    {
+      id: 199,
+      video: MI200,
+      duration: 155000,
+      name: "",
+      top: 0,
+      left: 0,
+    },
+    {
+      id: 200,
+      video: MI201,
+      duration: 155000,
+      name: "Compressor Blade Row 6",
+      top: 238,
+      left: 620,
+    },
+    {
+      id: 201,
+      video: MI202,
+      duration: 155000,
+      name: "Compressor Blade Row 5",
+      top: 238,
+      left: 730,
+    },
+    {
+      id: 202,
+      video: MI203,
+      duration: 155000,
+      name: "Compressor Blade Row 4",
+      top: 238,
+      left: 830,
+    },
+    {
+      id: 203,
+      video: MI204,
+      duration: 155000,
+      name: "Compressor Blade Row 3",
+      top: 237,
+      left: 940,
+    },
+    {
+      id: 204,
+      video: MI205,
+      duration: 155000,
+      name: "Compressor Blade Row 2",
+      top: 237,
+      left: 1100,
+    },
+    {
+      id: 205,
+      video: MI206,
+      duration: 155000,
+      name: "Compressor Blade Row 1",
+      top: 238,
+      left: 1310,
     },
   ],
   ti: [
