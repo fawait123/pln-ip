@@ -4017,7 +4017,10 @@ onUnmounted(() => {
           <p class="mt-6 text-2xl text-neutral-50 font-bold">
             Inspection Sequences:
           </p>
-          <ul class="mt-2 max-h-[calc(100vh-220px)] overflow-y-auto">
+          <ul
+            v-if="route.params.menu === 'ci'"
+            class="mt-2 max-h-[calc(100vh-220px)] overflow-y-auto"
+          >
             <p class="text-neutral-50 text-lg font-bold mt-1">Disassembly</p>
             <li
               v-for="(item, key) in videos.slice(0, 14)"
@@ -4034,6 +4037,19 @@ onUnmounted(() => {
             <p class="text-neutral-50 text-lg font-bold mt-2">Assembly</p>
             <li
               v-for="(item, key) in videos.slice(15, 27)"
+              :key="item.id"
+              class="list-disc list-inside mt-1"
+              :class="{ hidden: item.name === '' }"
+              @click="handleJumpStep(item.id + 1)"
+            >
+              <a class="text-neutral-50 hover:text-cyan-500 cursor-pointer">
+                {{ item.name }}
+              </a>
+            </li>
+          </ul>
+          <ul v-else class="mt-2 max-h-[calc(100vh-220px)] overflow-y-auto">
+            <li
+              v-for="(item, key) in videos"
               :key="item.id"
               class="list-disc list-inside mt-1"
               :class="{ hidden: item.name === '' }"

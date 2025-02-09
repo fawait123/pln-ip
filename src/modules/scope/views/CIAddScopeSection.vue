@@ -4,12 +4,20 @@ import { storeToRefs } from "pinia";
 import { useRouter, useRoute } from "vue-router";
 
 import eventBus from "@/utils/eventBus";
-import { Breadcrumb } from "@/components";
+// import { Breadcrumb } from "@/components";
 import { useGlobalStore } from "@/stores/GlobalStore";
-import { convertToOriginalFormat } from "@/helpers/global";
+// import { convertToOriginalFormat } from "@/helpers/global";
 import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 import ButtonPart from "../components/ButtonPart.vue";
 import Sidebar from "@/components/layouts/Sidebar.vue";
+import {
+  DialogContent,
+  DialogDescription,
+  DialogPortal,
+  DialogRoot,
+  DialogTitle,
+  VisuallyHidden,
+} from "radix-vue";
 
 // CI
 // VIDEO INLET
@@ -416,7 +424,6 @@ import MI182 from "@/assets/videos/add-scope/ci/compressor-section/6-seal-housin
 import MI183 from "@/assets/videos/add-scope/ci/compressor-section/7-igv-upper.mp4";
 import MI184 from "@/assets/videos/add-scope/ci/compressor-section/54-seal-housing.mp4";
 import MI185 from "@/assets/videos/add-scope/ci/compressor-section/55-igv-link.mp4";
-
 import MICompressorSection1 from "@/assets/videos/add-scope/mi/compressor-section/1-compressor-blade-row-1.mp4";
 import MICompressorSection2 from "@/assets/videos/add-scope/mi/compressor-section/2-compressor-blade-row-2.mp4";
 import MICompressorSection3 from "@/assets/videos/add-scope/mi/compressor-section/3-compressor-blade-row-3.mp4";
@@ -430,7 +437,6 @@ import MICompressorSection10 from "@/assets/videos/add-scope/mi/compressor-secti
 import MICompressorSection11 from "@/assets/videos/add-scope/mi/compressor-section/11-compressor-blade-row-3.mp4";
 import MICompressorSection12 from "@/assets/videos/add-scope/mi/compressor-section/12-compressor-blade-row-2.mp4";
 import MICompressorSection13 from "@/assets/videos/add-scope/mi/compressor-section/13-compressor-blade-row-1.mp4";
-
 import MI207 from "@/assets/videos/major-inspection/207-igv-lower.mp4";
 import MI208 from "@/assets/videos/major-inspection/208-igv-link-lower.mp4";
 import MI209 from "@/assets/videos/major-inspection/209-inlet-seal-housing-lower.mp4";
@@ -5845,6 +5851,45 @@ onUnmounted(() => {
       </div>
     </div>
   </div>
+
+  <DialogRoot v-model:open="openStep">
+    <DialogPortal>
+      <DialogContent
+        class="v-drawer-content"
+        @interact-outside="() => (openStep = false)"
+      >
+        <VisuallyHidden>
+          <DialogTitle />
+          <DialogDescription />
+        </VisuallyHidden>
+        <div class="p-4">
+          <div class="flex justify-start">
+            <Icon
+              name="double-arrow-right"
+              class="text-[24px] text-neutral-50 cursor-pointer hover:text-cyan-500"
+              @click="handleCloseStep"
+            />
+          </div>
+          <p class="mt-6 text-2xl text-neutral-50 font-bold">
+            Inspection Sequences:
+          </p>
+          <ul class="mt-2 max-h-[calc(100vh-220px)] overflow-y-auto">
+            <li
+              v-for="(item, key) in videos"
+              :key="item.id"
+              class="list-disc list-inside mt-1"
+              :class="{ hidden: item.name === '' }"
+              @click="handleJumpStep(item.id + 1)"
+            >
+              <a class="text-neutral-50 hover:text-cyan-500 cursor-pointer">
+                {{ item.name }}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </DialogContent>
+    </DialogPortal>
+  </DialogRoot>
 </template>
 
 <style lang="sass"></style>
