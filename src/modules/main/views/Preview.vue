@@ -13,7 +13,7 @@ import type { ValueUploadType } from "@/components/fields/Upload.vue";
 
 const Data = ref<ScopeInterface[]>([
   {
-    id: 1,
+    id: "1",
     asset: "Vane Row 1",
     asset_welness: null,
     oh_recom: null,
@@ -21,6 +21,7 @@ const Data = ref<ScopeInterface[]>([
     history: null,
     rla: null,
     etc: null,
+    children: [],
   },
 ]);
 
@@ -83,7 +84,7 @@ const onCreate = (e: string) => {
   const new_data = [...Data.value];
 
   new_data.unshift({
-    id: new_data.length + 1,
+    id: (new_data.length + 1).toString(),
     asset: e,
     asset_welness: null,
     oh_recom: null,
@@ -91,6 +92,7 @@ const onCreate = (e: string) => {
     history: null,
     rla: null,
     etc: null,
+    children: [],
   });
 
   Data.value = new_data;
