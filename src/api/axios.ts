@@ -4,7 +4,7 @@ import { useAuthStore } from "@/modules/auth/stores/AuthStore";
 import { useRouter } from "vue-router";
 
 const api = axios.create({
-  baseURL: "",
+  baseURL: import.meta.env.VITE_API_BASE_URL,
 });
 
 api.interceptors.request.use(async (config) => {

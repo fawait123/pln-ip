@@ -16,6 +16,23 @@ export const Menus = [
     name: "Scope",
     url: "/scope",
     icon: "document",
+    children: [
+      {
+        id: 301,
+        name: "Mekanik",
+        url: "/scope-mekanik",
+      },
+      {
+        id: 302,
+        name: "Listrik",
+        url: "/scope-listrik",
+      },
+      {
+        id: 303,
+        name: "Instrument",
+        url: "/scope-instrument",
+      },
+    ],
   },
   {
     id: 4,

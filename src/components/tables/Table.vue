@@ -43,6 +43,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  loading: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits([
@@ -154,7 +158,26 @@ defineSlots<{
             </tr>
           </thead>
           <tbody>
+            <tr v-if="loading">
+              <td :colspan="columns.length + 1">
+                <div
+                  class="w-full flex justify-center py-4 text-neutral-50 text-lg font-bold"
+                >
+                  <p>Loading...</p>
+                </div>
+              </td>
+            </tr>
+            <tr v-if="!loading && entities.length === 0">
+              <td :colspan="columns.length + 1">
+                <div
+                  class="w-full flex justify-center py-4 text-neutral-50 text-lg font-bold"
+                >
+                  <p>Not Found Data</p>
+                </div>
+              </td>
+            </tr>
             <template
+              v-else-if="!loading && entities.length > 0"
               v-for="(entity, index) in entities"
               :key="`entity.${index}`"
             >

@@ -1,10 +1,15 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted } from "vue";
+import { onMounted, onUnmounted, reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
+import type { AxiosError } from "axios";
 
 import eventBus from "@/utils/eventBus";
 import { useGlobalStore } from "@/stores/GlobalStore";
+import { useQuery } from "@tanstack/vue-query";
+import { useDashboardStore } from "@/modules/dashboard/stores/DashboardStore";
+
+import type { TLocation } from "../types/DashboardType";
 
 const imgUrl = new URL("@/assets/images/priok.png", import.meta.url).href;
 
@@ -12,14 +17,37 @@ const globalStore = useGlobalStore();
 const { titleHeader, disabledNext } = storeToRefs(globalStore);
 const router = useRouter();
 const route = useRoute();
-const locationId = route.params.id;
+
+const dashboardStore = useDashboardStore();
+
+//--- GET LOCATION
+const { data: dataLocation, isFetching: isLoadingLocation } = useQuery({
+  queryKey: ["getLocationDetail"],
+  queryFn: async () => {
+    try {
+      const { data } = await dashboardStore.getLocation({
+        search: "",
+        filter: `uuid,${route.params.id}`,
+      });
+      const response = data.data as TLocation[];
+
+      titleHeader.value = `UBP ${response?.[0]?.name}`;
+
+      return response;
+    } catch (error: any) {
+      const err = error as AxiosError;
+      throw err.response;
+    }
+  },
+  refetchOnWindowFocus: false,
+});
+//--- END
 
 const handleBack = () => {
   router.push("/");
 };
 
 onMounted(() => {
-  titleHeader.value = `UBP ${locationId}`;
   disabledNext.value = true;
   eventBus.on("back", handleBack);
 });
@@ -39,7 +67,7 @@ onUnmounted(() => {
     }"
   >
     <div class="trapezoid">
-      <p>UBP {{ locationId }}</p>
+      <p>UBP {{ dataLocation?.[0]?.name }}</p>
       <p>
         Unit Bisnis Pembangkitan Priok yang berlokasi di pantai utara Jakarta
         mengelola 14 unit dengan 8 unit PLTGU dan 6 Pusat Listrik Tenaga Diesel

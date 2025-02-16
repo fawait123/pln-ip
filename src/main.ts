@@ -7,17 +7,18 @@ import * as Highcharts from "highcharts";
 import HighchartsVue from "highcharts-vue";
 import App from "./App.vue";
 import router from "./router";
+import { VueQueryPlugin } from "@tanstack/vue-query";
 
 // @ts-nocheck
 import HighchartsMapModule from "highcharts/modules/map";
 HighchartsMapModule(Highcharts);
 
-
 const app = createApp(App);
 const pinia = createPinia();
 
 pinia.use(piniaPluginPersistedstate);
+app.use(VueQueryPlugin);
 app.use(router);
 app.use(pinia);
-app.use(HighchartsVue, { tagName: 'highcharts' });
+app.use(HighchartsVue, { tagName: "highcharts" });
 app.mount("#app");

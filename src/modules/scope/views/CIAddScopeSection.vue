@@ -6085,7 +6085,7 @@ const reverseVideo = () => {
     if (prevIndex < 0) {
       if (route.name === "main add scope squences section") {
         router.push(
-          `/${route.params.id}/create/unit/${route.params.scope}/${route.params.menu}/add-scope-squences`
+          `/${route.params.id}/create/unit/${route.params.scope}/${route.params.menu}/${route?.params?.id_project}/add-scope-squences`
         );
       } else {
         router.push(

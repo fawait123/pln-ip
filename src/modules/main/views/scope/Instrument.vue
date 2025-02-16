@@ -1,36 +1,83 @@
 <script setup lang="ts">
 import { AssetWelness, FormWithFile, Table } from "@/components";
-import { ColumnsScope } from "../constants/ScopeConstant";
-import type { ScopeInterface } from "../types/ScopeType";
-import { ref, watch } from "vue";
+import { ColumnsScope } from "../../constants/ScopeConstant";
+import type {
+  ResponseScopeInterface,
+  ScopeInterface,
+} from "../../types/ScopeType";
+import { reactive, ref, watch } from "vue";
 import type { ValueUploadType } from "@/components/fields/Upload.vue";
+import { useQuery } from "@tanstack/vue-query";
+import { useMaindStore } from "../../stores/MainStore";
+import { useRoute } from "vue-router";
+import type { IPagination } from "@/types/GlobalType";
+import type { AxiosError } from "axios";
 
-const Data = ref<ScopeInterface[]>([
-  {
-    id: 1,
-    asset: "Fuel Branch Pipe",
-    asset_welness: null,
-    oh_recom: null,
-    wo_priority: null,
-    history: null,
-    rla: null,
-    etc: null,
+const entitiesScope = ref<ScopeInterface[]>([]);
+
+const mainStore = useMaindStore();
+const route = useRoute();
+const params = reactive({
+  search: "",
+  filter: `project_uuid,${route.params.id_project}`,
+  currentPage: 1,
+  perPage: 10,
+});
+
+//--- GET SCOPE
+const { data: dataScope, isFetching: isLoadingScope } = useQuery({
+  queryKey: ["getScopeInstrument"],
+  queryFn: async () => {
+    try {
+      const { data } = await mainStore.getScopeStandar(params);
+      const response = data as IPagination<ResponseScopeInterface[]>;
+
+      const new_arr: ScopeInterface[] =
+        response.data?.map((item) => {
+          return {
+            id: item.uuid,
+            asset: item.name || "",
+            asset_welness: null,
+            oh_recom: null,
+            wo_priority: null,
+            history: null,
+            rla: null,
+            etc: null,
+            children: item.details.map((el) => {
+              return {
+                id: el.uuid,
+                name: el.name,
+              };
+            }),
+          };
+        }) || [];
+      entitiesScope.value = new_arr;
+
+      return response;
+    } catch (error: any) {
+      const err = error as AxiosError;
+      throw err.response;
+    }
   },
-]);
+  refetchOnWindowFocus: false,
+});
+//--- END
 
 const saveAssetWelness = (
   e: { color: string; result: { id: number; note: string }[] },
   entity: ScopeInterface
 ) => {
-  const duplicate_data = [...Data.value];
-  const find_index = Data.value.findIndex((item) => item.id === entity.id);
+  const duplicate_data = [...entitiesScope.value];
+  const find_index = entitiesScope.value.findIndex(
+    (item) => item.id === entity.id
+  );
 
   if (find_index !== -1) {
     duplicate_data[find_index].asset_welness = {
       color: e.color,
       result: e.result,
     };
-    Data.value = duplicate_data;
+    entitiesScope.value = duplicate_data;
   }
 };
 
@@ -39,8 +86,10 @@ const saveFieldWithFile = (
   entity: ScopeInterface,
   field: string
 ) => {
-  const duplicate_data = [...Data.value];
-  const find_index = Data.value.findIndex((item) => item.id === entity.id);
+  const duplicate_data = [...entitiesScope.value];
+  const find_index = entitiesScope.value.findIndex(
+    (item) => item.id === entity.id
+  );
 
   if (find_index !== -1) {
     if (field === "oh_recom") {
@@ -69,15 +118,15 @@ const saveFieldWithFile = (
         file: e.file,
       };
     }
-    Data.value = duplicate_data;
+    entitiesScope.value = duplicate_data;
   }
 };
 
 const onCreate = (e: string) => {
-  const new_data = [...Data.value];
+  const new_data = [...entitiesScope.value];
 
   new_data.unshift({
-    id: new_data.length + 1,
+    id: (new_data.length + 1).toString(),
     asset: e,
     asset_welness: null,
     oh_recom: null,
@@ -85,25 +134,23 @@ const onCreate = (e: string) => {
     history: null,
     rla: null,
     etc: null,
+    children: [],
   });
 
-  Data.value = new_data;
+  entitiesScope.value = new_data;
 };
 
 const onDelete = (e: ScopeInterface) => {
-  Data.value = Data.value.filter((item) => item.id !== e.id);
+  entitiesScope.value = entitiesScope.value.filter((item) => item.id !== e.id);
 };
-
-watch(Data, (value) => {
-  console.log("AAA", value);
-});
 </script>
 
 <template>
   <Table
     label-create="Asset"
     :columns="ColumnsScope"
-    :entities="Data"
+    :entities="entitiesScope"
+    :loading="isLoadingScope"
     @create="onCreate"
     @delete="onDelete"
   >
@@ -160,6 +207,21 @@ watch(Data, (value) => {
           @save="(e) => saveFieldWithFile(e, entity, 'etc')"
         />
       </div>
+    </template>
+    <template #children="{ entity, index, parentActive }">
+      <tr
+        v-if="parentActive === index"
+        v-for="(child, childIndex) in entity.children"
+        :key="childIndex"
+      >
+        <td :colspan="ColumnsScope.length + 1" class="td-child">
+          <div class="v-table-body">
+            <p class="v-table-body-text pl-11">
+              {{ child.name }}
+            </p>
+          </div>
+        </td>
+      </tr>
     </template>
   </Table>
   <!-- <p class="font-bold text-black text-2xl">TEST</p> -->
