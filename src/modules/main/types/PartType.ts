@@ -1,7 +1,7 @@
 import type { ValueUploadType } from "@/components/fields/Upload.vue";
 
 export interface PartInterface {
-  id: number;
+  id: string;
   part: string;
   document: {
     file: ValueUploadType[];
@@ -9,4 +9,15 @@ export interface PartInterface {
   quantity: string | null;
   volume: string | null;
   note: string | null;
+  children: {
+    id: string;
+    name: string;
+  }[];
+}
+
+export interface ResponsePartInterface {
+  uuid: string;
+  name: string;
+  created_at: string;
+  updated_at: string;
 }

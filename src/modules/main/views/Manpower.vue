@@ -7,82 +7,144 @@ import {
   Volume,
 } from "@/components";
 import { ColumnsManpower } from "../constants/ManpowerConstant";
-import type { ManPowerInterface } from "../types/ManpowerType";
-import { ref, watch } from "vue";
+import type {
+  ManPowerInterface,
+  ResponseManPowerInterface,
+} from "../types/ManpowerType";
+import { reactive, ref, watch } from "vue";
 import type { ValueUploadType } from "@/components/fields/Upload.vue";
+import { useMainStore } from "../stores/MainStore";
+import { useRoute } from "vue-router";
+import { useQuery } from "@tanstack/vue-query";
+import type { IPagination } from "@/types/GlobalType";
+import type { AxiosError } from "axios";
 
-const Data = ref<ManPowerInterface[]>([
-  {
-    id: 1,
-    manpower: "Teknisi Mekanik",
-    document: null,
-    quantity: null,
-    volume: null,
-    note: null,
+// const Data = ref<ManPowerInterface[]>([
+//   {
+//     id: "1",
+//     manpower: "Teknisi Mekanik",
+//     document: null,
+//     quantity: null,
+//     volume: null,
+//     note: null,
+//     children: [],
+//   },
+// ]);
+const entitiesManPower = ref<ManPowerInterface[]>([]);
+
+const mainStore = useMainStore();
+const route = useRoute();
+const params = reactive({
+  search: "",
+  filter: `project_uuid,${route.params.id_project}`,
+  currentPage: 1,
+  perPage: 10,
+});
+
+//--- GET MANPOWER
+const { data: dataScope, isFetching: isLoadingScope } = useQuery({
+  queryKey: ["getManPower"],
+  queryFn: async () => {
+    try {
+      const { data } = await mainStore.getManPower(params);
+      const response = data as IPagination<ResponseManPowerInterface[]>;
+
+      const new_arr: ManPowerInterface[] =
+        response.data?.map((item) => {
+          return {
+            id: item.uuid,
+            manpower: item.name,
+            document: null,
+            quantity: null,
+            volume: null,
+            note: null,
+            children: [],
+          };
+        }) || [];
+      entitiesManPower.value = new_arr;
+
+      return response;
+    } catch (error: any) {
+      const err = error as AxiosError;
+      throw err.response;
+    }
   },
-]);
+  refetchOnWindowFocus: false,
+});
+//--- END
 
 const onCreate = (e: string) => {
-  const new_data = [...Data.value];
+  const new_data = [...entitiesManPower.value];
 
   new_data.unshift({
-    id: new_data.length + 1,
+    id: (new_data.length + 1).toString(),
     manpower: e,
     document: null,
     quantity: null,
     volume: null,
     note: null,
+    children: [],
   });
 
-  Data.value = new_data;
+  entitiesManPower.value = new_data;
 };
 
 const onDelete = (e: ManPowerInterface) => {
-  Data.value = Data.value.filter((item) => item.id !== e.id);
+  entitiesManPower.value = entitiesManPower.value.filter(
+    (item) => item.id !== e.id
+  );
 };
 
 const saveFile = (
   e: { file: ValueUploadType[] },
   entity: ManPowerInterface
 ) => {
-  const duplicate_data = [...Data.value];
-  const find_index = Data.value.findIndex((item) => item.id === entity.id);
+  const duplicate_data = [...entitiesManPower.value];
+  const find_index = entitiesManPower.value.findIndex(
+    (item) => item.id === entity.id
+  );
 
   if (find_index !== -1) {
     duplicate_data[find_index].document = {
       file: e.file,
     };
-    Data.value = duplicate_data;
+    entitiesManPower.value = duplicate_data;
   }
 };
 
 const saveNote = (e: { note: string }, entity: ManPowerInterface) => {
-  const duplicate_data = [...Data.value];
-  const find_index = Data.value.findIndex((item) => item.id === entity.id);
+  const duplicate_data = [...entitiesManPower.value];
+  const find_index = entitiesManPower.value.findIndex(
+    (item) => item.id === entity.id
+  );
 
   if (find_index !== -1) {
     duplicate_data[find_index].note = e.note;
-    Data.value = duplicate_data;
+    entitiesManPower.value = duplicate_data;
   }
 };
 
 const saveQuantity = (e: { quantity: string }, entity: ManPowerInterface) => {
-  const duplicate_data = [...Data.value];
-  const find_index = Data.value.findIndex((item) => item.id === entity.id);
+  const duplicate_data = [...entitiesManPower.value];
+  const find_index = entitiesManPower.value.findIndex(
+    (item) => item.id === entity.id
+  );
 
   if (find_index !== -1) {
     duplicate_data[find_index].quantity = e.quantity;
-    Data.value = duplicate_data;
+    entitiesManPower.value = duplicate_data;
   }
 };
 
 const saveVolume = (e: { volume: string }, entity: ManPowerInterface) => {
-  const duplicate_data = [...Data.value];
-  const find_index = Data.value.findIndex((item) => item.id === entity.id);
+  const duplicate_data = [...entitiesManPower.value];
+  const find_index = entitiesManPower.value.findIndex(
+    (item) => item.id === entity.id
+  );
 
   if (find_index !== -1) {
     duplicate_data[find_index].volume = e.volume;
-    Data.value = duplicate_data;
+    entitiesManPower.value = duplicate_data;
   }
 };
 </script>
@@ -91,11 +153,13 @@ const saveVolume = (e: { volume: string }, entity: ManPowerInterface) => {
   <Table
     label-create="Manpower"
     :columns="ColumnsManpower"
-    :entities="Data"
+    :entities="entitiesManPower"
+    :loading="isLoadingScope"
+    :is-create="false"
     @create="onCreate"
     @delete="onDelete"
   >
-    <template #column_document="{ entity }">
+    <!-- <template #column_document="{ entity }">
       <div class="w-full flex justify-center">
         <FormUploadOnly
           :value="entity.document"
@@ -103,7 +167,7 @@ const saveVolume = (e: { volume: string }, entity: ManPowerInterface) => {
           @save="(e) => saveFile(e, entity)"
         />
       </div>
-    </template>
+    </template> -->
     <template #column_quantity="{ entity }">
       <div class="w-full flex justify-center">
         <Quantity
@@ -122,7 +186,7 @@ const saveVolume = (e: { volume: string }, entity: ManPowerInterface) => {
         </div>
       </div>
     </template>
-    <template #column_note="{ entity }">
+    <!-- <template #column_note="{ entity }">
       <div class="w-full flex justify-center">
         <FormAddNote
           :value="entity.note || ''"
@@ -130,6 +194,21 @@ const saveVolume = (e: { volume: string }, entity: ManPowerInterface) => {
           @save="(e) => saveNote(e, entity)"
         />
       </div>
+    </template> -->
+    <template #children="{ entity, index, parentActive }">
+      <tr
+        v-if="parentActive === index"
+        v-for="(child, childIndex) in entity.children"
+        :key="childIndex"
+      >
+        <td :colspan="ColumnsManpower.length + 1" class="td-child">
+          <div class="v-table-body">
+            <p class="v-table-body-text pl-11">
+              {{ child.name }}
+            </p>
+          </div>
+        </td>
+      </tr>
     </template>
   </Table>
 </template>

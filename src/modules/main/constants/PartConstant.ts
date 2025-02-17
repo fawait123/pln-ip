@@ -3,17 +3,17 @@ import type { TableColumnType } from "@/components/tables/Table.vue";
 export const ColumnsPart: TableColumnType[] = [
   {
     key: "part",
-    label: "Main Part",
-    align: "center",
+    label: "Part Name",
+    align: "left",
     sort: false,
   },
-  {
-    key: "document",
-    label: "",
-    align: "center",
-    sort: false,
-    width: "150",
-  },
+  // {
+  //   key: "document",
+  //   label: "",
+  //   align: "center",
+  //   sort: false,
+  //   width: "150",
+  // },
   {
     key: "quantity",
     label: "Quantity",
@@ -22,15 +22,15 @@ export const ColumnsPart: TableColumnType[] = [
     width: "150",
   },
   {
-    key: "volume",
-    label: "Volume",
+    key: "unit",
+    label: "Unit",
     align: "center",
     sort: false,
     width: "150",
   },
   {
-    key: "note",
-    label: "Note",
+    key: "number_drawing",
+    label: "No. Drawing",
     align: "center",
     sort: false,
     width: "150",

@@ -4,16 +4,16 @@ export const ColumnsManpower: TableColumnType[] = [
   {
     key: "manpower",
     label: "Manpower",
-    align: "center",
+    align: "left",
     sort: false,
   },
-  {
-    key: "document",
-    label: "",
-    align: "center",
-    sort: false,
-    width: "150",
-  },
+  // {
+  //   key: "document",
+  //   label: "",
+  //   align: "center",
+  //   sort: false,
+  //   width: "150",
+  // },
   {
     key: "quantity",
     label: "Quantity",
@@ -28,11 +28,11 @@ export const ColumnsManpower: TableColumnType[] = [
     sort: false,
     width: "150",
   },
-  {
-    key: "note",
-    label: "Note",
-    align: "center",
-    sort: false,
-    width: "150",
-  },
+  // {
+  //   key: "note",
+  //   label: "Note",
+  //   align: "center",
+  //   sort: false,
+  //   width: "150",
+  // },
 ];

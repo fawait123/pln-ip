@@ -1,12 +1,18 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { onMounted, onUnmounted, ref } from "vue";
+import type { AxiosError } from "axios";
+import { useRoute, useRouter } from "vue-router";
+import { onMounted, onUnmounted, ref, watch } from "vue";
 
 import { useGlobalStore } from "@/stores/GlobalStore";
-import { Breadcrumb } from "@/components";
-import { useRoute, useRouter } from "vue-router";
+import { Breadcrumb, Loading } from "@/components";
 import { convertToKebabCase } from "@/helpers/global";
 import eventBus from "@/utils/eventBus";
+import { useQuery } from "@tanstack/vue-query";
+
+import { useDashboardStore } from "../stores/DashboardStore";
+import type { TUnit } from "../types/UnitType";
+import type { TMachine } from "../types/MachineType";
 
 const imgBlok1 = new URL("@/assets/images/bg-blok1.png", import.meta.url).href;
 const imgBlok3 = new URL("@/assets/images/bg-blok3.png", import.meta.url).href;
@@ -31,83 +37,141 @@ const breadcrumb = ref([
     url: "",
   },
 ]);
-const buttonActive = ref<number | null>(null);
-const bgActive = ref<number>(1);
+// const buttonActive = ref<number | null>(null);
+const bgActive = ref<number>(0);
+const dashboardStore = useDashboardStore();
+const unit_active = ref<string | null>(null);
 
-const data = ref([
-  {
-    id: 1,
-    name: "Blok 1/2",
-    children: [
-      {
-        name: "GT 1.1 ABB 13E1",
-      },
-      {
-        name: "GT 1.2 ABB 13E1",
-      },
-      {
-        name: "GT 1.3 ABB 13E1",
-      },
-      {
-        name: "GT 1.4 ABB 13E1",
-      },
-      {
-        name: "GT 2.1 ABB 13E1",
-      },
-      {
-        name: "GT 2.2 ABB 13E1",
-      },
-      {
-        name: "GT 2.3 ABB 13E1",
-      },
-      {
-        name: "GT 2.4 ABB 13E1",
-      },
-    ],
-  },
-  {
-    id: 2,
-    name: "Blok 3",
-    children: [
-      {
-        name: "GT 3.1 MHI 701F3",
-      },
-      {
-        name: "GT 3.2 MHI 701F3",
-      },
-      {
-        name: "GT 3.3 MHI 701F3",
-      },
-    ],
-  },
-  {
-    id: 3,
-    name: "Blok 4",
-    children: [
-      {
-        name: "GT 4.1 MHI 701F4",
-      },
-      {
-        name: "GT 4.2 MHI 701F4",
-      },
-      {
-        name: "GT 4.3 MHI 701F4",
-      },
-    ],
-  },
-]);
+// const data = ref([
+//   {
+//     id: 1,
+//     name: "Blok 1/2",
+//     children: [
+//       {
+//         name: "GT 1.1 ABB 13E1",
+//       },
+//       {
+//         name: "GT 1.2 ABB 13E1",
+//       },
+//       {
+//         name: "GT 1.3 ABB 13E1",
+//       },
+//       {
+//         name: "GT 1.4 ABB 13E1",
+//       },
+//       {
+//         name: "GT 2.1 ABB 13E1",
+//       },
+//       {
+//         name: "GT 2.2 ABB 13E1",
+//       },
+//       {
+//         name: "GT 2.3 ABB 13E1",
+//       },
+//       {
+//         name: "GT 2.4 ABB 13E1",
+//       },
+//     ],
+//   },
+//   {
+//     id: 2,
+//     name: "Blok 3",
+//     children: [
+//       {
+//         name: "GT 3.1 MHI 701F3",
+//       },
+//       {
+//         name: "GT 3.2 MHI 701F3",
+//       },
+//       {
+//         name: "GT 3.3 MHI 701F3",
+//       },
+//     ],
+//   },
+//   {
+//     id: 3,
+//     name: "Blok 4",
+//     children: [
+//       {
+//         name: "GT 4.1 MHI 701F4",
+//       },
+//       {
+//         name: "GT 4.2 MHI 701F4",
+//       },
+//       {
+//         name: "GT 4.3 MHI 701F4",
+//       },
+//     ],
+//   },
+// ]);
 
-const handleClick = (id: number) => {
-  bgActive.value = id;
-  if (buttonActive.value === id) {
-    buttonActive.value = null;
+//--- GET UNIT
+const { data: dataUnit, isFetching: isLoadingUnit } = useQuery({
+  queryKey: ["getUnit"],
+  queryFn: async () => {
+    try {
+      const { data } = await dashboardStore.getUnit({
+        search: "",
+        filter: `location_uuid,${route.params.id}`,
+      });
+      const response = data.data as TUnit[];
+
+      return response;
+    } catch (error: any) {
+      const err = error as AxiosError;
+      throw err.response;
+    }
+  },
+  refetchOnWindowFocus: false,
+});
+//--- END
+
+//--- GET MACHINE
+const {
+  data: dataMachine,
+  isFetching: isLoadingMachine,
+  refetch: refetchMachine,
+} = useQuery({
+  queryKey: ["getMachine"],
+  queryFn: async () => {
+    try {
+      const { data } = await dashboardStore.getMachine({
+        search: "",
+        filter: `unit_uuid,${unit_active.value}`,
+      });
+      const response = data.data as TMachine[];
+
+      return response;
+    } catch (error: any) {
+      const err = error as AxiosError;
+      throw err.response;
+    }
+  },
+  enabled: false,
+  refetchOnWindowFocus: false,
+});
+//--- END
+
+watch(dataUnit, (value) => {
+  if ((value || []).length > 0) {
+    console.log("value", value?.[0]?.uuid);
+    unit_active.value = value?.[0]?.uuid || "";
+    refetchMachine();
+  }
+});
+
+const handleClick = (uuid: string, index: number) => {
+  bgActive.value = index;
+  if (unit_active.value === uuid) {
+    unit_active.value = null;
   } else {
-    buttonActive.value = id;
+    unit_active.value = uuid;
+    refetchMachine();
   }
 };
 
-const toScope = (id: string) => {
-  router.push(`/${locationId}/create/unit/${convertToKebabCase(id)}`);
+const toScope = (uuid: string) => {
+  router.push(`/${locationId}/create/unit/${uuid}`);
 };
 
 const handleBack = () => {
@@ -118,7 +182,7 @@ onMounted(() => {
   titleHeader.value = "Unit";
   disabledNext.value = true;
   eventBus.on("back", handleBack);
-  buttonActive.value = 1;
+  // buttonActive.value = 1;
 });
 
 onUnmounted(() => {
@@ -130,7 +194,7 @@ onUnmounted(() => {
   <div
     class="w-full min-h-screen"
     :style="{
-      backgroundImage: `url(${dataBg[bgActive - 1]})`,
+      backgroundImage: `url(${dataBg[bgActive]})`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
     }"
@@ -139,23 +203,33 @@ onUnmounted(() => {
       <Breadcrumb :items="breadcrumb" />
       <div class="content-unit">
         <div class="wrapper-button-unit">
-          <div v-for="(item, key) in data" :key="key" class="button-group">
+          <div v-for="(item, key) in dataUnit" :key="key" class="button-group">
             <button
               class="button-unit"
-              :class="{ 'button-active': item.id === buttonActive }"
-              @click="handleClick(item.id)"
+              :class="{ 'button-active': item.uuid === unit_active }"
+              @click="handleClick(item.uuid, key)"
             >
               {{ item.name }}
             </button>
             <div
+              v-if="isLoadingMachine"
+              :class="[
+                item.uuid === unit_active ? 'flex' : 'hidden',
+                'w-full justify-center py-6',
+              ]"
+            >
+              <p class="text-base font-bold text-neutral-950">Loading...</p>
+            </div>
+            <div
               class="button-group-gt"
-              :class="{ 'children-active': item.id === buttonActive }"
+              :class="{ 'children-active': item.uuid === unit_active }"
             >
               <button
-                v-for="(element, index) in item.children"
+                v-if="!isLoadingMachine"
+                v-for="(element, index) in dataMachine"
                 :key="index"
                 class="button-gt"
-                @click="toScope(element.name)"
+                @click="toScope(element.uuid)"
               >
                 {{ element.name }}
               </button>

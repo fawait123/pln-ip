@@ -1,57 +1,88 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, reactive, watch } from "vue";
 import { useRouter } from "vue-router";
-import { markerData, colorMarker } from "@/constants";
+import type { AxiosError } from "axios";
+
+import { useQuery } from "@tanstack/vue-query";
+import { useDashboardStore } from "@/modules/dashboard/stores/DashboardStore";
+import { colorMarker, markerData } from "@/constants";
+
+import type { TLocation } from "../../types/DashboardType";
+
+type TSeries = {
+  name: string;
+  lat: number;
+  lon: number;
+  color: string;
+  uuid: string;
+};
 
 const router = useRouter();
+const dashboardStore = useDashboardStore();
+const params = reactive({ search: "", filter: "" });
 
-// Mengatur opsi Highcharts untuk peta
+const dataLocation = ref<TSeries[]>([]);
+
+//--- GET LOCATION
+const { refetch: refetchLocation, isFetching: isLoadingLocation } = useQuery({
+  queryKey: ["getLocation"],
+  queryFn: async () => {
+    try {
+      const { data } = await dashboardStore.getLocation(params);
+      const response = data.data as TLocation[];
+
+      const arr_location = response.map((item) => ({
+        name: item.name,
+        lat: parseFloat(item.lat),
+        lon: parseFloat(item.lon),
+        color: item.color,
+        uuid: item.uuid,
+      }));
+
+      dataLocation.value = arr_location;
+      return arr_location;
+    } catch (error: any) {
+      const err = error as AxiosError;
+      throw err.response;
+    }
+  },
+  refetchOnWindowFocus: false,
+});
+//--- END
+
 const chartOptions = ref<Record<string, any>>({
-  chart: {
-    map: null,
-  },
-  legend: {
-    enabled: false,
-  },
-  title: {
-    text: "",
-  },
+  chart: { map: null },
+  legend: { enabled: false },
+  title: { text: "" },
   mapNavigation: {
     enabled: true,
     enableDoubleClickZoomTo: true,
-    buttonOptions: {
-      alignTo: "spacingBox",
-    },
+    buttonOptions: { alignTo: "spacingBox" },
   },
   colorAxis: {
     min: 0,
     stops: [
-      [0, "#37AFE1"], // Color at minimum value
-      [0.5, "#37AFE1"], // Color at mid-range
-      [1, "#37AFE1"], // Color at maximum value
+      [0, "#37AFE1"],
+      [0.5, "#37AFE1"],
+      [1, "#37AFE1"],
     ],
   },
   tooltip: {
     enabled: true,
-    useHTML: true, // Menggunakan HTML untuk kustomisasi
-    // pointFormat: '<b class="text-md">{point.name}</b>', // Format isi tooltip
+    useHTML: true,
     formatter: function () {
       return this.series.name == "Lokasi"
         ? `<strong>${this.point.name}</strong>`
-        : false; // Menampilkan nama marker saat di-hover
+        : false;
     },
   },
   series: [
     {
       name: "Wilayah",
       enableMouseTracking: false,
-      states: {
-        hover: {
-          enable: false,
-        },
-      },
+      states: { hover: { enable: false } },
       dataLabels: {
-        useHTML: true, // Menggunakan HTML untuk kustom
+        useHTML: true,
         enabled: true,
         format: "<b>{point.name}</b>",
         color: "#000000",
@@ -59,49 +90,17 @@ const chartOptions = ref<Record<string, any>>({
       allAreas: true,
       data: [],
       joinBy: "slug",
-      point: {
-        events: {
-          /**
-           * Saat region di-klik, maka panggil fungsi `handleClick`
-           * dengan mengirimkan event sebagai argumen.
-           * @param {object} e - Event yang di-trigger saat region di-klik.
-           */
-          click: (e) => {
-            handleClick(e);
-          },
-          /**
-           * Saat mouse di-hover ke suatu region, maka zoom ke region
-           * tersebut dan tambahkan efek tebal dan bayangan.
-           */
-          mouseOver: function () {
-            // Zoom ke region yang di-hover
-          },
-          mouseOut: function () {
-            // Reset zoom saat mouse keluar
-          },
-        },
-      },
     },
     {
-      // Seri untuk marker atau poin yang ditambahkan
       type: "mappoint",
       name: "Lokasi",
-      dataLabels: {
-        enabled: false, // Data label tidak ditampilkan secara default
-      },
-      data: markerData,
-      marker: {
-        radius: 6, // Ukuran marker
-        symbol: "circle", // Bentuk marker
-      },
+      dataLabels: { enabled: false },
+      data: [],
+      marker: { radius: 6, symbol: "circle" },
       point: {
         events: {
-          click: function () {
-            // Logika ketika marker diklik
-            // alert(`Anda mengklik marker: ${this.name}`);
-            // Contoh: Navigasi ke halaman atau aksi lain
-            // console.log('Marker data:', this);
-            router.push(`/priok`);
+          click: (e) => {
+            router.push(`/${e.point?.uuid}`);
           },
         },
       },
@@ -109,7 +108,12 @@ const chartOptions = ref<Record<string, any>>({
   ],
 });
 
-// Fungsi untuk memuat data peta secara dinamis
+watch(dataLocation, (newData) => {
+  if (newData.length > 0) {
+    chartOptions.value.series[1].data = newData;
+  }
+});
+
 async function loadMapData() {
   try {
     const mapData = await fetch("/json/indonesia.json").then((res) =>
@@ -117,49 +121,18 @@ async function loadMapData() {
     );
     chartOptions.value.chart.map = mapData;
 
-    // Menambahkan data kecamatan setelah peta dimuat
-    chartOptions.value.series[0].data = mapData.features.map(
-      (item: Record<string, any>) => {
-        return {
-          slug: item.properties.slug,
-          // value: 10,
-          color: [
-            "Jawa Barat",
-            "Aceh",
-            "Bali",
-            "Jambi",
-            "Jawa Timur",
-            "Kalimantan Barat",
-            "Gorontalo",
-            "Maluku",
-          ].includes(item.properties.state)
-            ? "#0070c0"
-            : [
-                "Kalimantan Timur",
-                "Papua",
-                "Maluku Utara",
-                "Sulawesi Selatan",
-                "Riau",
-                "Lampung",
-                "Nusa Tenggara Timur",
-              ].includes(item.properties.state)
-            ? "#00B0F0"
-            : "#2AB6C0",
-          name: item.properties.state,
-        };
-      }
-    );
+    chartOptions.value.series[0].data = mapData.features.map((item: any) => ({
+      slug: item.properties.slug,
+      color: ["Jawa Barat", "Aceh", "Bali"].includes(item.properties.state)
+        ? "#0070c0"
+        : "#2AB6C0",
+      name: item.properties.state,
+    }));
   } catch (error) {
     console.error("Error loading map data:", error);
   }
 }
 
-const handleClick = (event: any) => {
-  console.log("clicked", event.point);
-  // router.push(`/priok`);
-};
-
-// Memuat data peta ketika komponen dipasang
 onMounted(() => {
   loadMapData();
 });

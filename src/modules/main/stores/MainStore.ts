@@ -5,14 +5,13 @@ import { api } from "@/api/axios";
 import { encryptStorage } from "@/utils/storage";
 import type { StorageLike } from "pinia-plugin-persistedstate";
 import type { IParams } from "@/types/GlobalType";
-import type { TCreateGenerate } from "../types/ScopeType";
 
-export const useScopeStore = defineStore(
-  "scope",
+export const useMainStore = defineStore(
+  "main",
   () => {
-    const getInspection = async (payload: IParams) => {
+    const getScopeStandar = async (payload: IParams) => {
       return await api
-        .get(`/inspection-type/list`, {
+        .get(`/transaction/scope-standart/pagination`, {
           params: payload,
         })
         .then((resp) => {
@@ -23,20 +22,9 @@ export const useScopeStore = defineStore(
         });
     };
 
-    const generate = async (payload: TCreateGenerate) => {
+    const getManPower = async (payload: IParams) => {
       return await api
-        .post(`/generate`, payload)
-        .then((resp) => {
-          return Promise.resolve(resp);
-        })
-        .catch((err) => {
-          return Promise.reject(err);
-        });
-    };
-
-    const getProject = async (payload: IParams) => {
-      return await api
-        .get(`/transaction/project/list`, {
+        .get(`/transaction/manpower/pagination`, {
           params: payload,
         })
         .then((resp) => {
@@ -47,7 +35,20 @@ export const useScopeStore = defineStore(
         });
     };
 
-    return { getInspection, generate, getProject };
+    const getPart = async (payload: IParams) => {
+      return await api
+        .get(`/transaction/part/pagination`, {
+          params: payload,
+        })
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    return { getScopeStandar, getManPower, getPart };
   },
   {
     persist: {

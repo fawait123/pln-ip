@@ -104,7 +104,9 @@ const toSection = (name: string) => {
   router.push(
     `/${route.params.id}/create/unit/${route.params.scope}/${
       route.params.menu
-    }/add-scope-squences/${convertToKebabCase(name)}`
+    }/${route?.params?.id_project}/add-scope-squences/${convertToKebabCase(
+      name
+    )}`
   );
 };
 </script>

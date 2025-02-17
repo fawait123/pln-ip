@@ -5,7 +5,7 @@ import { RouterLink } from "vue-router";
 
 type Size = "lg" | "md" | "sm";
 type Variant = "primary" | "secondary" | "skin" | "danger";
-type Color = "default" | "green";
+type Color = "default" | "green" | "blue";
 type Type = "button" | "submit" | "reset" | undefined;
 type Rounded = "none" | "default" | "sm" | "md" | "lg" | "xl" | "full";
 
@@ -28,7 +28,7 @@ const props = defineProps({
     type: String as PropType<Color>,
     default: "default",
     validator: function (value: string) {
-      return ["default", "green"].indexOf(value) !== -1;
+      return ["default", "green", "blue"].indexOf(value) !== -1;
     },
   },
   text: {
@@ -168,7 +168,7 @@ const heightLoading = computed(() => {
 <template>
   <template v-if="as_link">
     <RouterLink :to="url" class="pln-btn" :class="[buttonsDesign, classButton]">
-      <template v-if="loading">
+      <template v-show="loading">
         <div class="flex items-center gap-2">
           <span>{{ text }}</span>
           <Loading
@@ -179,32 +179,39 @@ const heightLoading = computed(() => {
         </div>
       </template>
       <template
-        v-else-if="icon_only !== '' && icon_before === '' && icon_after === ''"
+        v-show="icon_only !== '' && icon_before === '' && icon_after === ''"
       >
         <Icon :name="icon_only" />
       </template>
       <template
-        v-else-if="icon_before !== '' && icon_after === '' && icon_only === ''"
+        v-show="icon_before !== '' && icon_after === '' && icon_only === ''"
       >
         <Icon :name="icon_before" />
         <span>{{ text }}</span>
       </template>
       <template
-        v-else-if="icon_after !== '' && icon_before === '' && icon_only === ''"
+        v-show="icon_after !== '' && icon_before === '' && icon_only === ''"
       >
         <span>{{ text }}</span>
         <Icon :name="icon_after" />
       </template>
       <template
-        v-else-if="icon_after !== '' && icon_before !== '' && icon_only === ''"
+        v-show="icon_after !== '' && icon_before !== '' && icon_only === ''"
       >
         <Icon :name="icon_before" />
         <span>{{ text }}</span>
         <Icon :name="icon_after" />
       </template>
-      <template v-else>
-        <span>{{ text }}</span>
-      </template>
+      <span
+        v-show="
+          !loading &&
+          icon_only === '' &&
+          icon_after === '' &&
+          icon_before === ''
+        "
+      >
+        {{ text }}
+      </span>
     </RouterLink>
   </template>
 
@@ -221,32 +228,38 @@ const heightLoading = computed(() => {
         </div>
       </template>
       <template
-        v-else-if="icon_only !== '' && icon_before === '' && icon_after === ''"
+        v-show="icon_only !== '' && icon_before === '' && icon_after === ''"
       >
         <Icon :name="icon_only" />
       </template>
       <template
-        v-else-if="icon_before !== '' && icon_after === '' && icon_only === ''"
+        v-show="icon_before !== '' && icon_after === '' && icon_only === ''"
       >
         <Icon :name="icon_before" />
         <span>{{ text }}</span>
       </template>
       <template
-        v-else-if="icon_after !== '' && icon_before === '' && icon_only === ''"
+        v-show="icon_after !== '' && icon_before === '' && icon_only === ''"
       >
         <span>{{ text }}</span>
         <Icon :name="icon_after" />
       </template>
       <template
-        v-else-if="icon_after !== '' && icon_before !== '' && icon_only === ''"
+        v-show="icon_after !== '' && icon_before !== '' && icon_only === ''"
       >
         <Icon :name="icon_before" />
         <span>{{ text }}</span>
         <Icon :name="icon_after" />
       </template>
-      <template v-else>
-        <span>{{ text }}</span>
-      </template>
+      <span
+        v-show="
+          !loading &&
+          icon_before === '' &&
+          icon_after === '' &&
+          icon_only === ''
+        "
+        >{{ text }}</span
+      >
     </button>
   </template>
 </template>
@@ -310,6 +323,14 @@ const heightLoading = computed(() => {
         @apply pointer-events-none shadow-none bg-green-300 border-green-300 text-neutral-50 #{!important}
       &--loading
         @apply border-green-500 bg-green-300 text-neutral-50
+    &--blue
+      @apply bg-blue-900 border-blue-900 text-blue-50
+      &:hover
+        @apply bg-blue-950 border-blue-950
+      &--disabled
+        @apply pointer-events-none shadow-none bg-blue-500 border-blue-500 text-neutral-50 #{!important}
+      &--loading
+        @apply border-blue-900 bg-blue-600 text-neutral-50
   &--secondary
     &--default
       @apply bg-transparent border-cyan-500 text-cyan-500

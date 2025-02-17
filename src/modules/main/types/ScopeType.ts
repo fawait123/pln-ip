@@ -6,7 +6,7 @@ interface WithFileInterface {
 }
 
 export interface ScopeInterface {
-  id: number;
+  id: string;
   asset: string;
   asset_welness: {
     color: string;
@@ -17,4 +17,26 @@ export interface ScopeInterface {
   history: WithFileInterface | null;
   rla: WithFileInterface | null;
   etc: WithFileInterface | null;
+  children: {
+    id: string;
+    name: string;
+  }[];
+}
+
+export interface ResponseScopeInterface {
+  uuid: string;
+  name: string;
+  link: string | null;
+  global_unit_uuid: string;
+  project_uuid: string;
+  created_at: string;
+  updated_at: string;
+  details: {
+    link: string | null;
+    name: string;
+    scope_standart_uuid: string;
+    uuid: string;
+    created_at: string;
+    updated_at: string;
+  }[];
 }

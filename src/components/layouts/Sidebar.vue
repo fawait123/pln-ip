@@ -10,11 +10,23 @@ const selected_menu = ref<number | null>(null);
 const openChildren = (e: { id: number; name: string; url: string }) => {
   selected_menu.value = e.id;
 };
+
+const isActive = (item: { id: number; name: string; url: string }) => {
+  const path = route.path.split("/");
+  const last_path = "/" + path[path.length - 1];
+  return (
+    selected_menu.value === item.id ||
+    (item.url === "/scope" &&
+      last_path.startsWith("/scope") &&
+      !last_path.includes("add-scope")) ||
+    (item.url === "/add-scope" && last_path.startsWith("/add-scope"))
+  );
+};
 </script>
 
 <template>
   <div class="sidebar-main">
-    <p class="sidebar-main--title">MAIN MENU</p>
+    <p class="sidebar-main--title">MAIN MENU {{ selected_menu }}</p>
     <div class="sidebar-main--menus">
       <div v-for="(item, key) in Menus" :key="key" class="flex flex-col gap-2">
         <RouterLink
@@ -22,7 +34,7 @@ const openChildren = (e: { id: number; name: string; url: string }) => {
           :to="
             item.url === '/'
               ? `/${route.params?.id}/create/unit/${route.params?.scope}`
-              : `/${route.params?.id}/create/unit/${route.params?.scope}/${route?.params?.menu}${item.url}`
+              : `/${route.params?.id}/create/unit/${route.params?.scope}/${route?.params?.menu}/${route?.params?.id_project}${item.url}`
           "
           :class="
             item.url === '/'
@@ -38,28 +50,18 @@ const openChildren = (e: { id: number; name: string; url: string }) => {
           <p class="menu-title">{{ item.name }}</p>
         </RouterLink>
         <div v-else class="flex flex-col gap-2" @click="openChildren(item)">
-          <div
-            class="menu-item"
-            :class="
-              selected_menu === item.id || route.path.includes('add-scope')
-                ? 'menu-active'
-                : ''
-            "
-          >
+          <div class="menu-item" :class="isActive(item) ? 'menu-active' : ''">
             <Icon :name="item.icon" class="menu-icon" />
             <p class="menu-title">{{ item.name }}</p>
           </div>
-          <div
-            v-if="selected_menu === item.id || route.path.includes('add-scope')"
-            class="pl-5 flex flex-col gap-2"
-          >
+          <div v-if="isActive(item)" class="pl-5 flex flex-col gap-2">
             <RouterLink
               v-for="(element, index) in item.children"
               :key="index"
               :to="
                 item.url === '/'
                   ? `/${route.params?.id}/create/unit/${route.params?.scope}`
-                  : `/${route.params?.id}/create/unit/${route.params?.scope}/${route?.params?.menu}${element.url}`
+                  : `/${route.params?.id}/create/unit/${route.params?.scope}/${route?.params?.menu}/${route?.params?.id_project}${element.url}`
               "
               :class="
                 item.url === '/'
