@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { FormUploadOnly, FormAddNote, Table } from "@/components";
-import { ColumnsWorkInstruction } from "../constants/WorkInstructionConstant";
-import type { WorkInstructionInterface } from "../types/WorkInstructionType";
+import { ColumnsWorkInstruction } from "../../constants/WorkInstructionConstant";
+import type { WorkInstructionInterface } from "../../types/WorkInstructionType";
 import { ref, watch } from "vue";
 import type { ValueUploadType } from "@/components/fields/Upload.vue";
 
 const Data = ref<WorkInstructionInterface[]>([
   {
     id: 1,
-    asset: "Fuel Branch Pipe",
+    scope: "Fuel Branch Pipe",
     document: null,
     note: null,
   },
@@ -19,7 +19,7 @@ const onCreate = (e: string) => {
 
   new_data.unshift({
     id: new_data.length + 1,
-    asset: e,
+    scope: e,
     document: null,
     note: null,
   });
@@ -62,26 +62,8 @@ const saveNote = (e: { note: string }, entity: WorkInstructionInterface) => {
     label-create="Asset"
     :columns="ColumnsWorkInstruction"
     :entities="Data"
-    @create="onCreate"
+    :is-create="false"
     @delete="onDelete"
   >
-    <template #column_document="{ entity }">
-      <div class="w-full flex justify-center">
-        <FormUploadOnly
-          :value="entity.document"
-          :label="entity.asset"
-          @save="(e) => saveFile(e, entity)"
-        />
-      </div>
-    </template>
-    <template #column_note="{ entity }">
-      <div class="w-full flex justify-center">
-        <FormAddNote
-          :value="entity.note || ''"
-          :label="entity.asset"
-          @save="(e) => saveNote(e, entity)"
-        />
-      </div>
-    </template>
   </Table>
 </template>

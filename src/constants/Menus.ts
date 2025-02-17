@@ -39,6 +39,23 @@ export const Menus = [
     name: "Instruksi Kerja",
     url: "/work-instruction",
     icon: "checklist",
+    children: [
+      {
+        id: 301,
+        name: "Mekanik",
+        url: "/work-instruction-mekanik",
+      },
+      {
+        id: 302,
+        name: "Listrik",
+        url: "/work-instruction-listrik",
+      },
+      {
+        id: 303,
+        name: "Instrument",
+        url: "/work-instruction-instrument",
+      },
+    ],
   },
   {
     id: 5,

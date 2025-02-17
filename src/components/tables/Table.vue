@@ -200,7 +200,7 @@ defineSlots<{
                         :style="styleTitle(column.align)"
                       >
                         <Icon
-                          v-if="(entity as any)?.children"
+                          v-if="(entity as any)?.children && id === 0"
                           name="caret-down"
                           class="cursor-pointer text-base transition-all duration-300"
                           :class="{ 'rotate-180': expandedRow === index }"

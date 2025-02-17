@@ -2,12 +2,12 @@ import MainLayout from "@/layouts/MainLayout.vue";
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
 
 export const routeMain = [
-  {
-    path: "/:id/create/unit/:scope/:menu/scope",
-    name: "main scope",
-    component: () => import("@/modules/main/views/scope/Scope.vue"),
-    meta: { layout: MainLayout, requireAuth: true },
-  },
+  // {
+  //   path: "/:id/create/unit/:scope/:menu/scope",
+  //   name: "main scope",
+  //   component: () => import("@/modules/main/views/scope/Scope.vue"),
+  //   meta: { layout: MainLayout, requireAuth: true },
+  // },
   {
     path: "/:id/create/unit/:scope/:menu/:id_project/scope-mekanik",
     name: "scope mekanik",
@@ -26,10 +26,32 @@ export const routeMain = [
     component: () => import("@/modules/main/views/scope/Instrument.vue"),
     meta: { layout: MainLayout, requireAuth: true },
   },
+  // {
+  //   path: "/:id/create/unit/:scope/:menu/:id_project/work-instruction",
+  //   name: "main work instruction",
+  //   component: () =>
+  //     import("@/modules/main/views/work-instruction/WorkInstruction.vue"),
+  //   meta: { layout: MainLayout, requireAuth: true },
+  // },
   {
-    path: "/:id/create/unit/:scope/:menu/:id_project/work-instruction",
-    name: "main work instruction",
-    component: () => import("@/modules/main/views/WorkInstruction.vue"),
+    path: "/:id/create/unit/:scope/:menu/:id_project/work-instruction-mekanik",
+    name: "work instruction mekanik",
+    component: () =>
+      import("@/modules/main/views/work-instruction/Mekanik.vue"),
+    meta: { layout: MainLayout, requireAuth: true },
+  },
+  {
+    path: "/:id/create/unit/:scope/:menu/:id_project/work-instruction-listrik",
+    name: "work instruction listrik",
+    component: () =>
+      import("@/modules/main/views/work-instruction/Listrik.vue"),
+    meta: { layout: MainLayout, requireAuth: true },
+  },
+  {
+    path: "/:id/create/unit/:scope/:menu/:id_project/work-instruction-instrument",
+    name: "work instruction instrument",
+    component: () =>
+      import("@/modules/main/views/work-instruction/Instrument.vue"),
     meta: { layout: MainLayout, requireAuth: true },
   },
   {

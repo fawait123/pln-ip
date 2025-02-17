@@ -8,14 +8,14 @@ import type {
 import { reactive, ref, watch } from "vue";
 import type { ValueUploadType } from "@/components/fields/Upload.vue";
 import { useQuery } from "@tanstack/vue-query";
-import { useMaindStore } from "../../stores/MainStore";
+import { useMainStore } from "../../stores/MainStore";
 import { useRoute } from "vue-router";
 import type { IPagination } from "@/types/GlobalType";
 import type { AxiosError } from "axios";
 
 const entitiesScope = ref<ScopeInterface[]>([]);
 
-const mainStore = useMaindStore();
+const mainStore = useMainStore();
 const route = useRoute();
 const params = reactive({
   search: "",
