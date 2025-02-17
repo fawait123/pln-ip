@@ -15,7 +15,8 @@ export interface IPagination<T> {
 
 export interface IParams {
   search: string;
-  filter: string;
+  filter?: string;
+  filters?: string;
   currentPage?: number;
   perPage?: number;
 }

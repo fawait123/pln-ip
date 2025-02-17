@@ -8,16 +8,23 @@ export interface PartInterface {
   } | null;
   quantity: string | null;
   volume: string | null;
-  note: string | null;
-  children: {
-    id: string;
-    name: string;
-  }[];
+  number_drawing: string | null;
 }
 
 export interface ResponsePartInterface {
   uuid: string;
   name: string;
+  no_drawing: string;
+  note: string | null;
+  project_uuid: string;
+  qty: number;
+  global_unit_uuid: string;
+  global_unit: {
+    name: string;
+    uuid: string;
+    created_at: string;
+    updated_at: string;
+  };
   created_at: string;
   updated_at: string;
 }

@@ -19,7 +19,9 @@ const isActive = (item: { id: number; name: string; url: string }) => {
     (item.url === "/scope" &&
       last_path.startsWith("/scope") &&
       !last_path.includes("add-scope")) ||
-    (item.url === "/add-scope" && last_path.startsWith("/add-scope"))
+    (item.url === "/add-scope" && last_path.startsWith("/add-scope")) ||
+    (item.url === "/work-instruction" &&
+      last_path.startsWith("/work-instruction"))
   );
 };
 </script>

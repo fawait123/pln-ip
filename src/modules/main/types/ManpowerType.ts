@@ -9,15 +9,15 @@ export interface ManPowerInterface {
   quantity: string | null;
   volume: string | null;
   note: string | null;
-  children: {
-    id: string;
-    name: string;
-  }[];
 }
 
 export interface ResponseManPowerInterface {
   uuid: string;
   name: string;
+  qty: number;
+  note: string | null;
+  project_uuid: string;
+  type: string;
   created_at: string;
   updated_at: string;
 }
