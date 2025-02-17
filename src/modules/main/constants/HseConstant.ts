@@ -3,20 +3,20 @@ import type { TableColumnType } from "@/components/tables/Table.vue";
 export const ColumnsHse: TableColumnType[] = [
   {
     key: "name",
-    label: "Document Title",
-    align: "center",
+    label: "Document",
+    align: "left",
     sort: false,
   },
   {
-    key: "document",
-    label: "Add Document",
+    key: "attachment",
+    label: "Attachment",
     align: "center",
     sort: false,
     width: "150",
   },
   {
-    key: "note",
-    label: "Note",
+    key: "preview",
+    label: "",
     align: "center",
     sort: false,
     width: "150",

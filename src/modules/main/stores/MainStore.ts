@@ -48,7 +48,33 @@ export const useMainStore = defineStore(
         });
     };
 
-    return { getScopeStandar, getManPower, getPart };
+    const getHse = async (payload: IParams) => {
+      return await api
+        .get(`/transaction/hse/pagination`, {
+          params: payload,
+        })
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const getQcPlan = async (payload: IParams) => {
+      return await api
+        .get(`/transaction/qc-plan/pagination`, {
+          params: payload,
+        })
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    return { getScopeStandar, getManPower, getPart, getHse, getQcPlan };
   },
   {
     persist: {

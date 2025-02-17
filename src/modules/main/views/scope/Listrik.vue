@@ -19,7 +19,7 @@ const mainStore = useMainStore();
 const route = useRoute();
 const params = reactive({
   search: "",
-  filter: `project_uuid,${route.params.id_project}`,
+  filters: `project_uuid,${route.params.id_project}&category,listrik`,
   currentPage: 1,
   perPage: 10,
 });

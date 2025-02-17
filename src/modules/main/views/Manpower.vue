@@ -55,10 +55,9 @@ const { data: dataScope, isFetching: isLoadingScope } = useQuery({
             id: item.uuid,
             manpower: item.name,
             document: null,
-            quantity: null,
-            volume: null,
+            quantity: item.qty.toString(),
+            volume: item.type,
             note: null,
-            children: [],
           };
         }) || [];
       entitiesManPower.value = new_arr;
@@ -83,7 +82,6 @@ const onCreate = (e: string) => {
     quantity: null,
     volume: null,
     note: null,
-    children: [],
   });
 
   entitiesManPower.value = new_data;
@@ -182,7 +180,7 @@ const saveVolume = (e: { volume: string }, entity: ManPowerInterface) => {
         <div
           class="border border-neutral-50 rounded-lg px-2 min-w-[100px] text-base text-neutral-50 text-center"
         >
-          Orang
+          {{ entity.volume }}
         </div>
       </div>
     </template>
@@ -195,7 +193,7 @@ const saveVolume = (e: { volume: string }, entity: ManPowerInterface) => {
         />
       </div>
     </template> -->
-    <template #children="{ entity, index, parentActive }">
+    <!-- <template #children="{ entity, index, parentActive }">
       <tr
         v-if="parentActive === index"
         v-for="(child, childIndex) in entity.children"
@@ -209,6 +207,6 @@ const saveVolume = (e: { volume: string }, entity: ManPowerInterface) => {
           </div>
         </td>
       </tr>
-    </template>
+    </template> -->
   </Table>
 </template>

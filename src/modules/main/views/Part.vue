@@ -41,10 +41,9 @@ const { data: dataPart, isFetching: isLoadingPart } = useQuery({
             id: item.uuid,
             part: item.name,
             document: null,
-            quantity: null,
-            volume: null,
-            note: null,
-            children: [],
+            quantity: item.qty.toString(),
+            volume: item.global_unit?.name,
+            number_drawing: item.no_drawing,
           };
         }) || [];
       entitiesPart.value = new_arr;
@@ -68,8 +67,7 @@ const onCreate = (e: string) => {
     document: null,
     quantity: null,
     volume: null,
-    note: null,
-    children: [],
+    number_drawing: null,
   });
 
   entitiesPart.value = new_data;
@@ -100,7 +98,7 @@ const saveNote = (e: { note: string }, entity: PartInterface) => {
   );
 
   if (find_index !== -1) {
-    duplicate_data[find_index].note = e.note;
+    duplicate_data[find_index].number_drawing = e.note;
     entitiesPart.value = duplicate_data;
   }
 };
@@ -163,7 +161,7 @@ const saveVolume = (e: { volume: string }, entity: PartInterface) => {
         <div
           class="border border-neutral-50 rounded-lg px-2 min-w-[100px] text-base text-neutral-50 text-center"
         >
-          pcs
+          {{ entity.volume }}
         </div>
       </div>
     </template>
