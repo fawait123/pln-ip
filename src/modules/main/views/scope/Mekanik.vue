@@ -151,7 +151,7 @@ const onDelete = (e: ScopeInterface) => {
     :columns="ColumnsScope"
     :entities="entitiesScope"
     :loading="isLoadingScope"
-    @create="onCreate"
+    :is-create="false"
     @delete="onDelete"
   >
     <template #column_asset_welness="{ entity }">
@@ -209,8 +209,15 @@ const onDelete = (e: ScopeInterface) => {
       </div>
     </template>
     <template #children="{ entity, index, parentActive }">
+      <tr v-if="parentActive === index && entity.children.length === 0">
+        <td :colspan="ColumnsScope.length + 1" class="td-child">
+          <div class="v-table-body">
+            <p class="v-table-body-text pl-11 text-center">Not Found Data</p>
+          </div>
+        </td>
+      </tr>
       <tr
-        v-if="parentActive === index"
+        v-if="parentActive === index && entity.children.length > 0"
         v-for="(child, childIndex) in entity.children"
         :key="childIndex"
       >

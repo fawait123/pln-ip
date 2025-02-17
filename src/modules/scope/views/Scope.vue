@@ -446,7 +446,7 @@ onUnmounted(() => {
               v-else-if="!isLoadingProject && (dataProject || []).length > 0"
               v-for="(item, key) in dataProject"
               :key="key"
-              class="px-4 hover:text-neutral-200 cursor-pointer"
+              class="px-4 hover:text-neutral-200 cursor-pointer py-1"
               @click="toTransaction(item.uuid)"
             >
               {{ item.name }}
