@@ -173,3 +173,7 @@ const onDelete = (e: ScopeInterface) => {
   </Table> -->
 <!-- <p class="font-bold text-black text-2xl">TEST</p> -->
 <!-- </template> -->
+
+<script setup lang="ts"></script>
+
+<template></template>

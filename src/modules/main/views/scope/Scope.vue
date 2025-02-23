@@ -164,7 +164,7 @@ watch(Data, (value) => {
   </Table> -->
 <!-- <p class="font-bold text-black text-2xl">TEST</p> -->
 <!-- </template> -->
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import { AssetWelness, FormWithFile, Table } from "@/components";
 import { ColumnsScope } from "../../constants/ScopeConstant";
 import type {
@@ -390,6 +390,10 @@ const onDelete = (e: ScopeInterface) => {
         </td>
       </tr>
     </template>
-  </Table>
-  <!-- <p class="font-bold text-black text-2xl">TEST</p> -->
-</template>
+  </Table> -->
+<!-- <p class="font-bold text-black text-2xl">TEST</p> -->
+<!-- </template> -->
+
+<script setup lang="ts"></script>
+
+<template></template>
