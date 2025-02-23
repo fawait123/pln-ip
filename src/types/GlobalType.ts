@@ -20,3 +20,9 @@ export interface IParams {
   currentPage?: number;
   perPage?: number;
 }
+
+export interface CreateDocumentInterface {
+  document: File;
+  document_type: string;
+  document_uuid: string;
+}

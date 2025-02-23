@@ -50,7 +50,7 @@ const {
             wo_priority: null,
             history: null,
             rla: null,
-            etc: null,
+            ncr: null,
             children: item.details.map((el) => {
               return {
                 id: el.uuid,

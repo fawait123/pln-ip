@@ -31,6 +31,8 @@ import FormMaterial from "@/components/action/components/Button/FormMaterial.vue
 import FormManpower from "@/components/action/components/Button/FormManpower.vue";
 import FormPart from "@/components/action/components/Button/FormPart.vue";
 import Modal from "@/components/overlays/Modal.vue";
+import ModalDelete from "@/components/overlays/ModalDelete.vue";
+import Toast from "@/components/overlays/Toast.vue";
 import ButtonDots from "@/components/action/components/Button/ButtonDots.vue";
 import ButtonOptions from "@/components/action/components/Button/ButtonOptions.vue";
 
@@ -68,6 +70,8 @@ export {
   FormManpower,
   FormPart,
   Modal,
+  ModalDelete,
+  Toast,
   ButtonDots,
   ButtonOptions,
 };

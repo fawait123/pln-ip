@@ -8,7 +8,7 @@ import Home1 from "@/assets/videos/home/1-homepage.mp4";
 import Home2 from "@/assets/videos/home/2-homepage.mp4";
 
 import { useGlobalStore } from "@/stores/GlobalStore";
-import { Breadcrumb, Input, Button } from "@/components";
+import { Breadcrumb, Input, Button, Toast } from "@/components";
 import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 import eventBus from "@/utils/eventBus";
 import { useDashboardStore } from "@/modules/dashboard/stores/DashboardStore";
@@ -32,6 +32,7 @@ const videos = [Home0, Home1, Home2];
 
 const dashboardStore = useDashboardStore();
 const scopeStore = useScopeStore();
+const toastRef = ref<InstanceType<typeof Toast> | null>(null);
 
 const router = useRouter();
 const route = useRoute();
@@ -147,8 +148,13 @@ const { mutate: generate, isPending: isLoadingGenerate } = useMutation({
       `/${route.params?.id}/create/unit/${route.params?.id_unit}/${inspection_selected.value}/${data?.data?.uuid}/scope-mekanik`
     );
   },
-  onError: (error) => {
+  onError: (error: any) => {
     console.log(error);
+    toastRef.value?.showToast({
+      title: "Error",
+      description: error?.response?.data?.message || "Something went wrong",
+      type: "error",
+    });
   },
 });
 //--- END
@@ -402,6 +408,7 @@ onUnmounted(() => {
 </script>
 
 <template>
+  <Toast ref="toastRef" />
   <div class="scope-container">
     <div class="scope-breadcrumb">
       <Breadcrumb :items="breadcrumb" />

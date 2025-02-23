@@ -43,7 +43,7 @@ export const ColumnsScope: TableColumnType[] = [
     width: "150",
   },
   {
-    key: "etc",
+    key: "ncr",
     label: "NCR",
     align: "center",
     sort: false,

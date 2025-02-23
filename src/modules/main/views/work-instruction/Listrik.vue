@@ -46,12 +46,17 @@ const {
           return {
             id: item.uuid,
             asset: item.name || "",
-            asset_welness: null,
+            asset_welness: item.asset_welnes
+              ? {
+                  color: item.asset_welnes?.color,
+                  note: item.asset_welnes?.note,
+                }
+              : null,
             oh_recom: null,
             wo_priority: null,
             history: null,
             rla: null,
-            etc: null,
+            ncr: null,
             children: item.details.map((el) => {
               return {
                 id: el.uuid,

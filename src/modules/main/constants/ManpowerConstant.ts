@@ -22,7 +22,7 @@ export const ColumnsManpower: TableColumnType[] = [
     width: "150",
   },
   {
-    key: "volume",
+    key: "unit",
     label: "",
     align: "center",
     sort: false,

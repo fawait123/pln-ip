@@ -105,12 +105,12 @@ export const Menus = [
     //   },
     // ],
   },
-  {
-    id: 11,
-    name: "Preview",
-    url: "/preview",
-    icon: "magnifying-glass",
-  },
+  // {
+  //   id: 11,
+  //   name: "Preview",
+  //   url: "/preview",
+  //   icon: "magnifying-glass",
+  // },
   {
     id: 12,
     name: "Results",

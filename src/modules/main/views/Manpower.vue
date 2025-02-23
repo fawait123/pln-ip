@@ -3,16 +3,18 @@ import type { AxiosError } from "axios";
 import { computed, reactive, ref } from "vue";
 import { useRoute } from "vue-router";
 
-import { Table, Quantity } from "@/components";
-import { useQuery } from "@tanstack/vue-query";
+import { Table, Toast } from "@/components";
+import { useMutation, useQuery } from "@tanstack/vue-query";
 import type { IPagination } from "@/types/GlobalType";
 
 import { ColumnsManpower } from "../constants/ManpowerConstant";
 import type {
   ManPowerInterface,
   ResponseManPowerInterface,
+  UpdateManPowerInterface,
 } from "../types/ManpowerType";
 import { useMainStore } from "../stores/MainStore";
+import FormQuantity from "../components/FormQuantity.vue";
 
 // const Data = ref<ManPowerInterface[]>([
 //   {
@@ -36,6 +38,8 @@ const params = reactive({
   perPage: 10,
 });
 const total_item = ref(0);
+const toastRef = ref<InstanceType<typeof Toast> | null>(null);
+const quantity = ref<any>(null);
 
 //--- GET MANPOWER
 const {
@@ -56,10 +60,10 @@ const {
           return {
             id: item.uuid,
             manpower: item.name,
-            document: null,
             quantity: item.qty.toString(),
-            volume: item.type,
-            note: null,
+            type: item.type,
+            additional_scope_uuid: item.additional_scope_uuid,
+            project_uuid: item.project_uuid,
           };
         }) || [];
       entitiesManPower.value = new_arr;
@@ -71,6 +75,37 @@ const {
     }
   },
   refetchOnWindowFocus: false,
+});
+//--- END
+
+//--- UPDATE MANPOWER
+const { mutate: updateCManPower, isPending: isLoadingUpdate } = useMutation({
+  mutationFn: async ({
+    payload,
+    id,
+  }: {
+    payload: UpdateManPowerInterface;
+    id: string;
+  }) => {
+    return await mainStore.updateManPower(payload, id);
+  },
+  onSuccess: async () => {
+    refetchManPower();
+    quantity.value.modelOpenInputData = false;
+    toastRef.value?.showToast({
+      title: "Success",
+      description: "Saved successfully",
+      type: "success",
+    });
+  },
+  onError: (error: any) => {
+    console.log(error);
+    toastRef.value?.showToast({
+      title: "Error",
+      description: error?.response?.data?.message || "Something went wrong",
+      type: "error",
+    });
+  },
 });
 //--- END
 
@@ -94,19 +129,21 @@ const changeLimit = (e: string) => {
 };
 
 const saveQuantity = (e: { quantity: string }, entity: ManPowerInterface) => {
-  const duplicate_data = [...entitiesManPower.value];
-  const find_index = entitiesManPower.value.findIndex(
-    (item) => item.id === entity.id
-  );
-
-  if (find_index !== -1) {
-    duplicate_data[find_index].quantity = e.quantity;
-    entitiesManPower.value = duplicate_data;
-  }
+  updateCManPower({
+    id: entity.id,
+    payload: {
+      name: entity.manpower,
+      qty: parseFloat(e.quantity),
+      additional_scope_uuid: entity.additional_scope_uuid,
+      project_uuid: entity.project_uuid,
+      type: entity.type,
+    },
+  });
 };
 </script>
 
 <template>
+  <Toast ref="toastRef" />
   <Table
     label-create="Manpower"
     :columns="ColumnsManpower"
@@ -129,19 +166,21 @@ const saveQuantity = (e: { quantity: string }, entity: ManPowerInterface) => {
     </template> -->
     <template #column_quantity="{ entity }">
       <div class="w-full flex justify-center">
-        <Quantity
+        <FormQuantity
+          ref="quantity"
           :value="entity.quantity || ''"
           :label="entity.manpower"
+          :loading="isLoadingUpdate"
           @save="(e) => saveQuantity(e, entity)"
         />
       </div>
     </template>
-    <template #column_volume="{ entity }">
+    <template #column_unit="{ entity }">
       <div class="w-full flex justify-center">
         <div
           class="border border-neutral-50 rounded-lg px-2 min-w-[100px] text-base text-neutral-50 text-center"
         >
-          {{ entity.volume }}
+          {{ entity.type }}
         </div>
       </div>
     </template>

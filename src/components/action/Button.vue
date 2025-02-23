@@ -5,7 +5,7 @@ import { RouterLink } from "vue-router";
 
 type Size = "lg" | "md" | "sm";
 type Variant = "primary" | "secondary" | "skin" | "danger";
-type Color = "default" | "green" | "blue";
+type Color = "default" | "green" | "blue" | "grey";
 type Type = "button" | "submit" | "reset" | undefined;
 type Rounded = "none" | "default" | "sm" | "md" | "lg" | "xl" | "full";
 
@@ -28,7 +28,7 @@ const props = defineProps({
     type: String as PropType<Color>,
     default: "default",
     validator: function (value: string) {
-      return ["default", "green", "blue"].indexOf(value) !== -1;
+      return ["default", "green", "blue", "grey"].indexOf(value) !== -1;
     },
   },
   text: {
@@ -279,7 +279,7 @@ const heightLoading = computed(() => {
       @apply w-4 h-4 flex justify-center items-center
 
   &--sm
-    @apply px-2 py-2 text-[10px] font-extrabold leading-[12px]
+    @apply px-2 py-2 text-xs font-extrabold leading-[12px]
     .pln-icon
       @apply w-3 h-3 flex justify-center items-center
 
@@ -331,6 +331,14 @@ const heightLoading = computed(() => {
         @apply pointer-events-none shadow-none bg-blue-500 border-blue-500 text-neutral-50 #{!important}
       &--loading
         @apply border-blue-900 bg-blue-600 text-neutral-50
+    &--grey
+      @apply bg-[#a5a5a5] border-[#a5a5a5] text-neutral-50
+      &:hover
+        @apply bg-[#908e8e] border-[#908e8e]
+      &--disabled
+        @apply pointer-events-none shadow-none bg-[#c2c2c2] border-[#c2c2c2] text-neutral-50 #{!important}
+      &--loading
+        @apply bg-[#a5a5a5] border-[#c2c2c2] text-neutral-50
   &--secondary
     &--default
       @apply bg-transparent border-cyan-500 text-cyan-500
@@ -340,7 +348,7 @@ const heightLoading = computed(() => {
         @apply bg-transparent pointer-events-none shadow-none border-cyan-300 text-cyan-300 #{!important}
       &--loading
         @apply bg-transparent border-cyan-500 text-cyan-500
-    &--default
+    &--green
       @apply bg-transparent border-green-500 text-green-500
       &:hover
         @apply border-green-600 text-green-600
@@ -357,7 +365,7 @@ const heightLoading = computed(() => {
         @apply bg-transparent border-transparent pointer-events-none text-cyan-300 #{!important}
       &--loading
         @apply bg-transparent border-transparent text-cyan-500
-    &--default
+    &--green
       @apply bg-transparent border-transparent text-green-500
       &:hover
         @apply bg-transparent border-transparent text-green-600
@@ -365,4 +373,13 @@ const heightLoading = computed(() => {
         @apply bg-transparent border-transparent pointer-events-none text-green-300 #{!important}
       &--loading
         @apply bg-transparent border-transparent text-green-500
+  &--danger
+    &--default
+      @apply bg-red-500 border-red-500 text-neutral-50
+      &:hover
+        @apply bg-red-600 border-red-600
+      &--disabled
+        @apply pointer-events-none shadow-none bg-red-300 border-red-300 text-neutral-50 #{!important}
+      &--loading
+        @apply border-red-500 bg-red-300 text-neutral-50
 </style>

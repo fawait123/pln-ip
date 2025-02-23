@@ -3,12 +3,10 @@ import type { ValueUploadType } from "@/components/fields/Upload.vue";
 export interface ManPowerInterface {
   id: string;
   manpower: string;
-  document: {
-    file: ValueUploadType[];
-  } | null;
   quantity: string | null;
-  volume: string | null;
-  note: string | null;
+  type: string;
+  project_uuid: string | null;
+  additional_scope_uuid: string | null;
 }
 
 export interface ResponseManPowerInterface {
@@ -20,4 +18,13 @@ export interface ResponseManPowerInterface {
   type: string;
   created_at: string;
   updated_at: string;
+  additional_scope_uuid: string | null;
+}
+
+export interface UpdateManPowerInterface {
+  name: string;
+  qty: number;
+  type: string;
+  project_uuid: string | null;
+  additional_scope_uuid: string | null;
 }
