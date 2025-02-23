@@ -6,6 +6,7 @@ import Select from "@/components/fields/Select.vue";
 import Loading from "@/components/feedback-indicators/Loading.vue";
 import Button from "@/components/action/Button.vue";
 import Breadcrumb from "@/components/navigations/Breadcrumb.vue";
+import Pagination from "@/components/navigations/Pagination.vue";
 import HeaderTransparant from "@/components/layouts/HeaderTransparant.vue";
 import HeaderDefault from "@/components/layouts/HeaderDefault.vue";
 import HeaderMap from "@/components/layouts/HeaderMap.vue";
@@ -43,6 +44,7 @@ export {
   Button,
   ButtonPopover,
   Breadcrumb,
+  Pagination,
   HeaderTransparant,
   HeaderDefault,
   HeaderMap,

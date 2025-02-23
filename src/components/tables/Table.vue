@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T">
 import { ref, type PropType, type VNode } from "vue";
-import { CreateRow, Input, Modal, Icon } from "@/components";
+import { CreateRow, Input, Modal, Icon, Pagination } from "@/components";
 
 export interface TableColumnType {
   key: string;
@@ -8,6 +8,12 @@ export interface TableColumnType {
   align: "left" | "center" | "right";
   sort: boolean;
   width?: string | number;
+}
+
+export interface PaginationType {
+  totalItems: number;
+  itemsPerPage: number;
+  currentPage: number;
 }
 
 const props = defineProps({
@@ -47,6 +53,20 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  defaultLimit: {
+    type: String as PropType<"10" | "20" | "50" | "100">,
+    default: "10",
+  },
+  pagination: {
+    type: Object as PropType<PaginationType>,
+    default() {
+      return {
+        totalItems: 25,
+        itemsPerPage: 10,
+        currentPage: 1,
+      };
+    },
+  },
 });
 
 const emit = defineEmits([
@@ -61,6 +81,12 @@ const emit = defineEmits([
 
 const open_create = ref(false);
 const expandedRow = ref<number | null>(null);
+
+const pagination_data = ref({
+  totalItems: 100,
+  itemsPerPage: 10,
+  currentPage: 1,
+});
 
 const styleWidthHeader = (column: TableColumnType) => {
   return {
@@ -273,6 +299,16 @@ defineSlots<{
           </tbody>
         </table>
       </div>
+      <div v-show="!loading && entities.length > 0" class="mt-2">
+        <Pagination
+          :totalItems="pagination.totalItems"
+          :itemsPerPage="pagination.itemsPerPage"
+          :currentPage="pagination.currentPage"
+          :defaultLimit="defaultLimit"
+          @change-page="(e) => $emit('changePage', e)"
+          @change-limit="(e) => $emit('changeLimit', e)"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -298,7 +334,7 @@ defineSlots<{
         tbody
           tr
             td
-              @apply bg-[rgb(47,85,151,0.6)] px-3 py-1.5
+              @apply bg-[rgb(47,85,151,0.6)] px-3 py-2
               .v-table-body
                 .v-table-body-text
                   @apply text-base text-neutral-50

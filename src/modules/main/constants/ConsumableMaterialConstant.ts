@@ -4,12 +4,12 @@ export const ColumnsConsumableMaterial: TableColumnType[] = [
   {
     key: "material",
     label: "Material",
-    align: "center",
+    align: "left",
     sort: false,
   },
   {
-    key: "document",
-    label: "",
+    key: "merk",
+    label: "Merk",
     align: "center",
     sort: false,
     width: "150",
@@ -22,15 +22,8 @@ export const ColumnsConsumableMaterial: TableColumnType[] = [
     width: "150",
   },
   {
-    key: "volume",
-    label: "Valume",
-    align: "center",
-    sort: false,
-    width: "150",
-  },
-  {
-    key: "note",
-    label: "Note",
+    key: "unit",
+    label: "Unit",
     align: "center",
     sort: false,
     width: "150",

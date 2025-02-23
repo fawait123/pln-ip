@@ -2,7 +2,7 @@ import type { TableColumnType } from "@/components/tables/Table.vue";
 
 export const ColumnsWorkInstruction: TableColumnType[] = [
   {
-    key: "scope",
+    key: "asset",
     label: "Scope",
     align: "left",
     sort: false,

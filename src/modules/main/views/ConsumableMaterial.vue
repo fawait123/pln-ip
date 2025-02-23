@@ -1,68 +1,111 @@
 <script setup lang="ts">
-import {
-  FormUploadOnly,
-  FormAddNote,
-  Table,
-  Quantity,
-  Volume,
-} from "@/components";
-import { ColumnsConsumableMaterial } from "../constants/ConsumableMaterialConstant";
-import type { ConsumableMaterialInterface } from "../types/ConsumableMaterialType";
-import { ref, watch } from "vue";
+import type { AxiosError } from "axios";
+import { computed, reactive, ref } from "vue";
+import { useRoute } from "vue-router";
+
+import { FormUploadOnly, Table, Quantity } from "@/components";
 import type { ValueUploadType } from "@/components/fields/Upload.vue";
+import { useQuery } from "@tanstack/vue-query";
+import type { IPagination } from "@/types/GlobalType";
 
-const Data = ref<ConsumableMaterialInterface[]>([
-  {
-    id: 1,
-    material: "WD-40",
-    document: null,
-    quantity: null,
-    volume: null,
-    note: null,
+import { ColumnsConsumableMaterial } from "../constants/ConsumableMaterialConstant";
+import type {
+  ConsumableMaterialInterface,
+  ResponseConsMatInterface,
+} from "../types/ConsumableMaterialType";
+import { useMainStore } from "../stores/MainStore";
+
+// const Data = ref<ConsumableMaterialInterface[]>([
+//   {
+//     id: 1,
+//     material: "WD-40",
+//     document: null,
+//     quantity: null,
+//     volume: null,
+//     note: null,
+//   },
+// ]);
+const entitiesConsMat = ref<ConsumableMaterialInterface[]>([]);
+
+const mainStore = useMainStore();
+const route = useRoute();
+const params = reactive({
+  search: "",
+  filter: `project_uuid,${route.params.id_project}`,
+  currentPage: 1,
+  perPage: 10,
+});
+const total_item = ref(0);
+
+//--- GET CONSMAT
+const {
+  data: dataConsMat,
+  isFetching: isLoadingConsMat,
+  refetch: refetchConsMat,
+} = useQuery({
+  queryKey: ["getConsMat"],
+  queryFn: async () => {
+    try {
+      const { data } = await mainStore.getConsMat(params);
+      const response = data as IPagination<ResponseConsMatInterface[]>;
+
+      total_item.value = response.total;
+
+      const new_arr: ConsumableMaterialInterface[] =
+        response.data?.map((item) => {
+          return {
+            id: item.uuid,
+            material: item.name,
+            merk: null,
+            quantity: item.qty.toString(),
+            unit: null,
+          };
+        }) || [];
+      entitiesConsMat.value = new_arr;
+
+      return response;
+    } catch (error: any) {
+      const err = error as AxiosError;
+      throw err.response;
+    }
   },
-]);
+  refetchOnWindowFocus: false,
+});
+//--- END
 
-const onCreate = (e: string) => {
-  const new_data = [...Data.value];
+const pagination = computed(() => {
+  return {
+    totalItems: total_item.value,
+    itemsPerPage: params.perPage,
+    currentPage: params.currentPage,
+  };
+});
 
-  new_data.unshift({
-    id: new_data.length + 1,
-    material: e,
-    document: null,
-    quantity: null,
-    volume: null,
-    note: null,
-  });
-
-  Data.value = new_data;
+const changePage = (e: number) => {
+  params.currentPage = e;
+  refetchConsMat();
 };
 
-const onDelete = (e: ConsumableMaterialInterface) => {
-  Data.value = Data.value.filter((item) => item.id !== e.id);
+const changeLimit = (e: string) => {
+  params.perPage = parseInt(e);
+  params.currentPage = 1;
+  refetchConsMat();
 };
 
 const saveFile = (
   e: { file: ValueUploadType[] },
   entity: ConsumableMaterialInterface
 ) => {
-  const duplicate_data = [...Data.value];
-  const find_index = Data.value.findIndex((item) => item.id === entity.id);
+  const duplicate_data = [...entitiesConsMat.value];
+  const find_index = entitiesConsMat.value.findIndex(
+    (item) => item.id === entity.id
+  );
 
   if (find_index !== -1) {
-    duplicate_data[find_index].document = {
+    duplicate_data[find_index].merk = {
       file: e.file,
     };
-    Data.value = duplicate_data;
-  }
-};
-
-const saveNote = (e: { note: string }, entity: ConsumableMaterialInterface) => {
-  const duplicate_data = [...Data.value];
-  const find_index = Data.value.findIndex((item) => item.id === entity.id);
-
-  if (find_index !== -1) {
-    duplicate_data[find_index].note = e.note;
-    Data.value = duplicate_data;
+    entitiesConsMat.value = duplicate_data;
   }
 };
 
@@ -70,25 +113,14 @@ const saveQuantity = (
   e: { quantity: string },
   entity: ConsumableMaterialInterface
 ) => {
-  const duplicate_data = [...Data.value];
-  const find_index = Data.value.findIndex((item) => item.id === entity.id);
+  const duplicate_data = [...entitiesConsMat.value];
+  const find_index = entitiesConsMat.value.findIndex(
+    (item) => item.id === entity.id
+  );
 
   if (find_index !== -1) {
     duplicate_data[find_index].quantity = e.quantity;
-    Data.value = duplicate_data;
-  }
-};
-
-const saveVolume = (
-  e: { volume: string },
-  entity: ConsumableMaterialInterface
-) => {
-  const duplicate_data = [...Data.value];
-  const find_index = Data.value.findIndex((item) => item.id === entity.id);
-
-  if (find_index !== -1) {
-    duplicate_data[find_index].volume = e.volume;
-    Data.value = duplicate_data;
+    entitiesConsMat.value = duplicate_data;
   }
 };
 </script>
@@ -97,14 +129,18 @@ const saveVolume = (
   <Table
     label-create="Material"
     :columns="ColumnsConsumableMaterial"
-    :entities="Data"
-    @create="onCreate"
-    @delete="onDelete"
+    :entities="entitiesConsMat"
+    :loading="isLoadingConsMat"
+    :pagination="pagination"
+    :is-create="false"
+    :is-action="false"
+    @change-page="changePage"
+    @change-limit="changeLimit"
   >
-    <template #column_document="{ entity }">
+    <template #column_merk="{ entity }">
       <div class="w-full flex justify-center">
         <FormUploadOnly
-          :value="entity.document"
+          :value="entity.merk"
           :label="entity.material"
           @save="(e) => saveFile(e, entity)"
         />
@@ -119,21 +155,15 @@ const saveVolume = (
         />
       </div>
     </template>
-    <template #column_volume="{ entity }">
+    <template #column_unit="{ entity }">
       <div class="w-full flex justify-center">
-        <Volume
-          :value="entity.volume || ''"
-          @save="(e) => saveVolume(e, entity)"
-        />
-      </div>
-    </template>
-    <template #column_note="{ entity }">
-      <div class="w-full flex justify-center">
-        <FormAddNote
-          :value="entity.note || ''"
-          :label="entity.material"
-          @save="(e) => saveNote(e, entity)"
-        />
+        <div
+          v-if="entity.unit"
+          class="border border-neutral-50 rounded-lg px-2 min-w-[100px] text-base text-neutral-50 text-center"
+        >
+          {{ entity.unit }}
+        </div>
+        <div v-else>-</div>
       </div>
     </template>
   </Table>

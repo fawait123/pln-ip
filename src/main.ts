@@ -8,6 +8,7 @@ import HighchartsVue from "highcharts-vue";
 import App from "./App.vue";
 import router from "./router";
 import { VueQueryPlugin } from "@tanstack/vue-query";
+import VueAwesomePaginate from "vue-awesome-paginate";
 
 // @ts-nocheck
 import HighchartsMapModule from "highcharts/modules/map";
@@ -17,6 +18,7 @@ const app = createApp(App);
 const pinia = createPinia();
 
 pinia.use(piniaPluginPersistedstate);
+app.use(VueAwesomePaginate);
 app.use(VueQueryPlugin);
 app.use(router);
 app.use(pinia);

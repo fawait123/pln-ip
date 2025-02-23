@@ -1,23 +1,30 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from "vue";
 import type { AxiosError } from "axios";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
-import { AssetWelness, FormWithFile, Table } from "@/components";
+import {
+  AssetWelness,
+  ButtonDots,
+  FormWithFile,
+  Icon,
+  Table,
+} from "@/components";
 import type { ValueUploadType } from "@/components/fields/Upload.vue";
 import { useQuery } from "@tanstack/vue-query";
 import type { IPagination } from "@/types/GlobalType";
 
 import type {
-  ResponseScopeInterface,
-  ScopeInterface,
-} from "../../types/ScopeType";
-import { ColumnsScope } from "../../constants/ScopeConstant";
-import { useMainStore } from "../../stores/MainStore";
+  ResponseAddScopeInterface,
+  AddScopeInterface,
+} from "../types/AddScopeTableType";
+import { ColumnsScope } from "../constants/ScopeConstant";
+import { useMainStore } from "../stores/MainStore";
 
-const entitiesScope = ref<ScopeInterface[]>([]);
+const entitiesScope = ref<AddScopeInterface[]>([]);
 
 const mainStore = useMainStore();
+const router = useRouter();
 const route = useRoute();
 const params = reactive({
   search: "",
@@ -36,12 +43,12 @@ const {
   queryKey: ["getScopeListrik"],
   queryFn: async () => {
     try {
-      const { data } = await mainStore.getScopeStandar(params);
-      const response = data as IPagination<ResponseScopeInterface[]>;
+      const { data } = await mainStore.getAddScope(params);
+      const response = data as IPagination<ResponseAddScopeInterface[]>;
 
       total_item.value = response.total;
 
-      const new_arr: ScopeInterface[] =
+      const new_arr: AddScopeInterface[] =
         response.data?.map((item) => {
           return {
             id: item.uuid,
@@ -52,12 +59,6 @@ const {
             history: null,
             rla: null,
             etc: null,
-            children: item.details.map((el) => {
-              return {
-                id: el.uuid,
-                name: el.name,
-              };
-            }),
           };
         }) || [];
       entitiesScope.value = new_arr;
@@ -93,7 +94,7 @@ const changeLimit = (e: string) => {
 
 const saveAssetWelness = (
   e: { color: string; result: { id: number; note: string }[] },
-  entity: ScopeInterface
+  entity: AddScopeInterface
 ) => {
   const duplicate_data = [...entitiesScope.value];
   const find_index = entitiesScope.value.findIndex(
@@ -111,7 +112,7 @@ const saveAssetWelness = (
 
 const saveFieldWithFile = (
   e: { result: { id: number; note: string }[]; file: ValueUploadType[] },
-  entity: ScopeInterface,
+  entity: AddScopeInterface,
   field: string
 ) => {
   const duplicate_data = [...entitiesScope.value];
@@ -150,8 +151,14 @@ const saveFieldWithFile = (
   }
 };
 
-const onDelete = (e: ScopeInterface) => {
+const onDelete = (e: AddScopeInterface) => {
   entitiesScope.value = entitiesScope.value.filter((item) => item.id !== e.id);
+};
+
+const toDetail = (id: string) => {
+  router.push(
+    `/${route.params.id}/create/unit/${route.params.id_unit}/${route.params.menu}/${route.params.id_project}/add-scope/${id}/scope-mekanik`
+  );
 };
 </script>
 
@@ -221,27 +228,11 @@ const onDelete = (e: ScopeInterface) => {
         />
       </div>
     </template>
-    <template #children="{ entity, index, parentActive }">
-      <tr v-if="parentActive === index && entity.children.length === 0">
-        <td :colspan="ColumnsScope.length + 1" class="td-child">
-          <div class="v-table-body">
-            <p class="v-table-body-text pl-11 text-center">Not Found Data</p>
-          </div>
-        </td>
-      </tr>
-      <tr
-        v-if="parentActive === index"
-        v-for="(child, childIndex) in entity.children"
-        :key="childIndex"
-      >
-        <td :colspan="ColumnsScope.length + 1" class="td-child">
-          <div class="v-table-body">
-            <p class="v-table-body-text pl-11">
-              {{ child.name }}
-            </p>
-          </div>
-        </td>
-      </tr>
+    <template #column_action="{ entity }">
+      <div class="flex items-center justify-center gap-2">
+        <ButtonDots @detail="toDetail(entity.id)" />
+        <Icon name="trash" class="table-delete" @click="onDelete(entity)" />
+      </div>
     </template>
   </Table>
   <!-- <p class="font-bold text-black text-2xl">TEST</p> -->

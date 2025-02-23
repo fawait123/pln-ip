@@ -69,7 +69,7 @@ const {
     try {
       const { data } = await dashboardStore.getMachine({
         search: "",
-        filter: `uuid,${route.params?.scope}`,
+        filter: `uuid,${route.params?.id_unit}`,
       });
       const response = data.data as TMachine[];
 
@@ -100,7 +100,7 @@ const {
 
       const order = [
         "Combustion Inspection",
-        "Turbine Inspection",
+        "Turbin Inspection",
         "Major Inspection",
       ];
       const sorted_data = response.sort(
@@ -125,6 +125,8 @@ const {
         }
       }
 
+      console.log(new_arr);
+
       return new_arr;
     } catch (error: any) {
       const err = error as AxiosError;
@@ -142,7 +144,7 @@ const { mutate: generate, isPending: isLoadingGenerate } = useMutation({
   },
   onSuccess: (data) => {
     router.push(
-      `/${route.params?.id}/create/unit/${route.params?.scope}/${inspection_selected.value}/${data?.data?.uuid}/scope-mekanik`
+      `/${route.params?.id}/create/unit/${route.params?.id_unit}/${inspection_selected.value}/${data?.data?.uuid}/scope-mekanik`
     );
   },
   onError: (error) => {
@@ -195,7 +197,7 @@ watch(dataMachine, (value) => {
       url: "",
     },
   ];
-  // titleHeader.value = convertToOriginalFormat(route.params.scope as string);
+  // titleHeader.value = convertToOriginalFormat(route.params.id_unit as string);
 });
 
 const handleFirstVideoLoad = () => {
@@ -353,13 +355,13 @@ const generateScope = () => {
   };
   generate(payload);
   // router.push(
-  //   `/${route.params?.id}/create/unit/${route.params?.scope}/${scopeSelected.value}/scope-mekanik`
+  //   `/${route.params?.id}/create/unit/${route.params?.id_unit}/${scopeSelected.value}/scope-mekanik`
   // );
 };
 
 const toTransaction = (uuid: string) => {
   router.push(
-    `/${route.params?.id}/create/unit/${route.params?.scope}/${inspection_selected.value}/${uuid}/scope-mekanik`
+    `/${route.params?.id}/create/unit/${route.params?.id_unit}/${inspection_selected.value}/${uuid}/scope-mekanik`
   );
 };
 
@@ -485,7 +487,7 @@ onUnmounted(() => {
           @click="
             () =>
               router.push(
-                `/${route.params?.id}/create/unit/${route.params?.scope}/${scopeSelected}/scope`
+                `/${route.params?.id}/create/unit/${route.params?.id_unit}/${scopeSelected}/scope`
               )
           "
         >
@@ -496,7 +498,7 @@ onUnmounted(() => {
           @click="
             () =>
               router.push(
-                `/${route.params?.id}/create/unit/${route.params?.scope}/${scopeSelected}/work-instruction`
+                `/${route.params?.id}/create/unit/${route.params?.id_unit}/${scopeSelected}/work-instruction`
               )
           "
         >
@@ -507,7 +509,7 @@ onUnmounted(() => {
           @click="
             () =>
               router.push(
-                `/${route.params?.id}/create/unit/${route.params?.scope}/${scopeSelected}/consumable-material`
+                `/${route.params?.id}/create/unit/${route.params?.id_unit}/${scopeSelected}/consumable-material`
               )
           "
         >
@@ -518,7 +520,7 @@ onUnmounted(() => {
           @click="
             () =>
               router.push(
-                `/${route.params?.id}/create/unit/${route.params?.scope}/${scopeSelected}/manpower`
+                `/${route.params?.id}/create/unit/${route.params?.id_unit}/${scopeSelected}/manpower`
               )
           "
         >
@@ -529,7 +531,7 @@ onUnmounted(() => {
           @click="
             () =>
               router.push(
-                `/${route.params?.id}/create/unit/${route.params?.scope}/${scopeSelected}/part`
+                `/${route.params?.id}/create/unit/${route.params?.id_unit}/${scopeSelected}/part`
               )
           "
         >
@@ -540,7 +542,7 @@ onUnmounted(() => {
           @click="
             () =>
               router.push(
-                `/${route.params?.id}/create/unit/${route.params?.scope}/${scopeSelected}/hse`
+                `/${route.params?.id}/create/unit/${route.params?.id_unit}/${scopeSelected}/hse`
               )
           "
         >
@@ -551,7 +553,7 @@ onUnmounted(() => {
           @click="
             () =>
               router.push(
-                `/${route.params?.id}/create/unit/${route.params?.scope}/${scopeSelected}/add-scope-table`
+                `/${route.params?.id}/create/unit/${route.params?.id_unit}/${scopeSelected}/add-scope-table`
               )
           "
         >

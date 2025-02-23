@@ -67,7 +67,9 @@ const toReport = () => {
     name === "combustion inspection add scope section" ||
     name === "combustion inspection add scope section result"
   ) {
-    router.push(`/${route.params.id}/create/unit/${route.params.scope}/result`);
+    router.push(
+      `/${route.params.id}/create/unit/${route.params.id_unit}/result`
+    );
   }
 };
 </script>

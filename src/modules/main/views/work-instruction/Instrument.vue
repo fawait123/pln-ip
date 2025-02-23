@@ -1,59 +1,93 @@
 <script setup lang="ts">
-import { FormUploadOnly, FormAddNote, Table } from "@/components";
+import { ref, reactive, computed } from "vue";
+import type { AxiosError } from "axios";
+import { useRoute } from "vue-router";
+
+import { useQuery } from "@tanstack/vue-query";
+import { Table } from "@/components";
+import type { IPagination } from "@/types/GlobalType";
+
 import { ColumnsWorkInstruction } from "../../constants/WorkInstructionConstant";
-import type { WorkInstructionInterface } from "../../types/WorkInstructionType";
-import { ref, watch } from "vue";
-import type { ValueUploadType } from "@/components/fields/Upload.vue";
+import type {
+  ResponseScopeInterface,
+  ScopeInterface,
+} from "../../types/ScopeType";
+import { useMainStore } from "../../stores/MainStore";
 
-const Data = ref<WorkInstructionInterface[]>([
-  {
-    id: 1,
-    scope: "Fuel Branch Pipe",
-    document: null,
-    note: null,
+const entitiesScope = ref<ScopeInterface[]>([]);
+
+const mainStore = useMainStore();
+const route = useRoute();
+const params = reactive({
+  search: "",
+  filters: `project_uuid,${route.params.id_project}&category,instrument`,
+  currentPage: 1,
+  perPage: 10,
+});
+const total_item = ref(0);
+
+//--- GET SCOPE
+const {
+  data: dataScope,
+  isFetching: isLoadingScope,
+  refetch: refetchScope,
+} = useQuery({
+  queryKey: ["getScopeInstrument"],
+  queryFn: async () => {
+    try {
+      const { data } = await mainStore.getScopeStandar(params);
+      const response = data as IPagination<ResponseScopeInterface[]>;
+
+      total_item.value = response.total;
+
+      const new_arr: ScopeInterface[] =
+        response.data?.map((item) => {
+          return {
+            id: item.uuid,
+            asset: item.name || "",
+            asset_welness: null,
+            oh_recom: null,
+            wo_priority: null,
+            history: null,
+            rla: null,
+            etc: null,
+            children: item.details.map((el) => {
+              return {
+                id: el.uuid,
+                name: el.name,
+              };
+            }),
+          };
+        }) || [];
+      entitiesScope.value = new_arr;
+
+      return response;
+    } catch (error: any) {
+      const err = error as AxiosError;
+      throw err.response;
+    }
   },
-]);
+  refetchOnWindowFocus: false,
+});
+//--- END
 
-const onCreate = (e: string) => {
-  const new_data = [...Data.value];
+const pagination = computed(() => {
+  return {
+    totalItems: total_item.value,
+    itemsPerPage: params.perPage,
+    currentPage: params.currentPage,
+  };
+});
 
-  new_data.unshift({
-    id: new_data.length + 1,
-    scope: e,
-    document: null,
-    note: null,
-  });
-
-  Data.value = new_data;
+const changePage = (e: number) => {
+  params.currentPage = e;
+  refetchScope();
 };
 
-const onDelete = (e: WorkInstructionInterface) => {
-  Data.value = Data.value.filter((item) => item.id !== e.id);
-};
-
-const saveFile = (
-  e: { file: ValueUploadType[] },
-  entity: WorkInstructionInterface
-) => {
-  const duplicate_data = [...Data.value];
-  const find_index = Data.value.findIndex((item) => item.id === entity.id);
-
-  if (find_index !== -1) {
-    duplicate_data[find_index].document = {
-      file: e.file,
-    };
-    Data.value = duplicate_data;
-  }
-};
-
-const saveNote = (e: { note: string }, entity: WorkInstructionInterface) => {
-  const duplicate_data = [...Data.value];
-  const find_index = Data.value.findIndex((item) => item.id === entity.id);
-
-  if (find_index !== -1) {
-    duplicate_data[find_index].note = e.note;
-    Data.value = duplicate_data;
-  }
+const changeLimit = (e: string) => {
+  params.perPage = parseInt(e);
+  params.currentPage = 1;
+  refetchScope();
 };
 </script>
 
@@ -61,9 +95,35 @@ const saveNote = (e: { note: string }, entity: WorkInstructionInterface) => {
   <Table
     label-create="Asset"
     :columns="ColumnsWorkInstruction"
-    :entities="Data"
+    :entities="entitiesScope"
+    :loading="isLoadingScope"
+    :pagination="pagination"
     :is-create="false"
-    @delete="onDelete"
+    @change-page="changePage"
+    @change-limit="changeLimit"
   >
+    <template #column_action><p></p> </template>
+    <template #children="{ entity, index, parentActive }">
+      <tr v-if="parentActive === index && entity.children.length === 0">
+        <td :colspan="ColumnsWorkInstruction.length + 1" class="td-child">
+          <div class="v-table-body">
+            <p class="v-table-body-text pl-11 text-center">Not Found Data</p>
+          </div>
+        </td>
+      </tr>
+      <tr
+        v-if="parentActive === index"
+        v-for="(child, childIndex) in entity.children"
+        :key="childIndex"
+      >
+        <td :colspan="ColumnsWorkInstruction.length + 1" class="td-child">
+          <div class="v-table-body">
+            <p class="v-table-body-text pl-11">
+              {{ child.name }}
+            </p>
+          </div>
+        </td>
+      </tr>
+    </template>
   </Table>
 </template>

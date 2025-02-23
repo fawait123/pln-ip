@@ -92,18 +92,18 @@ export const Menus = [
     name: "Add Scope",
     url: "/add-scope",
     icon: "login",
-    children: [
-      {
-        id: 101,
-        name: "Table",
-        url: "/add-scope-table",
-      },
-      {
-        id: 102,
-        name: "Squences",
-        url: "/add-scope-squences",
-      },
-    ],
+    // children: [
+    //   {
+    //     id: 101,
+    //     name: "Table",
+    //     url: "/add-scope-table",
+    //   },
+    //   {
+    //     id: 102,
+    //     name: "Squences",
+    //     url: "/add-scope-squences",
+    //   },
+    // ],
   },
   {
     id: 11,
@@ -116,5 +116,84 @@ export const Menus = [
     name: "Results",
     url: "/results",
     icon: "document-clean",
+  },
+];
+
+export const MenusAddScope = [
+  {
+    id: 1,
+    name: "Additional Scope",
+    url: "/",
+    icon: "out",
+  },
+  {
+    id: 2,
+    name: "Scope",
+    url: "/scope",
+    icon: "document",
+    children: [
+      {
+        id: 201,
+        name: "Mekanik",
+        url: "/scope-mekanik",
+      },
+      {
+        id: 202,
+        name: "Listrik",
+        url: "/scope-listrik",
+      },
+      {
+        id: 203,
+        name: "Instrument",
+        url: "/scope-instrument",
+      },
+    ],
+  },
+  {
+    id: 3,
+    name: "Instruksi Kerja",
+    url: "/work-instruction",
+    icon: "checklist",
+    children: [
+      {
+        id: 301,
+        name: "Mekanik",
+        url: "/work-instruction-mekanik",
+      },
+      {
+        id: 302,
+        name: "Listrik",
+        url: "/work-instruction-listrik",
+      },
+      {
+        id: 303,
+        name: "Instrument",
+        url: "/work-instruction-instrument",
+      },
+    ],
+  },
+  {
+    id: 4,
+    name: "Consumable Material",
+    url: "/consumable-material",
+    icon: "box",
+  },
+  {
+    id: 5,
+    name: "Manpower",
+    url: "/manpower",
+    icon: "male",
+  },
+  {
+    id: 6,
+    name: "Part",
+    url: "/part",
+    icon: "trolley-items",
+  },
+  {
+    id: 7,
+    name: "QC Plan",
+    url: "/qc-plan",
+    icon: "mind-gear",
   },
 ];

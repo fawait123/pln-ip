@@ -113,14 +113,14 @@ const handleMouseLeave = () => {
 
 const handleBack = () => {
   router.push(
-    `/${route.params.id}/create/unit/${route.params.scope}/ci/squences?video=27`
+    `/${route.params.id}/create/unit/${route.params.id_unit}/ci/squences?video=27`
   );
 };
 
 const toSection = (name: string) => {
   router.push(
     `/${route.params.id}/create/unit/${
-      route.params.scope
+      route.params.id_unit
     }/add-scope/${convertToKebabCase(name)}`
   );
 };
@@ -133,7 +133,7 @@ onMounted(() => {
       url: "",
     },
     {
-      name: convertToOriginalFormat(route.params.scope as string),
+      name: convertToOriginalFormat(route.params.id_unit as string),
       as_link: false,
       url: "",
     },
