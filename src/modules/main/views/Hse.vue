@@ -1,20 +1,17 @@
 <script setup lang="ts">
-import {
-  FormUploadOnly,
-  FormAddNote,
-  Table,
-  Quantity,
-  Volume,
-} from "@/components";
-import { ColumnsHse } from "../constants/HseConstant";
-import type { HseInterface, ResponseHseInterface } from "../types/HseType";
-import { reactive, ref, watch } from "vue";
-import type { ValueUploadType } from "@/components/fields/Upload.vue";
-import { useMainStore } from "../stores/MainStore";
+import type { AxiosError } from "axios";
+import { computed, reactive, ref } from "vue";
 import { useRoute } from "vue-router";
+
+import { FormUploadOnly, Table } from "@/components";
+
+import type { ValueUploadType } from "@/components/fields/Upload.vue";
 import { useQuery } from "@tanstack/vue-query";
 import type { IPagination } from "@/types/GlobalType";
-import type { AxiosError } from "axios";
+
+import { ColumnsHse } from "../constants/HseConstant";
+import type { HseInterface, ResponseHseInterface } from "../types/HseType";
+import { useMainStore } from "../stores/MainStore";
 
 // const Data = ref<HseInterface[]>([
 //   {
@@ -35,14 +32,21 @@ const params = reactive({
   currentPage: 1,
   perPage: 10,
 });
+const total_item = ref(0);
 
 //--- GET HSE
-const { data: dataHse, isFetching: isLoadingHse } = useQuery({
+const {
+  data: dataHse,
+  isFetching: isLoadingHse,
+  refetch: refetchHse,
+} = useQuery({
   queryKey: ["getHse"],
   queryFn: async () => {
     try {
       const { data } = await mainStore.getHse(params);
       const response = data as IPagination<ResponseHseInterface[]>;
+
+      total_item.value = response.total;
 
       const new_arr: HseInterface[] =
         response.data?.map((item) => {
@@ -65,21 +69,23 @@ const { data: dataHse, isFetching: isLoadingHse } = useQuery({
 });
 //--- END
 
-const onCreate = (e: string) => {
-  const new_data = [...entitiesHse.value];
+const pagination = computed(() => {
+  return {
+    totalItems: total_item.value,
+    itemsPerPage: params.perPage,
+    currentPage: params.currentPage,
+  };
+});
 
-  new_data.unshift({
-    id: (new_data.length + 1).toString(),
-    name: e,
-    document: null,
-    note: null,
-  });
-
-  entitiesHse.value = new_data;
+const changePage = (e: number) => {
+  params.currentPage = e;
+  refetchHse();
 };
 
-const onDelete = (e: HseInterface) => {
-  entitiesHse.value = entitiesHse.value.filter((item) => item.id !== e.id);
+const changeLimit = (e: string) => {
+  params.perPage = parseInt(e);
+  params.currentPage = 1;
+  refetchHse();
 };
 
 const saveFile = (e: { file: ValueUploadType[] }, entity: HseInterface) => {
@@ -95,18 +101,6 @@ const saveFile = (e: { file: ValueUploadType[] }, entity: HseInterface) => {
     entitiesHse.value = duplicate_data;
   }
 };
-
-const saveNote = (e: { note: string }, entity: HseInterface) => {
-  const duplicate_data = [...entitiesHse.value];
-  const find_index = entitiesHse.value.findIndex(
-    (item) => item.id === entity.id
-  );
-
-  if (find_index !== -1) {
-    duplicate_data[find_index].note = e.note;
-    entitiesHse.value = duplicate_data;
-  }
-};
 </script>
 
 <template>
@@ -115,9 +109,11 @@ const saveNote = (e: { note: string }, entity: HseInterface) => {
     :columns="ColumnsHse"
     :entities="entitiesHse"
     :loading="isLoadingHse"
+    :pagination="pagination"
     :is-create="false"
-    @create="onCreate"
-    @delete="onDelete"
+    :is-action="false"
+    @change-page="changePage"
+    @change-limit="changeLimit"
   >
     <template #column_attachment="{ entity }">
       <div class="w-full flex justify-center">

@@ -50,21 +50,23 @@ const breadcrumb = ref<BreadcrumbType[]>([]);
 const handleSave = () => {
   if (route.name === "main add scope squences section result") {
     router.push(
-      `/${route.params.id}/create/unit/${route.params.scope}/${route.params.menu}/add-scope-squences/${route.params.section}/result/finish`
+      `/${route.params.id}/create/unit/${route.params.id_unit}/${route.params.menu}/add-scope-squences/${route.params.section}/result/finish`
     );
   } else {
-    router.push(`/${route.params.id}/create/unit/${route.params.scope}/result`);
+    router.push(
+      `/${route.params.id}/create/unit/${route.params.id_unit}/result`
+    );
   }
 };
 
 const handleBack = () => {
   if (route.name === "main add scope squences section result") {
     router.push(
-      `/${route.params.id}/create/unit/${route.params.scope}/${route.params.menu}/add-scope-squences/${route.params.section}`
+      `/${route.params.id}/create/unit/${route.params.id_unit}/${route.params.menu}/add-scope-squences/${route.params.section}`
     );
   } else {
     router.push(
-      `/${route.params.id}/create/unit/${route.params.scope}/add-scope/${route.params.section}`
+      `/${route.params.id}/create/unit/${route.params.id_unit}/add-scope/${route.params.section}`
     );
   }
 };
@@ -77,7 +79,7 @@ onMounted(() => {
       url: "",
     },
     {
-      name: convertToOriginalFormat(route.params.scope as string),
+      name: convertToOriginalFormat(route.params.id_unit as string),
       as_link: false,
       url: "",
     },

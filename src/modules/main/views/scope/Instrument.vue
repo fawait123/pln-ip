@@ -1,17 +1,19 @@
 <script setup lang="ts">
+import { computed, reactive, ref } from "vue";
+import type { AxiosError } from "axios";
+import { useRoute } from "vue-router";
+
+import type { ValueUploadType } from "@/components/fields/Upload.vue";
+import { useQuery } from "@tanstack/vue-query";
 import { AssetWelness, FormWithFile, Table } from "@/components";
+import type { IPagination } from "@/types/GlobalType";
+
 import { ColumnsScope } from "../../constants/ScopeConstant";
 import type {
   ResponseScopeInterface,
   ScopeInterface,
 } from "../../types/ScopeType";
-import { reactive, ref, watch } from "vue";
-import type { ValueUploadType } from "@/components/fields/Upload.vue";
-import { useQuery } from "@tanstack/vue-query";
 import { useMainStore } from "../../stores/MainStore";
-import { useRoute } from "vue-router";
-import type { IPagination } from "@/types/GlobalType";
-import type { AxiosError } from "axios";
 
 const entitiesScope = ref<ScopeInterface[]>([]);
 
@@ -23,14 +25,21 @@ const params = reactive({
   currentPage: 1,
   perPage: 10,
 });
+const total_item = ref(0);
 
 //--- GET SCOPE
-const { data: dataScope, isFetching: isLoadingScope } = useQuery({
+const {
+  data: dataScope,
+  isFetching: isLoadingScope,
+  refetch: refetchScope,
+} = useQuery({
   queryKey: ["getScopeInstrument"],
   queryFn: async () => {
     try {
       const { data } = await mainStore.getScopeStandar(params);
       const response = data as IPagination<ResponseScopeInterface[]>;
+
+      total_item.value = response.total;
 
       const new_arr: ScopeInterface[] =
         response.data?.map((item) => {
@@ -62,6 +71,25 @@ const { data: dataScope, isFetching: isLoadingScope } = useQuery({
   refetchOnWindowFocus: false,
 });
 //--- END
+
+const pagination = computed(() => {
+  return {
+    totalItems: total_item.value,
+    itemsPerPage: params.perPage,
+    currentPage: params.currentPage,
+  };
+});
+
+const changePage = (e: number) => {
+  params.currentPage = e;
+  refetchScope();
+};
+
+const changeLimit = (e: string) => {
+  params.perPage = parseInt(e);
+  params.currentPage = 1;
+  refetchScope();
+};
 
 const saveAssetWelness = (
   e: { color: string; result: { id: number; note: string }[] },
@@ -122,24 +150,6 @@ const saveFieldWithFile = (
   }
 };
 
-const onCreate = (e: string) => {
-  const new_data = [...entitiesScope.value];
-
-  new_data.unshift({
-    id: (new_data.length + 1).toString(),
-    asset: e,
-    asset_welness: null,
-    oh_recom: null,
-    wo_priority: null,
-    history: null,
-    rla: null,
-    etc: null,
-    children: [],
-  });
-
-  entitiesScope.value = new_data;
-};
-
 const onDelete = (e: ScopeInterface) => {
   entitiesScope.value = entitiesScope.value.filter((item) => item.id !== e.id);
 };
@@ -151,9 +161,11 @@ const onDelete = (e: ScopeInterface) => {
     :columns="ColumnsScope"
     :entities="entitiesScope"
     :loading="isLoadingScope"
+    :pagination="pagination"
     :is-create="false"
-    @create="onCreate"
     @delete="onDelete"
+    @change-page="changePage"
+    @change-limit="changeLimit"
   >
     <template #column_asset_welness="{ entity }">
       <div class="w-full flex justify-center">

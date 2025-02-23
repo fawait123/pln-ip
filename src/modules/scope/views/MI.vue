@@ -226,7 +226,7 @@ const reverseVideo = () => {
 
     if (prevIndex < 0) {
       router.push(
-        `/${route.params.id}/create/unit/${route.params.scope}/mi/scope`
+        `/${route.params.id}/create/unit/${route.params.id_unit}/mi/scope`
       );
       return;
     }
@@ -304,12 +304,12 @@ const handleJumpStep = async (index: number) => {
 
 const handleAddScope = () => {
   router.push(
-    `/${route.params.id}/create/unit/${route.params.scope}/add-scope`
+    `/${route.params.id}/create/unit/${route.params.id_unit}/add-scope`
   );
 };
 
 const handleSave = () => {
-  router.push(`/${route.params.id}/create/unit/${route.params.scope}/result`);
+  router.push(`/${route.params.id}/create/unit/${route.params.id_unit}/result`);
 };
 
 const handleStepNavigation = () => {
@@ -348,7 +348,7 @@ onMounted(() => {
   //     url: "",
   //   },
   //   {
-  //     name: convertToOriginalFormat(route.params.scope as string),
+  //     name: convertToOriginalFormat(route.params.id_unit as string),
   //     as_link: false,
   //     url: "",
   //   },

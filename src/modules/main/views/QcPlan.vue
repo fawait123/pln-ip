@@ -1,23 +1,19 @@
 <script setup lang="ts">
-import {
-  FormUploadOnly,
-  FormAddNote,
-  Table,
-  Quantity,
-  Volume,
-} from "@/components";
+import type { AxiosError } from "axios";
+import { computed, reactive, ref } from "vue";
+import { useRoute } from "vue-router";
+
+import { FormUploadOnly, Table } from "@/components";
+import type { ValueUploadType } from "@/components/fields/Upload.vue";
+import { useQuery } from "@tanstack/vue-query";
+import type { IPagination } from "@/types/GlobalType";
+
 import { ColumnsQcPlan } from "../constants/QcPlan";
 import type {
   QcPlanInterface,
   ResponseQcPlanInterface,
 } from "../types/QcPlanType";
-import { reactive, ref, watch } from "vue";
-import type { ValueUploadType } from "@/components/fields/Upload.vue";
 import { useMainStore } from "../stores/MainStore";
-import { useRoute } from "vue-router";
-import { useQuery } from "@tanstack/vue-query";
-import type { IPagination } from "@/types/GlobalType";
-import type { AxiosError } from "axios";
 
 // const Data = ref<QcPlanInterface[]>([
 //   {
@@ -38,14 +34,21 @@ const params = reactive({
   currentPage: 1,
   perPage: 10,
 });
+const total_item = ref(0);
 
 //--- GET QC PLAN
-const { data: dataQcPlan, isFetching: isLoadingQcPlan } = useQuery({
+const {
+  data: dataQcPlan,
+  isFetching: isLoadingQcPlan,
+  refetch: refetchQcPlan,
+} = useQuery({
   queryKey: ["getQcPlan"],
   queryFn: async () => {
     try {
       const { data } = await mainStore.getQcPlan(params);
       const response = data as IPagination<ResponseQcPlanInterface[]>;
+
+      total_item.value = response.total;
 
       const new_arr: QcPlanInterface[] =
         response.data?.map((item) => {
@@ -68,23 +71,23 @@ const { data: dataQcPlan, isFetching: isLoadingQcPlan } = useQuery({
 });
 //--- END
 
-const onCreate = (e: string) => {
-  const new_data = [...entitiesQcPlan.value];
+const pagination = computed(() => {
+  return {
+    totalItems: total_item.value,
+    itemsPerPage: params.perPage,
+    currentPage: params.currentPage,
+  };
+});
 
-  new_data.unshift({
-    id: (new_data.length + 1).toString(),
-    name: e,
-    document: null,
-    note: null,
-  });
-
-  entitiesQcPlan.value = new_data;
+const changePage = (e: number) => {
+  params.currentPage = e;
+  refetchQcPlan();
 };
 
-const onDelete = (e: QcPlanInterface) => {
-  entitiesQcPlan.value = entitiesQcPlan.value.filter(
-    (item) => item.id !== e.id
-  );
+const changeLimit = (e: string) => {
+  params.perPage = parseInt(e);
+  params.currentPage = 1;
+  refetchQcPlan();
 };
 
 const saveFile = (e: { file: ValueUploadType[] }, entity: QcPlanInterface) => {
@@ -100,18 +103,6 @@ const saveFile = (e: { file: ValueUploadType[] }, entity: QcPlanInterface) => {
     entitiesQcPlan.value = duplicate_data;
   }
 };
-
-const saveNote = (e: { note: string }, entity: QcPlanInterface) => {
-  const duplicate_data = [...entitiesQcPlan.value];
-  const find_index = entitiesQcPlan.value.findIndex(
-    (item) => item.id === entity.id
-  );
-
-  if (find_index !== -1) {
-    duplicate_data[find_index].note = e.note;
-    entitiesQcPlan.value = duplicate_data;
-  }
-};
 </script>
 
 <template>
@@ -120,9 +111,11 @@ const saveNote = (e: { note: string }, entity: QcPlanInterface) => {
     :columns="ColumnsQcPlan"
     :entities="entitiesQcPlan"
     :loading="isLoadingQcPlan"
+    :pagination="pagination"
     :is-create="false"
-    @create="onCreate"
-    @delete="onDelete"
+    :is-action="false"
+    @change-page="changePage"
+    @change-limit="changeLimit"
   >
     <template #column_attachment="{ entity }">
       <div class="w-full flex justify-center">

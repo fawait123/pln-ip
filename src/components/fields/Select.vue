@@ -393,6 +393,12 @@ watch(model, () => {
   v$_select.value.$validate();
 });
 
+watch(open, (value) => {
+  if (value) {
+    getElementContainer();
+  }
+});
+
 onMounted(() => {
   setTimeout(() => {
     getElementContainer();

@@ -6085,11 +6085,11 @@ const reverseVideo = () => {
     if (prevIndex < 0) {
       if (route.name === "main add scope squences section") {
         router.push(
-          `/${route.params.id}/create/unit/${route.params.scope}/${route.params.menu}/${route?.params?.id_project}/add-scope-squences`
+          `/${route.params.id}/create/unit/${route.params.id_unit}/${route.params.menu}/${route?.params?.id_project}/add-scope-squences`
         );
       } else {
         router.push(
-          `/${route.params.id}/create/unit/${route.params.scope}/add-scope`
+          `/${route.params.id}/create/unit/${route.params.id_unit}/add-scope`
         );
       }
       return;
@@ -6125,11 +6125,11 @@ const handleNext = async () => {
   ) {
     if (route.name === "main add scope squences section") {
       router.push(
-        `/${route.params.id}/create/unit/${route.params.scope}/${route.params.menu}/add-scope-squences/${route.params.section}/result`
+        `/${route.params.id}/create/unit/${route.params.id_unit}/${route.params.menu}/add-scope-squences/${route.params.section}/result`
       );
     } else {
       router.push(
-        `/${route.params.id}/create/unit/${route.params.scope}/add-scope/${route.params.section}/result`
+        `/${route.params.id}/create/unit/${route.params.id_unit}/add-scope/${route.params.section}/result`
       );
     }
   } else {
@@ -6211,7 +6211,7 @@ onMounted(() => {
   //     url: "",
   //   },
   //   {
-  //     name: convertToOriginalFormat(route.params.scope as string),
+  //     name: convertToOriginalFormat(route.params.id_unit as string),
   //     as_link: false,
   //     url: "",
   //   },

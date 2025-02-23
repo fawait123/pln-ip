@@ -13,6 +13,7 @@ import {
   TabsRoot,
   TabsTrigger,
 } from "radix-vue";
+
 import { Input, Icon } from "@/components";
 
 const props = defineProps({
@@ -22,7 +23,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["squences", "drawing", "detail"]);
+const emit = defineEmits(["squences", "detail"]);
 
 const modelOpenInputData = ref(false);
 
@@ -30,9 +31,9 @@ const squences = () => {
   emit("squences");
 };
 
-const drawing = () => {
-  emit("drawing");
-};
+// const drawing = () => {
+//   emit("drawing");
+// };
 
 const detail = () => {
   emit("detail");
@@ -48,14 +49,14 @@ const detail = () => {
     </PopoverTrigger>
     <PopoverPortal>
       <PopoverContent :side-offset="5" class="popover-content-dots">
-        <button class="popover-content-dots--squences" @click="squences">
-          Squences
-        </button>
-        <button class="popover-content-dots--drawing" @click="drawing">
+        <!-- <button class="popover-content-dots--drawing" @click="drawing">
           Drawing
-        </button>
+        </button> -->
         <button class="popover-content-dots--drawing" @click="detail">
           Detail
+        </button>
+        <button class="popover-content-dots--squences" @click="squences">
+          Squences
         </button>
       </PopoverContent>
     </PopoverPortal>

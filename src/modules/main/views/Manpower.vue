@@ -1,23 +1,18 @@
 <script setup lang="ts">
-import {
-  FormUploadOnly,
-  FormAddNote,
-  Table,
-  Quantity,
-  Volume,
-} from "@/components";
+import type { AxiosError } from "axios";
+import { computed, reactive, ref } from "vue";
+import { useRoute } from "vue-router";
+
+import { Table, Quantity } from "@/components";
+import { useQuery } from "@tanstack/vue-query";
+import type { IPagination } from "@/types/GlobalType";
+
 import { ColumnsManpower } from "../constants/ManpowerConstant";
 import type {
   ManPowerInterface,
   ResponseManPowerInterface,
 } from "../types/ManpowerType";
-import { reactive, ref, watch } from "vue";
-import type { ValueUploadType } from "@/components/fields/Upload.vue";
 import { useMainStore } from "../stores/MainStore";
-import { useRoute } from "vue-router";
-import { useQuery } from "@tanstack/vue-query";
-import type { IPagination } from "@/types/GlobalType";
-import type { AxiosError } from "axios";
 
 // const Data = ref<ManPowerInterface[]>([
 //   {
@@ -40,14 +35,21 @@ const params = reactive({
   currentPage: 1,
   perPage: 10,
 });
+const total_item = ref(0);
 
 //--- GET MANPOWER
-const { data: dataScope, isFetching: isLoadingScope } = useQuery({
+const {
+  data: dataManPower,
+  isFetching: isLoadingManPower,
+  refetch: refetchManPower,
+} = useQuery({
   queryKey: ["getManPower"],
   queryFn: async () => {
     try {
       const { data } = await mainStore.getManPower(params);
       const response = data as IPagination<ResponseManPowerInterface[]>;
+
+      total_item.value = response.total;
 
       const new_arr: ManPowerInterface[] =
         response.data?.map((item) => {
@@ -72,54 +74,23 @@ const { data: dataScope, isFetching: isLoadingScope } = useQuery({
 });
 //--- END
 
-const onCreate = (e: string) => {
-  const new_data = [...entitiesManPower.value];
+const pagination = computed(() => {
+  return {
+    totalItems: total_item.value,
+    itemsPerPage: params.perPage,
+    currentPage: params.currentPage,
+  };
+});
 
-  new_data.unshift({
-    id: (new_data.length + 1).toString(),
-    manpower: e,
-    document: null,
-    quantity: null,
-    volume: null,
-    note: null,
-  });
-
-  entitiesManPower.value = new_data;
+const changePage = (e: number) => {
+  params.currentPage = e;
+  refetchManPower();
 };
 
-const onDelete = (e: ManPowerInterface) => {
-  entitiesManPower.value = entitiesManPower.value.filter(
-    (item) => item.id !== e.id
-  );
-};
-
-const saveFile = (
-  e: { file: ValueUploadType[] },
-  entity: ManPowerInterface
-) => {
-  const duplicate_data = [...entitiesManPower.value];
-  const find_index = entitiesManPower.value.findIndex(
-    (item) => item.id === entity.id
-  );
-
-  if (find_index !== -1) {
-    duplicate_data[find_index].document = {
-      file: e.file,
-    };
-    entitiesManPower.value = duplicate_data;
-  }
-};
-
-const saveNote = (e: { note: string }, entity: ManPowerInterface) => {
-  const duplicate_data = [...entitiesManPower.value];
-  const find_index = entitiesManPower.value.findIndex(
-    (item) => item.id === entity.id
-  );
-
-  if (find_index !== -1) {
-    duplicate_data[find_index].note = e.note;
-    entitiesManPower.value = duplicate_data;
-  }
+const changeLimit = (e: string) => {
+  params.perPage = parseInt(e);
+  params.currentPage = 1;
+  refetchManPower();
 };
 
 const saveQuantity = (e: { quantity: string }, entity: ManPowerInterface) => {
@@ -133,18 +104,6 @@ const saveQuantity = (e: { quantity: string }, entity: ManPowerInterface) => {
     entitiesManPower.value = duplicate_data;
   }
 };
-
-const saveVolume = (e: { volume: string }, entity: ManPowerInterface) => {
-  const duplicate_data = [...entitiesManPower.value];
-  const find_index = entitiesManPower.value.findIndex(
-    (item) => item.id === entity.id
-  );
-
-  if (find_index !== -1) {
-    duplicate_data[find_index].volume = e.volume;
-    entitiesManPower.value = duplicate_data;
-  }
-};
 </script>
 
 <template>
@@ -152,10 +111,12 @@ const saveVolume = (e: { volume: string }, entity: ManPowerInterface) => {
     label-create="Manpower"
     :columns="ColumnsManpower"
     :entities="entitiesManPower"
-    :loading="isLoadingScope"
+    :loading="isLoadingManPower"
+    :pagination="pagination"
     :is-create="false"
-    @create="onCreate"
-    @delete="onDelete"
+    :is-action="false"
+    @change-page="changePage"
+    @change-limit="changeLimit"
   >
     <!-- <template #column_document="{ entity }">
       <div class="w-full flex justify-center">

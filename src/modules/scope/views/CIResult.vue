@@ -36,7 +36,7 @@ onMounted(() => {
       url: "",
     },
     {
-      name: convertToOriginalFormat(route.params.scope as string),
+      name: convertToOriginalFormat(route.params.id_unit as string),
       as_link: false,
       url: "",
     },

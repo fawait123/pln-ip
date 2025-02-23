@@ -1,20 +1,15 @@
 <script setup lang="ts">
-import {
-  FormUploadOnly,
-  FormAddNote,
-  Table,
-  Quantity,
-  Volume,
-} from "@/components";
-import { ColumnsPart } from "../constants/PartConstant";
-import type { PartInterface, ResponsePartInterface } from "../types/PartType";
-import { reactive, ref, watch } from "vue";
-import type { ValueUploadType } from "@/components/fields/Upload.vue";
-import { useMainStore } from "../stores/MainStore";
+import type { AxiosError } from "axios";
+import { computed, reactive, ref } from "vue";
 import { useRoute } from "vue-router";
+
+import { Table, Quantity } from "@/components";
 import { useQuery } from "@tanstack/vue-query";
 import type { IPagination } from "@/types/GlobalType";
-import type { AxiosError } from "axios";
+
+import { ColumnsPart } from "../constants/PartConstant";
+import type { PartInterface, ResponsePartInterface } from "../types/PartType";
+import { useMainStore } from "../stores/MainStore";
 
 const entitiesPart = ref<PartInterface[]>([]);
 
@@ -26,14 +21,21 @@ const params = reactive({
   currentPage: 1,
   perPage: 10,
 });
+const total_item = ref(0);
 
 //--- GET PART
-const { data: dataPart, isFetching: isLoadingPart } = useQuery({
+const {
+  data: dataPart,
+  isFetching: isLoadingPart,
+  refetch: refetchPart,
+} = useQuery({
   queryKey: ["getPart"],
   queryFn: async () => {
     try {
       const { data } = await mainStore.getPart(params);
       const response = data as IPagination<ResponsePartInterface[]>;
+
+      total_item.value = response.total;
 
       const new_arr: PartInterface[] =
         response.data?.map((item) => {
@@ -58,49 +60,23 @@ const { data: dataPart, isFetching: isLoadingPart } = useQuery({
 });
 //--- END
 
-const onCreate = (e: string) => {
-  const new_data = [...entitiesPart.value];
+const pagination = computed(() => {
+  return {
+    totalItems: total_item.value,
+    itemsPerPage: params.perPage,
+    currentPage: params.currentPage,
+  };
+});
 
-  new_data.unshift({
-    id: (new_data.length + 1).toString(),
-    part: e,
-    document: null,
-    quantity: null,
-    volume: null,
-    number_drawing: null,
-  });
-
-  entitiesPart.value = new_data;
+const changePage = (e: number) => {
+  params.currentPage = e;
+  refetchPart();
 };
 
-const onDelete = (e: PartInterface) => {
-  entitiesPart.value = entitiesPart.value.filter((item) => item.id !== e.id);
-};
-
-const saveFile = (e: { file: ValueUploadType[] }, entity: PartInterface) => {
-  const duplicate_data = [...entitiesPart.value];
-  const find_index = entitiesPart.value.findIndex(
-    (item) => item.id === entity.id
-  );
-
-  if (find_index !== -1) {
-    duplicate_data[find_index].document = {
-      file: e.file,
-    };
-    entitiesPart.value = duplicate_data;
-  }
-};
-
-const saveNote = (e: { note: string }, entity: PartInterface) => {
-  const duplicate_data = [...entitiesPart.value];
-  const find_index = entitiesPart.value.findIndex(
-    (item) => item.id === entity.id
-  );
-
-  if (find_index !== -1) {
-    duplicate_data[find_index].number_drawing = e.note;
-    entitiesPart.value = duplicate_data;
-  }
+const changeLimit = (e: string) => {
+  params.perPage = parseInt(e);
+  params.currentPage = 1;
+  refetchPart();
 };
 
 const saveQuantity = (e: { quantity: string }, entity: PartInterface) => {
@@ -114,18 +90,6 @@ const saveQuantity = (e: { quantity: string }, entity: PartInterface) => {
     entitiesPart.value = duplicate_data;
   }
 };
-
-const saveVolume = (e: { volume: string }, entity: PartInterface) => {
-  const duplicate_data = [...entitiesPart.value];
-  const find_index = entitiesPart.value.findIndex(
-    (item) => item.id === entity.id
-  );
-
-  if (find_index !== -1) {
-    duplicate_data[find_index].volume = e.volume;
-    entitiesPart.value = duplicate_data;
-  }
-};
 </script>
 
 <template>
@@ -134,9 +98,11 @@ const saveVolume = (e: { volume: string }, entity: PartInterface) => {
     :columns="ColumnsPart"
     :entities="entitiesPart"
     :loading="isLoadingPart"
+    :pagination="pagination"
     :is-create="false"
-    @create="onCreate"
-    @delete="onDelete"
+    :is-action="false"
+    @change-page="changePage"
+    @change-limit="changeLimit"
   >
     <!-- <template #column_document="{ entity }">
       <div class="w-full flex justify-center">

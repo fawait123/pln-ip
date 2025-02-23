@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { HeaderMain, Footer } from "@/components";
-import Sidebar from "@/components/layouts/Sidebar.vue";
+import SidebarAddScope from "@/components/layouts/SidebarAddScope.vue";
 import { useRoute } from "vue-router";
 
 const imgUrl = new URL("@/assets/images/bg-main-page.jpg", import.meta.url)
@@ -24,7 +24,7 @@ const route = useRoute();
       <HeaderMain />
     </header>
     <main>
-      <Sidebar />
+      <SidebarAddScope />
       <div class="layout-main--content">
         <slot />
       </div>

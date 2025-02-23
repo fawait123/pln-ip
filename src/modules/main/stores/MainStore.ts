@@ -22,6 +22,19 @@ export const useMainStore = defineStore(
         });
     };
 
+    const getConsMat = async (payload: IParams) => {
+      return await api
+        .get(`/transaction/cons-mat/pagination`, {
+          params: payload,
+        })
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
     const getManPower = async (payload: IParams) => {
       return await api
         .get(`/transaction/manpower/pagination`, {
@@ -74,7 +87,28 @@ export const useMainStore = defineStore(
         });
     };
 
-    return { getScopeStandar, getManPower, getPart, getHse, getQcPlan };
+    const getAddScope = async (payload: IParams) => {
+      return await api
+        .get(`/transaction/additional-scope/pagination`, {
+          params: payload,
+        })
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    return {
+      getScopeStandar,
+      getConsMat,
+      getManPower,
+      getPart,
+      getHse,
+      getQcPlan,
+      getAddScope,
+    };
   },
   {
     persist: {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Menus } from "@/constants/Menus";
+import { MenusAddScope } from "@/constants/Menus";
 import { Icon } from "@/components";
 import { RouterLink, useRoute } from "vue-router";
 import { ref } from "vue";
@@ -29,15 +29,19 @@ const isActive = (item: { id: number; name: string; url: string }) => {
 
 <template>
   <div class="sidebar-main">
-    <p class="sidebar-main--title">MAIN MENU</p>
+    <p class="sidebar-main--title">ADDITIONAL SCOPE</p>
     <div class="sidebar-main--menus">
-      <div v-for="(item, key) in Menus" :key="key" class="flex flex-col gap-2">
+      <div
+        v-for="(item, key) in MenusAddScope"
+        :key="key"
+        class="flex flex-col gap-2"
+      >
         <RouterLink
           v-if="!item.children"
           :to="
             item.url === '/'
-              ? `/${route.params?.id}/create/unit/${route.params?.id_unit}`
-              : `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route?.params?.menu}/${route?.params?.id_project}${item.url}`
+              ? `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route?.params?.menu}/${route?.params?.id_project}/add-scope`
+              : `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route?.params?.menu}/${route?.params?.id_project}/add-scope/${route?.params?.id_scope}${item.url}`
           "
           :class="
             item.url === '/'
@@ -61,11 +65,7 @@ const isActive = (item: { id: number; name: string; url: string }) => {
             <RouterLink
               v-for="(element, index) in item.children"
               :key="index"
-              :to="
-                item.url === '/'
-                  ? `/${route.params?.id}/create/unit/${route.params?.id_unit}`
-                  : `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route?.params?.menu}/${route?.params?.id_project}${element.url}`
-              "
+              :to="`/${route.params?.id}/create/unit/${route.params?.id_unit}/${route?.params?.menu}/${route?.params?.id_project}/add-scope/${route?.params?.id_scope}${element.url}`"
               :class="
                 item.url === '/'
                   ? ''
