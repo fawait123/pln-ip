@@ -170,6 +170,6 @@ const onDelete = (e: ScopeInterface) => {
         <Icon name="trash" class="table-delete" @click="onDelete(entity)" />
       </div>
     </template>
-  </Table>
-  <!-- <p class="font-bold text-black text-2xl">TEST</p> -->
-</template> -->
+  </Table> -->
+<!-- <p class="font-bold text-black text-2xl">TEST</p> -->
+<!-- </template> -->
