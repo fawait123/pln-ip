@@ -3,11 +3,15 @@ import type { ValueUploadType } from "@/components/fields/Upload.vue";
 export interface ConsumableMaterialInterface {
   id: string;
   material: string;
-  merk: {
-    file: ValueUploadType[];
-  } | null;
+  // merk: {
+  //   file: ValueUploadType[];
+  // } | null;
+  merk: string;
   quantity: string | null;
   unit: string | null;
+  global_unit_uuid: string;
+  project_uuid: string | null;
+  additional_scope_uuid: string | null;
 }
 
 export interface ResponseConsMatInterface {
@@ -20,4 +24,13 @@ export interface ResponseConsMatInterface {
   additional_scope_uuid: string | null;
   created_at: string;
   updated_at: string;
+}
+
+export interface UpdateConsMatInterface {
+  name: string;
+  merk: string;
+  qty: number;
+  global_unit_uuid: string;
+  project_uuid: string | null;
+  additional_scope_uuid: string | null;
 }

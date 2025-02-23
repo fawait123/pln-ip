@@ -1,26 +1,39 @@
 import type { ValueUploadType } from "@/components/fields/Upload.vue";
 
 interface WithFileInterface {
-  result: { id: number; note: string }[];
+  note: string;
   file: ValueUploadType[];
 }
+
+export type TColor = "red" | "green" | "yellow" | "";
 
 export interface ScopeInterface {
   id: string;
   asset: string;
   asset_welness: {
-    color: string;
-    result: { id: number; note: string }[];
+    color: TColor;
+    note: string;
   } | null;
   oh_recom: WithFileInterface | null;
   wo_priority: WithFileInterface | null;
   history: WithFileInterface | null;
   rla: WithFileInterface | null;
-  etc: WithFileInterface | null;
+  ncr: WithFileInterface | null;
   children: {
     id: string;
     name: string;
   }[];
+}
+
+interface Category {
+  uuid: string;
+  note: string;
+  category: string;
+  color: TColor;
+  scope_standart_uuid: string;
+  created_at: string;
+  updated_at: string;
+  document: null;
 }
 
 export interface ResponseScopeInterface {
@@ -39,4 +52,17 @@ export interface ResponseScopeInterface {
     created_at: string;
     updated_at: string;
   }[];
+  asset_welnes: Category;
+  oh_recom: Category;
+  wo_priority: Category;
+  history: Category;
+  rla: Category;
+  ncr: Category;
+}
+
+export interface CreateScopeInterface {
+  scope_standart_uuid: string;
+  note: string;
+  category: string;
+  color: string | null;
 }

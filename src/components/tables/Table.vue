@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T">
 import { ref, type PropType, type VNode } from "vue";
-import { CreateRow, Input, Modal, Icon, Pagination } from "@/components";
+import { CreateRow, Input, Icon, Pagination } from "@/components";
 
 export interface TableColumnType {
   key: string;

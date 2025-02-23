@@ -7,14 +7,17 @@ export interface PartInterface {
     file: ValueUploadType[];
   } | null;
   quantity: string | null;
-  volume: string | null;
+  unit: string | null;
   number_drawing: string | null;
+  global_unit_uuid: string;
+  project_uuid: string | null;
+  additional_scope_uuid: string | null;
 }
 
 export interface ResponsePartInterface {
   uuid: string;
   name: string;
-  no_drawing: string;
+  no_drawing: string | null;
   note: string | null;
   project_uuid: string;
   qty: number;
@@ -27,4 +30,14 @@ export interface ResponsePartInterface {
   };
   created_at: string;
   updated_at: string;
+  additional_scope_uuid: string | null;
+}
+
+export interface UpdatePartInterface {
+  name: string;
+  qty: number;
+  no_drawing: string | null;
+  global_unit_uuid: string;
+  project_uuid: string | null;
+  additional_scope_uuid: string | null;
 }

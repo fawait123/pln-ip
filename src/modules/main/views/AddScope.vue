@@ -58,7 +58,7 @@ const {
             wo_priority: null,
             history: null,
             rla: null,
-            etc: null,
+            ncr: null,
           };
         }) || [];
       entitiesScope.value = new_arr;
@@ -141,8 +141,8 @@ const saveFieldWithFile = (
         result: e.result,
         file: e.file,
       };
-    } else if (field === "etc") {
-      duplicate_data[find_index].etc = {
+    } else if (field === "ncr") {
+      duplicate_data[find_index].ncr = {
         result: e.result,
         file: e.file,
       };
@@ -219,19 +219,19 @@ const toDetail = (id: string) => {
         />
       </div>
     </template>
-    <template #column_etc="{ entity }">
+    <template #column_ncr="{ entity }">
       <div class="w-full flex justify-center">
         <FormWithFile
-          :value="entity.etc"
+          :value="entity.ncr"
           :label="entity.asset"
-          @save="(e) => saveFieldWithFile(e, entity, 'etc')"
+          @save="(e) => saveFieldWithFile(e, entity, 'ncr')"
         />
       </div>
     </template>
     <template #column_action="{ entity }">
       <div class="flex items-center justify-center gap-2">
         <ButtonDots @detail="toDetail(entity.id)" />
-        <Icon name="trash" class="table-delete" @click="onDelete(entity)" />
+        <!-- <Icon name="trash" class="table-delete" @click="onDelete(entity)" /> -->
       </div>
     </template>
   </Table>

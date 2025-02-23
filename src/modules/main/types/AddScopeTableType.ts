@@ -60,7 +60,7 @@ export interface AddScopeInterface {
   wo_priority: WithFileInterface | null;
   history: WithFileInterface | null;
   rla: WithFileInterface | null;
-  etc: WithFileInterface | null;
+  ncr: WithFileInterface | null;
 }
 
 export interface ResponseAddScopeInterface {

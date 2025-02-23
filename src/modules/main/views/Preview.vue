@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import {
   AssetWelness,
   ButtonDots,
@@ -172,4 +172,4 @@ const onDelete = (e: ScopeInterface) => {
     </template>
   </Table>
   <!-- <p class="font-bold text-black text-2xl">TEST</p> -->
-</template>
+</template> -->
