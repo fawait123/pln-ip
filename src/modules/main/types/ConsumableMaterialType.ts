@@ -20,6 +20,12 @@ export interface ResponseConsMatInterface {
   merk: string;
   qty: number;
   global_unit_uuid: string;
+  global_unit: {
+    created_at: string;
+    updated_at: string;
+    name: string;
+    uuid: string;
+  };
   project_uuid: string;
   additional_scope_uuid: string | null;
   created_at: string;

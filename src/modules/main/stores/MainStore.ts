@@ -9,6 +9,7 @@ import type { CreateScopeInterface } from "../types/ScopeType";
 import type { UpdateConsMatInterface } from "../types/ConsumableMaterialType";
 import type { UpdateManPowerInterface } from "../types/ManpowerType";
 import type { UpdatePartInterface } from "../types/PartType";
+import type { CreateAddScopeInterface } from "../types/AddScopeTableType";
 
 export const useMainStore = defineStore(
   "main",
@@ -117,7 +118,7 @@ export const useMainStore = defineStore(
 
     const updatePart = async (payload: UpdatePartInterface, id: string) => {
       return await api
-        .put(`/transaction/manpower/${id}`, payload)
+        .put(`/transaction/part/${id}`, payload)
         .then((res) => {
           return Promise.resolve(res);
         })
@@ -165,6 +166,17 @@ export const useMainStore = defineStore(
         });
     };
 
+    const createAddScope = async (payload: CreateAddScopeInterface) => {
+      return await api
+        .post(`/transaction/additional-scope/resource/asset`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
     return {
       getScopeStandar,
       createScopeStandar,
@@ -178,6 +190,7 @@ export const useMainStore = defineStore(
       getHse,
       getQcPlan,
       getAddScope,
+      createAddScope,
     };
   },
   {

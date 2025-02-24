@@ -12,6 +12,7 @@ export interface PartInterface {
   global_unit_uuid: string;
   project_uuid: string | null;
   additional_scope_uuid: string | null;
+  note: string | null;
 }
 
 export interface ResponsePartInterface {
@@ -36,7 +37,8 @@ export interface ResponsePartInterface {
 export interface UpdatePartInterface {
   name: string;
   qty: number;
-  no_drawing: string | null;
+  noDrawing: string | null;
+  note: string | null;
   global_unit_uuid: string;
   project_uuid: string | null;
   additional_scope_uuid: string | null;

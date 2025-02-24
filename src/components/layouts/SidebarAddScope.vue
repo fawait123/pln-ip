@@ -40,7 +40,7 @@ const isActive = (item: { id: number; name: string; url: string }) => {
           v-if="!item.children"
           :to="
             item.url === '/'
-              ? `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route?.params?.menu}/${route?.params?.id_project}/add-scope`
+              ? `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route?.params?.menu}/${route?.params?.id_project}/add-scope-table`
               : `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route?.params?.menu}/${route?.params?.id_project}/add-scope/${route?.params?.id_scope}${item.url}`
           "
           :class="

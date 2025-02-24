@@ -26,3 +26,15 @@ export interface CreateDocumentInterface {
   document_type: string;
   document_uuid: string;
 }
+
+export interface ResponseDocumentInterface {
+  uuid: string;
+  document_uuid: string;
+  document_type: string;
+  document_name: string;
+  document_link: string;
+  document_size: number;
+  document_mime_type: string;
+  created_at: string;
+  updated_at: string;
+}

@@ -61,7 +61,7 @@ const {
             material: item.name,
             merk: item.merk,
             quantity: item.qty.toString(),
-            unit: null,
+            unit: item.global_unit?.name,
             global_unit_uuid: item.global_unit_uuid,
             project_uuid: item.project_uuid,
             additional_scope_uuid: item.additional_scope_uuid,

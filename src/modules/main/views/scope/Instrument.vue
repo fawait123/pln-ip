@@ -72,31 +72,76 @@ const {
             oh_recom: item.oh_recom
               ? {
                   note: item.oh_recom?.note,
-                  file: [],
+                  file: item.oh_recom?.document
+                    ? [
+                        {
+                          id: item.oh_recom.document.uuid,
+                          name: item.oh_recom.document.document_name,
+                          size: item.oh_recom.document.document_size,
+                          file: item.oh_recom.document.document_link,
+                        },
+                      ]
+                    : [],
                 }
               : null,
             wo_priority: item.wo_priority
               ? {
                   note: item.wo_priority?.note,
-                  file: [],
+                  file: item.wo_priority?.document
+                    ? [
+                        {
+                          id: item.wo_priority.document.uuid,
+                          name: item.wo_priority.document.document_name,
+                          size: item.wo_priority.document.document_size,
+                          file: item.wo_priority.document.document_link,
+                        },
+                      ]
+                    : [],
                 }
               : null,
             history: item.history
               ? {
                   note: item.history?.note,
-                  file: [],
+                  file: item.history?.document
+                    ? [
+                        {
+                          id: item.history.document.uuid,
+                          name: item.history.document.document_name,
+                          size: item.history.document.document_size,
+                          file: item.history.document.document_link,
+                        },
+                      ]
+                    : [],
                 }
               : null,
             rla: item.rla
               ? {
                   note: item.rla?.note,
-                  file: [],
+                  file: item.rla?.document
+                    ? [
+                        {
+                          id: item.rla.document.uuid,
+                          name: item.rla.document.document_name,
+                          size: item.rla.document.document_size,
+                          file: item.rla.document.document_link,
+                        },
+                      ]
+                    : [],
                 }
               : null,
             ncr: item.ncr
               ? {
                   note: item.ncr?.note,
-                  file: [],
+                  file: item.ncr?.document
+                    ? [
+                        {
+                          id: item.ncr.document.uuid,
+                          name: item.ncr.document.document_name,
+                          size: item.ncr.document.document_size,
+                          file: item.ncr.document.document_link,
+                        },
+                      ]
+                    : [],
                 }
               : null,
             children: item.details.map((el) => {
@@ -138,7 +183,7 @@ const { mutate: createScope } = useMutation({
     } else {
       createDocument({
         document: file.value,
-        document_type: "App\\Models\\Trasaction\\ScopeStandartAsset",
+        document_type: "App\\Models\\Transaction\\ScopeStandartAsset",
         document_uuid: data.data.uuid,
       });
     }
@@ -300,7 +345,11 @@ const saveFieldWithFile = (
   //   entitiesScope.value = duplicate_data;
   // }
   is_loading_create.value = true;
-  file.value = e.file?.[0]?.file as File;
+  if (typeof e.file?.[0]?.file !== "string") {
+    file.value = e.file?.[0]?.file as File;
+  } else {
+    file.value = null;
+  }
   createScope({
     color: null,
     note: e.note,

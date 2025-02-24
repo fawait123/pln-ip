@@ -1,4 +1,5 @@
 import type { ValueUploadType } from "@/components/fields/Upload.vue";
+import type { ResponseDocumentInterface } from "@/types/GlobalType";
 
 interface WithFileInterface {
   note: string;
@@ -33,7 +34,7 @@ interface Category {
   scope_standart_uuid: string;
   created_at: string;
   updated_at: string;
-  document: null;
+  document: ResponseDocumentInterface | null;
 }
 
 export interface ResponseScopeInterface {
