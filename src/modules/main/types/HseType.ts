@@ -1,4 +1,5 @@
 import type { ValueUploadType } from "@/components/fields/Upload.vue";
+import type { ResponseDocumentInterface } from "@/types/GlobalType";
 
 export interface HseInterface {
   id: string;
@@ -15,4 +16,5 @@ export interface ResponseHseInterface {
   title: string;
   created_at: string;
   updated_at: string;
+  document: ResponseDocumentInterface | null;
 }

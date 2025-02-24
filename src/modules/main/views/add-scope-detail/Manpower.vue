@@ -31,7 +31,7 @@ const mainStore = useMainStore();
 const route = useRoute();
 const params = reactive({
   search: "",
-  filter: `project_uuid,${route.params.id_project}&additional_scope_uuid,${route.params.id_scope}`,
+  filter: `additional_scope_uuid,${route.params.id_scope}`,
   currentPage: 1,
   perPage: 10,
 });
@@ -60,6 +60,7 @@ const {
             type: item.type,
             additional_scope_uuid: item.additional_scope_uuid,
             project_uuid: item.project_uuid,
+            note: item.note,
           };
         }) || [];
       entitiesManPower.value = new_arr;

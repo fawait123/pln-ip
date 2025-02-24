@@ -20,7 +20,7 @@ const mainStore = useMainStore();
 const route = useRoute();
 const params = reactive({
   search: "",
-  filters: `project_uuid,${route.params.id_project}&category,mekanik&additional_scope_uuid,${route.params.id_scope}`,
+  filters: `category,mekanik&additional_scope_uuid,${route.params.id_scope}`,
   currentPage: 1,
   perPage: 10,
 });

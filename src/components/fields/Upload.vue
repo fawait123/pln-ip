@@ -10,11 +10,11 @@ import {
 } from "vue";
 import { v4 as uuidv4 } from "uuid";
 
-import { Icon } from "@/components/index";
+import { Icon, Toast } from "@/components";
 import useVuelidate from "@vuelidate/core";
 
 export interface ValueUploadType {
-  id: number;
+  id: string;
   name: string;
   size: number;
   file: File | string;
@@ -75,7 +75,7 @@ const props = defineProps({
   },
   maxSize: {
     type: [Number, String],
-    default: 10,
+    default: 1,
   },
   rules: {
     type: Object,
@@ -106,6 +106,7 @@ const id = ref(uuidv4());
 const upload = ref<any>(null);
 const error_message = ref("");
 const emit = defineEmits(["change", "update:modelValue"]);
+const toastRef = ref<InstanceType<typeof Toast> | null>(null);
 
 const model = computed({
   get() {
@@ -169,12 +170,29 @@ function handleInput(e: InputEvent): void {
 
   if (files_uploaded.length > parseInt(props.maxCount.toString())) {
     error_message.value = `Only ${props.maxCount} attachments are allowed`;
+    toastRef.value?.showToast({
+      title: "Error",
+      description: `Only ${props.maxCount} attachments are allowed`,
+      type: "error",
+    });
   } else if (temp_type_file.length !== files_uploaded.length) {
     error_message.value = `The file must be a file of type: ${props.fileType
       .map((item) => item.toUpperCase())
       .join(", ")}`;
+    toastRef.value?.showToast({
+      title: "Error",
+      description: `The file must be a file of type: ${props.fileType
+        .map((item) => item.toUpperCase())
+        .join(", ")}`,
+      type: "error",
+    });
   } else if (temp_maz_size.length !== files_uploaded.length) {
     error_message.value = `File size is greater than ${props.maxSize}mb. Please upload file below ${props.maxSize}mb`;
+    toastRef.value?.showToast({
+      title: "Error",
+      description: `File size is greater than ${props.maxSize}mb. Please upload file below ${props.maxSize}mb`,
+      type: "error",
+    });
   } else {
     emit("change", [...files_uploaded]);
 
@@ -184,7 +202,7 @@ function handleInput(e: InputEvent): void {
 
       temp_model_value.push({
         file,
-        id: i + props.modelValue.length,
+        id: (i + props.modelValue.length).toString(),
         name: file.name,
         size: file.size,
       });
@@ -262,6 +280,7 @@ function clickUpload() {
 </script>
 
 <template>
+  <Toast ref="toastRef" />
   <div class="v-upload">
     <div class="v-upload--label" v-if="label !== undefined">
       <label class="v-upload--label--text" :class="classLabel" :for="id">{{
@@ -290,6 +309,7 @@ function clickUpload() {
           </div>
           <div class="preview-action">
             <Icon
+              v-if="typeof item.file !== 'string'"
               name="download"
               class="preview-action--icon"
               @click="downloadFiles(item)"

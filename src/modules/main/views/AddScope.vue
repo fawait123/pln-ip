@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import { computed, reactive, ref, watch } from "vue";
 import type { AxiosError } from "axios";
 import { useRoute, useRouter } from "vue-router";
@@ -230,10 +230,14 @@ const toDetail = (id: string) => {
     </template>
     <template #column_action="{ entity }">
       <div class="flex items-center justify-center gap-2">
-        <ButtonDots @detail="toDetail(entity.id)" />
-        <!-- <Icon name="trash" class="table-delete" @click="onDelete(entity)" /> -->
-      </div>
+        <ButtonDots @detail="toDetail(entity.id)" /> -->
+<!-- <Icon name="trash" class="table-delete" @click="onDelete(entity)" /> -->
+<!-- </div>
     </template>
-  </Table>
-  <!-- <p class="font-bold text-black text-2xl">TEST</p> -->
-</template>
+  </Table> -->
+<!-- <p class="font-bold text-black text-2xl">TEST</p> -->
+<!-- </template> -->
+
+<script setup lang="ts"></script>
+
+<template></template>

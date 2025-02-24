@@ -1,4 +1,5 @@
 import type { ValueUploadType } from "@/components/fields/Upload.vue";
+import type { ResponseDocumentInterface } from "@/types/GlobalType";
 
 export interface QcPlanInterface {
   id: string;
@@ -16,4 +17,5 @@ export interface ResponseQcPlanInterface {
   project_uuid: string;
   created_at: string;
   updated_at: string;
+  document: ResponseDocumentInterface | null;
 }

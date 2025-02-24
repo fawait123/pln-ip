@@ -56,6 +56,7 @@ const {
             global_unit_uuid: item.global_unit_uuid,
             project_uuid: item.project_uuid,
             additional_scope_uuid: item.additional_scope_uuid,
+            note: item.note,
           };
         }) || [];
       entitiesPart.value = new_arr;
@@ -126,10 +127,11 @@ const saveQuantity = (e: { quantity: string }, entity: PartInterface) => {
     payload: {
       name: entity.part,
       qty: parseFloat(e.quantity),
-      no_drawing: entity.number_drawing,
+      noDrawing: entity.number_drawing,
       additional_scope_uuid: entity.additional_scope_uuid,
       global_unit_uuid: entity.global_unit_uuid,
       project_uuid: entity.project_uuid,
+      note: entity.note,
     },
   });
 };

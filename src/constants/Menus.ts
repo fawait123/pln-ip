@@ -92,18 +92,18 @@ export const Menus = [
     name: "Add Scope",
     url: "/add-scope",
     icon: "login",
-    // children: [
-    //   {
-    //     id: 101,
-    //     name: "Table",
-    //     url: "/add-scope-table",
-    //   },
-    //   {
-    //     id: 102,
-    //     name: "Squences",
-    //     url: "/add-scope-squences",
-    //   },
-    // ],
+    children: [
+      {
+        id: 101,
+        name: "Table",
+        url: "/add-scope-table",
+      },
+      {
+        id: 102,
+        name: "Squences",
+        url: "/add-scope-squences",
+      },
+    ],
   },
   // {
   //   id: 11,

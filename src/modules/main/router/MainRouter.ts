@@ -110,6 +110,18 @@ export const routeMain = [
     meta: { layout: MainLayout, requireAuth: true },
   },
   {
+    path: "/:id/create/unit/:id_unit/:menu/:id_project/add-scope-squences",
+    name: "main add scope squences",
+    component: () => import("@/modules/main/views/AddScopeSquences.vue"),
+    meta: { layout: MainLayout, requireAuth: true },
+  },
+  {
+    path: "/:id/create/unit/:id_unit/:menu/:id_project/add-scope-table",
+    name: "main add scope table",
+    component: () => import("@/modules/main/views/AddScopeTable.vue"),
+    meta: { layout: MainLayout, requireAuth: true },
+  },
+  {
     path: "/:id/create/unit/:id_unit/:menu/:id_project/add-scope/:id_scope/scope-mekanik",
     name: "add scope detail scope mekanik",
     component: () =>
@@ -183,18 +195,6 @@ export const routeMain = [
     component: () => import("@/modules/main/views/add-scope-detail/QcPlan.vue"),
     meta: { layout: AddScopeLayout, requireAuth: true },
   },
-  // {
-  //   path: "/:id/create/unit/:id_unit/:menu/:id_project/add-scope-squences",
-  //   name: "main add scope squences",
-  //   component: () => import("@/modules/main/views/AddScopeSquences.vue"),
-  //   meta: { layout: MainLayout, requireAuth: true },
-  // },
-  // {
-  //   path: "/:id/create/unit/:id_unit/:menu/:id_project/add-scope-table",
-  //   name: "main add scope table",
-  //   component: () => import("@/modules/main/views/AddScopeTable.vue"),
-  //   meta: { layout: MainLayout, requireAuth: true },
-  // },
   {
     path: "/:id/create/unit/:id_unit/:menu/:id_project/add-scope-squences/:section",
     name: "main add scope squences section",

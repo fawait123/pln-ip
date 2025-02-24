@@ -64,6 +64,7 @@ const {
             type: item.type,
             additional_scope_uuid: item.additional_scope_uuid,
             project_uuid: item.project_uuid,
+            note: item.note,
           };
         }) || [];
       entitiesManPower.value = new_arr;
@@ -137,6 +138,7 @@ const saveQuantity = (e: { quantity: string }, entity: ManPowerInterface) => {
       additional_scope_uuid: entity.additional_scope_uuid,
       project_uuid: entity.project_uuid,
       type: entity.type,
+      note: entity.note,
     },
   });
 };

@@ -3,15 +3,17 @@ import type { AxiosError } from "axios";
 import { computed, reactive, ref } from "vue";
 import { useRoute } from "vue-router";
 
-import { FormUploadOnly, Table } from "@/components";
+import { FormUploadOnly, Table, Toast } from "@/components";
 
 import type { ValueUploadType } from "@/components/fields/Upload.vue";
-import { useQuery } from "@tanstack/vue-query";
-import type { IPagination } from "@/types/GlobalType";
+import { useMutation, useQuery } from "@tanstack/vue-query";
+import type { CreateDocumentInterface, IPagination } from "@/types/GlobalType";
+import { useGlobalStore } from "@/stores/GlobalStore";
 
 import { ColumnsHse } from "../constants/HseConstant";
 import type { HseInterface, ResponseHseInterface } from "../types/HseType";
 import { useMainStore } from "../stores/MainStore";
+import FormOnlyUploadFile from "../components/FormOnlyUploadFile.vue";
 
 // const Data = ref<HseInterface[]>([
 //   {
@@ -25,6 +27,7 @@ import { useMainStore } from "../stores/MainStore";
 const entitiesHse = ref<HseInterface[]>([]);
 
 const mainStore = useMainStore();
+const globalStore = useGlobalStore();
 const route = useRoute();
 const params = reactive({
   search: "",
@@ -33,6 +36,8 @@ const params = reactive({
   perPage: 10,
 });
 const total_item = ref(0);
+const toastRef = ref<InstanceType<typeof Toast> | null>(null);
+const attachment = ref<any>(null);
 
 //--- GET HSE
 const {
@@ -53,7 +58,20 @@ const {
           return {
             id: item.uuid,
             name: item.title,
-            document: null,
+            document: item.document
+              ? {
+                  file: item.document
+                    ? [
+                        {
+                          id: item.document.uuid,
+                          name: item.document.document_name,
+                          size: item.document.document_size,
+                          file: item.document.document_link,
+                        },
+                      ]
+                    : [],
+                }
+              : null,
             note: null,
           };
         }) || [];
@@ -66,6 +84,31 @@ const {
     }
   },
   refetchOnWindowFocus: false,
+});
+//--- END
+
+//--- CREATE DOCUMENT
+const { mutate: createDocument, isPending: isLoadingCreate } = useMutation({
+  mutationFn: async (payload: CreateDocumentInterface) => {
+    return await globalStore.createDocument(payload);
+  },
+  onSuccess: () => {
+    refetchHse();
+    attachment.value.modelOpenInputData = false;
+    toastRef.value?.showToast({
+      title: "Success",
+      description: "Saved successfully",
+      type: "success",
+    });
+  },
+  onError: (error: any) => {
+    console.log(error);
+    toastRef.value?.showToast({
+      title: "Error",
+      description: error?.response?.data?.message || "Something went wrong",
+      type: "error",
+    });
+  },
 });
 //--- END
 
@@ -89,21 +132,27 @@ const changeLimit = (e: string) => {
 };
 
 const saveFile = (e: { file: ValueUploadType[] }, entity: HseInterface) => {
-  const duplicate_data = [...entitiesHse.value];
-  const find_index = entitiesHse.value.findIndex(
-    (item) => item.id === entity.id
-  );
+  // const duplicate_data = [...entitiesHse.value];
+  // const find_index = entitiesHse.value.findIndex(
+  //   (item) => item.id === entity.id
+  // );
 
-  if (find_index !== -1) {
-    duplicate_data[find_index].document = {
-      file: e.file,
-    };
-    entitiesHse.value = duplicate_data;
-  }
+  // if (find_index !== -1) {
+  //   duplicate_data[find_index].document = {
+  //     file: e.file,
+  //   };
+  //   entitiesHse.value = duplicate_data;
+  // }
+  createDocument({
+    document: e.file?.[0]?.file as File,
+    document_type: "App\\Models\\Transaction\\Hse",
+    document_uuid: entity.id,
+  });
 };
 </script>
 
 <template>
+  <Toast ref="toastRef" />
   <Table
     label-create="Part"
     :columns="ColumnsHse"
@@ -117,21 +166,31 @@ const saveFile = (e: { file: ValueUploadType[] }, entity: HseInterface) => {
   >
     <template #column_attachment="{ entity }">
       <div class="w-full flex justify-center">
-        <FormUploadOnly
+        <FormOnlyUploadFile
+          ref="attachment"
           :value="entity.document"
           :label="entity.name"
+          :loading="isLoadingCreate"
           @save="(e) => saveFile(e, entity)"
         />
       </div>
     </template>
     <template #column_preview="{ entity }">
-      <div class="w-full flex justify-center">
-        <!-- <FormAddNote
+      <!-- <div class="w-full flex justify-center">
+        <FormAddNote
           :value="entity.note || ''"
           :label="entity.name"
           @save="(e) => saveNote(e, entity)"
-        /> -->
+        />
+      </div> -->
+      <div v-if="entity.document" class="w-full flex justify-center">
+        <div
+          class="bg-cyan-500 text-center border border-neutral-50 rounded-lg px-2 min-w-[120px] text-base text-neutral-50 cursor-pointer"
+        >
+          Preview
+        </div>
       </div>
+      <div v-else class="text-center">-</div>
     </template>
   </Table>
 </template>
