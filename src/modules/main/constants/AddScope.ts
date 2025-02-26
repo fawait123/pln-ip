@@ -47,8 +47,8 @@ export const ColumnsAddScopeDetailConsMat: TableColumnType[] = [
 
 export const ColumnsAddScopeDetailManpower: TableColumnType[] = [
   {
-    key: "material",
-    label: "Material",
+    key: "manpower",
+    label: "Manpower",
     align: "left",
     sort: false,
   },
@@ -108,7 +108,7 @@ export const ColumnsAddScopeDetailQcPlan: TableColumnType[] = [
   },
   {
     key: "preview",
-    label: "Note",
+    label: "",
     align: "center",
     sort: false,
   },

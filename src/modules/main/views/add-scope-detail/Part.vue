@@ -3,16 +3,18 @@ import type { AxiosError } from "axios";
 import { computed, reactive, ref } from "vue";
 import { useRoute } from "vue-router";
 
-import { Table, Quantity } from "@/components";
-import { useQuery } from "@tanstack/vue-query";
+import { Table, Toast } from "@/components";
+import { useMutation, useQuery } from "@tanstack/vue-query";
 import type { IPagination } from "@/types/GlobalType";
 
 import { ColumnsAddScopeDetailPart } from "../../constants/AddScope";
 import type {
   PartInterface,
   ResponsePartInterface,
+  UpdatePartInterface,
 } from "../../types/PartType";
 import { useMainStore } from "../../stores/MainStore";
+import FormQuantity from "../../components/FormQuantity.vue";
 
 const entitiesPart = ref<PartInterface[]>([]);
 
@@ -25,6 +27,8 @@ const params = reactive({
   perPage: 10,
 });
 const total_item = ref(0);
+const toastRef = ref<InstanceType<typeof Toast> | null>(null);
+const quantity = ref<any>(null);
 
 //--- GET PART
 const {
@@ -67,6 +71,37 @@ const {
 });
 //--- END
 
+//--- UPDATE PART
+const { mutate: updatePart, isPending: isLoadingUpdate } = useMutation({
+  mutationFn: async ({
+    payload,
+    id,
+  }: {
+    payload: UpdatePartInterface;
+    id: string;
+  }) => {
+    return await mainStore.updatePart(payload, id);
+  },
+  onSuccess: async () => {
+    refetchPart();
+    quantity.value.modelOpenInputData = false;
+    toastRef.value?.showToast({
+      title: "Success",
+      description: "Saved successfully",
+      type: "success",
+    });
+  },
+  onError: (error: any) => {
+    console.log(error);
+    toastRef.value?.showToast({
+      title: "Error",
+      description: error?.response?.data?.message || "Something went wrong",
+      type: "error",
+    });
+  },
+});
+//--- END
+
 const pagination = computed(() => {
   return {
     totalItems: total_item.value,
@@ -87,19 +122,32 @@ const changeLimit = (e: string) => {
 };
 
 const saveQuantity = (e: { quantity: string }, entity: PartInterface) => {
-  const duplicate_data = [...entitiesPart.value];
-  const find_index = entitiesPart.value.findIndex(
-    (item) => item.id === entity.id
-  );
+  // const duplicate_data = [...entitiesPart.value];
+  // const find_index = entitiesPart.value.findIndex(
+  //   (item) => item.id === entity.id
+  // );
 
-  if (find_index !== -1) {
-    duplicate_data[find_index].quantity = e.quantity;
-    entitiesPart.value = duplicate_data;
-  }
+  // if (find_index !== -1) {
+  //   duplicate_data[find_index].quantity = e.quantity;
+  //   entitiesPart.value = duplicate_data;
+  // }
+  updatePart({
+    id: entity.id,
+    payload: {
+      name: entity.part,
+      qty: parseFloat(e.quantity),
+      noDrawing: entity.number_drawing,
+      additional_scope_uuid: entity.additional_scope_uuid,
+      global_unit_uuid: entity.global_unit_uuid,
+      project_uuid: entity.project_uuid,
+      note: entity.note,
+    },
+  });
 };
 </script>
 
 <template>
+  <Toast ref="toastRef" />
   <Table
     label-create="Part"
     :columns="ColumnsAddScopeDetailPart"
@@ -122,9 +170,11 @@ const saveQuantity = (e: { quantity: string }, entity: PartInterface) => {
     </template> -->
     <template #column_quantity="{ entity }">
       <div class="w-full flex justify-center">
-        <Quantity
+        <FormQuantity
+          ref="quantity"
           :value="entity.quantity || ''"
           :label="entity.part"
+          :loading="isLoadingUpdate"
           @save="(e) => saveQuantity(e, entity)"
         />
       </div>

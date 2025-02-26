@@ -8,6 +8,7 @@ export interface QcPlanInterface {
     file: ValueUploadType[];
   } | null;
   note: string | null;
+  document_original: ResponseDocumentInterface | null;
 }
 
 export interface ResponseQcPlanInterface {

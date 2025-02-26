@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { computed, reactive, ref, watch } from "vue";
+import { computed, reactive, ref } from "vue";
 import { useRoute } from "vue-router";
 import type { AxiosError } from "axios";
 
 import type { IPagination } from "@/types/GlobalType";
-import { AssetWelness, FormWithFile, Table } from "@/components";
-import type { ValueUploadType } from "@/components/fields/Upload.vue";
-import { useQuery } from "@tanstack/vue-query";
+import { ModalDelete, Table, Toast } from "@/components";
+import { useMutation, useQuery } from "@tanstack/vue-query";
 
 import { ColumnsAddScopeDetailScope } from "@/modules/main/constants/AddScope";
 import type {
@@ -16,6 +15,7 @@ import type {
 import { useMainStore } from "../../../stores/MainStore";
 
 const entitiesScope = ref<ScopeInterface[]>([]);
+const selected_item = ref<ScopeInterface>();
 
 const mainStore = useMainStore();
 const route = useRoute();
@@ -26,6 +26,8 @@ const params = reactive({
   perPage: 10,
 });
 const total_item = ref(0);
+const toastRef = ref<InstanceType<typeof Toast> | null>(null);
+const open_delete = ref(false);
 
 //--- GET SCOPE
 const {
@@ -69,6 +71,31 @@ const {
     }
   },
   refetchOnWindowFocus: false,
+});
+//--- END
+
+//--- DELETE SCOPE
+const { mutate: deleteScope, isPending: isLoadingDelete } = useMutation({
+  mutationFn: async (id: string) => {
+    return await mainStore.deleteScopeStandar(id);
+  },
+  onSuccess: () => {
+    refetchScope();
+    toastRef.value?.showToast({
+      title: "Success",
+      description: "Deleted successfully",
+      type: "success",
+    });
+    open_delete.value = false;
+  },
+  onError: (error: any) => {
+    console.log(error);
+    toastRef.value?.showToast({
+      title: "Error",
+      description: error?.response?.data?.message || "Something went wrong",
+      type: "error",
+    });
+  },
 });
 //--- END
 
@@ -150,12 +177,25 @@ const changeLimit = (e: string) => {
 //   }
 // };
 
-const onDelete = (e: ScopeInterface) => {
-  entitiesScope.value = entitiesScope.value.filter((item) => item.id !== e.id);
+const handleDelete = (e: ScopeInterface) => {
+  selected_item.value = e;
+  open_delete.value = true;
+};
+
+const onDelete = () => {
+  // entitiesScope.value = entitiesScope.value.filter((item) => item.id !== e.id);
+  deleteScope(selected_item.value?.id as string);
 };
 </script>
 
 <template>
+  <Toast ref="toastRef" />
+  <ModalDelete
+    v-model="open_delete"
+    :title="selected_item?.asset"
+    :loading="isLoadingDelete"
+    @delete="onDelete"
+  />
   <Table
     label-create="Asset"
     :columns="ColumnsAddScopeDetailScope"
@@ -163,7 +203,7 @@ const onDelete = (e: ScopeInterface) => {
     :loading="isLoadingScope"
     :pagination="pagination"
     :is-create="false"
-    @delete="onDelete"
+    @delete="handleDelete"
     @change-page="changePage"
     @change-limit="changeLimit"
   >

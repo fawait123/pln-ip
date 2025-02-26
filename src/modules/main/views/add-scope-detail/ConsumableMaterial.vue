@@ -3,17 +3,18 @@ import type { AxiosError } from "axios";
 import { computed, reactive, ref } from "vue";
 import { useRoute } from "vue-router";
 
-import { FormUploadOnly, Table, Quantity } from "@/components";
-import type { ValueUploadType } from "@/components/fields/Upload.vue";
-import { useQuery } from "@tanstack/vue-query";
+import { Toast, Table } from "@/components";
+import { useMutation, useQuery } from "@tanstack/vue-query";
 import type { IPagination } from "@/types/GlobalType";
 
 import { ColumnsAddScopeDetailConsMat } from "../../constants/AddScope";
 import type {
   ConsumableMaterialInterface,
   ResponseConsMatInterface,
+  UpdateConsMatInterface,
 } from "../../types/ConsumableMaterialType";
 import { useMainStore } from "../../stores/MainStore";
+import FormQuantity from "../../components/FormQuantity.vue";
 
 // const Data = ref<ConsumableMaterialInterface[]>([
 //   {
@@ -36,6 +37,8 @@ const params = reactive({
   perPage: 10,
 });
 const total_item = ref(0);
+const toastRef = ref<InstanceType<typeof Toast> | null>(null);
+const quantity = ref<any>(null);
 
 //--- GET CONSMAT
 const {
@@ -58,7 +61,7 @@ const {
             material: item.name,
             merk: item.merk,
             quantity: item.qty.toString(),
-            unit: null,
+            unit: item?.global_unit?.name,
             global_unit_uuid: item.global_unit_uuid,
             project_uuid: item.project_uuid,
             additional_scope_uuid: item.additional_scope_uuid,
@@ -73,6 +76,37 @@ const {
     }
   },
   refetchOnWindowFocus: false,
+});
+//--- END
+
+//--- UPDATE CONSUMABLE MATERIAL
+const { mutate: updateConsMat, isPending: isLoadingUpdate } = useMutation({
+  mutationFn: async ({
+    payload,
+    id,
+  }: {
+    payload: UpdateConsMatInterface;
+    id: string;
+  }) => {
+    return await mainStore.updateConsMat(payload, id);
+  },
+  onSuccess: async () => {
+    refetchConsMat();
+    quantity.value.modelOpenInputData = false;
+    toastRef.value?.showToast({
+      title: "Success",
+      description: "Saved successfully",
+      type: "success",
+    });
+  },
+  onError: (error: any) => {
+    console.log(error);
+    toastRef.value?.showToast({
+      title: "Error",
+      description: error?.response?.data?.message || "Something went wrong",
+      type: "error",
+    });
+  },
 });
 //--- END
 
@@ -99,19 +133,31 @@ const saveQuantity = (
   e: { quantity: string },
   entity: ConsumableMaterialInterface
 ) => {
-  const duplicate_data = [...entitiesConsMat.value];
-  const find_index = entitiesConsMat.value.findIndex(
-    (item) => item.id === entity.id
-  );
+  // const duplicate_data = [...entitiesConsMat.value];
+  // const find_index = entitiesConsMat.value.findIndex(
+  //   (item) => item.id === entity.id
+  // );
 
-  if (find_index !== -1) {
-    duplicate_data[find_index].quantity = e.quantity;
-    entitiesConsMat.value = duplicate_data;
-  }
+  // if (find_index !== -1) {
+  //   duplicate_data[find_index].quantity = e.quantity;
+  //   entitiesConsMat.value = duplicate_data;
+  // }
+  updateConsMat({
+    id: entity.id,
+    payload: {
+      name: entity.material,
+      merk: entity.merk,
+      qty: parseFloat(e.quantity),
+      additional_scope_uuid: entity.additional_scope_uuid,
+      global_unit_uuid: entity.global_unit_uuid,
+      project_uuid: entity.project_uuid,
+    },
+  });
 };
 </script>
 
 <template>
+  <Toast ref="toastRef" />
   <Table
     label-create="Material"
     :columns="ColumnsAddScopeDetailConsMat"
@@ -134,9 +180,11 @@ const saveQuantity = (
     </template> -->
     <template #column_quantity="{ entity }">
       <div class="w-full flex justify-center">
-        <Quantity
+        <FormQuantity
+          ref="quantity"
           :value="entity.quantity || ''"
           :label="entity.material"
+          :loading="isLoadingUpdate"
           @save="(e) => saveQuantity(e, entity)"
         />
       </div>

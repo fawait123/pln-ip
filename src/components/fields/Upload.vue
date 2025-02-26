@@ -12,6 +12,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { Icon, Toast } from "@/components";
 import useVuelidate from "@vuelidate/core";
+import axios from "axios";
 
 export interface ValueUploadType {
   id: string;
@@ -225,15 +226,51 @@ function removeFiles(item: ValueUploadType) {
   );
 }
 
-function downloadFiles(item: ValueUploadType) {
-  const url = window.URL.createObjectURL(item.file as File);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = item.name;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  window.URL.revokeObjectURL(url);
+async function downloadFiles(item: ValueUploadType) {
+  if (typeof item.file === "string") {
+    const a = document.createElement("a");
+    a.href = import.meta.env.VITE_API_BASE_URL.replace("api", "") + item.file;
+    a.download = item.name;
+    a.target = "_blank";
+    a.rel = "noopener";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    // try {
+    //   const response = await axios.get(
+    //     import.meta.env.VITE_API_BASE_URL.replace("api", "") + item.file,
+    //     {
+    //       responseType: "blob", // Agar data diterima dalam bentuk binary
+    //     }
+    //   );
+
+    //   // Membuat URL object dari blob
+    //   const url = window.URL.createObjectURL(new Blob([response.data]));
+
+    //   // Membuat link download
+    //   const link = document.createElement("a");
+    //   link.href = url;
+    //   link.setAttribute("download", item.name);
+    //   document.body.appendChild(link);
+    //   link.click();
+    //   document.body.removeChild(link);
+
+    //   // Hapus URL setelah selesai
+    //   window.URL.revokeObjectURL(url);
+    // } catch (error) {
+    //   console.error("Gagal mengunduh file:", error);
+    // }
+  } else {
+    const url = window.URL.createObjectURL(item.file as File);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = item.name;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  }
 }
 
 function checkFileType(type: string) {
@@ -309,7 +346,6 @@ function clickUpload() {
           </div>
           <div class="preview-action">
             <Icon
-              v-if="typeof item.file !== 'string'"
               name="download"
               class="preview-action--icon"
               @click="downloadFiles(item)"
