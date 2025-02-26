@@ -66,7 +66,7 @@ const {
                     ? [
                         {
                           id: item.document.uuid,
-                          name: item.document.document_name,
+                          name: item.document.document_original_name,
                           size: item.document.document_size,
                           file: item.document.document_link,
                         },
@@ -75,6 +75,7 @@ const {
                 }
               : null,
             note: null,
+            document_original: item.document,
           };
         }) || [];
       entitiesQcPlan.value = new_arr;
@@ -133,6 +134,19 @@ const changeLimit = (e: string) => {
   refetchQcPlan();
 };
 
+const preview = (item: QcPlanInterface) => {
+  const a = document.createElement("a");
+  a.href =
+    import.meta.env.VITE_API_BASE_URL.replace("api", "") +
+    item?.document_original?.document_link;
+  a.download = item?.document_original?.document_name || "";
+  a.target = "_blank";
+  a.rel = "noopener";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+};
+
 const saveFile = (e: { file: ValueUploadType[] }, entity: QcPlanInterface) => {
   // const duplicate_data = [...entitiesQcPlan.value];
   // const find_index = entitiesQcPlan.value.findIndex(
@@ -169,6 +183,7 @@ const saveFile = (e: { file: ValueUploadType[] }, entity: QcPlanInterface) => {
     <template #column_attachment="{ entity }">
       <div class="w-full flex justify-center">
         <FormOnlyUploadFile
+          ref="attachment"
           :value="entity.document"
           :label="entity.name"
           :loading="isLoadingCreate"
@@ -187,6 +202,7 @@ const saveFile = (e: { file: ValueUploadType[] }, entity: QcPlanInterface) => {
       <div v-if="entity.document" class="w-full flex justify-center">
         <div
           class="bg-cyan-500 text-center border border-neutral-50 rounded-lg px-2 min-w-[120px] text-base text-neutral-50 cursor-pointer"
+          @click="preview(entity)"
         >
           Preview
         </div>

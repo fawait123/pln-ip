@@ -35,6 +35,7 @@ export interface ResponseDocumentInterface {
   document_link: string;
   document_size: number;
   document_mime_type: string;
+  document_original_name: string;
   created_at: string;
   updated_at: string;
 }

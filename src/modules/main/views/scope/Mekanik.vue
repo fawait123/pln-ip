@@ -76,7 +76,7 @@ const {
                     ? [
                         {
                           id: item.oh_recom.document.uuid,
-                          name: item.oh_recom.document.document_name,
+                          name: item.oh_recom.document.document_original_name,
                           size: item.oh_recom.document.document_size,
                           file: item.oh_recom.document.document_link,
                         },
@@ -91,7 +91,8 @@ const {
                     ? [
                         {
                           id: item.wo_priority.document.uuid,
-                          name: item.wo_priority.document.document_name,
+                          name: item.wo_priority.document
+                            .document_original_name,
                           size: item.wo_priority.document.document_size,
                           file: item.wo_priority.document.document_link,
                         },
@@ -106,7 +107,7 @@ const {
                     ? [
                         {
                           id: item.history.document.uuid,
-                          name: item.history.document.document_name,
+                          name: item.history.document.document_original_name,
                           size: item.history.document.document_size,
                           file: item.history.document.document_link,
                         },
@@ -121,7 +122,7 @@ const {
                     ? [
                         {
                           id: item.rla.document.uuid,
-                          name: item.rla.document.document_name,
+                          name: item.rla.document.document_original_name,
                           size: item.rla.document.document_size,
                           file: item.rla.document.document_link,
                         },
@@ -136,7 +137,7 @@ const {
                     ? [
                         {
                           id: item.ncr.document.uuid,
-                          name: item.ncr.document.document_name,
+                          name: item.ncr.document.document_original_name,
                           size: item.ncr.document.document_size,
                           file: item.ncr.document.document_link,
                         },
@@ -255,7 +256,6 @@ const { mutate: deleteScope, isPending: isLoadingDelete } = useMutation({
       description: error?.response?.data?.message || "Something went wrong",
       type: "error",
     });
-    open_delete.value = true;
   },
 });
 //--- END

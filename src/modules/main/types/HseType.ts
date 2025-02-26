@@ -8,6 +8,7 @@ export interface HseInterface {
     file: ValueUploadType[];
   } | null;
   note: string | null;
+  document_original: ResponseDocumentInterface | null;
 }
 
 export interface ResponseHseInterface {
