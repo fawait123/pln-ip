@@ -89,12 +89,12 @@ const handleMouseLeave = () => {
   if (videoRef.value) {
     isRewinding.value = true;
     rewindInterval = setInterval(() => {
-      if (videoRef.value && videoRef.value.currentTime > 0) {
+      if (videoRef.value) {
         videoRef.value.currentTime -= 0.1;
-      } else {
-        clearInterval(rewindInterval!);
-        videoRef.value?.pause();
-        isRewinding.value = false;
+        if (videoRef.value.currentTime <= 0) {
+          clearInterval(rewindInterval || undefined);
+          videoRef.value.pause();
+        }
       }
     }, 30);
   }

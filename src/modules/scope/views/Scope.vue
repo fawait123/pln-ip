@@ -126,8 +126,6 @@ const {
         }
       }
 
-      console.log(new_arr);
-
       return new_arr;
     } catch (error: any) {
       const err = error as AxiosError;
@@ -335,7 +333,8 @@ const searchScope = () => {
   inspection_selected.value =
     inspection === "combustion inspection"
       ? "ci"
-      : inspection === "turbine inspection"
+      : inspection === "turbine inspection" ||
+        inspection === "turbin inspection"
       ? "ti"
       : "mi";
   refetchProject();
@@ -350,7 +349,8 @@ const generateScope = () => {
   inspection_selected.value =
     inspection === "combustion inspection"
       ? "ci"
-      : inspection === "turbine inspection"
+      : inspection === "turbine inspection" ||
+        inspection === "turbin inspection"
       ? "ti"
       : "mi";
 
