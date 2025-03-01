@@ -69,14 +69,7 @@ onUnmounted(() => {
     <div class="trapezoid">
       <p>UBP {{ dataLocation?.[0]?.name }}</p>
       <p>
-        Unit Bisnis Pembangkitan Priok yang berlokasi di pantai utara Jakarta
-        mengelola 14 unit dengan 8 unit PLTGU dan 6 Pusat Listrik Tenaga Diesel
-        (PLTD) dengan total kapasitas terpasang 1.196,08 MW. Priok PGU
-        mengoperasikan 6 unit Pusat Listrik Tenaga Diesel (PLTD) di Senayan
-        berkapasitas 16,08 MW yang menjamin pasokan untuk kebutuhan
-        sidang-sidang MPR. Selain Priok POMU mengelola pembangkit yang dimiliki
-        Indonesia Power, Perusahaan juga mengelola jasa O&M milik PLN yaitu
-        PLTGU Priok Blok 3 dengan kapasitas terpasang 740 MW.
+        {{ dataLocation?.[0]?.description }}
       </p>
     </div>
   </div>
