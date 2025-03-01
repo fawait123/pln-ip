@@ -34,11 +34,17 @@ const isActive = (item: { id: number; name: string; url: string }) => {
       <div v-for="(item, key) in Menus" :key="key" class="flex flex-col gap-2">
         <RouterLink
           v-if="!item.children"
-          :to="
-            item.url === '/'
-              ? `/${route.params?.id}/create/unit/${route.params?.id_unit}`
-              : `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route?.params?.menu}/${route?.params?.id_project}${item.url}`
-          "
+          :to="{
+            path:
+              item.url === '/'
+                ? `/${route.params?.id}/create/unit/${route.params?.id_unit}?sequence=asdasdasd`
+                : `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route?.params?.menu}/${route?.params?.id_project}/${route?.params?.id_inspection}${item.url}`,
+            query:
+              item.url === '/'
+                ? { sequence: route?.params?.id_inspection }
+                : route.query,
+          }"
+          replace
           :class="
             item.url === '/'
               ? ''
@@ -63,8 +69,8 @@ const isActive = (item: { id: number; name: string; url: string }) => {
               :key="index"
               :to="
                 item.url === '/'
-                  ? `/${route.params?.id}/create/unit/${route.params?.id_unit}`
-                  : `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route?.params?.menu}/${route?.params?.id_project}${element.url}`
+                  ? `/${route.params?.id}/create/unit/${route.params?.id_unit}?sequence=${route?.params?.id_inspection}`
+                  : `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route?.params?.menu}/${route?.params?.id_project}/${route?.params?.id_inspection}${element.url}`
               "
               :class="
                 item.url === '/'

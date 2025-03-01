@@ -673,13 +673,13 @@ const saveFieldWithFile = (
 
 const toDetail = (id: string) => {
   router.push(
-    `/${route.params.id}/create/unit/${route.params.id_unit}/${route.params.menu}/${route.params.id_project}/add-scope/${id}/scope-mekanik`
+    `/${route.params.id}/create/unit/${route.params.id_unit}/${route.params.menu}/${route.params.id_project}/${route.params.id_inspection}/add-scope/${id}/scope-mekanik`
   );
 };
 
 const toSquence = (item: AddScopeInterface) => {
   router.push(
-    `/${route.params.id}/create/unit/${route.params.id_unit}/${route.params.menu}/${route?.params?.id_project}/add-scope-squences/${item.squence?.slug}`
+    `/${route.params.id}/create/unit/${route.params.id_unit}/${route.params.menu}/${route?.params?.id_project}/${route.params.id_inspection}/add-scope-squences/${item.squence?.slug}`
   );
 };
 </script>

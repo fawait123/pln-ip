@@ -143,7 +143,7 @@ const { mutate: generate, isPending: isLoadingGenerate } = useMutation({
   },
   onSuccess: (data) => {
     router.push(
-      `/${route.params?.id}/create/unit/${route.params?.id_unit}/${inspection_selected.value}/${data?.data?.uuid}/scope-mekanik`
+      `/${route.params?.id}/create/unit/${route.params?.id_unit}/${inspection_selected.value}/${data?.data?.uuid}/${scopeSelected.value}/scope-mekanik`
     );
   },
   onError: (error: any) => {
@@ -203,6 +203,22 @@ watch(dataMachine, (value) => {
   ];
   // titleHeader.value = convertToOriginalFormat(route.params.id_unit as string);
 });
+
+watch(
+  [dataMachine, dataInspectionType],
+  ([valueMachine, valueInspection]) => {
+    const sequence = route.query?.sequence;
+    if (valueMachine && valueInspection && sequence) {
+      const find_item = valueInspection?.data?.find(
+        (item) => item.uuid === sequence
+      );
+      if (find_item) {
+        model.value = `${find_item.name} ${dataMachine?.value?.[0]?.name}`;
+      }
+    }
+  },
+  { immediate: true }
+);
 
 const handleFirstVideoLoad = () => {
   if (currentVideoIndex.value === null && videoRef.value) {
@@ -367,7 +383,7 @@ const generateScope = () => {
 
 const toTransaction = (uuid: string) => {
   router.push(
-    `/${route.params?.id}/create/unit/${route.params?.id_unit}/${inspection_selected.value}/${uuid}/scope-mekanik`
+    `/${route.params?.id}/create/unit/${route.params?.id_unit}/${inspection_selected.value}/${uuid}/${scopeSelected.value}/scope-mekanik`
   );
 };
 
@@ -396,7 +412,7 @@ onMounted(() => {
 
     if (!isButtonClicked && !isContainsScopeMenu) {
       scopeSelected.value = "";
-      router.push(`${route.path}`);
+      router.push(`${route.fullPath}`);
       handleMouseLeave();
     }
   });
