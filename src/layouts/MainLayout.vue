@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { HeaderMain, Footer } from "@/components";
 import Sidebar from "@/components/layouts/Sidebar.vue";
+import { useMainStore } from "@/modules/main/stores/MainStore";
+import type { TInspection } from "@/modules/scope/types/ScopeType";
+import { useGlobalStore } from "@/stores/GlobalStore";
+import { useQuery } from "@tanstack/vue-query";
+import type { AxiosError } from "axios";
+import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
 
 const imgUrl = new URL("@/assets/images/bg-main-page.jpg", import.meta.url)
@@ -9,6 +15,36 @@ const imgUrl = new URL("@/assets/images/bg-main-page.jpg", import.meta.url)
 const page = ["blok", "unit"];
 
 const route = useRoute();
+const mainStore = useMainStore();
+const globalStore = useGlobalStore();
+const { InspectionType } = storeToRefs(globalStore);
+
+//--- GET DETAIL INSPECTION
+const {
+  data: dataDetailInspection,
+  isFetching: isLoadingDetailInspection,
+  refetch: refetchDetailInspection,
+} = useQuery({
+  queryKey: ["getDetailInspection"],
+  queryFn: async () => {
+    try {
+      const { data } = await mainStore.getDetailInspection(
+        route.params?.id_inspection as string
+      );
+
+      const response = data?.data as TInspection;
+
+      InspectionType.value = response;
+
+      return response;
+    } catch (error: any) {
+      const err = error as AxiosError;
+      throw err.response;
+    }
+  },
+  refetchOnWindowFocus: false,
+});
+//--- END
 </script>
 
 <template>
@@ -45,5 +81,5 @@ const route = useRoute();
   > footer
     @apply fixed bottom-0 w-full z-[9999]
   &--content
-    @apply pl-[280px] pr-5 pt-[80px]
+    @apply pl-[280px] pr-5 pt-[80px] pb-2
 </style>

@@ -202,6 +202,17 @@ export const useMainStore = defineStore(
         });
     };
 
+    const getDetailInspection = async (id: string) => {
+      return await api
+        .get(`/inspection-type/${id}`)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
     return {
       getScopeStandar,
       createScopeStandar,
@@ -218,6 +229,7 @@ export const useMainStore = defineStore(
       getQcPlan,
       getAddScope,
       createAddScope,
+      getDetailInspection,
     };
   },
   {

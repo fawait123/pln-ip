@@ -4,6 +4,7 @@ export interface TInspection {
   machine_uuid: string;
   created_at: string;
   updated_at: string;
+  day: number;
 }
 
 export interface TCreateGenerate {

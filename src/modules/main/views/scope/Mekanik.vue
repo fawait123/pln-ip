@@ -2,6 +2,7 @@
 import { computed, reactive, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import type { AxiosError } from "axios";
+import { storeToRefs } from "pinia";
 
 import type { CreateDocumentInterface, IPagination } from "@/types/GlobalType";
 import { ModalDelete, Table, Toast } from "@/components";
@@ -25,6 +26,7 @@ const selected_item = ref<ScopeInterface>();
 
 const mainStore = useMainStore();
 const globalStore = useGlobalStore();
+const { InspectionType } = storeToRefs(globalStore);
 const route = useRoute();
 const params = reactive({
   search: "",
@@ -330,6 +332,11 @@ const onDelete = () => {
     :loading="isLoadingDelete"
     @delete="onDelete"
   />
+  <div
+    class="absolute right-5 rounded-full bg-cyan-500 text-neutral-50 text-center w-fit px-4 py-1"
+  >
+    {{ InspectionType?.day }} Days
+  </div>
   <Table
     label-create="Asset"
     :columns="ColumnsScope"

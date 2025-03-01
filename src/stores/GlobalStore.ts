@@ -5,6 +5,7 @@ import { ref } from "vue";
 import { encryptStorage } from "@/utils/storage";
 import { api } from "@/api/axios";
 import type { CreateDocumentInterface } from "@/types/GlobalType";
+import type { TInspection } from "@/modules/scope/types/ScopeType";
 
 export const useGlobalStore = defineStore(
   "global",
@@ -16,6 +17,7 @@ export const useGlobalStore = defineStore(
     const isFinish = ref(false);
     const isRemoveNext = ref(false);
     const isStepNavigation = ref(false);
+    const InspectionType = ref<TInspection>();
 
     const createDocument = async (payload: CreateDocumentInterface) => {
       const formData = new FormData();
@@ -48,6 +50,7 @@ export const useGlobalStore = defineStore(
       isFinish,
       isRemoveNext,
       isStepNavigation,
+      InspectionType,
     };
   },
   {
