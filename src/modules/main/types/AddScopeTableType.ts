@@ -63,6 +63,8 @@ export interface AddScopeInterface {
   history: WithFileInterface | null;
   rla: WithFileInterface | null;
   ncr: WithFileInterface | null;
+  squence: ResponseSequenceAnimationInterface;
+  day: number;
 }
 
 interface Category {
@@ -74,6 +76,15 @@ interface Category {
   created_at: string;
   updated_at: string;
   document: ResponseDocumentInterface | null;
+}
+
+export interface ResponseSequenceAnimationInterface {
+  additional_scope_uuid: string;
+  created_at: string;
+  updated_at: string;
+  uuid: string;
+  name: string;
+  slug: string;
 }
 
 export interface ResponseAddScopeInterface {
@@ -98,6 +109,8 @@ export interface ResponseAddScopeInterface {
   history: Category;
   rla: Category;
   ncr: Category;
+  day: number;
+  sequence_animation: ResponseSequenceAnimationInterface;
 }
 
 export interface CreateAddScopeInterface {

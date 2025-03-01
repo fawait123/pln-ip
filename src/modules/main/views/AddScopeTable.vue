@@ -450,6 +450,8 @@ const {
         response.data?.map((item) => {
           return {
             id: item.uuid,
+            squence: item.sequence_animation,
+            day: item.day,
             asset: item.name || "",
             asset_welness: item.asset_welnes
               ? {
@@ -674,6 +676,12 @@ const toDetail = (id: string) => {
     `/${route.params.id}/create/unit/${route.params.id_unit}/${route.params.menu}/${route.params.id_project}/add-scope/${id}/scope-mekanik`
   );
 };
+
+const toSquence = (item: AddScopeInterface) => {
+  router.push(
+    `/${route.params.id}/create/unit/${route.params.id_unit}/${route.params.menu}/${route?.params?.id_project}/add-scope-squences/${item.squence?.slug}`
+  );
+};
 </script>
 
 <template>
@@ -756,7 +764,11 @@ const toDetail = (id: string) => {
     </template>
     <template #column_action="{ entity }">
       <div class="flex items-center justify-center gap-2">
-        <ButtonDots @detail="toDetail(entity.id)" />
+        <ButtonDots
+          :day="entity.day"
+          @detail="toDetail(entity.id)"
+          @squence="toSquence(entity)"
+        />
         <!-- <Icon name="trash" class="table-delete" @click="onDelete(entity)" /> -->
       </div>
     </template>

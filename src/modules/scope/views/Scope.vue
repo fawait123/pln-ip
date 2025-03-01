@@ -101,7 +101,7 @@ const {
 
       const order = [
         "Combustion Inspection",
-        "Turbin Inspection",
+        "Turbine Inspection",
         "Major Inspection",
       ];
       const sorted_data = response.sort(
