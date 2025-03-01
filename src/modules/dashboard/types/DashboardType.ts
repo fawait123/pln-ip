@@ -7,4 +7,5 @@ export type TLocation = {
   name: string;
   slug: string;
   uuid: string;
+  description: string;
 };

@@ -74,6 +74,12 @@ export const routeMain = [
     meta: { layout: MainLayout, requireAuth: true },
   },
   {
+    path: "/:id/create/unit/:id_unit/:menu/:id_project/tools",
+    name: "main tools",
+    component: () => import("@/modules/main/views/Tools.vue"),
+    meta: { layout: MainLayout, requireAuth: true },
+  },
+  {
     path: "/:id/create/unit/:id_unit/:menu/:id_project/hse",
     name: "main hse",
     component: () => import("@/modules/main/views/Hse.vue"),

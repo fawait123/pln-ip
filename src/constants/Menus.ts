@@ -77,29 +77,35 @@ export const Menus = [
   },
   {
     id: 8,
+    name: "Tools",
+    url: "/tools",
+    icon: "trolley-items",
+  },
+  {
+    id: 9,
     name: "HSE",
     url: "/hse",
     icon: "construction-worker",
   },
   {
-    id: 9,
+    id: 10,
     name: "QC Plan",
     url: "/qc-plan",
     icon: "mind-gear",
   },
   {
-    id: 10,
+    id: 11,
     name: "Add Scope",
     url: "/add-scope",
     icon: "login",
     children: [
       {
-        id: 101,
+        id: 111,
         name: "Table",
         url: "/add-scope-table",
       },
       {
-        id: 102,
+        id: 112,
         name: "Squences",
         url: "/add-scope-squences",
       },

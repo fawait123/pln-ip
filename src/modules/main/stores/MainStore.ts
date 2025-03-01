@@ -10,6 +10,7 @@ import type { UpdateConsMatInterface } from "../types/ConsumableMaterialType";
 import type { UpdateManPowerInterface } from "../types/ManpowerType";
 import type { UpdatePartInterface } from "../types/PartType";
 import type { CreateAddScopeInterface } from "../types/AddScopeTableType";
+import type { UpdateToolsInterface } from "../types/ToolsType";
 
 export const useMainStore = defineStore(
   "main",
@@ -127,6 +128,30 @@ export const useMainStore = defineStore(
         });
     };
 
+    const getTools = async (payload: IParams) => {
+      return await api
+        .get(`/transaction/tools`, {
+          params: payload,
+        })
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const updateTools = async (payload: UpdateToolsInterface, id: string) => {
+      return await api
+        .put(`/transaction/tools/${id}`, payload)
+        .then((res) => {
+          return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
     const getHse = async (payload: IParams) => {
       return await api
         .get(`/transaction/hse/resource/pagination`, {
@@ -187,6 +212,8 @@ export const useMainStore = defineStore(
       updateManPower,
       getPart,
       updatePart,
+      getTools,
+      updateTools,
       getHse,
       getQcPlan,
       getAddScope,
