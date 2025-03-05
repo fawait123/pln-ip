@@ -39,6 +39,7 @@ const params = reactive({
 const total_item = ref(0);
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
 const quantity = ref<any>(null);
+const timeout = ref(0);
 
 //--- GET CONSMAT
 const {
@@ -145,6 +146,14 @@ const saveQuantity = (
     },
   });
 };
+
+function searchTable() {
+  clearTimeout(timeout.value);
+  timeout.value = window.setTimeout(() => {
+    params.currentPage = 1;
+    refetchConsMat();
+  }, 1000);
+}
 </script>
 
 <template>
@@ -157,8 +166,10 @@ const saveQuantity = (
     :pagination="pagination"
     :is-create="false"
     :is-action="false"
+    v-model:model-search="params.search"
     @change-page="changePage"
     @change-limit="changeLimit"
+    @search="searchTable"
   >
     <!-- <template #column_merk="{ entity }">
       <div class="w-full flex justify-center">

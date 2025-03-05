@@ -5,9 +5,16 @@ import { routeAuth } from "@/modules/auth/router/AuthRouter";
 import { routeScope } from "@/modules/scope/router/ScopeRouter";
 import { routeDashboard } from "@/modules/dashboard/router/DashboardRouter";
 import { routeMain } from "@/modules/main/router/MainRouter";
+import { routeMaster } from "@/modules/master/router/MasterRouter";
 // import { api } from "@/api/axios";
 
-const routes = [...routeAuth, ...routeDashboard, ...routeScope, ...routeMain];
+const routes = [
+  ...routeAuth,
+  ...routeDashboard,
+  ...routeScope,
+  ...routeMain,
+  ...routeMaster,
+];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

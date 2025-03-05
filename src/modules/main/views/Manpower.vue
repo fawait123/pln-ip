@@ -40,6 +40,7 @@ const params = reactive({
 const total_item = ref(0);
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
 const quantity = ref<any>(null);
+const timeout = ref(0);
 
 //--- GET MANPOWER
 const {
@@ -142,6 +143,14 @@ const saveQuantity = (e: { quantity: string }, entity: ManPowerInterface) => {
     },
   });
 };
+
+function searchTable() {
+  clearTimeout(timeout.value);
+  timeout.value = window.setTimeout(() => {
+    params.currentPage = 1;
+    refetchManPower();
+  }, 1000);
+}
 </script>
 
 <template>
@@ -154,8 +163,10 @@ const saveQuantity = (e: { quantity: string }, entity: ManPowerInterface) => {
     :pagination="pagination"
     :is-create="false"
     :is-action="false"
+    v-model:model-search="params.search"
     @change-page="changePage"
     @change-limit="changeLimit"
+    @search="searchTable"
   >
     <!-- <template #column_document="{ entity }">
       <div class="w-full flex justify-center">

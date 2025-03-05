@@ -45,6 +45,7 @@ const ncr = ref<any>(null);
 const open_delete = ref(false);
 const file = ref<File | null>(null);
 const is_loading_create = ref(false);
+const timeout = ref(0);
 
 //--- GET SCOPE
 const {
@@ -368,6 +369,14 @@ const onDelete = () => {
   // entitiesScope.value = entitiesScope.value.filter((item) => item.id !== e.id);
   deleteScope(selected_item.value?.id as string);
 };
+
+function searchTable() {
+  clearTimeout(timeout.value);
+  timeout.value = window.setTimeout(() => {
+    params.currentPage = 1;
+    refetchScope();
+  }, 1000);
+}
 </script>
 
 <template>
@@ -390,9 +399,11 @@ const onDelete = () => {
     :loading="isLoadingScope"
     :pagination="pagination"
     :is-create="false"
+    v-model:model-search="params.search"
     @delete="handleDelete"
     @change-page="changePage"
     @change-limit="changeLimit"
+    @search="searchTable"
   >
     <template #column_asset_welness="{ entity }">
       <div class="w-full flex justify-center">

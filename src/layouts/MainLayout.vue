@@ -73,7 +73,7 @@ const {
 
 <style lang="sass">
 .layout-main
-  @apply relative w-full h-full min-h-screen bg-transparent flex flex-col
+  @apply fixed max-h-screen overflow-y-auto w-full h-full min-h-screen bg-transparent flex flex-col
   > header
     @apply fixed h-[80px] w-full z-[9999]
   > main

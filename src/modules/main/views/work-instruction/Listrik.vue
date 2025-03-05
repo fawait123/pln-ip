@@ -26,6 +26,7 @@ const params = reactive({
   perPage: 10,
 });
 const total_item = ref(0);
+const timeout = ref(0);
 
 //--- GET SCOPE
 const {
@@ -95,6 +96,14 @@ const changeLimit = (e: string) => {
   params.currentPage = 1;
   refetchScope();
 };
+
+function searchTable() {
+  clearTimeout(timeout.value);
+  timeout.value = window.setTimeout(() => {
+    params.currentPage = 1;
+    refetchScope();
+  }, 1000);
+}
 </script>
 
 <template>
@@ -105,8 +114,10 @@ const changeLimit = (e: string) => {
     :loading="isLoadingScope"
     :pagination="pagination"
     :is-create="false"
+    v-model:model-search="params.search"
     @change-page="changePage"
     @change-limit="changeLimit"
+    @search="searchTable"
   >
     <template #column_action><p></p> </template>
     <template #children="{ entity, index, parentActive }">

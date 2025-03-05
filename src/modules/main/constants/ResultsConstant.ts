@@ -10,13 +10,14 @@ export const ColumnsResults: TableColumnType[] = [
   {
     key: "download",
     label: "Download",
-    align: "left",
+    align: "center",
     sort: false,
+    width: 200,
   },
-  {
-    key: "note",
-    label: "Note",
-    align: "left",
-    sort: false,
-  },
+  // {
+  //   key: "note",
+  //   label: "Note",
+  //   align: "left",
+  //   sort: false,
+  // },
 ];

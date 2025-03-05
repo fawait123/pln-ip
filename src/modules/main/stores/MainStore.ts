@@ -213,6 +213,126 @@ export const useMainStore = defineStore(
         });
     };
 
+    const getDownloadResultScope = async () => {
+      return await api
+        .get(`/transaction/result/resource/export/scope-standart`, {
+          responseType: "blob",
+        })
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Scope.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const getDownloadResultConsMat = async () => {
+      return await api
+        .get(`/transaction/result/resource/export/consmat`, {
+          responseType: "blob",
+        })
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Consumable Material.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const getDownloadResultPart = async () => {
+      return await api
+        .get(`/transaction/result/resource/export/part`, {
+          responseType: "blob",
+        })
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Part.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const getDownloadResultManpower = async () => {
+      return await api
+        .get(`/transaction/result/resource/export/manpower`, {
+          responseType: "blob",
+        })
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Manpower.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
     return {
       getScopeStandar,
       createScopeStandar,
@@ -230,6 +350,10 @@ export const useMainStore = defineStore(
       getAddScope,
       createAddScope,
       getDetailInspection,
+      getDownloadResultScope,
+      getDownloadResultConsMat,
+      getDownloadResultPart,
+      getDownloadResultManpower,
     };
   },
   {

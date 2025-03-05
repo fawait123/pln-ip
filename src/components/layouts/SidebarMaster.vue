@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Menus } from "@/constants/Menus";
+import { MenusMaster } from "@/constants/Menus";
 import { Icon } from "@/components";
 import { RouterLink, useRoute } from "vue-router";
 import { ref } from "vue";
@@ -15,43 +15,26 @@ const isActive = (item: { id: number; name: string; url: string }) => {
   const path = route.path.split("/");
   const last_path = "/" + path[path.length - 1];
 
-  return (
-    selected_menu.value === item.id ||
-    (item.url === "/scope" &&
-      last_path.startsWith("/scope") &&
-      !last_path.includes("add-scope")) ||
-    (item.url === "/add-scope" && last_path.startsWith("/add-scope")) ||
-    (item.url === "/work-instruction" &&
-      last_path.startsWith("/work-instruction"))
-  );
+  return selected_menu.value === item.id || last_path === item.url;
 };
 </script>
 
 <template>
-  <div class="sidebar-main">
-    <p class="sidebar-main--title">MAIN MENU</p>
-    <div class="sidebar-main--menus">
-      <div v-for="(item, key) in Menus" :key="key" class="flex flex-col gap-2">
+  <div class="sidebar-master">
+    <p class="sidebar-master--title">MAIN MENU</p>
+    <div class="sidebar-master--menus">
+      <div
+        v-for="(item, key) in MenusMaster"
+        :key="key"
+        class="flex flex-col gap-2"
+      >
         <RouterLink
           v-if="!item.children"
           :to="{
-            path:
-              item.url === '/'
-                ? `/${route.params?.id}/create/unit/${route.params?.id_unit}`
-                : `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route?.params?.menu}/${route?.params?.id_project}/${route?.params?.id_inspection}${item.url}`,
-            query:
-              item.url === '/'
-                ? { sequence: route?.params?.id_inspection }
-                : route.query,
+            path: `/master${item.url}`,
           }"
           replace
-          :class="
-            item.url === '/'
-              ? ''
-              : route.path.includes(item.url)
-              ? 'menu-active'
-              : ''
-          "
+          :class="route.path.includes(item.url) ? 'menu-active' : ''"
           class="menu-item"
           @click="selected_menu = null"
         >
@@ -67,21 +50,11 @@ const isActive = (item: { id: number; name: string; url: string }) => {
             <RouterLink
               v-for="(element, index) in item.children"
               :key="index"
-              :to="
-                item.url === '/'
-                  ? `/${route.params?.id}/create/unit/${route.params?.id_unit}?sequence=${route?.params?.id_inspection}`
-                  : `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route?.params?.menu}/${route?.params?.id_project}/${route?.params?.id_inspection}${element.url}`
-              "
-              :class="
-                item.url === '/'
-                  ? ''
-                  : route.path.includes(element.url)
-                  ? 'menu-active'
-                  : ''
-              "
+              :to="`/master${element.url}`"
+              :class="route.path.includes(element?.url) ? 'menu-active' : ''"
               class="menu-item"
             >
-              <p class="menu-title">{{ element.name }}</p>
+              <p class="menu-title">{{ element?.name }}</p>
             </RouterLink>
           </div>
         </div>
@@ -91,7 +64,7 @@ const isActive = (item: { id: number; name: string; url: string }) => {
 </template>
 
 <style lang="sass">
-.sidebar-main
+.sidebar-master
   @apply w-[240px] z-[2] fixed top-[80px] bottom-[10px] left-[10px] bg-blue-900 rounded-lg px-6 py-4
   &--title
     @apply text-lg font-bold text-neutral-50
