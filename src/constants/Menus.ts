@@ -1,4 +1,16 @@
-export const Menus = [
+export interface MenuInterface {
+  id: number;
+  name: string;
+  url: string;
+  icon: string;
+  children?: {
+    id: number;
+    name: string;
+    url: string;
+  }[];
+}
+
+export const Menus: MenuInterface[] = [
   {
     id: 1,
     name: "Home",
@@ -79,7 +91,7 @@ export const Menus = [
     id: 8,
     name: "Tools",
     url: "/tools",
-    icon: "trolley-items",
+    icon: "tools",
   },
   {
     id: 9,
@@ -125,7 +137,7 @@ export const Menus = [
   },
 ];
 
-export const MenusAddScope = [
+export const MenusAddScope: MenuInterface[] = [
   {
     id: 1,
     name: "Additional Scope",
@@ -201,5 +213,32 @@ export const MenusAddScope = [
     name: "QC Plan",
     url: "/qc-plan",
     icon: "mind-gear",
+  },
+];
+
+export const MenusMaster: MenuInterface[] = [
+  {
+    id: 1,
+    name: "Location",
+    url: "/location",
+    icon: "location-pin",
+  },
+  {
+    id: 2,
+    name: "Unit",
+    url: "/unit",
+    icon: "unit",
+  },
+  {
+    id: 3,
+    name: "Machine",
+    url: "/machine",
+    icon: "machine",
+  },
+  {
+    id: 4,
+    name: "Inspection Type",
+    url: "/inspection-type",
+    icon: "inspection-type",
   },
 ];

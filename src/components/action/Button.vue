@@ -168,102 +168,121 @@ const heightLoading = computed(() => {
 <template>
   <template v-if="as_link">
     <RouterLink :to="url" class="pln-btn" :class="[buttonsDesign, classButton]">
-      <template v-show="loading">
-        <div class="flex items-center gap-2">
-          <span>{{ text }}</span>
-          <Loading
-            :disabled="disabled"
-            :width="widthLoading"
-            :height="heightLoading"
-          />
-        </div>
-      </template>
-      <template
+      <div v-show="loading" class="flex items-center gap-2">
+        <span>{{ text }}</span>
+        <Loading
+          :disabled="disabled"
+          :width="widthLoading"
+          :height="heightLoading"
+        />
+      </div>
+
+      <div
         v-show="icon_only !== '' && icon_before === '' && icon_after === ''"
+        class="flex items-center gap-2"
       >
         <Icon :name="icon_only" />
-      </template>
-      <template
+      </div>
+
+      <div
         v-show="icon_before !== '' && icon_after === '' && icon_only === ''"
+        class="flex items-center gap-2"
       >
         <Icon :name="icon_before" />
         <span>{{ text }}</span>
-      </template>
-      <template
+      </div>
+
+      <div
         v-show="icon_after !== '' && icon_before === '' && icon_only === ''"
+        class="flex items-center gap-2"
       >
         <span>{{ text }}</span>
         <Icon :name="icon_after" />
-      </template>
-      <template
+      </div>
+
+      <div
         v-show="icon_after !== '' && icon_before !== '' && icon_only === ''"
+        class="flex items-center gap-2"
       >
         <Icon :name="icon_before" />
         <span>{{ text }}</span>
         <Icon :name="icon_after" />
-      </template>
-      <span
+      </div>
+
+      <div
         v-show="
           !loading &&
           icon_only === '' &&
           icon_after === '' &&
           icon_before === ''
         "
+        class="flex items-center gap-2"
       >
         {{ text }}
-      </span>
+      </div>
     </RouterLink>
   </template>
 
   <template v-else>
     <button class="pln-btn" :class="[buttonsDesign, classButton]" :type="type">
-      <template v-if="loading">
-        <div class="flex items-center gap-2">
-          <span>{{ text }}</span>
-          <Loading
-            :disabled="disabled"
-            :width="widthLoading"
-            :height="heightLoading"
-          />
-        </div>
-      </template>
-      <template
+      <div v-show="loading" class="flex items-center gap-2">
+        <span>{{ text }}</span>
+        <Loading
+          :disabled="disabled"
+          :width="widthLoading"
+          :height="heightLoading"
+        />
+      </div>
+
+      <div
         v-show="icon_only !== '' && icon_before === '' && icon_after === ''"
+        class="flex items-center gap-2"
       >
         <Icon :name="icon_only" />
-      </template>
-      <template
+      </div>
+
+      <div
         v-show="icon_before !== '' && icon_after === '' && icon_only === ''"
+        class="flex items-center gap-2"
       >
         <Icon :name="icon_before" />
         <span>{{ text }}</span>
-      </template>
-      <template
+      </div>
+
+      <div
         v-show="icon_after !== '' && icon_before === '' && icon_only === ''"
+        class="flex items-center gap-2"
       >
         <span>{{ text }}</span>
         <Icon :name="icon_after" />
-      </template>
-      <template
+      </div>
+
+      <div
         v-show="icon_after !== '' && icon_before !== '' && icon_only === ''"
+        class="flex items-center gap-2"
       >
         <Icon :name="icon_before" />
         <span>{{ text }}</span>
         <Icon :name="icon_after" />
-      </template>
-      <span
+      </div>
+
+      <div
         v-show="
           !loading &&
           icon_before === '' &&
           icon_after === '' &&
           icon_only === ''
         "
-        >{{ text }}</span
+        class="flex items-center gap-2"
       >
+        {{ text }}
+      </div>
     </button>
   </template>
 </template>
 
+<!-- &--icon-only
+  @apply p-0 h-10 w-10 -->
 <style lang="sass">
 .pln-btn
   @apply border inline-flex items-center justify-center transition-all text-base font-semibold
@@ -286,9 +305,6 @@ const heightLoading = computed(() => {
   &--icon-after,
   &--icon-before
     @apply gap-1
-
-  &--icon-only
-    @apply p-0 h-10 w-10
 
   &--rounded
     &--none

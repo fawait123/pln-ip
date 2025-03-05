@@ -13,6 +13,7 @@ import HeaderMap from "@/components/layouts/HeaderMap.vue";
 import HeaderScope from "@/components/layouts/HeaderScope.vue";
 import HeaderMain from "@/components/layouts/HeaderMain.vue";
 import HeaderUserHistory from "@/components/layouts/HeaderUserHistory.vue";
+import HeaderMaster from "@/components/layouts/HeaderMaster.vue";
 import Footer from "@/components/layouts/Footer.vue";
 import Template from "@/components/structures/Template.vue";
 import ButtonPopover from "@/components/action/ButtonPopover.vue";
@@ -53,6 +54,7 @@ export {
   HeaderScope,
   HeaderMain,
   HeaderUserHistory,
+  HeaderMaster,
   Footer,
   Template,
   Table,

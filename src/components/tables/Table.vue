@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T">
-import { ref, type PropType, type VNode } from "vue";
+import { computed, ref, type PropType, type VNode } from "vue";
 import { CreateRow, Input, Icon, Pagination } from "@/components";
 
 export interface TableColumnType {
@@ -49,6 +49,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  isPagination: {
+    type: Boolean,
+    default: true,
+  },
   loading: {
     type: Boolean,
     default: false,
@@ -66,6 +70,10 @@ const props = defineProps({
         currentPage: 1,
       };
     },
+  },
+  modelSearch: {
+    type: String,
+    default: null,
   },
 });
 
@@ -86,6 +94,15 @@ const pagination_data = ref({
   totalItems: 100,
   itemsPerPage: 10,
   currentPage: 1,
+});
+
+const model_search = computed({
+  get() {
+    return props.modelSearch;
+  },
+  set(value) {
+    emit("update:modelSearch", value);
+  },
 });
 
 const styleWidthHeader = (column: TableColumnType) => {
@@ -153,6 +170,8 @@ defineSlots<{
           size="sm"
           placeholder="Search"
           prefix_icon="search"
+          v-model="model_search"
+          @input="(e) => $emit('search', e)"
         />
       </div>
       <CreateRow
@@ -299,7 +318,10 @@ defineSlots<{
           </tbody>
         </table>
       </div>
-      <div v-show="!loading && entities.length > 0" class="mt-2">
+      <div
+        v-show="!loading && entities.length > 0 && isPagination"
+        class="mt-2"
+      >
         <Pagination
           :totalItems="pagination.totalItems"
           :itemsPerPage="pagination.itemsPerPage"

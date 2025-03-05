@@ -87,7 +87,7 @@ const props = defineProps({
     type: String as PropType<
       "none" | "default" | "sm" | "md" | "lg" | "xl" | "full"
     >,
-    default: "lg",
+    default: "default",
     validator: function (value: string) {
       return (
         ["none", "default", "sm", "md", "lg", "xl", "full"].indexOf(value) !==
@@ -270,9 +270,9 @@ watch(model, () => {
 
 .textarea-text-validation
   &--error
-    @apply text-green-500
-  &--success
     @apply text-red-500
+  &--success
+    @apply text-green-500
   &--sm
     @apply mt-1 text-xs
   &--md

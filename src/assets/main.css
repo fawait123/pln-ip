@@ -148,6 +148,10 @@ body {
   @apply animate-[contentDrawerClosed_300ms_cubic-bezier(0.16,_1,_0.3,_1)];
 }
 
+.master-form-title {
+  @apply text-base font-bold text-neutral-950;
+}
+
 @keyframes overlayDrawerShow {
   from {
     opacity: 0;
