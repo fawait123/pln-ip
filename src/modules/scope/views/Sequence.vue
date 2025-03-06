@@ -414,204 +414,204 @@ const videosData = ref({
       top: 235,
       left: 525,
     },
-    {
-      id: 3,
-      video: () =>
-        import(
-          "@/assets/videos/combustion-inspection/4-discavity-temperature.mp4"
-        ),
-      name: "Discavity Temperature",
-      top: 210,
-      left: 440,
-    },
-    {
-      id: 4,
-      video: () =>
-        import(
-          "@/assets/videos/combustion-inspection/5-black-patch-temperature.mp4"
-        ),
-      name: "Black Patch Temperature",
-      top: 238,
-      left: 420,
-    },
-    {
-      id: 5,
-      video: () =>
-        import("@/assets/videos/combustion-inspection/6-fuel-branch-pipe.mp4"),
-      name: "Fuel Branch Pipe",
-      top: 238,
-      left: 420,
-    },
-    {
-      id: 6,
-      video: () =>
-        import("@/assets/videos/combustion-inspection/7-cross-flame-tube.mp4"),
-      name: "Cross Flame Tube",
-      top: 235,
-      left: 370,
-    },
-    {
-      id: 7,
-      video: () =>
-        import("@/assets/videos/combustion-inspection/8-top-hat.mp4"),
-      name: "Top Hat",
-      top: 235,
-      left: 505,
-    },
-    {
-      id: 8,
-      video: () =>
-        import("@/assets/videos/combustion-inspection/9-fuel-nozzle.mp4"),
-      name: "Fuel Nozzle",
-      top: 235,
-      left: 715,
-    },
-    {
-      id: 9,
-      video: () =>
-        import("@/assets/videos/combustion-inspection/10-combuster-basket.mp4"),
-      name: "Combuster Basket",
-      top: 235,
-      left: 660,
-    },
-    {
-      id: 10,
-      video: () =>
-        import("@/assets/videos/combustion-inspection/11-top-hat.mp4"),
-      name: "Top Hat",
-      top: 240,
-      left: 540,
-    },
-    {
-      id: 11,
-      video: () =>
-        import("@/assets/videos/combustion-inspection/12-u-support.mp4"),
-      name: "U-Support",
-      top: 235,
-      left: 785,
-    },
-    {
-      id: 12,
-      video: () =>
-        import("@/assets/videos/combustion-inspection/13-bypass-elbow.mp4"),
-      name: "Bypass Elbow",
-      top: 235,
-      left: 515,
-    },
-    {
-      id: 13,
-      video: () =>
-        import("@/assets/videos/combustion-inspection/14-transition-piece.mp4"),
-      name: "Transition Piece",
-      top: 237,
-      left: 615,
-    },
-    {
-      id: 14,
-      video: () => import("@/assets/videos/combustion-inspection/15.mp4"),
-      name: "",
-      top: 0,
-      left: 0,
-    },
-    {
-      id: 15,
-      video: () =>
-        import("@/assets/videos/combustion-inspection/16-transition-piece.mp4"),
-      name: "Transition Piece",
-      top: 237,
-      left: 615,
-    },
-    {
-      id: 16,
-      video: () =>
-        import("@/assets/videos/combustion-inspection/17-u-support.mp4"),
-      name: "U-Support",
-      top: 237,
-      left: 630,
-    },
-    {
-      id: 17,
-      video: () =>
-        import("@/assets/videos/combustion-inspection/18-bypass-elbow.mp4"),
-      name: "Bypass Elbow",
-      top: 235,
-      left: 790,
-    },
-    {
-      id: 18,
-      video: () =>
-        import("@/assets/videos/combustion-inspection/19-top-hat.mp4"),
-      name: "Top Hat",
-      top: 233,
-      left: 685,
-    },
-    {
-      id: 19,
-      video: () =>
-        import("@/assets/videos/combustion-inspection/20-cross-flame-tube.mp4"),
-      name: "Cross Flame Tube",
-      top: 237,
-      left: 580,
-    },
-    {
-      id: 20,
-      video: () =>
-        import("@/assets/videos/combustion-inspection/21-flame-detector.mp4"),
-      name: "Flame Detector",
-      top: 237,
-      left: 785,
-    },
-    {
-      id: 21,
-      video: () =>
-        import("@/assets/videos/combustion-inspection/22-manhole-turbine.mp4"),
-      name: "Manhole Turbine",
-      top: 235,
-      left: 615,
-    },
-    {
-      id: 22,
-      video: () =>
-        import(
-          "@/assets/videos/combustion-inspection/23-discavity-temperature.mp4"
-        ),
-      name: "Discavity Temperature",
-      top: 230,
-      left: 630,
-    },
-    {
-      id: 23,
-      video: () =>
-        import(
-          "@/assets/videos/combustion-inspection/24-black-patch-temperature.mp4"
-        ),
-      name: "Black Patch Temperature",
-      top: 238,
-      left: 420,
-    },
-    {
-      id: 24,
-      video: () =>
-        import("@/assets/videos/combustion-inspection/25-fuel-branch-pipe.mp4"),
-      name: "Fuel Branch Pipe",
-      top: 237,
-      left: 420,
-    },
-    {
-      id: 25,
-      video: () =>
-        import("@/assets/videos/combustion-inspection/26-flame-igniter.mp4"),
-      name: "Flame Igniter",
-      top: 236,
-      left: 525,
-    },
-    {
-      id: 26,
-      video: () => import("@/assets/videos/combustion-inspection/27.mp4"),
-      name: "",
-      top: 0,
-      left: 0,
-    },
+    // {
+    //   id: 3,
+    //   video: () =>
+    //     import(
+    //       "@/assets/videos/combustion-inspection/4-discavity-temperature.mp4"
+    //     ),
+    //   name: "Discavity Temperature",
+    //   top: 210,
+    //   left: 440,
+    // },
+    // {
+    //   id: 4,
+    //   video: () =>
+    //     import(
+    //       "@/assets/videos/combustion-inspection/5-black-patch-temperature.mp4"
+    //     ),
+    //   name: "Black Patch Temperature",
+    //   top: 238,
+    //   left: 420,
+    // },
+    // {
+    //   id: 5,
+    //   video: () =>
+    //     import("@/assets/videos/combustion-inspection/6-fuel-branch-pipe.mp4"),
+    //   name: "Fuel Branch Pipe",
+    //   top: 238,
+    //   left: 420,
+    // },
+    // {
+    //   id: 6,
+    //   video: () =>
+    //     import("@/assets/videos/combustion-inspection/7-cross-flame-tube.mp4"),
+    //   name: "Cross Flame Tube",
+    //   top: 235,
+    //   left: 370,
+    // },
+    // {
+    //   id: 7,
+    //   video: () =>
+    //     import("@/assets/videos/combustion-inspection/8-top-hat.mp4"),
+    //   name: "Top Hat",
+    //   top: 235,
+    //   left: 505,
+    // },
+    // {
+    //   id: 8,
+    //   video: () =>
+    //     import("@/assets/videos/combustion-inspection/9-fuel-nozzle.mp4"),
+    //   name: "Fuel Nozzle",
+    //   top: 235,
+    //   left: 715,
+    // },
+    // {
+    //   id: 9,
+    //   video: () =>
+    //     import("@/assets/videos/combustion-inspection/10-combuster-basket.mp4"),
+    //   name: "Combuster Basket",
+    //   top: 235,
+    //   left: 660,
+    // },
+    // {
+    //   id: 10,
+    //   video: () =>
+    //     import("@/assets/videos/combustion-inspection/11-top-hat.mp4"),
+    //   name: "Top Hat",
+    //   top: 240,
+    //   left: 540,
+    // },
+    // {
+    //   id: 11,
+    //   video: () =>
+    //     import("@/assets/videos/combustion-inspection/12-u-support.mp4"),
+    //   name: "U-Support",
+    //   top: 235,
+    //   left: 785,
+    // },
+    // {
+    //   id: 12,
+    //   video: () =>
+    //     import("@/assets/videos/combustion-inspection/13-bypass-elbow.mp4"),
+    //   name: "Bypass Elbow",
+    //   top: 235,
+    //   left: 515,
+    // },
+    // {
+    //   id: 13,
+    //   video: () =>
+    //     import("@/assets/videos/combustion-inspection/14-transition-piece.mp4"),
+    //   name: "Transition Piece",
+    //   top: 237,
+    //   left: 615,
+    // },
+    // {
+    //   id: 14,
+    //   video: () => import("@/assets/videos/combustion-inspection/15.mp4"),
+    //   name: "",
+    //   top: 0,
+    //   left: 0,
+    // },
+    // {
+    //   id: 15,
+    //   video: () =>
+    //     import("@/assets/videos/combustion-inspection/16-transition-piece.mp4"),
+    //   name: "Transition Piece",
+    //   top: 237,
+    //   left: 615,
+    // },
+    // {
+    //   id: 16,
+    //   video: () =>
+    //     import("@/assets/videos/combustion-inspection/17-u-support.mp4"),
+    //   name: "U-Support",
+    //   top: 237,
+    //   left: 630,
+    // },
+    // {
+    //   id: 17,
+    //   video: () =>
+    //     import("@/assets/videos/combustion-inspection/18-bypass-elbow.mp4"),
+    //   name: "Bypass Elbow",
+    //   top: 235,
+    //   left: 790,
+    // },
+    // {
+    //   id: 18,
+    //   video: () =>
+    //     import("@/assets/videos/combustion-inspection/19-top-hat.mp4"),
+    //   name: "Top Hat",
+    //   top: 233,
+    //   left: 685,
+    // },
+    // {
+    //   id: 19,
+    //   video: () =>
+    //     import("@/assets/videos/combustion-inspection/20-cross-flame-tube.mp4"),
+    //   name: "Cross Flame Tube",
+    //   top: 237,
+    //   left: 580,
+    // },
+    // {
+    //   id: 20,
+    //   video: () =>
+    //     import("@/assets/videos/combustion-inspection/21-flame-detector.mp4"),
+    //   name: "Flame Detector",
+    //   top: 237,
+    //   left: 785,
+    // },
+    // {
+    //   id: 21,
+    //   video: () =>
+    //     import("@/assets/videos/combustion-inspection/22-manhole-turbine.mp4"),
+    //   name: "Manhole Turbine",
+    //   top: 235,
+    //   left: 615,
+    // },
+    // {
+    //   id: 22,
+    //   video: () =>
+    //     import(
+    //       "@/assets/videos/combustion-inspection/23-discavity-temperature.mp4"
+    //     ),
+    //   name: "Discavity Temperature",
+    //   top: 230,
+    //   left: 630,
+    // },
+    // {
+    //   id: 23,
+    //   video: () =>
+    //     import(
+    //       "@/assets/videos/combustion-inspection/24-black-patch-temperature.mp4"
+    //     ),
+    //   name: "Black Patch Temperature",
+    //   top: 238,
+    //   left: 420,
+    // },
+    // {
+    //   id: 24,
+    //   video: () =>
+    //     import("@/assets/videos/combustion-inspection/25-fuel-branch-pipe.mp4"),
+    //   name: "Fuel Branch Pipe",
+    //   top: 237,
+    //   left: 420,
+    // },
+    // {
+    //   id: 25,
+    //   video: () =>
+    //     import("@/assets/videos/combustion-inspection/26-flame-igniter.mp4"),
+    //   name: "Flame Igniter",
+    //   top: 236,
+    //   left: 525,
+    // },
+    // {
+    //   id: 26,
+    //   video: () => import("@/assets/videos/combustion-inspection/27.mp4"),
+    //   name: "",
+    //   top: 0,
+    //   left: 0,
+    // },
   ],
   // mi: [
   //   {
@@ -4029,7 +4029,7 @@ onUnmounted(() => {
         playsinline
         class="scope-video"
       ></video>
-      <div v-for="(item, key) in videos" :key="key">
+      <!-- <div v-for="(item, key) in videos" :key="key">
         <div
           v-if="
             isButtonVisible && currentVideoIndex === key && item.name !== ''
@@ -4039,7 +4039,7 @@ onUnmounted(() => {
         >
           <ButtonPart :text="item.name" />
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 
