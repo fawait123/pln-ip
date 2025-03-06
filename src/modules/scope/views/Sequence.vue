@@ -4043,7 +4043,7 @@ onUnmounted(() => {
     </div>
   </div>
 
-  <DialogRoot v-model:open="openStep">
+  <!-- <DialogRoot v-model:open="openStep">
     <DialogPortal>
       <DialogContent
         class="v-drawer-content"
@@ -4110,7 +4110,7 @@ onUnmounted(() => {
         </div>
       </DialogContent>
     </DialogPortal>
-  </DialogRoot>
+  </DialogRoot> -->
 </template>
 
 <style lang="sass" scoped>
