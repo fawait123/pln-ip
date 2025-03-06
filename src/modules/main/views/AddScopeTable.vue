@@ -707,6 +707,11 @@ function searchTable() {
     @change-limit="changeLimit"
     @search="searchTable"
   >
+    <template #header_action>
+      <div class="px-3 py-1.5">
+        <p class="v-table-th-text">Action</p>
+      </div>
+    </template>
     <template #column_asset_welness="{ entity }">
       <div class="w-full flex justify-center">
         <FormAssetWelness

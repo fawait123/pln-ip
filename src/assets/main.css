@@ -152,6 +152,10 @@ body {
   @apply text-base font-bold text-neutral-950;
 }
 
+.v-table-th-text {
+  @apply text-base font-bold text-blue-900;
+}
+
 @keyframes overlayDrawerShow {
   from {
     opacity: 0;
