@@ -113,7 +113,7 @@ export const Menus: MenuInterface[] = [
     children: [
       {
         id: 111,
-        name: "Table",
+        name: "Detail",
         url: "/add-scope-table",
       },
       {
@@ -213,6 +213,12 @@ export const MenusAddScope: MenuInterface[] = [
     name: "QC Plan",
     url: "/qc-plan",
     icon: "mind-gear",
+  },
+  {
+    id: 8,
+    name: "Tools",
+    url: "/tools",
+    icon: "tools",
   },
 ];
 
