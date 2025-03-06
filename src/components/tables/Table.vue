@@ -347,12 +347,6 @@ defineSlots<{
       @apply overflow-x-auto
       > table
         @apply w-full border-separate border-spacing-y-1
-        thead
-          tr
-            th
-              .v-table-th-group
-                .v-table-th-text
-                  @apply text-base font-bold text-blue-900
         tbody
           tr
             td
