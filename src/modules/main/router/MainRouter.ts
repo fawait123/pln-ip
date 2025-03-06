@@ -202,6 +202,12 @@ export const routeMain = [
     meta: { layout: AddScopeLayout, requireAuth: true },
   },
   {
+    path: "/:id/create/unit/:id_unit/:menu/:id_project/:id_inspection/add-scope/:id_scope/tools",
+    name: "add scope detail tools",
+    component: () => import("@/modules/main/views/add-scope-detail/Tools.vue"),
+    meta: { layout: AddScopeLayout, requireAuth: true },
+  },
+  {
     path: "/:id/create/unit/:id_unit/:menu/:id_project/:id_inspection/add-scope-squences/:section",
     name: "main add scope squences section",
     component: () => import("@/modules/scope/views/CIAddScopeSection.vue"),
