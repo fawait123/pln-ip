@@ -3715,9 +3715,9 @@ const videoState = ref({
   isTransitioning: false,
 });
 
-// const handleCanPlay = () => {
-//   // if (videoRef.value) videoRef.value.play();
-// };
+const handleCanPlay = () => {
+  if (videoRef.value) videoRef.value.play();
+};
 
 const handleVideoEnd = () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -4003,6 +4003,7 @@ onUnmounted(() => {
         class="scope-video"
         :src="videoSrc as string"
         @ended="handleVideoEnd"
+        @canplaythrough="handleCanPlay"
       ></video>
       <div v-for="(item, key) in videos" :key="key">
         <div
