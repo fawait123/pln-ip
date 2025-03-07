@@ -23,21 +23,22 @@ const videosData = ref({
     {
       id: 0,
       video: () =>
-        import("/videos/combustion-inspection/1-manhole-turbine-cylinder.mp4"),
+        import("/videos/combustion-inspection/1-manhole-turbine-cylinder.webm"),
       name: "Manhole Turbine Cylinder",
       top: 235,
       left: 545,
     },
     {
       id: 1,
-      video: () => import("/videos/combustion-inspection/2-flame-detector.mp4"),
+      video: () =>
+        import("/videos/combustion-inspection/2-flame-detector.webm"),
       name: "Flame Detector",
       top: 222,
       left: 685,
     },
     {
       id: 2,
-      video: () => import("/videos/combustion-inspection/3-flame-igniter.mp4"),
+      video: () => import("/videos/combustion-inspection/3-flame-igniter.webm"),
       name: "Flame Igniter",
       top: 235,
       left: 525,
@@ -45,7 +46,7 @@ const videosData = ref({
     {
       id: 3,
       video: () =>
-        import("/videos/combustion-inspection/4-discavity-temperature.mp4"),
+        import("/videos/combustion-inspection/4-discavity-temperature.webm"),
       name: "Discavity Temperature",
       top: 210,
       left: 440,
@@ -53,7 +54,7 @@ const videosData = ref({
     {
       id: 4,
       video: () =>
-        import("/videos/combustion-inspection/5-black-patch-temperature.mp4"),
+        import("/videos/combustion-inspection/5-black-patch-temperature.webm"),
       name: "Black Patch Temperature",
       top: 238,
       left: 420,
@@ -61,7 +62,7 @@ const videosData = ref({
     {
       id: 5,
       video: () =>
-        import("/videos/combustion-inspection/6-fuel-branch-pipe.mp4"),
+        import("/videos/combustion-inspection/6-fuel-branch-pipe.webm"),
       name: "Fuel Branch Pipe",
       top: 238,
       left: 420,
@@ -69,14 +70,14 @@ const videosData = ref({
     {
       id: 6,
       video: () =>
-        import("/videos/combustion-inspection/7-cross-flame-tube.mp4"),
+        import("/videos/combustion-inspection/7-cross-flame-tube.webm"),
       name: "Cross Flame Tube",
       top: 235,
       left: 370,
     },
     {
       id: 7,
-      video: () => import("/videos/combustion-inspection/8-top-hat.mp4"),
+      video: () => import("/videos/combustion-inspection/8-top-hat.webm"),
       name: "Top Hat",
       top: 235,
       left: 505,
