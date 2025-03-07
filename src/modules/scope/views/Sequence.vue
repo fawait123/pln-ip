@@ -391,25 +391,21 @@ const videosData = ref({
     {
       id: 0,
       video: () =>
-        import(
-          "@/assets/videos/combustion-inspection/1-manhole-turbine-cylinder.mp4"
-        ),
+        import("/videos/combustion-inspection/1-manhole-turbine-cylinder.mp4"),
       name: "Manhole Turbine Cylinder",
       top: 235,
       left: 545,
     },
     {
       id: 1,
-      video: () =>
-        import("@/assets/videos/combustion-inspection/2-flame-detector.mp4"),
+      video: () => import("/videos/combustion-inspection/2-flame-detector.mp4"),
       name: "Flame Detector",
       top: 222,
       left: 685,
     },
     {
       id: 2,
-      video: () =>
-        import("@/assets/videos/combustion-inspection/3-flame-igniter.mp4"),
+      video: () => import("/videos/combustion-inspection/3-flame-igniter.mp4"),
       name: "Flame Igniter",
       top: 235,
       left: 525,
