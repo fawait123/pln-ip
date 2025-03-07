@@ -4025,6 +4025,7 @@ onUnmounted(() => {
         :src="videoSrc as string"
         @ended="handleVideoEnd"
         autoplay
+        preload="auto"
         muted
         playsinline
         class="scope-video"
