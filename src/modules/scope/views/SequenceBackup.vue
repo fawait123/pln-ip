@@ -3685,9 +3685,6 @@ const videoSrc = ref<string | null>(null);
 const loadVideo = async () => {
   if (currentVideo.value) {
     videoSrc.value = (await currentVideo.value.video()).default;
-    if (videoRef.value) {
-      videoRef.value.load();
-    }
   }
 };
 
@@ -3714,10 +3711,6 @@ let reverseInterval: number | null = null;
 const videoState = ref({
   isTransitioning: false,
 });
-
-const handleCanPlay = () => {
-  if (videoRef.value) videoRef.value.play();
-};
 
 const handleVideoEnd = () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -3749,7 +3742,7 @@ const handleVideoEnd = () => {
         disabledNext.value = true;
         disabledBack.value = true;
         if (videoRef.value) {
-          // reverseInterval = setInterval(reverseVideo, 100);
+          reverseInterval = setInterval(reverseVideo, 100);
         }
       }, 500);
     } else if (currentVideoIndex.value === parseInt(toParam) - 1) {
@@ -3768,29 +3761,6 @@ const handleVideoEnd = () => {
     disabledNext.value = false;
     disabledBack.value = false;
   }
-};
-
-const handleNext = async () => {
-  if (
-    videoState.value.isTransitioning ||
-    currentVideoIndex.value >= videos.value.length - 1
-  )
-    return;
-
-  const nextIndex = currentVideoIndex.value + 1;
-  updateURLParameter(nextIndex);
-  await initializeVideo(nextIndex);
-};
-
-const updateURLParameter = (index: number, startAtEnd = false) => {
-  const url = new URL(window.location.href);
-  url.searchParams.set("video", (index + 1).toString());
-  if (startAtEnd) {
-    url.searchParams.set("start", "end");
-  } else {
-    url.searchParams.delete("start");
-  }
-  window.history.replaceState({}, "", url);
 };
 
 const initializeVideo = async (index: number, startAtEnd = false) => {
@@ -3826,6 +3796,127 @@ const initializeVideo = async (index: number, startAtEnd = false) => {
   videoState.value.isTransitioning = false;
 };
 
+const updateURLParameter = (index: number, startAtEnd = false) => {
+  const url = new URL(window.location.href);
+  url.searchParams.set("video", (index + 1).toString());
+  if (startAtEnd) {
+    url.searchParams.set("start", "end");
+  } else {
+    url.searchParams.delete("start");
+  }
+  window.history.replaceState({}, "", url);
+};
+
+const reverseVideo = () => {
+  if (!videoRef.value || videoRef.value.currentTime <= 0) {
+    if (reverseInterval) {
+      clearInterval(reverseInterval);
+      reverseInterval = null;
+    }
+    isReversing.value = false;
+
+    const prevIndex = currentVideoIndex.value - 1;
+
+    if (prevIndex < 0) {
+      router.push(
+        `/${route.params.id}/create/unit/${route.params.id_unit}/ci/scope`
+      );
+      return;
+    }
+
+    currentVideoIndex.value = prevIndex;
+    updateURLParameter(prevIndex, true);
+    initializeVideo(prevIndex, true);
+    return;
+  }
+
+  videoRef.value.currentTime = Math.max(0, videoRef.value.currentTime - 0.1);
+};
+
+const handleBack = async () => {
+  if (videoState.value.isTransitioning) return;
+
+  isReversing.value = true;
+  videoState.value.isTransitioning = true;
+  isButtonVisible.value = false;
+  disabledNext.value = true;
+  disabledBack.value = true;
+
+  if (videoRef.value) {
+    reverseInterval = setInterval(reverseVideo, 100);
+  }
+};
+
+const handleNext = async () => {
+  if (
+    videoState.value.isTransitioning ||
+    currentVideoIndex.value >= videos.value.length - 1
+  )
+    return;
+
+  const nextIndex = currentVideoIndex.value + 1;
+  updateURLParameter(nextIndex);
+  await initializeVideo(nextIndex);
+};
+
+const handleJumpStep = async (index: number) => {
+  if (videoRef.value) {
+    if (videoRef.value.currentTime === videoRef.value.duration) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const videoParam = urlParams.get("video") || "1";
+      const video = parseInt(videoParam, 10);
+
+      if (index === video) {
+        return;
+      }
+
+      const { path } = route;
+
+      disabledNext.value = true;
+      disabledBack.value = true;
+      isButtonVisible.value = false;
+
+      if (index > video) {
+        const updatedQuery = { video: video + 1, to: index };
+        router.push({ path, query: updatedQuery });
+        const nextIndex = currentVideoIndex.value + 1;
+        currentVideoIndex.value = nextIndex;
+        await initializeVideo(nextIndex);
+      } else {
+        const updatedQuery = { video: video, to: index };
+        router.push({ path, query: updatedQuery });
+        if (videoRef.value) {
+          reverseInterval = setInterval(reverseVideo, 100);
+        }
+      }
+
+      openStep.value = false;
+    }
+  }
+};
+
+const handleAddScope = () => {
+  router.push(
+    `/${route.params.id}/create/unit/${route.params.id_unit}/add-scope`
+  );
+};
+
+const handleSave = () => {
+  router.push(`/${route.params.id}/create/unit/${route.params.id_unit}/result`);
+};
+
+const handleStepNavigation = () => {
+  openStep.value = true;
+};
+
+const handleCloseStep = () => {
+  openStep.value = false;
+};
+
+const handleCanPlay = () => {
+  // if (videoRef.value) videoRef.value.play();
+};
+
 watch(openStep, (value) => {
   if (value) {
     isStepNavigation.value = false;
@@ -3834,15 +3925,50 @@ watch(openStep, (value) => {
   }
 });
 
+const initializeFromURL = async () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const videoParam = urlParams.get("video") || "1";
+  const startParam = urlParams.get("start");
+  const index = Math.max(
+    0,
+    Math.min(parseInt(videoParam, 10) - 1, videos.value.length - 1)
+  );
+
+  await initializeVideo(index, startParam === "end");
+};
+
 watch(
   currentVideoIndex,
-  () => {
+  (value) => {
     loadVideo();
   },
   { immediate: true }
 );
 
 onMounted(() => {
+  // breadcrumb.value = [
+  //   {
+  //     name: "UBP Priok",
+  //     as_link: false,
+  //     url: "",
+  //   },
+  //   {
+  //     name: convertToOriginalFormat(route.params.id_unit as string),
+  //     as_link: false,
+  //     url: "",
+  //   },
+  //   {
+  //     name: "Scope Overhaul",
+  //     as_link: false,
+  //     url: "",
+  //   },
+  //   {
+  //     name: "CI",
+  //     as_link: false,
+  //     url: "",
+  //   },
+  // ];
+
   titleHeader.value =
     route.params.menu === "ci"
       ? "Combustion Inspection"
@@ -3856,20 +3982,33 @@ onMounted(() => {
   disabledBack.value = true;
   isStepNavigation.value = true;
 
+  // if (videoRef.value) {
+  //   videoRef.value.load();
+  // }
+
+  // window.addEventListener("popstate", initializeFromURL);
   eventBus.on("next", handleNext);
-  // eventBus.on("back", handleBack);
-  // eventBus.on("save", handleSave);
-  // eventBus.on("addScope", handleAddScope);
-  // eventBus.on("stepNavigation", handleStepNavigation);
+  eventBus.on("back", handleBack);
+  eventBus.on("save", handleSave);
+  eventBus.on("addScope", handleAddScope);
+  eventBus.on("stepNavigation", handleStepNavigation);
+
+  // if (videoRef.value) {
+  //   videoRef.value.addEventListener("timeupdate", handleVideoTimeUpdate);
+  // }
 });
 
 onUnmounted(() => {
-  // window.removeEventListener("popstate", initializeFromURL);
+  window.removeEventListener("popstate", initializeFromURL);
   eventBus.off("next", handleNext);
-  // eventBus.off("back", handleBack);
-  // eventBus.off("save", handleSave);
-  // eventBus.off("addScope", handleAddScope);
-  // eventBus.off("stepNavigation", handleStepNavigation);
+  eventBus.off("back", handleBack);
+  eventBus.off("save", handleSave);
+  eventBus.off("addScope", handleAddScope);
+  eventBus.off("stepNavigation", handleStepNavigation);
+
+  // if (videoRef.value) {
+  //   videoRef.value.removeEventListener("timeupdate", handleVideoTimeUpdate);
+  // }
 });
 </script>
 
@@ -3884,13 +4023,14 @@ onUnmounted(() => {
     <div class="scope-video-container">
       <video
         ref="videoRef"
+        :src="videoSrc as string"
+        @ended="handleVideoEnd"
+        autoplay
         preload="auto"
         muted
         playsinline
         class="scope-video"
-        :src="videoSrc as string"
         @canplaythrough="handleCanPlay"
-        @ended="handleVideoEnd"
       ></video>
       <!-- <div v-for="(item, key) in videos" :key="key">
         <div
