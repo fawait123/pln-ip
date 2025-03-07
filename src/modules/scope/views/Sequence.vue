@@ -3575,9 +3575,10 @@ const loadVideo = async () => {
     videoSrc.value = (
       await videos.value[currentVideoIndex.value].video()
     ).default;
-    if (videoRef.value) {
-      videoRef.value.load();
-    }
+    preloadVideo(videoSrc.value as string);
+    // if (videoRef.value) {
+    //   videoRef.value.load();
+    // }
   }
 };
 
@@ -3608,6 +3609,27 @@ const videoState = ref({
 const handleCanPlay = () => {
   if (videoRef.value) videoRef.value.play();
 };
+
+async function preloadVideo(url: string): Promise<void> {
+  try {
+    const response = await fetch(url);
+    if (!response.ok)
+      throw new Error(`Gagal mengambil video: ${response.statusText}`);
+
+    const blob = await response.blob();
+    const videoUrl = URL.createObjectURL(blob);
+
+    const videoElement = document.getElementById("video") as HTMLVideoElement;
+    videoElement.src = videoUrl;
+
+    videoElement.onloadeddata = () => {
+      console.log("Video siap diputar tanpa buffering");
+      videoElement.play();
+    };
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 const handleVideoEnd = () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -3886,12 +3908,12 @@ onUnmounted(() => {
     </div> -->
     <div class="scope-video-container">
       <video
+        id="video"
         ref="videoRef"
         preload="auto"
         muted
         playsinline
         class="scope-video"
-        :src="videoSrc as string"
         @ended="handleVideoEnd"
         @canplaythrough="handleCanPlay"
       ></video>
