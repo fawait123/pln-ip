@@ -390,21 +390,22 @@ const videosData = ref({
   ci: [
     {
       id: 0,
-      video: "/videos/combustion-inspection/1-manhole-turbine-cylinder.mp4",
+      video: () =>
+        import("/videos/combustion-inspection/1-manhole-turbine-cylinder.mp4"),
       name: "Manhole Turbine Cylinder",
       top: 235,
       left: 545,
     },
     {
       id: 1,
-      video: "/videos/combustion-inspection/2-flame-detector.mp4",
+      video: () => import("/videos/combustion-inspection/2-flame-detector.mp4"),
       name: "Flame Detector",
       top: 222,
       left: 685,
     },
     {
       id: 2,
-      video: "/videos/combustion-inspection/3-flame-igniter.mp4",
+      video: () => import("/videos/combustion-inspection/3-flame-igniter.mp4"),
       name: "Flame Igniter",
       top: 235,
       left: 525,
@@ -3677,18 +3678,18 @@ const videos: any = computed(() => {
   return videosData.value[(route.params.menu as string) || "ci"];
 });
 
-// const videoSrc = ref<string | null>(null);
+const videoSrc = ref<string | null>(null);
 
-// const loadVideo = async () => {
-//   if (videos.value[currentVideoIndex.value]) {
-//     videoSrc.value = (
-//       await videos.value[currentVideoIndex.value].video()
-//     ).default;
-//     if (videoRef.value) {
-//       videoRef.value.load();
-//     }
-//   }
-// };
+const loadVideo = async () => {
+  if (videos.value[currentVideoIndex.value]) {
+    videoSrc.value = (
+      await videos.value[currentVideoIndex.value].video()
+    ).default;
+    if (videoRef.value) {
+      videoRef.value.load();
+    }
+  }
+};
 
 const router = useRouter();
 const route = useRoute();
@@ -3713,6 +3714,10 @@ let reverseInterval: number | null = null;
 const videoState = ref({
   isTransitioning: false,
 });
+
+// const handleCanPlay = () => {
+//   // if (videoRef.value) videoRef.value.play();
+// };
 
 const handleVideoEnd = () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -3776,6 +3781,7 @@ const initializeVideo = async (index: number, startAtEnd = false) => {
   }
 
   currentVideoIndex.value = index;
+  loadVideo();
   isFinish.value = index === videos.value.length - 1;
   isAddScope.value = index === videos.value.length - 1;
 
@@ -3826,7 +3832,6 @@ const reverseVideo = () => {
       return;
     }
 
-    currentVideoIndex.value = prevIndex;
     updateURLParameter(prevIndex, true);
     initializeVideo(prevIndex, true);
     return;
@@ -3961,6 +3966,7 @@ onMounted(() => {
   //   videoRef.value.load();
   // }
   initializeFromURL();
+  loadVideo();
 
   window.addEventListener("popstate", initializeFromURL);
   eventBus.on("next", handleNext);
@@ -3995,7 +4001,7 @@ onUnmounted(() => {
         muted
         playsinline
         class="scope-video"
-        :src="videos[currentVideoIndex].video"
+        :src="videoSrc as string"
         @ended="handleVideoEnd"
       ></video>
       <div v-for="(item, key) in videos" :key="key">
