@@ -8,10 +8,9 @@ export const ColumnsInspectionType: TableColumnType[] = [
     sort: false,
   },
   {
-    key: "machine_uuid",
+    key: "machine",
     label: "Machine",
     align: "center",
     sort: false,
-    width: "150",
   },
 ];

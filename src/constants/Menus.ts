@@ -247,4 +247,28 @@ export const MenusMaster: MenuInterface[] = [
     url: "/inspection-type",
     icon: "inspection-type",
   },
+  {
+    id: 5,
+    name: "Consumable Material",
+    url: "/consumable-material",
+    icon: "box",
+  },
+  {
+    id: 6,
+    name: "Manpower",
+    url: "/manpower",
+    icon: "male",
+  },
+  {
+    id: 7,
+    name: "Part",
+    url: "/part",
+    icon: "trolley-items",
+  },
+  {
+    id: 8,
+    name: "Tools",
+    url: "/tools",
+    icon: "tools",
+  },
 ];

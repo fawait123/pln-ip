@@ -11,5 +11,5 @@ export interface UnitInterface {
 
 export interface UnitCreateInterface {
   name: string;
-  locatiion_uuid: string;
+  location_uuid: string;
 }

@@ -26,6 +26,5 @@ export const ColumnsLocation: TableColumnType[] = [
     label: "Description",
     align: "center",
     sort: false,
-    width: "150",
   },
 ];

@@ -6,12 +6,12 @@ import { Button, Icon, ModalDelete, Table, Toast } from "@/components";
 import { useMutation, useQuery } from "@tanstack/vue-query";
 import type { IPagination } from "@/types/GlobalType";
 
-import { ColumnsInspectionType } from "../constants/InspectionTypeConstant";
-import type { InspectionTypeInterface } from "../types/InspectionType";
+import { ColumnsPart } from "../constants/PartConstant";
+import type { PartInterface } from "../types/PartType";
 import { useMasterStore } from "../stores/MasterStore";
-import FormInspectionType from "../components/FormInspectionType.vue";
+import FormPart from "../components/FormPart.vue";
 
-const Entities: InspectionTypeInterface[] = [];
+const Entities: PartInterface[] = [];
 const masterStore = useMasterStore();
 const total_item = ref(0);
 const params = reactive({
@@ -22,21 +22,21 @@ const params = reactive({
 });
 const open_form = ref(false);
 const open_delete = ref(false);
-const selected_item = ref<InspectionTypeInterface | null>(null);
+const selected_item = ref<PartInterface | null>(null);
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
 const timeout = ref(0);
 
-//--- GET INSPECTION TYPE
+//--- GET PART
 const {
-  data: dataInspectionType,
-  isFetching: isLoadingInspectionType,
-  refetch: refetchInspectionType,
+  data: dataPart,
+  isFetching: isLoadingPart,
+  refetch: refetchPart,
 } = useQuery({
-  queryKey: ["getInspectionTypeMaster"],
+  queryKey: ["getPartMaster"],
   queryFn: async () => {
     try {
-      const { data } = await masterStore.getInspectionType(params);
-      const response = data.data as IPagination<InspectionTypeInterface[]>;
+      const { data } = await masterStore.getPart(params);
+      const response = data as IPagination<PartInterface[]>;
 
       total_item.value = response.total;
 
@@ -50,30 +50,29 @@ const {
 });
 //--- END
 
-//--- DELETE INSPECTION TYPE
-const { mutate: deleteInspectionType, isPending: isLoadingDelete } =
-  useMutation({
-    mutationFn: async (id: string) => {
-      return await masterStore.deleteInspectionType(id);
-    },
-    onSuccess: () => {
-      toastRef.value?.showToast({
-        title: "Success",
-        description: "Deleted successfully",
-        type: "success",
-      });
-      open_delete.value = false;
-      refetchInspectionType();
-    },
-    onError: (error: any) => {
-      console.log(error);
-      toastRef.value?.showToast({
-        title: "Error",
-        description: error?.response?.data?.message || "Something went wrong",
-        type: "error",
-      });
-    },
-  });
+//--- DELETE PART
+const { mutate: deletePart, isPending: isLoadingDelete } = useMutation({
+  mutationFn: async (id: string) => {
+    return await masterStore.deletePart(id);
+  },
+  onSuccess: () => {
+    toastRef.value?.showToast({
+      title: "Success",
+      description: "Deleted successfully",
+      type: "success",
+    });
+    open_delete.value = false;
+    refetchPart();
+  },
+  onError: (error: any) => {
+    console.log(error);
+    toastRef.value?.showToast({
+      title: "Error",
+      description: error?.response?.data?.message || "Something went wrong",
+      type: "error",
+    });
+  },
+});
 //--- END
 
 const pagination = computed(() => {
@@ -86,20 +85,20 @@ const pagination = computed(() => {
 
 const changePage = (e: number) => {
   params.currentPage = e;
-  refetchInspectionType();
+  refetchPart();
 };
 
 const changeLimit = (e: string) => {
   params.perPage = parseInt(e);
   params.currentPage = 1;
-  refetchInspectionType();
+  refetchPart();
 };
 
 const searchTable = () => {
   clearTimeout(timeout.value);
   timeout.value = window.setTimeout(() => {
     params.currentPage = 1;
-    refetchInspectionType();
+    refetchPart();
   }, 1000);
 };
 
@@ -110,7 +109,7 @@ const handleSuccess = () => {
     type: "success",
   });
   params.currentPage = 1;
-  refetchInspectionType();
+  refetchPart();
 };
 
 const handleError = (error: any) => {
@@ -126,18 +125,18 @@ const handleCreate = () => {
   open_form.value = true;
 };
 
-const handleUpdate = (item: InspectionTypeInterface) => {
+const handleUpdate = (item: PartInterface) => {
   selected_item.value = item;
   open_form.value = true;
 };
 
-const handleDelete = (item: InspectionTypeInterface) => {
+const handleDelete = (item: PartInterface) => {
   selected_item.value = item;
   open_delete.value = true;
 };
 
 const onDelete = () => {
-  deleteInspectionType(selected_item.value?.uuid as string);
+  deletePart(selected_item.value?.uuid as string);
 };
 </script>
 
@@ -161,10 +160,10 @@ const onDelete = () => {
     />
 
     <Table
-      label-create="Inspection Type"
-      :columns="ColumnsInspectionType"
-      :entities="dataInspectionType?.data || []"
-      :loading="isLoadingInspectionType"
+      label-create="Part"
+      :columns="ColumnsPart"
+      :entities="dataPart?.data || []"
+      :loading="isLoadingPart"
       :pagination="pagination"
       :is-create="false"
       v-model:model-search="params.search"
@@ -186,18 +185,18 @@ const onDelete = () => {
           />
         </div>
       </template>
-      <template #column_machine="{ entity }">
+      <!-- <template #column_unit="{ entity }">
         <p class="text-base text-neutral-50 text-center">
-          {{ entity.machine?.name }}
+          {{ entity.unit?.name }}
         </p>
-      </template>
+      </template> -->
     </Table>
 
-    <FormInspectionType
+    <!-- <FormPart
       v-model="open_form"
       :selected-value="selected_item"
       @success="handleSuccess"
       @error="handleError"
-    />
+    /> -->
   </div>
 </template>

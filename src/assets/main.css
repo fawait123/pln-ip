@@ -156,6 +156,10 @@ body {
   @apply text-base font-bold text-blue-900;
 }
 
+.icon-action-table {
+  @apply text-neutral-50 cursor-pointer text-base hover:text-neutral-300;
+}
+
 @keyframes overlayDrawerShow {
   from {
     opacity: 0;

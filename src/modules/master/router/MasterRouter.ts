@@ -25,4 +25,28 @@ export const routeMaster = [
     component: () => import("@/modules/master/views/InspectionType.vue"),
     meta: { layout: MasterLayout, requireAuth: true },
   },
+  {
+    path: "/master/consumable-material",
+    name: "master consumable material",
+    component: () => import("@/modules/master/views/ConsumableMaterial.vue"),
+    meta: { layout: MasterLayout, requireAuth: true },
+  },
+  {
+    path: "/master/part",
+    name: "master part",
+    component: () => import("@/modules/master/views/Part.vue"),
+    meta: { layout: MasterLayout, requireAuth: true },
+  },
+  {
+    path: "/master/tools",
+    name: "master tools",
+    component: () => import("@/modules/master/views/Tools.vue"),
+    meta: { layout: MasterLayout, requireAuth: true },
+  },
+  {
+    path: "/master/manpower",
+    name: "master manpower",
+    component: () => import("@/modules/master/views/Manpower.vue"),
+    meta: { layout: MasterLayout, requireAuth: true },
+  },
 ];

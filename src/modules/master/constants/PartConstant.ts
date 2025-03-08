@@ -1,15 +1,15 @@
 import type { TableColumnType } from "@/components/tables/Table.vue";
 
-export const ColumnsMachine: TableColumnType[] = [
+export const ColumnsPart: TableColumnType[] = [
   {
     key: "name",
-    label: "Machine",
+    label: "Part",
     align: "left",
     sort: false,
   },
   {
-    key: "unit",
-    label: "Unit",
+    key: "qty",
+    label: "Quantity",
     align: "center",
     sort: false,
   },

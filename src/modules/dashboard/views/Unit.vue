@@ -9,10 +9,11 @@ import { Breadcrumb, Loading } from "@/components";
 import { convertToKebabCase } from "@/helpers/global";
 import eventBus from "@/utils/eventBus";
 import { useQuery } from "@tanstack/vue-query";
+import type { IPagination } from "@/types/GlobalType";
+import type { UnitInterface } from "@/modules/master/types/UnitType";
+import type { MachineInterface } from "@/modules/master/types/MachineType";
 
 import { useDashboardStore } from "../stores/DashboardStore";
-import type { TUnit } from "../types/UnitType";
-import type { TMachine } from "../types/MachineType";
 
 const imgBlok1 = new URL("@/assets/images/bg-blok1.png", import.meta.url).href;
 const imgBlok3 = new URL("@/assets/images/bg-blok3.png", import.meta.url).href;
@@ -113,8 +114,10 @@ const { data: dataUnit, isFetching: isLoadingUnit } = useQuery({
       const { data } = await dashboardStore.getUnit({
         search: "",
         filter: `location_uuid,${route.params.id}`,
+        currentPage: 1,
+        perPage: 1000,
       });
-      const response = data.data as TUnit[];
+      const response = data.data as IPagination<UnitInterface[]>;
 
       return response;
     } catch (error: any) {
@@ -138,8 +141,10 @@ const {
       const { data } = await dashboardStore.getMachine({
         search: "",
         filter: `unit_uuid,${unit_active.value}`,
+        currentPage: 1,
+        perPage: 1000,
       });
-      const response = data.data as TMachine[];
+      const response = data.data as IPagination<MachineInterface[]>;
 
       return response;
     } catch (error: any) {
@@ -153,8 +158,7 @@ const {
 //--- END
 
 watch(dataUnit, (value) => {
-  if ((value || []).length > 0) {
-    console.log("value", value?.[0]?.uuid);
+  if ((value?.data || []).length > 0) {
     unit_active.value = value?.[0]?.uuid || "";
     refetchMachine();
   }
@@ -203,7 +207,11 @@ onUnmounted(() => {
       <Breadcrumb :items="breadcrumb" />
       <div class="content-unit">
         <div class="wrapper-button-unit">
-          <div v-for="(item, key) in dataUnit" :key="key" class="button-group">
+          <div
+            v-for="(item, key) in dataUnit?.data"
+            :key="key"
+            class="button-group"
+          >
             <button
               class="button-unit"
               :class="{ 'button-active': item.uuid === unit_active }"
@@ -226,7 +234,7 @@ onUnmounted(() => {
             >
               <button
                 v-if="!isLoadingMachine"
-                v-for="(element, index) in dataMachine"
+                v-for="(element, index) in dataMachine?.data"
                 :key="index"
                 class="button-gt"
                 @click="toScope(element.uuid)"

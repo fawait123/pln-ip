@@ -6,8 +6,8 @@ import type { AxiosError } from "axios";
 import { useQuery } from "@tanstack/vue-query";
 import { useDashboardStore } from "@/modules/dashboard/stores/DashboardStore";
 import { colorMarker, markerData } from "@/constants";
-
-import type { TLocation } from "../../types/DashboardType";
+import type { IPagination, IParams } from "@/types/GlobalType";
+import type { LocationInterface } from "@/modules/master/types/LocationType";
 
 type TSeries = {
   name: string;
@@ -19,7 +19,12 @@ type TSeries = {
 
 const router = useRouter();
 const dashboardStore = useDashboardStore();
-const params = reactive({ search: "", filter: "" });
+const params = reactive<IParams>({
+  search: "",
+  filter: "",
+  currentPage: 1,
+  perPage: 1000,
+});
 
 const dataLocation = ref<TSeries[]>([]);
 
@@ -29,9 +34,9 @@ const { refetch: refetchLocation, isFetching: isLoadingLocation } = useQuery({
   queryFn: async () => {
     try {
       const { data } = await dashboardStore.getLocation(params);
-      const response = data.data as TLocation[];
+      const response = data.data as IPagination<LocationInterface[]>;
 
-      const arr_location = response.map((item) => ({
+      const arr_location = response.data.map((item) => ({
         name: item.name,
         lat: parseFloat(item.lat),
         lon: parseFloat(item.lon),
