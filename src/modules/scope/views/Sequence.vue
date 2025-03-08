@@ -3952,7 +3952,7 @@ onUnmounted(() => {
     >
       <Loading width="50" height="50" />
     </div>
-    <div v-show="!is_loading" class="scope-video-container">
+    <div class="scope-video-container">
       <video
         id="video"
         ref="videoRef"
