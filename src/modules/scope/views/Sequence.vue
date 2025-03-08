@@ -4,7 +4,7 @@ import { storeToRefs } from "pinia";
 import { useRoute, useRouter } from "vue-router";
 import { useGlobalStore } from "@/stores/GlobalStore";
 // import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
-import { Icon } from "@/components";
+import { Icon, Loading } from "@/components";
 import eventBus from "@/utils/eventBus";
 import {
   DialogContent,
@@ -3576,6 +3576,7 @@ const loadVideo = async () => {
       await videos.value[currentVideoIndex.value].video()
     ).default;
     preloadVideo(videoSrc.value as string);
+
     // if (videoRef.value) {
     //   videoRef.value.load();
     // }
@@ -3601,16 +3602,18 @@ const isButtonVisible = ref(false);
 const openStep = ref(false);
 const isReversing = ref(false);
 let reverseInterval: number | null = null;
+const is_loading = ref(false);
 
 const videoState = ref({
   isTransitioning: false,
 });
 
-const handleCanPlay = () => {
-  if (videoRef.value) videoRef.value.play();
-};
+// const handleCanPlay = () => {
+//   if (videoRef.value) videoRef.value.play();
+// };
 
 async function preloadVideo(url: string): Promise<void> {
+  is_loading.value = true;
   try {
     const response = await fetch(url);
     if (!response.ok)
@@ -3623,11 +3626,11 @@ async function preloadVideo(url: string): Promise<void> {
     videoElement.src = videoUrl;
 
     videoElement.onloadeddata = () => {
-      console.log("Video siap diputar tanpa buffering");
-      videoElement.play();
+      is_loading.value = false;
     };
   } catch (error) {
     console.error(error);
+    is_loading.value = false;
   }
 }
 
@@ -3682,7 +3685,10 @@ const handleVideoEnd = () => {
   }
 };
 
-const initializeVideo = async (index: number, startAtEnd = false) => {
+const index_temp = ref<number>(0);
+const is_start_at_end = ref<boolean>(false);
+
+const initializeVideo = async () => {
   videoState.value.isTransitioning = true;
   isButtonVisible.value = false;
   disabledNext.value = true;
@@ -3692,29 +3698,55 @@ const initializeVideo = async (index: number, startAtEnd = false) => {
     videoRef.value.pause();
   }
 
-  currentVideoIndex.value = index;
-  loadVideo();
-  isFinish.value = index === videos.value.length - 1;
-  isAddScope.value = index === videos.value.length - 1;
+  currentVideoIndex.value = index_temp.value;
 
-  await new Promise((resolve) => {
-    if (videoRef.value) {
-      videoRef.value.onloadedmetadata = () => {
-        if (startAtEnd && videoRef.value) {
-          videoRef.value.currentTime = videoRef.value.duration - 0.1;
-          isButtonVisible.value = true;
-          disabledNext.value = false;
-          disabledBack.value = false;
-        } else {
-          videoRef.value?.play();
-        }
-        resolve(null);
-      };
-    }
-  });
+  // if (videos.value[currentVideoIndex.value]) {
+  //   videoSrc.value = (
+  //     await videos.value[currentVideoIndex.value].video()
+  //   ).default;
 
-  videoState.value.isTransitioning = false;
+  await loadVideo();
+  preloadVideo(videoSrc.value as string);
+
+  // }
+  // loadVideo();
 };
+
+watch(is_loading, async (value) => {
+  if (!value) {
+    isFinish.value = index_temp.value === videos.value.length - 1;
+    isAddScope.value = index_temp.value === videos.value.length - 1;
+
+    await new Promise<void>((resolve) => {
+      if (videoRef.value) {
+        videoRef.value.onloadedmetadata = null;
+
+        videoRef.value.onloadedmetadata = () => {
+          if (is_start_at_end.value && videoRef.value) {
+            videoRef.value.currentTime = videoRef.value.duration - 0.1;
+            isButtonVisible.value = true;
+            disabledNext.value = false;
+            disabledBack.value = false;
+          } else {
+            videoRef.value?.play();
+          }
+
+          resolve();
+        };
+
+        if (videoRef.value.readyState >= 1) {
+          console.log("Force metadata ready");
+          videoRef.value.dispatchEvent(new Event("loadedmetadata"));
+        }
+      } else {
+        console.error("videoRef belum terinisialisasi!");
+        resolve();
+      }
+    });
+
+    videoState.value.isTransitioning = false;
+  }
+});
 
 const updateURLParameter = (index: number, startAtEnd = false) => {
   const url = new URL(window.location.href);
@@ -3744,8 +3776,10 @@ const reverseVideo = () => {
       return;
     }
 
+    index_temp.value = prevIndex;
+    is_start_at_end.value = true;
     updateURLParameter(prevIndex, true);
-    initializeVideo(prevIndex, true);
+    initializeVideo();
     return;
   }
 
@@ -3774,8 +3808,10 @@ const handleNext = async () => {
     return;
 
   const nextIndex = currentVideoIndex.value + 1;
+  index_temp.value = nextIndex;
+  is_start_at_end.value = false;
   updateURLParameter(nextIndex);
-  await initializeVideo(nextIndex);
+  await initializeVideo();
 };
 
 const handleJumpStep = async (index: number) => {
@@ -3800,7 +3836,9 @@ const handleJumpStep = async (index: number) => {
         router.push({ path, query: updatedQuery });
         const nextIndex = currentVideoIndex.value + 1;
         currentVideoIndex.value = nextIndex;
-        await initializeVideo(nextIndex);
+        index_temp.value = nextIndex;
+        is_start_at_end.value = false;
+        await initializeVideo();
       } else {
         const updatedQuery = { video: video, to: index };
         router.push({ path, query: updatedQuery });
@@ -3849,7 +3887,9 @@ const initializeFromURL = async () => {
     Math.min(parseInt(videoParam, 10) - 1, videos.value.length - 1)
   );
 
-  await initializeVideo(index, startParam === "end");
+  index_temp.value = index;
+  is_start_at_end.value = startParam === "end";
+  await initializeVideo();
 };
 
 // watch(
@@ -3878,7 +3918,7 @@ onMounted(() => {
   //   videoRef.value.load();
   // }
   initializeFromURL();
-  loadVideo();
+  // loadVideo();
 
   window.addEventListener("popstate", initializeFromURL);
   eventBus.on("next", handleNext);
@@ -3906,7 +3946,13 @@ onUnmounted(() => {
     <!-- <div class="scope-breadcrumb">
       <Breadcrumb :items="breadcrumb" />
     </div> -->
-    <div class="scope-video-container">
+    <div
+      v-if="is_loading"
+      class="z-[100000000000] fixed top-0 right-0 bottom-0 left-0 bg-neutral-900 bg-opacity-50 flex justify-center items-center"
+    >
+      <Loading width="50" height="50" />
+    </div>
+    <div v-show="!is_loading" class="scope-video-container">
       <video
         id="video"
         ref="videoRef"
@@ -3915,7 +3961,6 @@ onUnmounted(() => {
         playsinline
         class="scope-video"
         @ended="handleVideoEnd"
-        @canplaythrough="handleCanPlay"
       ></video>
       <div v-for="(item, key) in videos" :key="key">
         <div
