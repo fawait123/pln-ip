@@ -72,7 +72,7 @@ const {
     try {
       const { data } = await dashboardStore.getMachine({
         search: "",
-        filter: `uuid,${route.params?.id_unit}`,
+        filter: `unit_uuid,${route.params?.id_unit}`,
         currentPage: 1,
         perPage: 1,
       });
@@ -99,11 +99,12 @@ const {
     try {
       const { data } = await scopeStore.getInspection({
         search: "",
-        filter: ``,
+        filter: `machine_uuid,${route.params?.id_machine}`,
         currentPage: 1,
         perPage: 3,
       });
       const response = data.data as IPagination<InspectionTypeInterface[]>;
+      console.log("AAA", response);
 
       const order = [
         "Combustion Inspection",
@@ -149,7 +150,7 @@ const { mutate: generate, isPending: isLoadingGenerate } = useMutation({
   },
   onSuccess: (data) => {
     router.push(
-      `/${route.params?.id}/create/unit/${route.params?.id_unit}/${inspection_selected.value}/${data?.data?.uuid}/${scopeSelected.value}/scope-mekanik`
+      `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route.params?.id_machine}/${inspection_selected.value}/${data?.data?.uuid}/${scopeSelected.value}/scope-mekanik`
     );
   },
   onError: (error: any) => {
@@ -389,7 +390,7 @@ const generateScope = () => {
 
 const toTransaction = (uuid: string) => {
   router.push(
-    `/${route.params?.id}/create/unit/${route.params?.id_unit}/${inspection_selected.value}/${uuid}/${scopeSelected.value}/scope-mekanik`
+    `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route.params?.id_machine}/${inspection_selected.value}/${uuid}/${scopeSelected.value}/scope-mekanik`
   );
 };
 

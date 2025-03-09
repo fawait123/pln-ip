@@ -19,7 +19,7 @@ export const Menus: MenuInterface[] = [
   },
   {
     id: 2,
-    name: "Squences",
+    name: "Sequences",
     url: "/squences",
     icon: "forward-message",
   },
@@ -118,7 +118,7 @@ export const Menus: MenuInterface[] = [
       },
       {
         id: 112,
-        name: "Squences",
+        name: "Sequences",
         url: "/add-scope-squences",
       },
     ],

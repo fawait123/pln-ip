@@ -3,7 +3,7 @@ import ScopeLayout from "@/layouts/ScopeLayout.vue";
 
 export const routeScope = [
   {
-    path: "/:id/create/unit/:id_unit",
+    path: "/:id/create/unit/:id_unit/:id_machine",
     name: "scope",
     component: () => import("@/modules/scope/views/Scope.vue"),
     meta: { layout: ScopeLayout, requireAuth: true },

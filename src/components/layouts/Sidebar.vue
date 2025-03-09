@@ -37,8 +37,8 @@ const isActive = (item: { id: number; name: string; url: string }) => {
           :to="{
             path:
               item.url === '/'
-                ? `/${route.params?.id}/create/unit/${route.params?.id_unit}`
-                : `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route?.params?.menu}/${route?.params?.id_project}/${route?.params?.id_inspection}${item.url}`,
+                ? `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route.params?.id_machine}`
+                : `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route.params?.id_machine}/${route?.params?.menu}/${route?.params?.id_project}/${route?.params?.id_inspection}${item.url}`,
             query:
               item.url === '/'
                 ? { sequence: route?.params?.id_inspection }
@@ -69,8 +69,8 @@ const isActive = (item: { id: number; name: string; url: string }) => {
               :key="index"
               :to="
                 item.url === '/'
-                  ? `/${route.params?.id}/create/unit/${route.params?.id_unit}?sequence=${route?.params?.id_inspection}`
-                  : `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route?.params?.menu}/${route?.params?.id_project}/${route?.params?.id_inspection}${element.url}`
+                  ? `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route.params?.id_machine}?sequence=${route?.params?.id_inspection}`
+                  : `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route.params?.id_machine}/${route?.params?.menu}/${route?.params?.id_project}/${route?.params?.id_inspection}${element.url}`
               "
               :class="
                 item.url === '/'

@@ -40,8 +40,8 @@ const isActive = (item: { id: number; name: string; url: string }) => {
           v-if="!item.children"
           :to="
             item.url === '/'
-              ? `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route?.params?.menu}/${route?.params?.id_project}/${route?.params?.id_inspection}/add-scope-table`
-              : `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route?.params?.menu}/${route?.params?.id_project}/${route?.params?.id_inspection}/add-scope/${route?.params?.id_scope}${item.url}`
+              ? `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route.params?.id_machine}/${route?.params?.menu}/${route?.params?.id_project}/${route?.params?.id_inspection}/add-scope-table`
+              : `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route.params?.id_machine}/${route?.params?.menu}/${route?.params?.id_project}/${route?.params?.id_inspection}/add-scope/${route?.params?.id_scope}${item.url}`
           "
           :class="
             item.url === '/'
@@ -65,7 +65,7 @@ const isActive = (item: { id: number; name: string; url: string }) => {
             <RouterLink
               v-for="(element, index) in item.children"
               :key="index"
-              :to="`/${route.params?.id}/create/unit/${route.params?.id_unit}/${route?.params?.menu}/${route?.params?.id_project}/${route?.params?.id_inspection}/add-scope/${route?.params?.id_scope}${element.url}`"
+              :to="`/${route.params?.id}/create/unit/${route.params?.id_unit}/${route.params?.id_machine}/${route?.params?.menu}/${route?.params?.id_project}/${route?.params?.id_inspection}/add-scope/${route?.params?.id_scope}${element.url}`"
               :class="
                 item.url === '/'
                   ? ''

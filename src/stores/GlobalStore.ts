@@ -41,8 +41,22 @@ export const useGlobalStore = defineStore(
         });
     };
 
+    const deleteDocument = async (ids: string[]) => {
+      return await api
+        .delete(`/document/delete/multi`, {
+          data: { ids },
+        })
+        .then((res) => {
+          return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
     return {
       createDocument,
+      deleteDocument,
       titleHeader,
       disabledNext,
       disabledBack,

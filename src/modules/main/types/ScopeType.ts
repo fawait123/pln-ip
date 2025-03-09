@@ -14,6 +14,7 @@ export interface ScopeInterface {
   asset_welness: {
     color: TColor;
     note: string;
+    file: ValueUploadType[];
   } | null;
   oh_recom: WithFileInterface | null;
   wo_priority: WithFileInterface | null;
@@ -23,7 +24,9 @@ export interface ScopeInterface {
   children: {
     id: string;
     name: string;
+    document: ResponseDocumentInterface | null;
   }[];
+  document: ResponseDocumentInterface | null;
 }
 
 interface Category {
@@ -52,6 +55,7 @@ export interface ResponseScopeInterface {
     uuid: string;
     created_at: string;
     updated_at: string;
+    document: ResponseDocumentInterface | null;
   }[];
   asset_welnes: Category;
   oh_recom: Category;
@@ -59,6 +63,7 @@ export interface ResponseScopeInterface {
   history: Category;
   rla: Category;
   ncr: Category;
+  document: ResponseDocumentInterface | null;
 }
 
 export interface CreateScopeInterface {

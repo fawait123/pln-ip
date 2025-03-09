@@ -7,13 +7,15 @@ import { useAuthStore } from "@/modules/auth/stores/AuthStore";
 import useVuelidate from "@vuelidate/core";
 import { email, helpers, required } from "@vuelidate/validators";
 import { email as emailSymbol } from "@/helpers/global";
+import { useMutation } from "@tanstack/vue-query";
+
+import type { LoginInterface, LoginPayloadInterface } from "../types/AuthType";
 
 const imgBg = new URL("@/assets/images/bg-login.png", import.meta.url).href;
 const imgUrl = new URL("@/assets/images/logo.png", import.meta.url).href;
 
 const authStore = useAuthStore();
 
-const is_loading = ref(false);
 const model = ref({
   email: "",
   password: "",
@@ -34,34 +36,51 @@ const rules = computed(() => {
 });
 const error_message = ref("");
 
+const { mutate: login, isPending: isLoadingLogin } = useMutation({
+  mutationFn: async (payload: LoginPayloadInterface) => {
+    return await authStore.login(payload);
+  },
+  onSuccess: async (data) => {
+    console.log(data);
+    const response = data?.data?.data as LoginInterface;
+    authStore.setToken(response.token);
+
+    router.push("/");
+  },
+  onError: () => {
+    error_message.value = "Invalid email or password";
+  },
+});
+
 async function onSubmit() {
   const isValid = await v$_form.value.$validate();
+
   if (isValid && error_message.value.length === 0) {
-    is_loading.value = true;
+    login(model.value);
 
-    const dummy = {
-      access_token: "jbhj21f3hg12hv3h21",
-      user: {
-        name: "Superadmin",
-        username: "Superadmin",
-        email: "superadmin@gmail.com",
-        id: "1",
-      },
-    };
+    // const dummy = {
+    //   access_token: "jbhj21f3hg12hv3h21",
+    //   user: {
+    //     name: "Superadmin",
+    //     username: "Superadmin",
+    //     email: "superadmin@gmail.com",
+    //     id: "1",
+    //   },
+    // };
 
-    setTimeout(() => {
-      if (
-        model.value.email === dummy.user.email &&
-        model.value.password === "password"
-      ) {
-        is_loading.value = false;
-        authStore.setToken(dummy.access_token);
-        router.push("/");
-      } else {
-        error_message.value = "Invalid email or password";
-        is_loading.value = false;
-      }
-    }, 2000);
+    // setTimeout(() => {
+    //   if (
+    //     model.value.email === dummy.user.email &&
+    //     model.value.password === "password"
+    //   ) {
+    //     // is_loading.value = false;
+    //     authStore.setToken(dummy.access_token);
+    //     router.push("/");
+    //   } else {
+    //     error_message.value = "Invalid email or password";
+    //     // is_loading.value = false;
+    //   }
+    // }, 2000);
   }
 }
 
@@ -121,8 +140,8 @@ watch(
             <Button
               text="SIGN IN"
               type="submit"
-              :loading="is_loading"
-              :disabled="is_loading"
+              :loading="isLoadingLogin"
+              :disabled="isLoadingLogin"
             />
             <p class="title-ubh">Unit Bisnis Pemeliharaan 2025</p>
           </form>

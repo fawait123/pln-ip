@@ -174,8 +174,8 @@ const handleClick = (uuid: string, index: number) => {
   }
 };
 
-const toScope = (uuid: string) => {
-  router.push(`/${locationId}/create/unit/${uuid}`);
+const toScope = (item: UnitInterface, element: MachineInterface) => {
+  router.push(`/${locationId}/create/unit/${item.uuid}/${element.uuid}`);
 };
 
 const handleBack = () => {
@@ -237,7 +237,7 @@ onUnmounted(() => {
                 v-for="(element, index) in dataMachine?.data"
                 :key="index"
                 class="button-gt"
-                @click="toScope(element.uuid)"
+                @click="toScope(item, element)"
               >
                 {{ element.name }}
               </button>

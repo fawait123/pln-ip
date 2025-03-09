@@ -7,13 +7,13 @@ export const ColumnsWorkInstruction: TableColumnType[] = [
     align: "left",
     sort: false,
   },
-  // {
-  //   key: "document",
-  //   label: "Add Document",
-  //   align: "center",
-  //   sort: false,
-  //   width: "150",
-  // },
+  {
+    key: "preview",
+    label: "Preview",
+    align: "center",
+    sort: false,
+    width: "150",
+  },
   // {
   //   key: "note",
   //   label: "Note",

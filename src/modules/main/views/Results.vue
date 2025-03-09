@@ -30,6 +30,11 @@ const Data = ref<ResultsInterface[]>([
     uuid: "manpower",
     manpower: "Manpower",
   },
+  {
+    id: 5,
+    uuid: "tools",
+    manpower: "Tools",
+  },
 ]);
 
 const mainStore = useMainStore();
@@ -119,6 +124,27 @@ const { refetch: refetchDownloadManpower } = useQuery({
 });
 //--- END
 
+//--- DOWNLOAD TOOLS
+const { refetch: refetchDownloadTools } = useQuery({
+  queryKey: ["downloadResultTools"],
+  queryFn: async () => {
+    try {
+      await mainStore.getDownloadResultTools();
+      is_loading.value = null;
+
+      return true;
+    } catch (error: any) {
+      const err = error as AxiosError;
+      is_loading.value = null;
+
+      throw err.response;
+    }
+  },
+  enabled: false,
+  refetchOnWindowFocus: false,
+});
+//--- END
+
 const handleDownload = (item: ResultsInterface) => {
   is_loading.value = item.uuid;
 
@@ -137,6 +163,10 @@ const handleDownload = (item: ResultsInterface) => {
 
     case "manpower":
       refetchDownloadManpower();
+      break;
+
+    case "tools":
+      refetchDownloadTools();
       break;
   }
 };

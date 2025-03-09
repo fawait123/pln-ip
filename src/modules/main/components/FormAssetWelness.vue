@@ -13,7 +13,8 @@ import {
   TabsRoot,
   TabsTrigger,
 } from "radix-vue";
-import { Input, Icon, Textarea, Button } from "@/components";
+import { Input, Icon, Textarea, Button, Upload } from "@/components";
+import type { ValueUploadType } from "@/components/fields/Upload.vue";
 
 import type { TColor } from "../types/ScopeType";
 
@@ -22,6 +23,7 @@ const props = defineProps({
     type: Object as PropType<{
       color: TColor;
       note: string;
+      file: ValueUploadType[];
     } | null>,
   },
   label: {
@@ -37,6 +39,7 @@ const props = defineProps({
 const emit = defineEmits(["save"]);
 
 const modelOpenInputData = ref(false);
+const modelUpload = ref<ValueUploadType[]>([]);
 const model = ref<{ color: TColor; note: string }>({
   color: "",
   note: "",
@@ -44,11 +47,12 @@ const model = ref<{ color: TColor; note: string }>({
 
 const cancel = () => {
   modelOpenInputData.value = false;
+  modelUpload.value = [];
 };
 
 const save = () => {
   if (model.value.color || model.value.note) {
-    emit("save", { ...model.value });
+    emit("save", { ...model.value, file: modelUpload.value });
   }
 };
 
@@ -62,9 +66,11 @@ watch(
     if (val) {
       model.value.color = val.color;
       model.value.note = val.note;
+      modelUpload.value = val.file;
     } else {
       model.value.color = "";
       model.value.note = "";
+      modelUpload.value = [];
     }
   },
   { deep: true }
@@ -74,9 +80,11 @@ watch(modelOpenInputData, (val) => {
   if (props.value) {
     model.value.color = props.value.color;
     model.value.note = props.value.note;
+    modelUpload.value = props.value.file;
   } else {
     model.value.color = "";
     model.value.note = "";
+    modelUpload.value = [];
   }
 });
 
@@ -147,6 +155,9 @@ defineExpose({
         </div>
         <div class="mt-4">
           <Textarea label="Note" :rows="6" v-model="model.note" />
+        </div>
+        <div class="mt-4">
+          <Upload v-model="modelUpload" :max-count="10" />
         </div>
         <!-- <div class="popover-input mt-4">
           <div class="w-[400px]">

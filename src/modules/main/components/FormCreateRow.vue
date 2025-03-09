@@ -13,12 +13,16 @@ import {
   TabsRoot,
   TabsTrigger,
 } from "radix-vue";
-import { Input, Icon } from "@/components";
+import { Input, Icon, Button } from "@/components";
 
 const props = defineProps({
   label: {
     type: String,
     default: "",
+  },
+  loading: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -57,8 +61,23 @@ defineExpose({
       <PopoverContent :side-offset="5" class="popover-content">
         <Input :label="label" v-model="model" />
         <div class="popover-footer">
-          <button class="popover-footer--cancel" @click="cancel">Cancel</button>
-          <button class="popover-footer--save" @click="save">Save</button>
+          <Button
+            text="Cancel"
+            size="sm"
+            rounded="full"
+            color="grey"
+            :disabled="loading"
+            @click="cancel"
+          />
+          <Button
+            text="Save"
+            size="sm"
+            rounded="full"
+            color="blue"
+            :disabled="loading"
+            :loading="loading"
+            @click="save"
+          />
         </div>
       </PopoverContent>
     </PopoverPortal>
