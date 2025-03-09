@@ -12,7 +12,7 @@ export const useScopeStore = defineStore(
   () => {
     const getInspection = async (payload: IParams) => {
       return await api
-        .get(`/inspection-type/list`, {
+        .get(`/inspection-type`, {
           params: payload,
         })
         .then((resp) => {

@@ -2,13 +2,14 @@
 import { computed, reactive, ref } from "vue";
 import type { AxiosError } from "axios";
 
-import { Table } from "@/components";
-import { useQuery } from "@tanstack/vue-query";
+import { Button, Icon, ModalDelete, Table, Toast } from "@/components";
+import { useMutation, useQuery } from "@tanstack/vue-query";
 import type { IPagination } from "@/types/GlobalType";
 
 import { ColumnsUnit } from "../constants/UnitConstant";
 import type { UnitInterface } from "../types/UnitType";
 import { useMasterStore } from "../stores/MasterStore";
+import FormUnit from "../components/FormUnit.vue";
 
 const Entities: UnitInterface[] = [];
 const masterStore = useMasterStore();
@@ -19,6 +20,11 @@ const params = reactive({
   currentPage: 1,
   perPage: 10,
 });
+const open_form = ref(false);
+const open_delete = ref(false);
+const selected_item = ref<UnitInterface | null>(null);
+const toastRef = ref<InstanceType<typeof Toast> | null>(null);
+const timeout = ref(0);
 
 //--- GET UNIT
 const {
@@ -30,7 +36,7 @@ const {
   queryFn: async () => {
     try {
       const { data } = await masterStore.getUnit(params);
-      const response = data as IPagination<UnitInterface[]>;
+      const response = data.data as IPagination<UnitInterface[]>;
 
       total_item.value = response.total;
 
@@ -41,6 +47,31 @@ const {
     }
   },
   refetchOnWindowFocus: false,
+});
+//--- END
+
+//--- DELETE UNIT
+const { mutate: deleteUnit, isPending: isLoadingDelete } = useMutation({
+  mutationFn: async (id: string) => {
+    return await masterStore.deleteUnit(id);
+  },
+  onSuccess: () => {
+    toastRef.value?.showToast({
+      title: "Success",
+      description: "Deleted successfully",
+      type: "success",
+    });
+    open_delete.value = false;
+    refetchUnit();
+  },
+  onError: (error: any) => {
+    console.log(error);
+    toastRef.value?.showToast({
+      title: "Error",
+      description: error?.response?.data?.message || "Something went wrong",
+      type: "error",
+    });
+  },
 });
 //--- END
 
@@ -62,17 +93,109 @@ const changeLimit = (e: string) => {
   params.currentPage = 1;
   refetchUnit();
 };
+
+const searchTable = () => {
+  clearTimeout(timeout.value);
+  timeout.value = window.setTimeout(() => {
+    params.currentPage = 1;
+    refetchUnit();
+  }, 1000);
+};
+
+const handleSuccess = () => {
+  toastRef.value?.showToast({
+    title: "Success",
+    description: "Saved successfully",
+    type: "success",
+  });
+  params.currentPage = 1;
+  refetchUnit();
+};
+
+const handleError = (error: any) => {
+  toastRef.value?.showToast({
+    title: "Error",
+    description: error?.response?.data?.message || "Something went wrong",
+    type: "error",
+  });
+};
+
+const handleCreate = () => {
+  selected_item.value = null;
+  open_form.value = true;
+};
+
+const handleUpdate = (item: UnitInterface) => {
+  selected_item.value = item;
+  open_form.value = true;
+};
+
+const handleDelete = (item: UnitInterface) => {
+  selected_item.value = item;
+  open_delete.value = true;
+};
+
+const onDelete = () => {
+  deleteUnit(selected_item.value?.uuid as string);
+};
 </script>
 
 <template>
-  <Table
-    label-create="Unit"
-    :columns="ColumnsUnit"
-    :entities="Entities"
-    :loading="isLoadingUnit"
-    :pagination="pagination"
-    :is-create="false"
-    @change-page="changePage"
-    @change-limit="changeLimit"
-  ></Table>
+  <Toast ref="toastRef" />
+  <ModalDelete
+    v-model="open_delete"
+    :title="selected_item?.name"
+    :loading="isLoadingDelete"
+    @delete="onDelete"
+  />
+  <div class="relative w-full">
+    <Button
+      icon_only="plus"
+      class="absolute right-0"
+      size="sm"
+      rounded="full"
+      color="blue"
+      @click="handleCreate"
+    />
+
+    <Table
+      label-create="Location"
+      :columns="ColumnsUnit"
+      :entities="dataUnit?.data || []"
+      :loading="isLoadingUnit"
+      :pagination="pagination"
+      :is-create="false"
+      v-model:model-search="params.search"
+      @change-page="changePage"
+      @change-limit="changeLimit"
+      @search="searchTable"
+    >
+      <template #column_action="{ entity }">
+        <div class="flex items-center justify-center gap-4">
+          <Icon
+            name="pencil"
+            class="icon-action-table"
+            @click="handleUpdate(entity)"
+          />
+          <Icon
+            name="trash"
+            class="icon-action-table"
+            @click="handleDelete(entity)"
+          />
+        </div>
+      </template>
+      <template #column_location="{ entity }">
+        <p class="text-base text-neutral-50 text-center">
+          {{ entity.location?.name }}
+        </p>
+      </template>
+    </Table>
+
+    <FormUnit
+      v-model="open_form"
+      :selected-value="selected_item"
+      @success="handleSuccess"
+      @error="handleError"
+    />
+  </div>
 </template>

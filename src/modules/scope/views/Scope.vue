@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, watch } from "vue";
-import { storeToRefs } from "pinia";
 import { useRoute, useRouter } from "vue-router";
+import type { AxiosError } from "axios";
+import { storeToRefs } from "pinia";
 
 import Home0 from "@/assets/videos/home/0-homepage.mp4";
 import Home1 from "@/assets/videos/home/1-homepage.mp4";
@@ -13,8 +14,9 @@ import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 import eventBus from "@/utils/eventBus";
 import { useDashboardStore } from "@/modules/dashboard/stores/DashboardStore";
 import { useMutation, useQuery } from "@tanstack/vue-query";
-import type { AxiosError } from "axios";
-import type { TMachine } from "@/modules/dashboard/types/MachineType";
+import type { IPagination } from "@/types/GlobalType";
+import type { MachineInterface } from "@/modules/master/types/MachineType";
+import type { InspectionTypeInterface } from "@/modules/master/types/InspectionType";
 
 import { useScopeStore } from "../stores/ScopeStore";
 import type {
@@ -70,9 +72,11 @@ const {
     try {
       const { data } = await dashboardStore.getMachine({
         search: "",
-        filter: `uuid,${route.params?.id_unit}`,
+        filter: `unit_uuid,${route.params?.id_unit}`,
+        currentPage: 1,
+        perPage: 1,
       });
-      const response = data.data as TMachine[];
+      const response = data.data as IPagination<MachineInterface[]>;
 
       return response;
     } catch (error: any) {
@@ -95,16 +99,19 @@ const {
     try {
       const { data } = await scopeStore.getInspection({
         search: "",
-        filter: ``,
+        filter: `machine_uuid,${route.params?.id_machine}`,
+        currentPage: 1,
+        perPage: 3,
       });
-      const response = data.data as TInspection[];
+      const response = data.data as IPagination<InspectionTypeInterface[]>;
+      console.log("AAA", response);
 
       const order = [
         "Combustion Inspection",
         "Turbine Inspection",
         "Major Inspection",
       ];
-      const sorted_data = response.sort(
+      const sorted_data = response.data.sort(
         (a, b) => order.indexOf(a.name) - order.indexOf(b.name)
       );
 
@@ -143,7 +150,7 @@ const { mutate: generate, isPending: isLoadingGenerate } = useMutation({
   },
   onSuccess: (data) => {
     router.push(
-      `/${route.params?.id}/create/unit/${route.params?.id_unit}/${inspection_selected.value}/${data?.data?.uuid}/${scopeSelected.value}/scope-mekanik`
+      `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route.params?.id_machine}/${inspection_selected.value}/${data?.data?.uuid}/${scopeSelected.value}/scope-mekanik`
     );
   },
   onError: (error: any) => {
@@ -213,7 +220,7 @@ watch(
         (item) => item.uuid === sequence
       );
       if (find_item) {
-        model.value = `${find_item.name} ${dataMachine?.value?.[0]?.name}`;
+        model.value = `${find_item.name} ${dataMachine?.value?.data?.[0]?.name}`;
       }
     }
   },
@@ -294,7 +301,7 @@ const toScope = (url: TInspection) => {
     query: { ...route.query, sequence: url.uuid },
   });
 
-  model.value = `${url.name} ${dataMachine?.value?.[0]?.name}`;
+  model.value = `${url.name} ${dataMachine?.value?.data?.[0]?.name}`;
 
   if (scopeSelected.value !== "" && url.uuid !== scopeSelected.value) {
     isRewinding.value = true;
@@ -383,7 +390,7 @@ const generateScope = () => {
 
 const toTransaction = (uuid: string) => {
   router.push(
-    `/${route.params?.id}/create/unit/${route.params?.id_unit}/${inspection_selected.value}/${uuid}/${scopeSelected.value}/scope-mekanik`
+    `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route.params?.id_machine}/${inspection_selected.value}/${uuid}/${scopeSelected.value}/scope-mekanik`
   );
 };
 

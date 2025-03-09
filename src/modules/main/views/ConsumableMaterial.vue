@@ -15,6 +15,7 @@ import type {
 } from "../types/ConsumableMaterialType";
 import { useMainStore } from "../stores/MainStore";
 import FormQuantity from "../components/FormQuantity.vue";
+import FormMerk from "../components/FormMerk.vue";
 
 // const Data = ref<ConsumableMaterialInterface[]>([
 //   {
@@ -40,6 +41,7 @@ const total_item = ref(0);
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
 const quantity = ref<any>(null);
 const timeout = ref(0);
+const merk = ref<any>(null);
 
 //--- GET CONSMAT
 const {
@@ -147,6 +149,20 @@ const saveQuantity = (
   });
 };
 
+const saveMerk = (e: { merk: string }, entity: ConsumableMaterialInterface) => {
+  updateConsMat({
+    id: entity.id,
+    payload: {
+      name: entity.material,
+      merk: e.merk,
+      qty: parseFloat(entity.quantity as string),
+      additional_scope_uuid: entity.additional_scope_uuid,
+      global_unit_uuid: entity.global_unit_uuid,
+      project_uuid: entity.project_uuid,
+    },
+  });
+};
+
 function searchTable() {
   clearTimeout(timeout.value);
   timeout.value = window.setTimeout(() => {
@@ -171,15 +187,17 @@ function searchTable() {
     @change-limit="changeLimit"
     @search="searchTable"
   >
-    <!-- <template #column_merk="{ entity }">
+    <template #column_merk="{ entity }">
       <div class="w-full flex justify-center">
-        <FormUploadOnly
-          :value="entity.merk"
+        <FormMerk
+          ref="merk"
+          :value="entity.merk || ''"
           :label="entity.material"
-          @save="(e) => saveFile(e, entity)"
+          :loading="isLoadingUpdate"
+          @save="(e) => saveMerk(e, entity)"
         />
       </div>
-    </template> -->
+    </template>
     <template #column_quantity="{ entity }">
       <div class="w-full flex justify-center">
         <FormQuantity

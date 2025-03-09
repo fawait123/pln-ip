@@ -8,10 +8,9 @@ export const ColumnsUnit: TableColumnType[] = [
     sort: false,
   },
   {
-    key: "location_uuid",
+    key: "location",
     label: "Location",
     align: "center",
     sort: false,
-    width: "150",
   },
 ];

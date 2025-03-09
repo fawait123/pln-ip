@@ -1,20 +1,76 @@
 import axios, { AxiosError } from "axios";
 import { storeToRefs } from "pinia";
+
 import { useAuthStore } from "@/modules/auth/stores/AuthStore";
-import { useRouter } from "vue-router";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
 });
 
-api.interceptors.request.use(async (config) => {
-  const authStore = useAuthStore();
-  const { access_token } = storeToRefs(authStore);
+let isRefreshing = false;
+let refreshPromise: Promise<string> | null = null;
 
-  if (access_token.value) {
-    config.headers.Authorization = `Bearer ${access_token.value}`;
+const onRefreshToken = async (): Promise<string> => {
+  if (isRefreshing) {
+    return refreshPromise!;
   }
-  return config;
-});
+
+  isRefreshing = true;
+  refreshPromise = (async () => {
+    const authStore = useAuthStore();
+    const { refresh_token } = storeToRefs(authStore);
+
+    try {
+      const { data } = await api.post(
+        `/auth/refresh-token`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${refresh_token.value}`,
+          },
+        }
+      );
+
+      const response = data?.data;
+
+      await authStore.setToken(response.access_token);
+      await authStore.setRefreshToken(response.refresh_token);
+
+      return response.access_token;
+    } catch (error) {
+      authStore.logout();
+      window.location.href = "/login";
+      throw error;
+    } finally {
+      isRefreshing = false;
+      refreshPromise = null;
+    }
+  })();
+
+  return refreshPromise;
+};
+
+api.interceptors.response.use(
+  async (response) => response,
+  async (error) => {
+    const err = error as AxiosError;
+
+    if (err.response?.status === 401) {
+      try {
+        const newAccessToken = await onRefreshToken();
+
+        const originalRequest = err.config;
+        if (!originalRequest?.headers) return;
+
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        return api.request(originalRequest);
+      } catch (refreshError) {
+        return Promise.reject(refreshError);
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
 
 export { api };

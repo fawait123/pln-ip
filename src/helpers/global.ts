@@ -60,6 +60,19 @@ function convertToOriginalFormat(input: string): string {
     .join(" ");
 }
 
+const mergeArrays = <T extends { value: string }, Y extends { value: string }>(
+  arr1: T[],
+  arr2: Y[]
+): (T | Y)[] => {
+  const map = new Map<string, T | Y>();
+
+  [...arr1, ...arr2].forEach((item) => {
+    map.set(item.value, item);
+  });
+
+  return Array.from(map.values());
+};
+
 /* eslint-disable no-useless-escape */
 const all_characters = /[a-zA-Z0-9`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~\n ]/;
 const numbers_characters = /[0-9`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~\n]/;
@@ -79,6 +92,7 @@ export {
   numberFormat,
   convertToKebabCase,
   convertToOriginalFormat,
+  mergeArrays,
   all_characters,
   numbers_characters,
   numbers_letters,

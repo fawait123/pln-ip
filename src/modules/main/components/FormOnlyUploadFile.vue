@@ -30,6 +30,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  multiple: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(["save"]);
@@ -90,7 +94,7 @@ defineExpose({
       <PopoverContent :side-offset="5" class="popover-content-upload">
         <p class="popover-title">{{ label }}</p>
         <div class="mt-4">
-          <Upload v-model="modelUpload" />
+          <Upload v-model="modelUpload" :multiple="multiple" :max-count="10" />
         </div>
         <div class="popover-footer">
           <Button

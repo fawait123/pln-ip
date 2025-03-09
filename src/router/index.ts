@@ -6,7 +6,7 @@ import { routeScope } from "@/modules/scope/router/ScopeRouter";
 import { routeDashboard } from "@/modules/dashboard/router/DashboardRouter";
 import { routeMain } from "@/modules/main/router/MainRouter";
 import { routeMaster } from "@/modules/master/router/MasterRouter";
-// import { api } from "@/api/axios";
+import { api } from "@/api/axios";
 
 const routes = [
   ...routeAuth,
@@ -40,9 +40,9 @@ router.beforeEach(async (to, from, next) => {
   const { access_token } = storeToRefs(authStore);
   const token = access_token.value;
 
-  // if (token) {
-  //   api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  // }
+  if (token) {
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  }
 
   const handleNavigation = () => {
     if (token) {

@@ -34,9 +34,16 @@ const cancel = () => {
 
 const save = () => {
   emit("save", model.value);
+};
+
+const reset = () => {
   modelOpenInputData.value = false;
   model.value = "";
 };
+
+defineExpose({
+  reset,
+});
 </script>
 
 <template>

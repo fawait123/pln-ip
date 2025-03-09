@@ -458,6 +458,17 @@ const {
               ? {
                   color: item.asset_welnes?.color,
                   note: item.asset_welnes?.note,
+                  file: item.asset_welnes?.document
+                    ? [
+                        {
+                          id: item.asset_welnes.document.uuid,
+                          name: item.asset_welnes.document
+                            .document_original_name,
+                          size: item.asset_welnes.document.document_size,
+                          file: item.asset_welnes.document.document_link,
+                        },
+                      ]
+                    : [],
                 }
               : null,
             oh_recom: item.oh_recom
@@ -640,11 +651,15 @@ const changeLimit = (e: string) => {
 };
 
 const saveAssetWelness = (
-  e: { color: TColor; note: string },
+  e: { color: TColor; note: string; file: ValueUploadType[] },
   entity: AddScopeInterface
 ) => {
   is_loading_create.value = true;
-  file.value = null;
+  if (typeof e.file?.[0]?.file !== "string") {
+    file.value = e.file?.[0]?.file as File;
+  } else {
+    file.value = null;
+  }
   createAddScope({
     color: e.color,
     note: e.note,
@@ -674,13 +689,13 @@ const saveFieldWithFile = (
 
 const toDetail = (id: string) => {
   router.push(
-    `/${route.params.id}/create/unit/${route.params.id_unit}/${route.params.menu}/${route.params.id_project}/${route.params.id_inspection}/add-scope/${id}/scope-mekanik`
+    `/${route.params.id}/create/unit/${route.params.id_unit}/${route.params.id_machine}/${route.params.menu}/${route.params.id_project}/${route.params.id_inspection}/add-scope/${id}/scope-mekanik`
   );
 };
 
 const toSquence = (item: AddScopeInterface) => {
   router.push(
-    `/${route.params.id}/create/unit/${route.params.id_unit}/${route.params.menu}/${route?.params?.id_project}/${route.params.id_inspection}/add-scope-squences/${item.squence?.slug}`
+    `/${route.params.id}/create/unit/${route.params.id_unit}/${route.params.id_machine}/${route.params.menu}/${route?.params?.id_project}/${route.params.id_inspection}/add-scope-squences/${item.squence?.slug}`
   );
 };
 

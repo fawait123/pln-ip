@@ -8,10 +8,9 @@ export const ColumnsMachine: TableColumnType[] = [
     sort: false,
   },
   {
-    key: "unit_uuid",
+    key: "unit",
     label: "Unit",
     align: "center",
     sort: false,
-    width: "150",
   },
 ];

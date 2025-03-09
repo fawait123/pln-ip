@@ -11,7 +11,7 @@ export const useDashboardStore = defineStore(
   () => {
     const getLocation = async (payload: IParams) => {
       return await api
-        .get(`/location/list`, {
+        .get(`/location`, {
           params: payload,
         })
         .then((resp) => {
@@ -24,7 +24,7 @@ export const useDashboardStore = defineStore(
 
     const getUnit = async (payload: IParams) => {
       return await api
-        .get(`/unit/list`, {
+        .get(`/unit`, {
           params: payload,
         })
         .then((resp) => {
@@ -37,7 +37,7 @@ export const useDashboardStore = defineStore(
 
     const getMachine = async (payload: IParams) => {
       return await api
-        .get(`/machine/list`, {
+        .get(`/machine`, {
           params: payload,
         })
         .then((resp) => {

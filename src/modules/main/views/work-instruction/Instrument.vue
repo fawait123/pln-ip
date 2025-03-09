@@ -5,7 +5,10 @@ import { useRoute } from "vue-router";
 
 import { useQuery } from "@tanstack/vue-query";
 import { Table } from "@/components";
-import type { IPagination } from "@/types/GlobalType";
+import type {
+  IPagination,
+  ResponseDocumentInterface,
+} from "@/types/GlobalType";
 
 import { ColumnsWorkInstruction } from "../../constants/WorkInstructionConstant";
 import type {
@@ -13,6 +16,7 @@ import type {
   ScopeInterface,
 } from "../../types/ScopeType";
 import { useMainStore } from "../../stores/MainStore";
+import ButtonPreview from "../../components/ButtonPreview.vue";
 
 const entitiesScope = ref<ScopeInterface[]>([]);
 
@@ -56,8 +60,10 @@ const {
               return {
                 id: el.uuid,
                 name: el.name,
+                document: el.document,
               };
             }),
+            document: item.document,
           };
         }) || [];
       entitiesScope.value = new_arr;
@@ -91,13 +97,25 @@ const changeLimit = (e: string) => {
   refetchScope();
 };
 
-function searchTable() {
+const searchTable = () => {
   clearTimeout(timeout.value);
   timeout.value = window.setTimeout(() => {
     params.currentPage = 1;
     refetchScope();
   }, 1000);
-}
+};
+
+const preview = (item: ResponseDocumentInterface) => {
+  const a = document.createElement("a");
+  a.href =
+    import.meta.env.VITE_API_BASE_URL.replace("api", "") + item?.document_link;
+  a.download = item?.document_original_name || "";
+  a.target = "_blank";
+  a.rel = "noopener";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+};
 </script>
 
 <template>
@@ -113,6 +131,10 @@ function searchTable() {
     @change-limit="changeLimit"
     @search="searchTable"
   >
+    <template #column_preview="{ entity }">
+      <ButtonPreview v-if="entity.document" @click="preview(entity.document)" />
+      <div v-else class="text-center">-</div>
+    </template>
     <template #column_action><p></p> </template>
     <template #children="{ entity, index, parentActive }">
       <tr v-if="parentActive === index && entity.children.length === 0">
@@ -133,6 +155,13 @@ function searchTable() {
               {{ child.name }}
             </p>
           </div>
+        </td>
+        <td class="td-child">
+          <ButtonPreview
+            v-if="child.document"
+            @click="preview(child.document)"
+          />
+          <div v-else class="text-center">-</div>
         </td>
       </tr>
     </template>

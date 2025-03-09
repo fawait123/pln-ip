@@ -163,7 +163,11 @@ defineSlots<{
 
 <template>
   <div class="v-table">
-    <div v-if="isSearch || isCreate" class="v-table--head">
+    <div
+      v-if="isSearch || isCreate"
+      class="v-table--head"
+      :class="isSearch ? 'justify-between' : 'justify-end'"
+    >
       <div v-if="isSearch" class="v-table-search">
         <Input
           rounded="full"
@@ -337,9 +341,9 @@ defineSlots<{
 
 <style lang="sass">
 .v-table
-  @apply flex flex-col gap-6
+  @apply flex flex-col gap-2
   &--head
-    @apply flex justify-between items-center gap-5
+    @apply flex items-center gap-5
     .v-table-search
       @apply w-[25%]
   &--body

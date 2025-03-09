@@ -57,6 +57,7 @@ export interface AddScopeInterface {
   asset_welness: {
     color: TColor;
     note: string;
+    file: ValueUploadType[];
   } | null;
   oh_recom: WithFileInterface | null;
   wo_priority: WithFileInterface | null;

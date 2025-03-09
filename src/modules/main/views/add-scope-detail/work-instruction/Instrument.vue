@@ -55,8 +55,10 @@ const {
               return {
                 id: el.uuid,
                 name: el.name,
+                document: el.document,
               };
             }),
+            document: item.document,
           };
         }) || [];
       entitiesScope.value = new_arr;

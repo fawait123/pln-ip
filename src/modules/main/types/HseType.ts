@@ -9,6 +9,7 @@ export interface HseInterface {
   } | null;
   note: string | null;
   document_original: ResponseDocumentInterface | null;
+  documents_original: ResponseDocumentInterface[] | null;
 }
 
 export interface ResponseHseInterface {
@@ -17,5 +18,14 @@ export interface ResponseHseInterface {
   title: string;
   created_at: string;
   updated_at: string;
+  documents: ResponseDocumentInterface[] | null;
   document: ResponseDocumentInterface | null;
+  type: string;
+}
+
+export interface CreateHseInterface {
+  document: null;
+  title: string;
+  project_uuid: string;
+  type: string;
 }

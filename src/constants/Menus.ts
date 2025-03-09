@@ -19,7 +19,7 @@ export const Menus: MenuInterface[] = [
   },
   {
     id: 2,
-    name: "Squences",
+    name: "Sequences",
     url: "/squences",
     icon: "forward-message",
   },
@@ -118,7 +118,7 @@ export const Menus: MenuInterface[] = [
       },
       {
         id: 112,
-        name: "Squences",
+        name: "Sequences",
         url: "/add-scope-squences",
       },
     ],
@@ -246,5 +246,29 @@ export const MenusMaster: MenuInterface[] = [
     name: "Inspection Type",
     url: "/inspection-type",
     icon: "inspection-type",
+  },
+  {
+    id: 5,
+    name: "Consumable Material",
+    url: "/consumable-material",
+    icon: "box",
+  },
+  {
+    id: 6,
+    name: "Manpower",
+    url: "/manpower",
+    icon: "male",
+  },
+  {
+    id: 7,
+    name: "Part",
+    url: "/part",
+    icon: "trolley-items",
+  },
+  {
+    id: 8,
+    name: "Tools",
+    url: "/tools",
+    icon: "tools",
   },
 ];

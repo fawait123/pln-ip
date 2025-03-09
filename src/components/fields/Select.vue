@@ -121,6 +121,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  loadingNextPage: {
+    type: Boolean,
+    default: false,
+  },
   is_free_text: {
     type: Boolean,
     default: false,
@@ -146,6 +150,7 @@ const emit = defineEmits([
   "search",
   "select",
   "clear",
+  "scroll",
 ]);
 
 const model = computed({
@@ -490,34 +495,44 @@ onMounted(() => {
         position="popper"
         :style="popoverContent"
       >
-        <ComboboxViewport class="v-select-viewport">
-          <div v-if="loading" class="v-select-loading">
-            <Loading />
-          </div>
-          <ComboboxEmpty class="v-select-empty" v-if="!loading">
-            <p>Not found</p>
-          </ComboboxEmpty>
-          <ComboboxItem
-            v-if="!loading"
-            v-for="(item, index) in options"
-            class="v-select-item"
-            :key="index"
-            :value="options_value === undefined ? item : item?.[options_value]"
-            :class="{
-              'v-select-item-active':
-                options_value === undefined
-                  ? item === model
-                  : item?.[options_value] === model,
-            }"
-            @select="(e) => selectItem(e, item)"
-          >
-            <slot name="options_label" :item="item" :index="index">
-              <span>{{
-                options_label === undefined ? item : item?.[options_label]
-              }}</span>
-            </slot>
-          </ComboboxItem>
-        </ComboboxViewport>
+        <div
+          class="v-select-content-wrapper"
+          @scroll="(e) => $emit('scroll', e)"
+        >
+          <ComboboxViewport class="v-select-viewport">
+            <div v-if="loading" class="v-select-loading">
+              <Loading />
+            </div>
+            <ComboboxEmpty class="v-select-empty" v-if="!loading">
+              <p>Not found</p>
+            </ComboboxEmpty>
+            <ComboboxItem
+              v-if="!loading"
+              v-for="(item, index) in options"
+              class="v-select-item"
+              :key="index"
+              :value="
+                options_value === undefined ? item : item?.[options_value]
+              "
+              :class="{
+                'v-select-item-active':
+                  options_value === undefined
+                    ? item === model
+                    : item?.[options_value] === model,
+              }"
+              @select="(e) => selectItem(e, item)"
+            >
+              <slot name="options_label" :item="item" :index="index">
+                <span>{{
+                  options_label === undefined ? item : item?.[options_label]
+                }}</span>
+              </slot>
+            </ComboboxItem>
+            <div v-if="loadingNextPage" class="v-select-loading">
+              <Loading />
+            </div>
+          </ComboboxViewport>
+        </div>
       </ComboboxContent>
       <span v-if="notes !== undefined" class="v-select-notes">{{ notes }}</span>
       <span
@@ -593,19 +608,21 @@ onMounted(() => {
           .v-select-icon-active
             @apply rotate-180
     .v-select-content
-      @apply relative z-10 my-1 min-w-14 max-h-[200px] border overflow-x-auto rounded will-change-[opacity,transform] bg-white border-gray-500
-      .v-select-viewport
-        @apply py-2 flex flex-col gap-2
-        .v-select-empty
-          @apply text-xs leading-[19.6px] px-3 rounded flex items-center relative text-neutral-500
-        .v-select-loading
-          @apply flex items-center justify-center p-4
-        .v-select-item
-          @apply text-sm leading-[19.6px] rounded flex items-center relative select-none cursor-pointer px-3 text-neutral-600
-          &:hover
+      @apply relative z-10 my-1 min-w-14 border rounded will-change-[opacity,transform] bg-white border-gray-500
+      .v-select-content-wrapper
+        @apply max-h-[200px] overflow-x-auto
+        .v-select-viewport
+          @apply py-2 flex flex-col gap-2
+          .v-select-empty
+            @apply text-xs leading-[19.6px] px-3 rounded flex items-center relative text-neutral-500
+          .v-select-loading
+            @apply flex items-center justify-center p-4
+          .v-select-item
+            @apply text-sm leading-[19.6px] rounded flex items-center relative select-none cursor-pointer px-3 text-neutral-600
+            &:hover
+              @apply text-neutral-950
+          .v-select-item-active
             @apply text-neutral-950
-        .v-select-item-active
-          @apply text-neutral-950
     &:hover
       .v-select-input
         @apply border-cyan-500 #{!important}

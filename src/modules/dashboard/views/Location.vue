@@ -8,8 +8,8 @@ import eventBus from "@/utils/eventBus";
 import { useGlobalStore } from "@/stores/GlobalStore";
 import { useQuery } from "@tanstack/vue-query";
 import { useDashboardStore } from "@/modules/dashboard/stores/DashboardStore";
-
-import type { TLocation } from "../types/DashboardType";
+import type { IPagination } from "@/types/GlobalType";
+import type { LocationInterface } from "@/modules/master/types/LocationType";
 
 const imgUrl = new URL("@/assets/images/priok.png", import.meta.url).href;
 
@@ -28,12 +28,14 @@ const { data: dataLocation, isFetching: isLoadingLocation } = useQuery({
       const { data } = await dashboardStore.getLocation({
         search: "",
         filter: `uuid,${route.params.id}`,
+        currentPage: 1,
+        perPage: 1,
       });
-      const response = data.data as TLocation[];
+      const response = data.data as IPagination<LocationInterface[]>;
 
-      titleHeader.value = `UBP ${response?.[0]?.name}`;
+      titleHeader.value = `UBP ${response.data?.[0]?.name}`;
 
-      return response;
+      return response.data;
     } catch (error: any) {
       const err = error as AxiosError;
       throw err.response;

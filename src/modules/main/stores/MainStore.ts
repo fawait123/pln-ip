@@ -11,6 +11,7 @@ import type { UpdateManPowerInterface } from "../types/ManpowerType";
 import type { UpdatePartInterface } from "../types/PartType";
 import type { CreateAddScopeInterface } from "../types/AddScopeTableType";
 import type { UpdateToolsInterface } from "../types/ToolsType";
+import type { CreateHseInterface } from "../types/HseType";
 
 export const useMainStore = defineStore(
   "main",
@@ -159,6 +160,17 @@ export const useMainStore = defineStore(
         })
         .then((resp) => {
           return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const createHse = async (payload: CreateHseInterface) => {
+      return await api
+        .post(`/transaction/hse/resource`, payload)
+        .then((res) => {
+          return Promise.resolve(res);
         })
         .catch((err) => {
           return Promise.reject(err);
@@ -333,6 +345,36 @@ export const useMainStore = defineStore(
         });
     };
 
+    const getDownloadResultTools = async () => {
+      return await api
+        .get(`/transaction/result/resource/export/tools`, {
+          responseType: "blob",
+        })
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Tools.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
     return {
       getScopeStandar,
       createScopeStandar,
@@ -346,6 +388,7 @@ export const useMainStore = defineStore(
       getTools,
       updateTools,
       getHse,
+      createHse,
       getQcPlan,
       getAddScope,
       createAddScope,
@@ -354,6 +397,7 @@ export const useMainStore = defineStore(
       getDownloadResultConsMat,
       getDownloadResultPart,
       getDownloadResultManpower,
+      getDownloadResultTools,
     };
   },
   {

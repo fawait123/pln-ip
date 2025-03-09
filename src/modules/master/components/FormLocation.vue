@@ -4,17 +4,23 @@ import { reactive, ref, computed, type PropType, watch } from "vue";
 import { Button, Input, Modal, Select, Textarea } from "@/components";
 import useVuelidate from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
+import { useMutation } from "@tanstack/vue-query";
 
 import type {
   LocationCreateInterface,
   LocationInterface,
 } from "../types/LocationType";
+import { useMasterStore } from "../stores/MasterStore";
 
 const props = defineProps({
-  selected_value: {
-    type: Object as PropType<LocationInterface>,
+  selectedValue: {
+    type: Object as PropType<LocationInterface | null>,
   },
 });
+
+const emit = defineEmits(["success", "error"]);
+
+const masterStore = useMasterStore();
 
 const modelValue = defineModel<boolean>({ default: false });
 const OptionsType = [
@@ -76,22 +82,89 @@ const rules = computed(() => {
   };
 });
 
+//--- CREATE LOCATION
+const { mutate: createLocation, isPending: isLoadingCreate } = useMutation({
+  mutationFn: async (payload: LocationCreateInterface) => {
+    return await masterStore.createLocation(payload);
+  },
+  onSuccess: () => {
+    modelValue.value = false;
+    emit("success");
+  },
+  onError: (error) => {
+    console.log(error);
+    emit("error", error);
+  },
+});
+//--- END
+
+//--- UPDATE LOCATION
+const { mutate: updateLocation, isPending: isLoadingUpdate } = useMutation({
+  mutationFn: async ({
+    id,
+    payload,
+  }: {
+    id: string;
+    payload: LocationCreateInterface;
+  }) => {
+    return await masterStore.updateLocation(id, payload);
+  },
+  onSuccess: async () => {
+    modelValue.value = false;
+    emit("success");
+  },
+  onError: (error) => {
+    console.log(error);
+    emit("error", error);
+  },
+});
+//--- END
+
 const handleSubmit = async () => {
   const isValid = await v$_form.value.$validate();
 
   if (!isValid) return;
+
+  if (props.selectedValue) {
+    updateLocation({ id: props.selectedValue?.uuid, payload: model.value });
+  } else {
+    createLocation(model.value);
+  }
+};
+
+const setValue = () => {
+  model.value = {
+    name: props.selectedValue?.name || "",
+    lat: props.selectedValue?.lat || "",
+    lon: props.selectedValue?.lon || "",
+    slug: props.selectedValue?.slug || "",
+    description: props.selectedValue?.description || "",
+    color: props.selectedValue?.color || "",
+  };
+};
+
+const resetValue = () => {
+  model.value = {
+    name: "",
+    lat: "",
+    lon: "",
+    slug: "",
+    description: "",
+    color: "",
+  };
 };
 
 watch(modelValue, (value) => {
   if (!value) {
-    model.value = {
-      name: "",
-      lat: "",
-      lon: "",
-      slug: "",
-      description: "",
-      color: "",
-    };
+    setTimeout(() => {
+      resetValue();
+    }, 500);
+  } else {
+    if (props.selectedValue) {
+      setValue();
+    } else {
+      resetValue();
+    }
   }
 });
 </script>
@@ -101,7 +174,7 @@ watch(modelValue, (value) => {
     width="440"
     height="200"
     :showButtonClose="false"
-    title="Tambah Location"
+    title="Tambah Lokasi"
     v-model="modelValue"
   >
     <form
@@ -132,9 +205,17 @@ watch(modelValue, (value) => {
           text="Batal"
           class="w-full"
           variant="secondary"
+          :disabled="isLoadingCreate || isLoadingUpdate"
           @click="modelValue = false"
         />
-        <Button type="submit" text="Simpan" class="w-full" color="blue" />
+        <Button
+          type="submit"
+          text="Simpan"
+          class="w-full"
+          color="blue"
+          :disabled="isLoadingCreate || isLoadingUpdate"
+          :loading="isLoadingCreate || isLoadingUpdate"
+        />
       </div>
     </form>
   </Modal>

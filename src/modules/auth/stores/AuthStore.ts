@@ -5,12 +5,13 @@ import { ref } from "vue";
 import { encryptStorage } from "@/utils/storage";
 import { api } from "@/api/axios";
 
-import type { UserType } from "../types/AuthType";
+import type { LoginPayloadInterface, UserType } from "../types/AuthType";
 
 export const useAuthStore = defineStore(
   "auth",
   () => {
     const access_token = ref<string>("");
+    const refresh_token = ref<string>("");
     const users = ref<UserType | null>(null);
 
     function getToken() {
@@ -22,9 +23,20 @@ export const useAuthStore = defineStore(
       api.defaults.headers.common["Authorization"] = "Bearer " + newToken;
     }
 
+    function getRefreshToken() {
+      return encryptStorage.getItem("refresh_token");
+    }
+
+    function setRefreshToken(newToken: string) {
+      refresh_token.value = newToken;
+      encryptStorage.setItem("refresh_token", newToken);
+    }
+
     function clearToken() {
       access_token.value = "";
+      refresh_token.value = "";
       encryptStorage.removeItem("access_token");
+      encryptStorage.removeItem("refresh_token");
       api.defaults.headers.common["Authorization"] = "";
     }
 
@@ -45,19 +57,19 @@ export const useAuthStore = defineStore(
       encryptStorage.removeItem("users");
     }
 
-    // const login = async (payload: LoginPayloadType) => {
-    //   return await api
-    //     .post(endpoint + "/auth/login", {
-    //       email: payload.email,
-    //       password: payload.password,
-    //     })
-    //     .then((resp) => {
-    //       return Promise.resolve(resp);
-    //     })
-    //     .catch((err) => {
-    //       return Promise.reject(err);
-    //     });
-    // };
+    const login = async (payload: LoginPayloadInterface) => {
+      return await api
+        .post("/auth/login", {
+          email: payload.email,
+          password: payload.password,
+        })
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
 
     const logout = async () => {
       clearToken();
@@ -66,13 +78,17 @@ export const useAuthStore = defineStore(
 
     return {
       access_token,
+      refresh_token,
       getToken,
       setToken,
+      getRefreshToken,
+      setRefreshToken,
       clearToken,
       checkToken,
       setUsers,
       clearUsers,
       logout,
+      login,
     };
   },
   {
