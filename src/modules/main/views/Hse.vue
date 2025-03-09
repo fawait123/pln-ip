@@ -3,7 +3,14 @@ import type { AxiosError } from "axios";
 import { computed, reactive, ref } from "vue";
 import { useRoute } from "vue-router";
 
-import { Button, FormUploadOnly, Table, Toast } from "@/components";
+import {
+  Button,
+  FormUploadOnly,
+  Icon,
+  ModalDelete,
+  Table,
+  Toast,
+} from "@/components";
 
 import type { ValueUploadType } from "@/components/fields/Upload.vue";
 import { useMutation, useQuery } from "@tanstack/vue-query";
@@ -19,6 +26,7 @@ import type {
 import { useMainStore } from "../stores/MainStore";
 import FormOnlyUploadFile from "../components/FormOnlyUploadFile.vue";
 import FormCreateRow from "../components/FormCreateRow.vue";
+import FormEditHse from "../components/FormEditHse.vue";
 
 // const Data = ref<HseInterface[]>([
 //   {
@@ -44,8 +52,12 @@ const total_item = ref(0);
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
 const attachment = ref<any>(null);
 const createRow = ref<any>(null);
+const updateHse = ref<any>(null);
 const type = ref<"standart" | "additionals">("standart");
 const is_loading_file = ref(false);
+const selected_item = ref<HseInterface | null>(null);
+const open_form = ref(false);
+const open_delete = ref(false);
 
 //--- GET HSE
 const {
@@ -348,6 +360,64 @@ const {
 });
 //--- END
 
+//--- DELETE HSE ADDITIONAL
+const { mutate: deleteHseAdditional, isPending: isLoadingDeleteHseAdditional } =
+  useMutation({
+    mutationFn: async (id: string) => {
+      return await mainStore.deleteHse(id);
+    },
+    onSuccess: () => {
+      toastRef.value?.showToast({
+        title: "Success",
+        description: "Deleted successfully",
+        type: "success",
+      });
+      open_delete.value = false;
+      refetchHseAdditional();
+    },
+    onError: (error: any) => {
+      console.log(error);
+      toastRef.value?.showToast({
+        title: "Error",
+        description: error?.response?.data?.message || "Something went wrong",
+        type: "error",
+      });
+    },
+  });
+//--- END
+
+//--- UPDATE HSE ADDITIONAL
+const { mutate: updateAdditional, isPending: isLoadingUpdateHseAdditional } =
+  useMutation({
+    mutationFn: async ({
+      id,
+      payload,
+    }: {
+      id: string;
+      payload: CreateHseInterface;
+    }) => {
+      return await mainStore.updateHse(id, payload);
+    },
+    onSuccess: async () => {
+      updateHse.value.modelOpenInputData = false;
+      toastRef.value?.showToast({
+        title: "Success",
+        description: "Deleted successfully",
+        type: "success",
+      });
+      refetchHseAdditional();
+    },
+    onError: (error: any) => {
+      console.log(error);
+      toastRef.value?.showToast({
+        title: "Error",
+        description: error?.response?.data?.message || "Something went wrong",
+        type: "error",
+      });
+    },
+  });
+//--- END
+
 const paginationAdditional = computed(() => {
   return {
     totalItems: total_item_additional.value,
@@ -375,10 +445,42 @@ const handleCreateAdditional = (e: string) => {
     type: "additionals",
   });
 };
+
+const handleUpdate = (item: HseInterface) => {
+  selected_item.value = item;
+};
+
+const onUpdate = (name: string) => {
+  updateAdditional({
+    id: selected_item.value?.id as string,
+    payload: {
+      title: name,
+      type: "additionals",
+      project_uuid: route.params?.id_project as string,
+      document: selected_item.value?.documents_original || [],
+    },
+  });
+};
+
+const handleDelete = (item: HseInterface) => {
+  selected_item.value = item;
+  open_delete.value = true;
+};
+
+const onDeleteHseAdditional = () => {
+  deleteHseAdditional(selected_item.value?.id as string);
+};
 </script>
 
 <template>
   <Toast ref="toastRef" />
+
+  <ModalDelete
+    v-model="open_delete"
+    :title="selected_item?.name"
+    :loading="isLoadingDeleteHseAdditional"
+    @delete="onDeleteHseAdditional"
+  />
 
   <div class="flex flex-col gap-16">
     <Table
@@ -442,17 +544,21 @@ const handleCreateAdditional = (e: string) => {
 
       <Table
         label-create="HSE"
-        class="mt-6"
+        class="mt-8"
         :columns="ColumnsHseAdditional"
         :entities="entitiesHseAdditional"
         :pagination="paginationAdditional"
         :loading="isLoadingHseAdditional"
         :is-create="false"
-        :is-action="false"
         :is-search="false"
         @change-page="changePageAdditional"
         @change-limit="changeLimitAdditional"
       >
+        <template #header_action>
+          <div class="px-3 py-1.5">
+            <p class="v-table-th-text">Action</p>
+          </div>
+        </template>
         <template #column_attachment="{ entity }">
           <div class="w-full flex justify-center">
             <FormOnlyUploadFile
@@ -480,6 +586,23 @@ const handleCreateAdditional = (e: string) => {
             </div>
           </div>
           <div v-else class="text-center">-</div>
+        </template>
+        <template #column_action="{ entity }">
+          <div class="flex items-center justify-center gap-4">
+            <FormEditHse
+              ref="updateHse"
+              :value="entity.name"
+              :loading="isLoadingUpdateHseAdditional"
+              label="Name"
+              @save="onUpdate"
+              @open="handleUpdate(entity)"
+            />
+            <Icon
+              name="trash"
+              class="icon-action-table"
+              @click="handleDelete(entity)"
+            />
+          </div>
         </template>
       </Table>
     </div>

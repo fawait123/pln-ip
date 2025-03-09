@@ -24,7 +24,7 @@ export interface ResponseHseInterface {
 }
 
 export interface CreateHseInterface {
-  document: null;
+  document: ResponseDocumentInterface[] | null;
   title: string;
   project_uuid: string;
   type: string;

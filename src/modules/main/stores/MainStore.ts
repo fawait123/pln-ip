@@ -177,6 +177,28 @@ export const useMainStore = defineStore(
         });
     };
 
+    const updateHse = async (id: string, payload: CreateHseInterface) => {
+      return await api
+        .put(`/transaction/hse/${id}`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const deleteHse = async (id: string) => {
+      return await api
+        .delete(`/transaction/hse/${id}`)
+        .then((res) => {
+          return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
     const getQcPlan = async (payload: IParams) => {
       return await api
         .get(`/transaction/qc-plan/resource/pagination`, {
@@ -389,6 +411,8 @@ export const useMainStore = defineStore(
       updateTools,
       getHse,
       createHse,
+      updateHse,
+      deleteHse,
       getQcPlan,
       getAddScope,
       createAddScope,

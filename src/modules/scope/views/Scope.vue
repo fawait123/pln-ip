@@ -192,16 +192,16 @@ const {
 
 watch(dataMachine, (value) => {
   breadcrumb.value = [
-    {
-      name: `UBP ${value?.[0]?.unit?.name}`,
-      as_link: false,
-      url: "",
-    },
-    {
-      name: value?.[0]?.name || "",
-      as_link: false,
-      url: "",
-    },
+    // {
+    //   name: `UBP ${value?.[0]?.unit?.name}`,
+    //   as_link: false,
+    //   url: "",
+    // },
+    // {
+    //   name: value?.[0]?.name || "",
+    //   as_link: false,
+    //   url: "",
+    // },
     {
       name: "Scope Overhaul",
       as_link: false,

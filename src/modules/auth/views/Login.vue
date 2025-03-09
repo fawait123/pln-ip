@@ -41,7 +41,6 @@ const { mutate: login, isPending: isLoadingLogin } = useMutation({
     return await authStore.login(payload);
   },
   onSuccess: async (data) => {
-    console.log(data);
     const response = data?.data?.data as LoginInterface;
     authStore.setToken(response.token);
 
