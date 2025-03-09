@@ -416,7 +416,7 @@ const router = useRouter();
 const route = useRoute();
 const params = reactive({
   search: "",
-  filters: `project_uuid,${route.params.id_project}&category,listrik`,
+  filters: `project_uuid,${route.params.id_project}`,
   currentPage: 1,
   perPage: 10,
 });
