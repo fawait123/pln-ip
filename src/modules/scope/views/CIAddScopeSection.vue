@@ -19,261 +19,6 @@ import {
   VisuallyHidden,
 } from "radix-vue";
 
-// CI
-// VIDEO INLET
-import CIInletSection1 from "@/assets/videos/add-scope/ci/inlet-section/1-inlet-duct.mp4";
-import CIInletSection2 from "@/assets/videos/add-scope/ci/inlet-section/2-inlet-manifold.mp4";
-import CIInletSection3 from "@/assets/videos/add-scope/ci/inlet-section/3-vapour-pipe.mp4";
-import CIInletSection4 from "@/assets/videos/add-scope/ci/inlet-section/4-casing-upper.mp4";
-import CIInletSection5 from "@/assets/videos/add-scope/ci/inlet-section/5-igv-link.mp4";
-import CIInletSection6 from "@/assets/videos/add-scope/ci/inlet-section/6-seal-housing-upper.mp4";
-import CIInletSection7 from "@/assets/videos/add-scope/ci/inlet-section/7-igv-upper.mp4";
-import CIInletSection8 from "@/assets/videos/add-scope/ci/inlet-section/8.mov";
-import CIInletSection9 from "@/assets/videos/add-scope/ci/inlet-section/9-igv-upper.mp4";
-// VIDEO COMPRESSOR
-import CICompressorSection1 from "@/assets/videos/add-scope/ci/compressor-section/1-inlet-duct.mp4";
-import CICompressorSection2 from "@/assets/videos/add-scope/ci/compressor-section/2-inlet-manifold.mp4";
-import CICompressorSection3 from "@/assets/videos/add-scope/ci/compressor-section/3-vapour-pipe.mp4";
-import CICompressorSection4 from "@/assets/videos/add-scope/ci/compressor-section/4-casing-upper.mp4";
-import CICompressorSection5 from "@/assets/videos/add-scope/ci/compressor-section/5-igv-link.mp4";
-import CICompressorSection6 from "@/assets/videos/add-scope/ci/compressor-section/6-seal-housing-upper.mp4";
-import CICompressorSection7 from "@/assets/videos/add-scope/ci/compressor-section/7-igv-upper.mp4";
-import CICompressorSection8 from "@/assets/videos/add-scope/ci/compressor-section/8-fuel-manifold.mp4";
-import CICompressorSection9 from "@/assets/videos/add-scope/ci/compressor-section/9-bleed-pipe.mp4";
-import CICompressorSection10 from "@/assets/videos/add-scope/ci/compressor-section/10-rca-pipe.mp4";
-import CICompressorSection11 from "@/assets/videos/add-scope/ci/compressor-section/11-compressor-cylinder.mp4";
-import CICompressorSection12 from "@/assets/videos/add-scope/ci/compressor-section/12-compressor-vane-row-1-lower.mp4";
-import CICompressorSection13 from "@/assets/videos/add-scope/ci/compressor-section/13-compressor-vane-row-2-lower.mp4";
-import CICompressorSection14 from "@/assets/videos/add-scope/ci/compressor-section/14-compressor-vane-row-3-lower.mp4";
-import CICompressorSection15 from "@/assets/videos/add-scope/ci/compressor-section/15-compressor-vane-row-4-lower.mp4";
-import CICompressorSection16 from "@/assets/videos/add-scope/ci/compressor-section/16-compressor-vane-row-5-lower.mp4";
-import CICompressorSection17 from "@/assets/videos/add-scope/ci/compressor-section/17-compressor-vane-row-6-lower.mp4";
-import CICompressorSection18 from "@/assets/videos/add-scope/ci/compressor-section/18-compressor-vane-row-1-upper.mp4";
-import CICompressorSection19 from "@/assets/videos/add-scope/ci/compressor-section/19-compressor-vane-row-2-upper.mp4";
-import CICompressorSection20 from "@/assets/videos/add-scope/ci/compressor-section/20-compressor-vane-row-3-upper.mp4";
-import CICompressorSection21 from "@/assets/videos/add-scope/ci/compressor-section/21-compressor-vane-row-4-upper.mp4";
-import CICompressorSection22 from "@/assets/videos/add-scope/ci/compressor-section/22-compressor-vane-row-5-upper.mp4";
-import CICompressorSection23 from "@/assets/videos/add-scope/ci/compressor-section/23-compressor-vane-row-6-upper.mp4";
-import CICompressorSection24 from "@/assets/videos/add-scope/ci/compressor-section/24-compressor-blade-row-1.mp4";
-import CICompressorSection25 from "@/assets/videos/add-scope/ci/compressor-section/25-compressor-blade-row-2.mp4";
-import CICompressorSection26 from "@/assets/videos/add-scope/ci/compressor-section/26-compressor-blade-row-3.mp4";
-import CICompressorSection27 from "@/assets/videos/add-scope/ci/compressor-section/27-compressor-blade-row-4.mp4";
-import CICompressorSection28 from "@/assets/videos/add-scope/ci/compressor-section/28-compressor-blade-row-5.mp4";
-import CICompressorSection29 from "@/assets/videos/add-scope/ci/compressor-section/29-compressor-blade-row-6.mp4";
-import CICompressorSection30 from "@/assets/videos/add-scope/ci/compressor-section/30.mov";
-import CICompressorSection31 from "@/assets/videos/add-scope/ci/compressor-section/31-compressor-blade-row-6.mp4";
-import CICompressorSection32 from "@/assets/videos/add-scope/ci/compressor-section/32-compressor-blade-row-5.mp4";
-import CICompressorSection33 from "@/assets/videos/add-scope/ci/compressor-section/33-compressor-blade-row-4.mp4";
-import CICompressorSection34 from "@/assets/videos/add-scope/ci/compressor-section/34-compressor-blade-row-3.mp4";
-import CICompressorSection35 from "@/assets/videos/add-scope/ci/compressor-section/35-compressor-blade-row-2.mp4";
-import CICompressorSection36 from "@/assets/videos/add-scope/ci/compressor-section/36-compressor-blade-row-1.mp4";
-import CICompressorSection37 from "@/assets/videos/add-scope/ci/compressor-section/37-compressor-vane-row-1-upper.mp4";
-import CICompressorSection38 from "@/assets/videos/add-scope/ci/compressor-section/38-compressor-vane-row-2-upper.mp4";
-import CICompressorSection39 from "@/assets/videos/add-scope/ci/compressor-section/39-compressor-vane-row-3-upper.mp4";
-import CICompressorSection40 from "@/assets/videos/add-scope/ci/compressor-section/40-compressor-vane-row-4-upper.mp4";
-import CICompressorSection41 from "@/assets/videos/add-scope/ci/compressor-section/41-compressor-vane-row-5-upper.mp4";
-import CICompressorSection42 from "@/assets/videos/add-scope/ci/compressor-section/42-compressor-vane-row-6-upper.mp4";
-import CICompressorSection43 from "@/assets/videos/add-scope/ci/compressor-section/43-compressor-vane-row-1-lower.mp4";
-import CICompressorSection44 from "@/assets/videos/add-scope/ci/compressor-section/44-compressor-vane-row-2-lower.mp4";
-import CICompressorSection45 from "@/assets/videos/add-scope/ci/compressor-section/45-compressor-vane-row-3-lower.mp4";
-import CICompressorSection46 from "@/assets/videos/add-scope/ci/compressor-section/46-compressor-vane-row-4-lower.mp4";
-import CICompressorSection47 from "@/assets/videos/add-scope/ci/compressor-section/47-compressor-vane-row-5-lower.mp4";
-import CICompressorSection48 from "@/assets/videos/add-scope/ci/compressor-section/48-compressor-vane-row-6-lower.mp4";
-import CICompressorSection49 from "@/assets/videos/add-scope/ci/compressor-section/49-compressor-cylinder.mp4";
-import CICompressorSection50 from "@/assets/videos/add-scope/ci/compressor-section/50-rca-pipe.mp4";
-import CICompressorSection51 from "@/assets/videos/add-scope/ci/compressor-section/51-cooling-pipe.mp4";
-import CICompressorSection52 from "@/assets/videos/add-scope/ci/compressor-section/52-fuel-manifold.mp4";
-import CICompressorSection53 from "@/assets/videos/add-scope/ci/compressor-section/53-igv-upper.mp4";
-import CICompressorSection54 from "@/assets/videos/add-scope/ci/compressor-section/54-seal-housing.mp4";
-import CICompressorSection55 from "@/assets/videos/add-scope/ci/compressor-section/55-igv-link.mp4";
-import CICompressorSection56 from "@/assets/videos/add-scope/ci/compressor-section/56-casing-upper.mp4";
-import CICompressorSection57 from "@/assets/videos/add-scope/ci/compressor-section/57-vapour-pipe.mp4";
-import CICompressorSection58 from "@/assets/videos/add-scope/ci/compressor-section/58-inlet-manifold.mp4";
-import CICompressorSection59 from "@/assets/videos/add-scope/ci/compressor-section/59-inlet-duct.mp4";
-// VIDEO TURBINE
-import CITurbineSection1 from "@/assets/videos/turbine-inspection/12-cooling-pipe.mp4";
-import CITurbineSection2 from "@/assets/videos/turbine-inspection/13-turbine-cylinder.mp4";
-import CITurbineSection3 from "@/assets/videos/turbine-inspection/17-bypass-ring.mp4";
-import CITurbineSection4 from "@/assets/videos/turbine-inspection/18-turbine-vane-row-1-upper.mp4";
-import CITurbineSection5 from "@/assets/videos/turbine-inspection/19-turbine-vane-row-4-upper.mp4";
-import CITurbineSection6 from "@/assets/videos/turbine-inspection/20-turbine-vane-row-3-upper.mp4";
-import CITurbineSection7 from "@/assets/videos/turbine-inspection/21-turbine-vane-row-2-upper.mp4";
-import CITurbineSection8 from "@/assets/videos/turbine-inspection/22-turbine-blade-ring-1.mp4";
-import CITurbineSection9 from "@/assets/videos/turbine-inspection/23-turbine-seal-housing-row-2.mp4";
-import CITurbineSection10 from "@/assets/videos/turbine-inspection/24-turbine-seal-housing-row-3.mp4";
-import CITurbineSection11 from "@/assets/videos/turbine-inspection/25-turbine-seal-housing-row-4-lower.mp4";
-import CITurbineSection12 from "@/assets/videos/turbine-inspection/26-turbine-blade-ring-row-1-lower.mp4";
-import CITurbineSection13 from "@/assets/videos/turbine-inspection/27-turbine-blade-ring-row-2-lower.mp4";
-import CITurbineSection14 from "@/assets/videos/turbine-inspection/28-turbine-blade-ring-row-3-lower.mp4";
-import CITurbineSection15 from "@/assets/videos/turbine-inspection/29-turbine-blade-ring-row-4-lower.mp4";
-import CITurbineSection16 from "@/assets/videos/turbine-inspection/30-turbine-blade-row-1.mp4";
-import CITurbineSection17 from "@/assets/videos/turbine-inspection/31-turbine-blade-row-2.mp4";
-import CITurbineSection18 from "@/assets/videos/turbine-inspection/32-turbine-blade-row-3.mp4";
-import CITurbineSection19 from "@/assets/videos/add-scope/ci/turbine-section/19-turbine-blade-row-4.mp4";
-import CITurbineSection20 from "@/assets/videos/add-scope/ci/turbine-section/20.mp4";
-import CITurbineSection21 from "@/assets/videos/add-scope/ci/turbine-section/21-turbine-blade-row-4.mp4";
-import CITurbineSection22 from "@/assets/videos/turbine-inspection/75-turbine-blade-row-3.mp4";
-import CITurbineSection23 from "@/assets/videos/turbine-inspection/76-turbine-blade-row-2.mp4";
-import CITurbineSection24 from "@/assets/videos/turbine-inspection/77-turbine-blade-row-1.mp4";
-import CITurbineSection25 from "@/assets/videos/turbine-inspection/78-turbine-blade-ring-row-4-lower.mp4";
-import CITurbineSection26 from "@/assets/videos/turbine-inspection/79-turbine-blade-ring-row-3-lower.mp4";
-import CITurbineSection27 from "@/assets/videos/turbine-inspection/80-turbine-blade-ring-row-2-lower.mp4";
-import CITurbineSection28 from "@/assets/videos/turbine-inspection/81-turbine-blade-ring-row-1-lower.mp4";
-import CITurbineSection29 from "@/assets/videos/turbine-inspection/82-turbine-seal-housing-row-2-upper.mp4";
-import CITurbineSection30 from "@/assets/videos/turbine-inspection/83-turbine-seal-housing-row-3-upper.mp4";
-import CITurbineSection31 from "@/assets/videos/turbine-inspection/84-turbine-seal-housing-row-4-upper.mp4";
-import CITurbineSection32 from "@/assets/videos/turbine-inspection/85-turbine-blade-ring-row-1-upper.mp4";
-import CITurbineSection33 from "@/assets/videos/turbine-inspection/86-turbine-blade-ring-row-2-upper.mp4";
-import CITurbineSection34 from "@/assets/videos/turbine-inspection/87-turbine-blade-ring-row-3-upper.mp4";
-import CITurbineSection35 from "@/assets/videos/turbine-inspection/88-turbine-blade-ring-row-4-upper.mp4";
-import CITurbineSection36 from "@/assets/videos/turbine-inspection/89-turbine-van-row-1-upper.mp4";
-import CITurbineSection37 from "@/assets/videos/turbine-inspection/90-bypass-ring.mp4";
-import CITurbineSection38 from "@/assets/videos/turbine-inspection/91-turbine-cylinder.mp4";
-import CITurbineSection39 from "@/assets/videos/turbine-inspection/92-cooling-pipe.mp4";
-// VIDEO GENERATOR
-import GeneratorSection1 from "@/assets/videos/add-scope/generator-section/1-cover-bearing-5.mp4";
-import GeneratorSection2 from "@/assets/videos/add-scope/generator-section/2-turning-device.mp4";
-import GeneratorSection3 from "@/assets/videos/add-scope/generator-section/3-base-plate-turning-device.mp4";
-import GeneratorSection4 from "@/assets/videos/add-scope/generator-section/4-cover-coupling-lower.mp4";
-import GeneratorSection5 from "@/assets/videos/add-scope/generator-section/5-air-seal-cover-exciter.mp4";
-import GeneratorSection6 from "@/assets/videos/add-scope/generator-section/6-cover-exciter.mp4";
-import GeneratorSection7 from "@/assets/videos/add-scope/generator-section/7-cover-bearing-5.mp4";
-import GeneratorSection8 from "@/assets/videos/add-scope/generator-section/8-bearing-5.mp4";
-import GeneratorSection9 from "@/assets/videos/add-scope/generator-section/9-pedestal-bearing-5.mp4";
-import GeneratorSection10 from "@/assets/videos/add-scope/generator-section/10-cover-fan-outer-seal.mp4";
-import GeneratorSection11 from "@/assets/videos/add-scope/generator-section/11-brush.mp4";
-import GeneratorSection12 from "@/assets/videos/add-scope/generator-section/12-brush-rigging.mp4";
-import GeneratorSection13 from "@/assets/videos/add-scope/generator-section/13-base-plate-bearing 5.mp4";
-import GeneratorSection14 from "@/assets/videos/add-scope/generator-section/14-outer-oil-deflector-nde.mp4";
-import GeneratorSection15 from "@/assets/videos/add-scope/generator-section/15-upper-outer-braket-nde.mp4";
-import GeneratorSection16 from "@/assets/videos/add-scope/generator-section/16-upper-bearing-4.mp4";
-import GeneratorSection17 from "@/assets/videos/add-scope/generator-section/17-outer-oil-deflector-de.mp4";
-import GeneratorSection18 from "@/assets/videos/add-scope/generator-section/18-upper-outer-bracket-nde.mp4";
-import GeneratorSection19 from "@/assets/videos/add-scope/generator-section/19-upper-bearing-3.mp4";
-import GeneratorSection20 from "@/assets/videos/add-scope/generator-section/20-lower-bearing-4.mp4";
-import GeneratorSection21 from "@/assets/videos/add-scope/generator-section/21-lower-outer-bracket-nde.mp4";
-import GeneratorSection22 from "@/assets/videos/add-scope/generator-section/22-lower-bearing-3.mp4";
-import GeneratorSection23 from "@/assets/videos/add-scope/generator-section/23-lower-outer-bracket-nde.mp4";
-import GeneratorSection24 from "@/assets/videos/add-scope/generator-section/24-rotor-generator.mp4";
-import GeneratorSection25 from "@/assets/videos/add-scope/generator-section/25-rotor-generator.mp4";
-import GeneratorSection26 from "@/assets/videos/add-scope/generator-section/26-lower-outer-bracket-nde.mp4";
-import GeneratorSection27 from "@/assets/videos/add-scope/generator-section/27-lower-bearing-3.mp4";
-import GeneratorSection28 from "@/assets/videos/add-scope/generator-section/28-lower-outer-bracket-nde.mp4";
-import GeneratorSection29 from "@/assets/videos/add-scope/generator-section/29-lower-bearing-4.mp4";
-import GeneratorSection30 from "@/assets/videos/add-scope/generator-section/30-upper-bearing-4.mp4";
-import GeneratorSection31 from "@/assets/videos/add-scope/generator-section/31-upper-outer-bracket-nde.mp4";
-import GeneratorSection32 from "@/assets/videos/add-scope/generator-section/32-upper-bearing-3.mp4";
-import GeneratorSection33 from "@/assets/videos/add-scope/generator-section/33-upper-outer-bracket-nde.mp4";
-import GeneratorSection34 from "@/assets/videos/add-scope/generator-section/34-outer-oil-deflector-de.mp4";
-import GeneratorSection35 from "@/assets/videos/add-scope/generator-section/35-outer-oil-deflector-nde.mp4";
-import GeneratorSection36 from "@/assets/videos/add-scope/generator-section/36-base-plate-bearing-5.mp4";
-import GeneratorSection37 from "@/assets/videos/add-scope/generator-section/37-brush-rigging.mp4";
-import GeneratorSection38 from "@/assets/videos/add-scope/generator-section/38-brush.mp4";
-import GeneratorSection39 from "@/assets/videos/add-scope/generator-section/39-cover-fan-outer-seal.mp4";
-import GeneratorSection40 from "@/assets/videos/add-scope/generator-section/40-pedestal-bearing-5.mp4";
-import GeneratorSection41 from "@/assets/videos/add-scope/generator-section/41-bearing-5.mp4";
-import GeneratorSection42 from "@/assets/videos/add-scope/generator-section/42-cover-bearing-5.mp4";
-import GeneratorSection43 from "@/assets/videos/add-scope/generator-section/43-cover-exciter.mp4";
-import GeneratorSection44 from "@/assets/videos/add-scope/generator-section/44-air-seal-cover-exciter.mp4";
-import GeneratorSection45 from "@/assets/videos/add-scope/generator-section/45-base-plate-turning-device.mp4";
-import GeneratorSection46 from "@/assets/videos/add-scope/generator-section/46-housing-coupling-turning-device.mp4";
-import GeneratorSection47 from "@/assets/videos/add-scope/generator-section/47-turning-device.mp4";
-import GeneratorSection48 from "@/assets/videos/add-scope/generator-section/48-cover-coupling-turning-device.mp4";
-// VIDEO ECHAUST
-import TI12 from "@/assets/videos/turbine-inspection/12-cooling-pipe.mp4";
-import TI13 from "@/assets/videos/turbine-inspection/13-turbine-cylinder.mp4";
-import CIExhaustSection3 from "@/assets/videos/add-scope/ci/exhaust-section/3-bypass-ring.mp4";
-import TI18 from "@/assets/videos/turbine-inspection/18-turbine-vane-row-1-upper.mp4";
-import TI19 from "@/assets/videos/turbine-inspection/19-turbine-vane-row-4-upper.mp4";
-import TI20 from "@/assets/videos/turbine-inspection/20-turbine-vane-row-3-upper.mp4";
-import TI21 from "@/assets/videos/turbine-inspection/21-turbine-vane-row-2-upper.mp4";
-import TI22 from "@/assets/videos/turbine-inspection/22-turbine-blade-ring-1.mp4";
-import TI23 from "@/assets/videos/turbine-inspection/23-turbine-seal-housing-row-2.mp4";
-import TI24 from "@/assets/videos/turbine-inspection/24-turbine-seal-housing-row-3.mp4";
-import TI25 from "@/assets/videos/turbine-inspection/25-turbine-seal-housing-row-4-lower.mp4";
-import TI26 from "@/assets/videos/turbine-inspection/26-turbine-blade-ring-row-1-lower.mp4";
-import TI27 from "@/assets/videos/turbine-inspection/27-turbine-blade-ring-row-2-lower.mp4";
-import TI28 from "@/assets/videos/turbine-inspection/28-turbine-blade-ring-row-3-lower.mp4";
-import TI29 from "@/assets/videos/turbine-inspection/29-turbine-blade-ring-row-4-lower.mp4";
-import TI30 from "@/assets/videos/turbine-inspection/30-turbine-blade-row-1.mp4";
-import TI31 from "@/assets/videos/turbine-inspection/31-turbine-blade-row-2.mp4";
-import TI32 from "@/assets/videos/turbine-inspection/32-turbine-blade-row-3.mp4";
-import TI75 from "@/assets/videos/turbine-inspection/75-turbine-blade-row-3.mp4";
-import TI76 from "@/assets/videos/turbine-inspection/76-turbine-blade-row-2.mp4";
-import TI77 from "@/assets/videos/turbine-inspection/77-turbine-blade-row-1.mp4";
-import TI78 from "@/assets/videos/turbine-inspection/78-turbine-blade-ring-row-4-lower.mp4";
-import TI79 from "@/assets/videos/turbine-inspection/79-turbine-blade-ring-row-3-lower.mp4";
-import TI80 from "@/assets/videos/turbine-inspection/80-turbine-blade-ring-row-2-lower.mp4";
-import TI81 from "@/assets/videos/turbine-inspection/81-turbine-blade-ring-row-1-lower.mp4";
-import TI82 from "@/assets/videos/turbine-inspection/82-turbine-seal-housing-row-2-upper.mp4";
-import TI83 from "@/assets/videos/turbine-inspection/83-turbine-seal-housing-row-3-upper.mp4";
-import TI84 from "@/assets/videos/turbine-inspection/84-turbine-seal-housing-row-4-upper.mp4";
-import TI85 from "@/assets/videos/turbine-inspection/85-turbine-blade-ring-row-1-upper.mp4";
-import TI86 from "@/assets/videos/turbine-inspection/86-turbine-blade-ring-row-2-upper.mp4";
-import TI87 from "@/assets/videos/turbine-inspection/87-turbine-blade-ring-row-3-upper.mp4";
-import TI88 from "@/assets/videos/turbine-inspection/88-turbine-blade-ring-row-4-upper.mp4";
-import TI89 from "@/assets/videos/turbine-inspection/89-turbine-van-row-1-upper.mp4";
-import TI90 from "@/assets/videos/turbine-inspection/90-bypass-ring.mp4";
-import TI91 from "@/assets/videos/turbine-inspection/91-turbine-cylinder.mp4";
-import TI92 from "@/assets/videos/turbine-inspection/92-cooling-pipe.mp4";
-
-// TI
-// VIDEO EXHAUST
-import TIExhaustSection1 from "@/assets/videos/add-scope/ti/exhaust-section/1-exhaust-manifold.mp4";
-import TIExhaustSection2 from "@/assets/videos/add-scope/ti/exhaust-section/2-ost-pipe.mp4";
-import TIExhaustSection3 from "@/assets/videos/add-scope/ti/exhaust-section/3-ost-cover.mp4";
-import TIExhaustSection4 from "@/assets/videos/add-scope/ti/exhaust-section/4-ost-device.mp4";
-import TIExhaustSection5 from "@/assets/videos/add-scope/ti/exhaust-section/5-exhaust-cylinder.mp4";
-import TIExhaustSection6 from "@/assets/videos/add-scope/ti/exhaust-section/6-upper-bearing-1.mp4";
-import TIExhaustSection7 from "@/assets/videos/add-scope/ti/exhaust-section/7.mp4";
-import TIExhaustSection8 from "@/assets/videos/add-scope/ti/exhaust-section/8-upper-bearing-1.mp4";
-import TIExhaustSection9 from "@/assets/videos/add-scope/ti/exhaust-section/9-exhaust-cylinder.mp4";
-import TIExhaustSection10 from "@/assets/videos/add-scope/ti/exhaust-section/10-ost-device.mp4";
-import TIExhaustSection11 from "@/assets/videos/add-scope/ti/exhaust-section/11-ost-cover.mp4";
-import TIExhaustSection12 from "@/assets/videos/add-scope/ti/exhaust-section/12-ost-pipe.mp4";
-import TIExhaustSection13 from "@/assets/videos/add-scope/ti/exhaust-section/13-exhaust-manifold.mp4";
-// VIDEO INLET
-import TIInletSection1 from "@/assets/videos/add-scope/ti/inlet-section/1-inlet-duct.mp4";
-import TIInletSection2 from "@/assets/videos/add-scope/ti/inlet-section/2-inlet-manifold.mp4";
-import TIInletSection3 from "@/assets/videos/add-scope/ti/inlet-section/3-vapour-pipe.mp4";
-import TIInletSection4 from "@/assets/videos/add-scope/ti/inlet-section/4-casing-upper.mp4";
-import TIInletSection5 from "@/assets/videos/add-scope/ti/inlet-section/5-igv-link.mp4";
-import TIInletSection6 from "@/assets/videos/add-scope/ti/inlet-section/6-seal-housing-upper.mp4";
-import TIInletSection7 from "@/assets/videos/add-scope/ti/inlet-section/7-igv-upper.mp4";
-import TIInletSection8 from "@/assets/videos/add-scope/ti/inlet-section/8.mp4";
-import TIInletSection9 from "@/assets/videos/add-scope/ti/inlet-section/9-igv-upper.mp4";
-import TIInletSection10 from "@/assets/videos/add-scope/ti/inlet-section/10-seal-housing.mp4";
-import TIInletSection11 from "@/assets/videos/add-scope/ti/inlet-section/11-igv-link.mp4";
-import TIInletSection12 from "@/assets/videos/add-scope/ti/inlet-section/12-casing-upper.mp4";
-import TIInletSection13 from "@/assets/videos/add-scope/ti/inlet-section/13-vapour-pipe.mp4";
-import TIInletSection14 from "@/assets/videos/add-scope/ti/inlet-section/14-inlet-manifold.mp4";
-import TIInletSection15 from "@/assets/videos/add-scope/ti/inlet-section/15-inlet-duct.mp4";
-// VIDEO TURBINE
-import TITurbineSection1 from "@/assets/videos/add-scope/ti/turbine-section/1-turbine-blade-row-4.mp4";
-import TITurbineSection2 from "@/assets/videos/add-scope/ti/turbine-section/2-turbine-ring-segment-row-4-upper.mp4";
-import TITurbineSection3 from "@/assets/videos/add-scope/ti/turbine-section/3-turbine-vane-segment-row-4-upper.mp4";
-import TITurbineSection4 from "@/assets/videos/add-scope/ti/turbine-section/4.mp4";
-import TITurbineSection5 from "@/assets/videos/add-scope/ti/turbine-section/5-turbine-vane-segment-row-4-upper.mp4";
-import TITurbineSection6 from "@/assets/videos/add-scope/ti/turbine-section/6-turbine-ring-segment-row-4-upper.mp4";
-import TITurbineSection7 from "@/assets/videos/add-scope/ti/turbine-section/7-turbine-seal-housing-row-4-lower.mp4";
-import TITurbineSection8 from "@/assets/videos/add-scope/ti/turbine-section/8-turbine-ring-segment-row-4-lower.mp4";
-import TITurbineSection9 from "@/assets/videos/add-scope/ti/turbine-section/9-turbine-vane-segment-row-4-lower.mp4";
-import TITurbineSection10 from "@/assets/videos/add-scope/ti/turbine-section/10.mp4";
-import TITurbineSection11 from "@/assets/videos/add-scope/ti/turbine-section/11-turbine-vane-segment-row-4-lower.mp4";
-import TITurbineSection12 from "@/assets/videos/add-scope/ti/turbine-section/12-turbine-ring-segment-row-4-lower.mp4";
-import TITurbineSection13 from "@/assets/videos/add-scope/ti/turbine-section/13-turbine-seal-housing-row-4-lower.mp4";
-import TITurbineSection14 from "@/assets/videos/add-scope/ti/turbine-section/14-turbine-blade-row-4.mp4";
-// VIDEO COMPRESSOR
-import TICompressorSection8 from "@/assets/videos/add-scope/ti/compressor-section/8-fuel-manifold.mp4";
-import TICompressorSection9 from "@/assets/videos/add-scope/ti/compressor-section/9-bleed-pipe.mp4";
-import TICompressorSection10 from "@/assets/videos/add-scope/ti/compressor-section/10-rca-pipe.mp4";
-import TICompressorSection11 from "@/assets/videos/add-scope/ti/compressor-section/11-compressor-cylinder.mp4";
-import TICompressorSection12 from "@/assets/videos/add-scope/ti/compressor-section/12-compressor-vane-row-1-lower.mp4";
-import TICompressorSection49 from "@/assets/videos/add-scope/ti/compressor-section/49-compressor-cylinder.mp4";
-import TICompressorSection50 from "@/assets/videos/add-scope/ti/compressor-section/50-rca-pipe.mp4";
-import TICompressorSection51 from "@/assets/videos/add-scope/ti/compressor-section/51-bleed-pipe.mp4";
-import TICompressorSection52 from "@/assets/videos/add-scope/ti/compressor-section/52-fuel-manifold.mp4";
-
 // MI
 // VIDEO COMPRESSOR
 import MI1 from "@/assets/videos/major-inspection/1-manhole-turbine-cylinder.mp4";
@@ -544,6 +289,7 @@ import MI273 from "@/assets/videos/major-inspection/273-coupling-cover-lower.mp4
 import MI274 from "@/assets/videos/major-inspection/274-coupling-cover-upper.mp4";
 import MI275 from "@/assets/videos/major-inspection/275-inlet-manifold.mp4";
 import MI276 from "@/assets/videos/major-inspection/276-inlet-duct.mp4";
+import { Icon, Loading } from "@/components";
 
 // MI
 const videosData = ref({
@@ -551,72 +297,71 @@ const videosData = ref({
     ["inlet-section"]: [
       {
         id: 0,
-        video: CIInletSection1,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ci/inlet-section/1-inlet-duct.mp4"),
         name: "Inlet Duct",
         top: 235,
         left: 560,
       },
       {
         id: 1,
-        video: CIInletSection2,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ci/inlet-section/2-inlet-manifold.mp4"),
         name: "Inlet manifold",
         top: 235,
         left: 530,
       },
       {
         id: 2,
-        video: CIInletSection3,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ci/inlet-section/3-vapour-pipe.mp4"),
         name: "Vapour Pipe",
         top: 230,
         left: 700,
       },
       {
         id: 3,
-        video: CIInletSection4,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ci/inlet-section/4-casing-upper.mp4"),
         name: "Casing Upper",
         top: 235,
         left: 550,
       },
       {
         id: 4,
-        video: CIInletSection5,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ci/inlet-section/5-igv-link.mp4"),
         name: "IGV Link",
         top: 233,
         left: 815,
       },
       {
         id: 5,
-        video: CIInletSection6,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ci/inlet-section/6-seal-housing-upper.mp4"),
         name: "Seal Housing Upper",
         top: 235,
         left: 510,
       },
       {
         id: 6,
-        video: CIInletSection7,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ci/inlet-section/7-igv-upper.mp4"),
         name: "IGV Upper",
         top: 235,
         left: 570,
       },
       {
         id: 7,
-        video: CIInletSection8,
-        duration: 155000,
+        video: () => import("/videos/add-scope/ci/inlet-section/8.mov"),
         name: "",
         top: 0,
         left: 0,
       },
       {
         id: 8,
-        video: CIInletSection9,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ci/inlet-section/9-igv-upper.mp4"),
         name: "IGV Upper",
         top: 232,
         left: 795,
@@ -625,472 +370,555 @@ const videosData = ref({
     ["compressor-section"]: [
       {
         id: 0,
-        video: CICompressorSection1,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ci/compressor-section/1-inlet-duct.mp4"),
         name: "Inlet Duct",
         top: 235,
         left: 560,
       },
       {
         id: 1,
-        video: CICompressorSection2,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/2-inlet-manifold.mp4"
+          ),
         name: "Inlet manifold",
         top: 235,
         left: 530,
       },
       {
         id: 2,
-        video: CICompressorSection3,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ci/compressor-section/3-vapour-pipe.mp4"),
         name: "Vapour Pipe",
         top: 230,
         left: 700,
       },
       {
         id: 3,
-        video: CICompressorSection4,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ci/compressor-section/4-casing-upper.mp4"),
         name: "Casing Upper",
         top: 235,
         left: 550,
       },
       {
         id: 4,
-        video: CICompressorSection5,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ci/compressor-section/5-igv-link.mp4"),
         name: "IGV Link",
         top: 232,
         left: 810,
       },
       {
         id: 5,
-        video: CICompressorSection6,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/6-seal-housing-upper.mp4"
+          ),
         name: "Seal Housing Upper",
         top: 235,
         left: 510,
       },
       {
         id: 6,
-        video: CICompressorSection7,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ci/compressor-section/7-igv-upper.mp4"),
         name: "IGV Upper",
         top: 235,
         left: 570,
       },
       {
         id: 7,
-        video: CICompressorSection8,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ci/compressor-section/8-fuel-manifold.mp4"),
         name: "Fuel Manifold",
         top: 233,
         left: 490,
       },
       {
         id: 8,
-        video: CICompressorSection9,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ci/compressor-section/9-bleed-pipe.mp4"),
         name: "Bleed Pipe",
         top: 235,
         left: 410,
       },
       {
         id: 9,
-        video: CICompressorSection10,
-        duration: 165000,
+        video: () =>
+          import("/videos/add-scope/ci/compressor-section/10-rca-pipe.mp4"),
         name: "RCA Pipe",
         top: 235,
         left: 550,
       },
       {
         id: 10,
-        video: CICompressorSection11,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/11-compressor-cylinder.mp4"
+          ),
         name: "Compressor Cylinder",
         top: 235,
         left: 470,
       },
       {
         id: 11,
-        video: CICompressorSection12,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/12-compressor-vane-row-1-lower.mp4"
+          ),
         name: "Compressor Vane Row 1 Lower",
         top: 238,
         left: 735,
       },
       {
         id: 12,
-        video: CICompressorSection13,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/13-compressor-vane-row-2-lower.mp4"
+          ),
         name: "Compressor Vane Row 2 Lower",
         top: 238,
         left: 730,
       },
       {
         id: 13,
-        video: CICompressorSection14,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/14-compressor-vane-row-3-lower.mp4"
+          ),
         name: "Compressor Vane Row 3 Lower",
         top: 235,
         left: 470,
       },
       {
         id: 14,
-        video: CICompressorSection15,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/15-compressor-vane-row-4-lower.mp4"
+          ),
         name: "Compressor Vane Row 4 Lower",
         top: 235,
         left: 360,
       },
       {
         id: 15,
-        video: CICompressorSection16,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/16-compressor-vane-row-5-lower.mp4"
+          ),
         name: "Compressor Vane Row 5 Lower",
         top: 238,
         left: 360,
       },
       {
         id: 16,
-        video: CICompressorSection17,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/17-compressor-vane-row-6-lower.mp4"
+          ),
         name: "Compressor Vane Row 6 Lower",
         top: 235,
         left: 265,
       },
       {
         id: 17,
-        video: CICompressorSection18,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/18-compressor-vane-row-1-upper.mp4"
+          ),
         name: "Compressor Vane Row 1 Upper",
         top: 237,
         left: 780,
       },
       {
         id: 18,
-        video: CICompressorSection19,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/19-compressor-vane-row-2-upper.mp4"
+          ),
         name: "Compressor Vane Row 2 Upper",
         top: 235,
         left: 410,
       },
       {
         id: 19,
-        video: CICompressorSection20,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/20-compressor-vane-row-3-upper.mp4"
+          ),
         name: "Compressor Vane Row 3 Upper",
         top: 235,
         left: 420,
       },
       {
         id: 20,
-        video: CICompressorSection21,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/21-compressor-vane-row-4-upper.mp4"
+          ),
         name: "Compressor Vane Row 4 Upper",
         top: 235,
         left: 435,
       },
       {
         id: 21,
-        video: CICompressorSection22,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/22-compressor-vane-row-5-upper.mp4"
+          ),
         name: "Compressor Vane Row 5 Upper",
         top: 225,
         left: 520,
       },
       {
         id: 22,
-        video: CICompressorSection23,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/23-compressor-vane-row-6-upper.mp4"
+          ),
         name: "Compressor Vane Row 6 Upper",
         top: 236,
         left: 540,
       },
       {
         id: 23,
-        video: CICompressorSection24,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/24-compressor-blade-row-1.mp4"
+          ),
         name: "Compressor Blade Row 1",
         top: 233,
         left: 620,
       },
       {
         id: 24,
-        video: CICompressorSection25,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/25-compressor-blade-row-2.mp4"
+          ),
         name: "Compressor Blade Row 2",
         top: 237,
         left: 560,
       },
       {
         id: 25,
-        video: CICompressorSection26,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/26-compressor-blade-row-3.mp4"
+          ),
         name: "Compressor Blade Row 3",
         top: 236,
         left: 480,
       },
       {
         id: 26,
-        video: CICompressorSection27,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/27-compressor-blade-row-4.mp4"
+          ),
         name: "Compressor Blade Row 4",
         top: 233,
         left: 480,
       },
       {
         id: 27,
-        video: CICompressorSection28,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/28-compressor-blade-row-5.mp4"
+          ),
         name: "Compressor Blade Row 5",
         top: 235,
         left: 390,
       },
       {
         id: 28,
-        video: CICompressorSection29,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/29-compressor-blade-row-6.mp4"
+          ),
         name: "Compressor Blade Row 6",
         top: 235,
         left: 295,
       },
       {
         id: 29,
-        video: CICompressorSection30,
-        duration: 155000,
+        video: () => import("/videos/add-scope/ci/compressor-section/30.mov"),
         name: "",
         top: 0,
         left: 0,
       },
       {
         id: 30,
-        video: CICompressorSection31,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/31-compressor-blade-row-6.mp4"
+          ),
         name: "Compressor Blade Row 6",
         top: 235,
         left: 290,
       },
       {
         id: 31,
-        video: CICompressorSection32,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/32-compressor-blade-row-5.mp4"
+          ),
         name: "Compressor Blade Row 5",
         top: 235,
         left: 380,
       },
       {
         id: 32,
-        video: CICompressorSection33,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/33-compressor-blade-row-4.mp4"
+          ),
         name: "Compressor Blade Row 4",
         top: 233,
         left: 480,
       },
       {
         id: 33,
-        video: CICompressorSection34,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/34-compressor-blade-row-3.mp4"
+          ),
         name: "Compressor Blade Row 3",
         top: 237,
         left: 480,
       },
       {
         id: 34,
-        video: CICompressorSection35,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/35-compressor-blade-row-2.mp4"
+          ),
         name: "Compressor Blade Row 2",
         top: 236,
         left: 560,
       },
       {
         id: 35,
-        video: CICompressorSection36,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/36-compressor-blade-row-1.mp4"
+          ),
         name: "Compressor Blade Row 1",
         top: 233,
         left: 620,
       },
       {
         id: 36,
-        video: CICompressorSection37,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/37-compressor-vane-row-1-upper.mp4"
+          ),
         name: "Compressor Vane Row 1 Upper",
         top: 242,
         left: 350,
       },
       {
         id: 37,
-        video: CICompressorSection38,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/38-compressor-vane-row-2-upper.mp4"
+          ),
         name: "Compressor Vane Row 2 Upper",
         top: 238,
         left: 350,
       },
       {
         id: 38,
-        video: CICompressorSection39,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/39-compressor-vane-row-3-upper.mp4"
+          ),
         name: "Compressor Vane Row 3 Upper",
         top: 237,
         left: 380,
       },
       {
         id: 39,
-        video: CICompressorSection40,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/40-compressor-vane-row-4-upper.mp4"
+          ),
         name: "Compressor Vane Row 4 Upper",
         top: 238,
         left: 1050,
       },
       {
         id: 40,
-        video: CICompressorSection41,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/41-compressor-vane-row-5-upper.mp4"
+          ),
         name: "Compressor Vane Row 5 Upper",
         top: 237,
         left: 1090,
       },
       {
         id: 41,
-        video: CICompressorSection42,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/42-compressor-vane-row-6-upper.mp4"
+          ),
         name: "Compressor Vane Row 6 Upper",
         top: 237,
         left: 550,
       },
       {
         id: 42,
-        video: CICompressorSection43,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/43-compressor-vane-row-1-lower.mp4"
+          ),
         name: "Compressor Vane Row 1 Lower",
         top: 240,
         left: 730,
       },
       {
         id: 43,
-        video: CICompressorSection44,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/44-compressor-vane-row-2-lower.mp4"
+          ),
         name: "Compressor Vane Row 2 Lower",
         top: 240,
         left: 580,
       },
       {
         id: 44,
-        video: CICompressorSection45,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/45-compressor-vane-row-3-lower.mp4"
+          ),
         name: "Compressor Vane Row 3 Lower",
         top: 233,
         left: 470,
       },
       {
         id: 45,
-        video: CICompressorSection46,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/46-compressor-vane-row-4-lower.mp4"
+          ),
         name: "Compressor Vane Row 4 Lower",
         top: 232,
         left: 1010,
       },
       {
         id: 46,
-        video: CICompressorSection47,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/47-compressor-vane-row-5-lower.mp4"
+          ),
         name: "Compressor Vane Row 5 Lower",
         top: 237,
         left: 910,
       },
       {
         id: 47,
-        video: CICompressorSection48,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/48-compressor-vane-row-6-lower.mp4"
+          ),
         name: "Compressor Vane Row 6 Lower",
         top: 237,
         left: 720,
       },
       {
         id: 48,
-        video: CICompressorSection49,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/49-compressor-cylinder.mp4"
+          ),
         name: "Compressor Cylinder",
         top: 236,
         left: 870,
       },
       {
         id: 49,
-        video: CICompressorSection50,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ci/compressor-section/50-rca-pipe.mp4"),
         name: "RCA Pipe",
         top: 237,
         left: 870,
       },
       {
         id: 50,
-        video: CICompressorSection51,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ci/compressor-section/51-cooling-pipe.mp4"),
         name: "Cooling Pipe",
         top: 237,
         left: 740,
       },
       {
         id: 51,
-        video: CICompressorSection52,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/52-fuel-manifold.mp4"
+          ),
         name: "Fuel Manifold",
         top: 236,
         left: 910,
       },
       {
         id: 52,
-        video: CICompressorSection53,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ci/compressor-section/53-igv-upper.mp4"),
         name: "IGV Upper",
         top: 237,
         left: 575,
       },
       {
         id: 53,
-        video: CICompressorSection54,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ci/compressor-section/54-seal-housing.mp4"),
         name: "Seal Housing",
         top: 236,
         left: 560,
       },
       {
         id: 54,
-        video: CICompressorSection55,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ci/compressor-section/55-igv-link.mp4"),
         name: "IGV Link",
         top: 233,
         left: 810,
       },
       {
         id: 55,
-        video: CICompressorSection56,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ci/compressor-section/56-casing-upper.mp4"),
         name: "Casing Upper",
         top: 235,
         left: 1000,
       },
       {
         id: 56,
-        video: CICompressorSection57,
-        duration: 155000,
-        name: "Vapour Piper",
+        video: () =>
+          import("/videos/add-scope/ci/compressor-section/57-vapour-pipe.mp4"),
+        name: "Vapour Pipe",
         top: 240,
         left: 595,
       },
       {
         id: 57,
-        video: CICompressorSection58,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/58-inlet-manifold.mp4"
+          ),
         name: "Inlet Manifold",
         top: 238,
         left: 520,
       },
       {
         id: 58,
-        video: CICompressorSection59,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ci/compressor-section/59-inlet-duct.mp4"),
         name: "Inlet Duct",
         top: 238,
         left: 560,
@@ -1099,384 +927,432 @@ const videosData = ref({
     ["generator-section"]: [
       {
         id: 0,
-        video: GeneratorSection1,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/1-cover-bearing-5.mp4"),
         name: "Cover Bearing 5",
         top: 235,
         left: 470,
       },
       {
         id: 1,
-        video: GeneratorSection2,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/2-turning-device.mp4"),
         name: "Turning Device",
         top: 233,
         left: 545,
       },
       {
         id: 2,
-        video: GeneratorSection3,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/3-base-plate-turning-device.mp4"
+          ),
         name: "Base Plate Turning Device",
         top: 235,
         left: 415,
       },
       {
         id: 3,
-        video: GeneratorSection4,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/4-cover-coupling-lower.mp4"
+          ),
         name: "Cover Coupling Lower",
         top: 235,
         left: 545,
       },
       {
         id: 4,
-        video: GeneratorSection5,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/5-air-seal-cover-exciter.mp4"
+          ),
         name: "Air Seal Cover Exciter",
         top: 235,
         left: 530,
       },
       {
         id: 5,
-        video: GeneratorSection6,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/6-cover-exciter.mp4"),
         name: "Cover Exciter",
         top: 235,
         left: 590,
       },
       {
         id: 6,
-        video: GeneratorSection7,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/7-cover-bearing-5.mp4"),
         name: "Cover Bearing 5",
         top: 235,
         left: 585,
       },
       {
         id: 7,
-        video: GeneratorSection8,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/8-bearing-5.mp4"),
         name: "Bearing 5",
         top: 240,
         left: 630,
       },
       {
         id: 8,
-        video: GeneratorSection9,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/9-pedestal-bearing-5.mp4"
+          ),
         name: "Pedestal Bearing 5",
         top: 235,
         left: 570,
       },
       {
         id: 9,
-        video: GeneratorSection10,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/10-cover-fan-outer-seal.mp4"
+          ),
         name: "Cover Fan Outer Seal",
         top: 235,
         left: 570,
       },
       {
         id: 10,
-        video: GeneratorSection11,
-        duration: 155000,
+        video: () => import("/videos/add-scope/generator-section/11-brush.mp4"),
         name: "Brush",
         top: 238,
         left: 705,
       },
       {
         id: 11,
-        video: GeneratorSection12,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/12-brush-rigging.mp4"),
         name: "Brush Rigging",
         top: 236,
         left: 660,
       },
       {
         id: 12,
-        video: GeneratorSection13,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/13-base-plate-bearing 5.mp4"
+          ),
         name: "Base Plate Bearing 5",
         top: 235,
         left: 580,
       },
       {
         id: 13,
-        video: GeneratorSection14,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/14-outer-oil-deflector-nde.mp4"
+          ),
         name: "Outer Oil Deflector NDE",
         top: 235,
         left: 615,
       },
       {
         id: 14,
-        video: GeneratorSection15,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/15-upper-outer-braket-nde.mp4"
+          ),
         name: "Upper Outer Braket NDE",
         top: 238,
         left: 570,
       },
       {
         id: 15,
-        video: GeneratorSection16,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/16-upper-bearing-4.mp4"),
         name: "Upper Bearing 4",
         top: 235,
         left: 670,
       },
       {
         id: 16,
-        video: GeneratorSection17,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/17-outer-oil-deflector-de.mp4"
+          ),
         name: "Outer Oil Deflector DE",
         top: 235,
         left: 615,
       },
       {
         id: 17,
-        video: GeneratorSection18,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/18-upper-outer-bracket-nde.mp4"
+          ),
         name: "Upper Outer Bracket NDE",
         top: 235,
         left: 560,
       },
       {
         id: 18,
-        video: GeneratorSection19,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/19-upper-bearing-3.mp4"),
         name: "Upper Bearing 3",
         top: 235,
         left: 580,
       },
       {
         id: 19,
-        video: GeneratorSection20,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/20-lower-bearing-4.mp4"),
         name: "Lower Bearing 4",
         top: 235,
         left: 660,
       },
       {
         id: 20,
-        video: GeneratorSection21,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/21-lower-outer-bracket-nde.mp4"
+          ),
         name: "Lower Outer Bracket NDE",
         top: 238,
         left: 590,
       },
       {
         id: 21,
-        video: GeneratorSection22,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/22-lower-bearing-3.mp4"),
         name: "Lower Bearing 3",
         top: 238,
         left: 580,
       },
       {
         id: 22,
-        video: GeneratorSection23,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/23-lower-outer-bracket-nde.mp4"
+          ),
         name: "Lower Outer Bracket NDE",
         top: 236,
         left: 535,
       },
       {
         id: 23,
-        video: GeneratorSection24,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/24-rotor-generator.mp4"),
         name: "Rotor Generator",
         top: 236,
         left: 740,
       },
       {
         id: 24,
-        video: GeneratorSection25,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/25-rotor-generator.mp4"),
         name: "Rotor Generator",
         top: 238,
         left: 700,
       },
       {
         id: 25,
-        video: GeneratorSection26,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/26-lower-outer-bracket-nde.mp4"
+          ),
         name: "Lower Outer Bracket NDE",
         top: 238,
         left: 595,
       },
       {
         id: 26,
-        video: GeneratorSection27,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/27-lower-bearing-3.mp4"),
         name: "Lower Bearing 3",
         top: 237,
         left: 580,
       },
       {
         id: 27,
-        video: GeneratorSection28,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/28-lower-outer-bracket-nde.mp4"
+          ),
         name: "Lower Outer Bracket NDE",
         top: 236,
         left: 590,
       },
       {
         id: 28,
-        video: GeneratorSection29,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/29-lower-bearing-4.mp4"),
         name: "Lower Bearing 4",
         top: 236,
         left: 660,
       },
       {
         id: 29,
-        video: GeneratorSection30,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/30-upper-bearing-4.mp4"),
         name: "Upper Bearing 4",
         top: 236,
         left: 660,
       },
       {
         id: 30,
-        video: GeneratorSection31,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/31-upper-outer-bracket-nde.mp4"
+          ),
         name: "Upper Outer Bracket NDE",
         top: 235,
         left: 560,
       },
       {
         id: 31,
-        video: GeneratorSection32,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/32-upper-bearing-3.mp4"),
         name: "Upper Bearing 3",
         top: 236,
         left: 580,
       },
       {
         id: 32,
-        video: GeneratorSection33,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/33-upper-outer-bracket-nde.mp4"
+          ),
         name: "Upper Outer Bracket NDE",
         top: 236,
         left: 560,
       },
       {
         id: 33,
-        video: GeneratorSection34,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/34-outer-oil-deflector-de.mp4"
+          ),
         name: "Outer Oil Deflector DE",
         top: 236,
         left: 620,
       },
       {
         id: 34,
-        video: GeneratorSection35,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/35-outer-oil-deflector-nde.mp4"
+          ),
         name: "Outer Oil Deflector NDE",
         top: 236,
         left: 615,
       },
       {
         id: 35,
-        video: GeneratorSection36,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/36-base-plate-bearing-5.mp4"
+          ),
         name: "Base Plate Bearing 5",
         top: 236,
         left: 580,
       },
       {
         id: 36,
-        video: GeneratorSection37,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/37-brush-rigging.mp4"),
         name: "Brush Rigging",
         top: 236,
         left: 660,
       },
       {
         id: 37,
-        video: GeneratorSection38,
-        duration: 155000,
+        video: () => import("/videos/add-scope/generator-section/38-brush.mp4"),
         name: "Brush",
         top: 236,
         left: 710,
       },
       {
         id: 38,
-        video: GeneratorSection39,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/39-cover-fan-outer-seal.mp4"
+          ),
         name: "Cover Fan Outer Seal",
         top: 235,
         left: 570,
       },
       {
         id: 39,
-        video: GeneratorSection40,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/40-pedestal-bearing-5.mp4"
+          ),
         name: "Pedestal Bearing 5",
         top: 235,
         left: 570,
       },
       {
         id: 40,
-        video: GeneratorSection41,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/41-bearing-5.mp4"),
         name: "Bearing 5",
         top: 240,
         left: 630,
       },
       {
         id: 41,
-        video: GeneratorSection42,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/42-cover-bearing-5.mp4"),
         name: "Cover Bearing 5",
         top: 236,
         left: 585,
       },
       {
         id: 42,
-        video: GeneratorSection43,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/43-cover-exciter.mp4"),
         name: "Cover Exciter",
         top: 235,
         left: 590,
       },
       {
         id: 43,
-        video: GeneratorSection44,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/44-air-seal-cover-exciter.mp4"
+          ),
         name: "Air Seal Cover Exciter",
         top: 235,
         left: 530,
       },
       {
         id: 44,
-        video: GeneratorSection45,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/45-base-plate-turning-device.mp4"
+          ),
         name: "Base Plate Turning Device",
         top: 237,
         left: 415,
       },
       {
         id: 45,
-        video: GeneratorSection46,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/46-housing-coupling-turning-device.mp4"
+          ),
         name: "Housing Coupling Turning Device",
         top: 235,
         left: 470,
       },
       {
         id: 46,
-        video: GeneratorSection47,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/47-turning-device.mp4"),
         name: "Turning Device",
         top: 233,
         left: 545,
       },
       {
         id: 47,
-        video: GeneratorSection48,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/48-cover-coupling-turning-device.mp4"
+          ),
         name: "Cover Coupling Turning Device",
         top: 235,
         left: 465,
@@ -1485,312 +1361,347 @@ const videosData = ref({
     ["turbine-section"]: [
       {
         id: 0,
-        video: CITurbineSection1,
-        duration: 1500,
+        video: () => import("/videos/turbine-inspection/12-cooling-pipe.mp4"),
         name: "Cooling Pipe",
         top: 240,
         left: 700,
       },
       {
         id: 1,
-        video: CITurbineSection2,
-        duration: 1500,
+        video: () =>
+          import("/videos/turbine-inspection/13-turbine-cylinder.mp4"),
         name: "Turbine Cylinder",
         top: 241,
         left: 1010,
       },
       {
         id: 2,
-        video: CITurbineSection3,
-        duration: 1500,
+        video: () => import("/videos/turbine-inspection/17-bypass-ring.mp4"),
         name: "Bypass Ring",
         top: 240,
         left: 960,
       },
       {
         id: 3,
-        video: CITurbineSection4,
-        duration: 1500,
+        video: () =>
+          import("/videos/turbine-inspection/18-turbine-vane-row-1-upper.mp4"),
         name: "Turbine Vane Row 1 Upper",
         top: 240,
         left: 770,
       },
       {
         id: 4,
-        video: CITurbineSection5,
-        duration: 1500,
+        video: () =>
+          import("/videos/turbine-inspection/19-turbine-vane-row-4-upper.mp4"),
         name: "Turbine Vane Row 4 Upper",
         top: 240,
         left: 860,
       },
       {
         id: 5,
-        video: CITurbineSection6,
-        duration: 1500,
+        video: () =>
+          import("/videos/turbine-inspection/20-turbine-vane-row-3-upper.mp4"),
         name: "Turbine Vane Row 3 Upper",
         top: 240,
         left: 980,
       },
       {
         id: 6,
-        video: CITurbineSection7,
-        duration: 1500,
+        video: () =>
+          import("/videos/turbine-inspection/21-turbine-vane-row-2-upper.mp4"),
         name: "Turbine Vane Row 2 Upper",
         top: 240,
         left: 640,
       },
       {
         id: 7,
-        video: CITurbineSection8,
-        duration: 1500,
+        video: () =>
+          import("/videos/turbine-inspection/22-turbine-blade-ring-1.mp4"),
         name: "Turbine Blade Ring 1",
         top: 240,
         left: 815,
       },
       {
         id: 8,
-        video: CITurbineSection9,
-        duration: 1500,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/23-turbine-seal-housing-row-2.mp4"
+          ),
         name: "Turbine Seal Housing Row 2",
         top: 240,
         left: 690,
       },
       {
         id: 9,
-        video: CITurbineSection10,
-        duration: 1500,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/24-turbine-seal-housing-row-3.mp4"
+          ),
         name: "Turbine Seal Housing Row 3",
         top: 240,
         left: 1100,
       },
       {
         id: 10,
-        video: CITurbineSection11,
-        duration: 1500,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/25-turbine-seal-housing-row-4-lower.mp4"
+          ),
         name: "Turbine Seal Housing Row 4 Lower",
         top: 240,
         left: 1090,
       },
       {
         id: 11,
-        video: CITurbineSection12,
-        duration: 1500,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/26-turbine-blade-ring-row-1-lower.mp4"
+          ),
         name: "Turbine Blade Ring Row 1 Lower",
         top: 428,
         left: 780,
       },
       {
         id: 12,
-        video: CITurbineSection13,
-        duration: 1500,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/27-turbine-blade-ring-row-2-lower.mp4"
+          ),
         name: "Turbine Blade Ring Row 2 Lower",
         top: 240,
         left: 610,
       },
       {
         id: 13,
-        video: CITurbineSection14,
-        duration: 1500,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/28-turbine-blade-ring-row-3-lower.mp4"
+          ),
         name: "Turbine Blade Ring Row 3 Lower",
         top: 240,
         left: 1000,
       },
       {
         id: 14,
-        video: CITurbineSection15,
-        duration: 1500,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/29-turbine-blade-ring-row-4-lower.mp4"
+          ),
         name: "Turbine Blade Ring Row 4 Lower",
         top: 241,
         left: 830,
       },
       {
         id: 15,
-        video: CITurbineSection16,
-        duration: 1500,
+        video: () =>
+          import("/videos/turbine-inspection/30-turbine-blade-row-1.mp4"),
         name: "Turbine Blade Row 1",
         top: 243,
         left: 750,
       },
       {
         id: 16,
-        video: CITurbineSection17,
-        duration: 1500,
+        video: () =>
+          import("/videos/turbine-inspection/31-turbine-blade-row-2.mp4"),
         name: "Turbine Blade Row 2",
         top: 242,
         left: 640,
       },
       {
         id: 17,
-        video: CITurbineSection18,
-        duration: 1500,
+        video: () =>
+          import("/videos/turbine-inspection/32-turbine-blade-row-3.mp4"),
         name: "Turbine Blade Row 3",
         top: 241,
         left: 950,
       },
       {
         id: 18,
-        video: CITurbineSection19,
-        duration: 1500,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/turbine-section/19-turbine-blade-row-4.mp4"
+          ),
         name: "Turbine Blade Row 4",
         top: 241,
         left: 900,
       },
       {
         id: 19,
-        video: CITurbineSection20,
-        duration: 1500,
+        video: () => import("/videos/add-scope/ci/turbine-section/20.mp4"),
         name: "",
         top: 0,
         left: 0,
       },
       {
         id: 20,
-        video: CITurbineSection21,
-        duration: 1500,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/turbine-section/21-turbine-blade-row-4.mp4"
+          ),
         name: "Turbine Blade Row 4",
         top: 241,
         left: 900,
       },
       {
         id: 21,
-        video: CITurbineSection22,
-        duration: 155000,
+        video: () =>
+          import("/videos/turbine-inspection/75-turbine-blade-row-3.mp4"),
         name: "Turbine Blade Row 3",
         top: 241,
         left: 1090,
       },
       {
         id: 22,
-        video: CITurbineSection23,
-        duration: 155000,
+        video: () =>
+          import("/videos/turbine-inspection/76-turbine-blade-row-2.mp4"),
         name: "Turbine Blade Row 2",
         top: 240,
         left: 620,
       },
       {
         id: 23,
-        video: CITurbineSection24,
-        duration: 155000,
+        video: () =>
+          import("/videos/turbine-inspection/77-turbine-blade-row-1.mp4"),
         name: "Turbine Blade Row 1",
         top: 240,
         left: 785,
       },
       {
         id: 24,
-        video: CITurbineSection25,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/78-turbine-blade-ring-row-4-lower.mp4"
+          ),
         name: "Turbine Blade Ring Row 4 Lower",
         top: 241,
         left: 920,
       },
       {
         id: 25,
-        video: CITurbineSection26,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/79-turbine-blade-ring-row-3-lower.mp4"
+          ),
         name: "Turbine Blade Ring Row 3 Lower",
         top: 241,
         left: 1120,
       },
       {
         id: 26,
-        video: CITurbineSection27,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/80-turbine-blade-ring-row-2-lower.mp4"
+          ),
         name: "Turbine Blade Ring Row 2 Lower",
         top: 241,
         left: 545,
       },
       {
         id: 27,
-        video: CITurbineSection28,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/81-turbine-blade-ring-row-1-lower.mp4"
+          ),
         name: "Turbine Blade Ring Row 1 Lower",
         top: 241,
         left: 645,
       },
       {
         id: 28,
-        video: CITurbineSection29,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/82-turbine-seal-housing-row-2-upper.mp4"
+          ),
         name: "Turbine Seal Housing Row 2 Upper",
         top: 241,
         left: 550,
       },
       {
         id: 29,
-        video: CITurbineSection30,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/83-turbine-seal-housing-row-3-upper.mp4"
+          ),
         name: "Turbine Seal Housing Row 3 Upper",
         top: 241,
         left: 445,
       },
       {
         id: 30,
-        video: CITurbineSection31,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/84-turbine-seal-housing-row-4-upper.mp4"
+          ),
         name: "Turbine Seal Housing Row 4 Upper",
         top: 240,
         left: 1030,
       },
       {
         id: 31,
-        video: CITurbineSection32,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/85-turbine-blade-ring-row-1-upper.mp4"
+          ),
         name: "Turbine Blade Ring Row 1 Upper",
         top: 238,
         left: 620,
       },
       {
         id: 32,
-        video: CITurbineSection33,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/86-turbine-blade-ring-row-2-upper.mp4"
+          ),
         name: "Turbine Blade Ring Row 2 Upper",
         top: 238,
         left: 1120,
       },
       {
         id: 33,
-        video: CITurbineSection34,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/87-turbine-blade-ring-row-3-upper.mp4"
+          ),
         name: "Turbine Blade Ring Row 3 Upper",
         top: 239,
         left: 990,
       },
       {
         id: 34,
-        video: CITurbineSection35,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/88-turbine-blade-ring-row-4-upper.mp4"
+          ),
         name: "Turbine Blade Ring Row 4 Upper",
         top: 239,
         left: 850,
       },
       {
         id: 35,
-        video: CITurbineSection36,
-        duration: 155000,
+        video: () =>
+          import("/videos/turbine-inspection/89-turbine-van-row-1-upper.mp4"),
         name: "Turbine Van Row 1 Upper",
         top: 239,
         left: 710,
       },
       {
         id: 36,
-        video: CITurbineSection37,
-        duration: 155000,
+        video: () => import("/videos/turbine-inspection/90-bypass-ring.mp4"),
         name: "Bypass Ring",
         top: 238,
         left: 840,
       },
       {
         id: 37,
-        video: CITurbineSection38,
-        duration: 155000,
+        video: () =>
+          import("/videos/turbine-inspection/91-turbine-cylinder.mp4"),
         name: "Turbine Cylinder",
         top: 238,
         left: 1085,
       },
       {
         id: 38,
-        video: CITurbineSection39,
-        duration: 155000,
+        video: () => import("/videos/turbine-inspection/92-cooling-pipe.mp4"),
         name: "Cooling Pipe",
         top: 238,
         left: 1060,
@@ -1799,408 +1710,446 @@ const videosData = ref({
     ["exhaust-section"]: [
       {
         id: 0,
-        video: TI12,
-        duration: 1500,
+        video: () => import("/videos/turbine-inspection/12-cooling-pipe.mp4"),
         name: "Cooling Pipe",
         top: 240,
         left: 700,
       },
       {
         id: 1,
-        video: TI13,
-        duration: 1500,
+        video: () =>
+          import("/videos/turbine-inspection/13-turbine-cylinder.mp4"),
         name: "Turbine Cylinder",
         top: 241,
         left: 1010,
       },
       {
         id: 2,
-        video: CIExhaustSection3,
-        duration: 1500,
+        video: () =>
+          import("/videos/add-scope/ci/exhaust-section/3-bypass-ring.mp4"),
         name: "Bypass Ring",
         top: 241,
         left: 960,
       },
       {
         id: 3,
-        video: TI18,
-        duration: 1500,
+        video: () =>
+          import("/videos/turbine-inspection/18-turbine-vane-row-1-upper.mp4"),
         name: "Turbine Vane Row 1 Upper",
         top: 240,
         left: 770,
       },
       {
         id: 4,
-        video: TI19,
-        duration: 1500,
+        video: () =>
+          import("/videos/turbine-inspection/19-turbine-vane-row-4-upper.mp4"),
         name: "Turbine Vane Row 4 Upper",
         top: 240,
         left: 860,
       },
       {
         id: 5,
-        video: TI20,
-        duration: 1500,
+        video: () =>
+          import("/videos/turbine-inspection/20-turbine-vane-row-3-upper.mp4"),
         name: "Turbine Vane Row 3 Upper",
         top: 240,
         left: 980,
       },
       {
         id: 6,
-        video: TI21,
-        duration: 1500,
+        video: () =>
+          import("/videos/turbine-inspection/21-turbine-vane-row-2-upper.mp4"),
         name: "Turbine Vane Row 2 Upper",
         top: 240,
         left: 640,
       },
       {
         id: 7,
-        video: TI22,
-        duration: 1500,
+        video: () =>
+          import("/videos/turbine-inspection/22-turbine-blade-ring-1.mp4"),
         name: "Turbine Blade Ring 1",
         top: 240,
         left: 815,
       },
       {
         id: 8,
-        video: TI23,
-        duration: 1500,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/23-turbine-seal-housing-row-2.mp4"
+          ),
         name: "Turbine Seal Housing Row 2",
         top: 240,
         left: 690,
       },
       {
         id: 9,
-        video: TI24,
-        duration: 1500,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/24-turbine-seal-housing-row-3.mp4"
+          ),
         name: "Turbine Seal Housing Row 3",
         top: 240,
         left: 1100,
       },
       {
         id: 10,
-        video: TI25,
-        duration: 1500,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/25-turbine-seal-housing-row-4-lower.mp4"
+          ),
         name: "Turbine Seal Housing Row 4 Lower",
         top: 240,
         left: 1090,
       },
       {
         id: 11,
-        video: TI26,
-        duration: 1500,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/26-turbine-blade-ring-row-1-lower.mp4"
+          ),
         name: "Turbine Blade Ring Row 1 Lower",
         top: 428,
         left: 780,
       },
       {
         id: 12,
-        video: TI27,
-        duration: 1500,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/27-turbine-blade-ring-row-2-lower.mp4"
+          ),
         name: "Turbine Blade Ring Row 2 Lower",
         top: 240,
         left: 610,
       },
       {
         id: 13,
-        video: TI28,
-        duration: 1500,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/28-turbine-blade-ring-row-3-lower.mp4"
+          ),
         name: "Turbine Blade Ring Row 3 Lower",
         top: 240,
         left: 1000,
       },
       {
         id: 14,
-        video: TI29,
-        duration: 1500,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/29-turbine-blade-ring-row-4-lower.mp4"
+          ),
         name: "Turbine Blade Ring Row 4 Lower",
         top: 241,
         left: 830,
       },
       {
         id: 15,
-        video: TI30,
-        duration: 1500,
+        video: () =>
+          import("/videos/turbine-inspection/30-turbine-blade-row-1.mp4"),
         name: "Turbine Blade Row 1",
         top: 243,
         left: 750,
       },
       {
         id: 16,
-        video: TI31,
-        duration: 1500,
+        video: () =>
+          import("/videos/turbine-inspection/31-turbine-blade-row-2.mp4"),
         name: "Turbine Blade Row 2",
         top: 242,
         left: 640,
       },
       {
         id: 17,
-        video: TI32,
-        duration: 1500,
+        video: () =>
+          import("/videos/turbine-inspection/32-turbine-blade-row-3.mp4"),
         name: "Turbine Blade Row 3",
         top: 241,
         left: 950,
       },
       {
         id: 18,
-        video: CITurbineSection19,
-        duration: 1500,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/turbine-section/19-turbine-blade-row-4.mp4"
+          ),
         name: "Turbine Blade Row 4",
         top: 241,
         left: 900,
       },
       {
         id: 19,
-        video: TIExhaustSection1,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/exhaust-section/1-exhaust-manifold.mp4"),
         name: "Exhaust Manifold",
         top: 237,
         left: 910,
       },
       {
         id: 20,
-        video: TIExhaustSection2,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/exhaust-section/2-ost-pipe.mp4"),
         name: "OST Pipe",
         top: 238,
         left: 1110,
       },
       {
         id: 21,
-        video: TIExhaustSection3,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/exhaust-section/3-ost-cover.mp4"),
         name: "OST Cover",
         top: 242,
         left: 850,
       },
       {
         id: 22,
-        video: TIExhaustSection4,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/exhaust-section/4-ost-device.mp4"),
         name: "OST Device",
         top: 240,
         left: 830,
       },
       {
         id: 23,
-        video: TIExhaustSection5,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/exhaust-section/5-exhaust-cylinder.mp4"),
         name: "Exhaust Cylinder",
         top: 238,
         left: 1170,
       },
       {
         id: 24,
-        video: TIExhaustSection6,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/exhaust-section/6-upper-bearing-1.mp4"),
         name: "Upper Bearing 1",
         top: 238,
         left: 810,
       },
       {
         id: 25,
-        video: TIExhaustSection7,
-        duration: 155000,
+        video: () => import("/videos/add-scope/ti/exhaust-section/7.mp4"),
         name: "",
         top: 0,
         left: 0,
       },
       {
         id: 26,
-        video: TIExhaustSection8,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/exhaust-section/8-upper-bearing-1.mp4"),
         name: "Upper Bearing 1",
         top: 238,
         left: 810,
       },
       {
         id: 27,
-        video: TIExhaustSection9,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/exhaust-section/9-exhaust-cylinder.mp4"),
         name: "Exhaust Cylinder",
         top: 238,
         left: 590,
       },
       {
         id: 28,
-        video: TIExhaustSection10,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/exhaust-section/10-ost-device.mp4"),
         name: "OST Device",
         top: 240,
         left: 830,
       },
       {
         id: 29,
-        video: TIExhaustSection11,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/exhaust-section/11-ost-cover.mp4"),
         name: "OST Cover",
         top: 242,
         left: 850,
       },
       {
         id: 30,
-        video: TIExhaustSection12,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/exhaust-section/12-ost-pipe.mp4"),
         name: "OST Pipe",
         top: 238,
         left: 1110,
       },
       {
         id: 31,
-        video: TIExhaustSection13,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ti/exhaust-section/13-exhaust-manifold.mp4"
+          ),
         name: "Exhaust Manifold",
         top: 238,
         left: 910,
       },
       {
         id: 32,
-        video: CITurbineSection21,
-        duration: 1500,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/turbine-section/21-turbine-blade-row-4.mp4"
+          ),
         name: "Turbine Blade Row 4",
         top: 241,
         left: 900,
       },
       {
         id: 33,
-        video: TI75,
-        duration: 155000,
+        video: () =>
+          import("/videos/turbine-inspection/75-turbine-blade-row-3.mp4"),
         name: "Turbine Blade Row 3",
         top: 241,
         left: 1090,
       },
       {
         id: 34,
-        video: TI76,
-        duration: 155000,
+        video: () =>
+          import("/videos/turbine-inspection/76-turbine-blade-row-2.mp4"),
         name: "Turbine Blade Row 2",
         top: 240,
         left: 620,
       },
       {
         id: 35,
-        video: TI77,
-        duration: 155000,
+        video: () =>
+          import("/videos/turbine-inspection/77-turbine-blade-row-1.mp4"),
         name: "Turbine Blade Row 1",
         top: 240,
         left: 785,
       },
       {
         id: 36,
-        video: TI78,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/78-turbine-blade-ring-row-4-lower.mp4"
+          ),
         name: "Turbine Blade Ring Row 4 Lower",
         top: 241,
         left: 920,
       },
       {
         id: 37,
-        video: TI79,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/79-turbine-blade-ring-row-3-lower.mp4"
+          ),
         name: "Turbine Blade Ring Row 3 Lower",
         top: 241,
         left: 1120,
       },
       {
         id: 38,
-        video: TI80,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/80-turbine-blade-ring-row-2-lower.mp4"
+          ),
         name: "Turbine Blade Ring Row 2 Lower",
         top: 241,
         left: 545,
       },
       {
         id: 39,
-        video: TI81,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/81-turbine-blade-ring-row-1-lower.mp4"
+          ),
         name: "Turbine Blade Ring Row 1 Lower",
         top: 241,
         left: 645,
       },
       {
         id: 40,
-        video: TI82,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/82-turbine-seal-housing-row-2-upper.mp4"
+          ),
         name: "Turbine Seal Housing Row 2 Upper",
         top: 241,
         left: 550,
       },
       {
         id: 41,
-        video: TI83,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/83-turbine-seal-housing-row-3-upper.mp4"
+          ),
         name: "Turbine Seal Housing Row 3 Upper",
         top: 241,
         left: 445,
       },
       {
         id: 42,
-        video: TI84,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/84-turbine-seal-housing-row-4-upper.mp4"
+          ),
         name: "Turbine Seal Housing Row 4 Upper",
         top: 240,
         left: 1030,
       },
       {
         id: 43,
-        video: TI85,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/85-turbine-blade-ring-row-1-upper.mp4"
+          ),
         name: "Turbine Blade Ring Row 1 Upper",
         top: 238,
         left: 620,
       },
       {
         id: 44,
-        video: TI86,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/86-turbine-blade-ring-row-2-upper.mp4"
+          ),
         name: "Turbine Blade Ring Row 2 Upper",
         top: 238,
         left: 1120,
       },
       {
         id: 45,
-        video: TI87,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/87-turbine-blade-ring-row-3-upper.mp4"
+          ),
         name: "Turbine Blade Ring Row 3 Upper",
         top: 239,
         left: 990,
       },
       {
         id: 46,
-        video: TI88,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/turbine-inspection/88-turbine-blade-ring-row-4-upper.mp4"
+          ),
         name: "Turbine Blade Ring Row 4 Upper",
         top: 239,
         left: 850,
       },
       {
         id: 47,
-        video: TI89,
-        duration: 155000,
+        video: () =>
+          import("/videos/turbine-inspection/89-turbine-van-row-1-upper.mp4"),
         name: "Turbine Van Row 1 Upper",
         top: 239,
         left: 710,
       },
       {
         id: 48,
-        video: TI90,
-        duration: 155000,
+        video: () => import("/videos/turbine-inspection/90-bypass-ring.mp4"),
         name: "Bypass Ring",
         top: 238,
         left: 840,
       },
       {
         id: 49,
-        video: TI91,
-        duration: 155000,
+        video: () =>
+          import("/videos/turbine-inspection/91-turbine-cylinder.mp4"),
         name: "Turbine Cylinder",
         top: 238,
         left: 1085,
       },
       {
         id: 50,
-        video: TI92,
-        duration: 155000,
+        video: () => import("/videos/turbine-inspection/92-cooling-pipe.mp4"),
         name: "Cooling Pipe",
         top: 238,
         left: 1060,
@@ -2211,384 +2160,432 @@ const videosData = ref({
     ["generator-section"]: [
       {
         id: 0,
-        video: GeneratorSection1,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/1-cover-bearing-5.mp4"),
         name: "Cover Bearing 5",
         top: 235,
         left: 470,
       },
       {
         id: 1,
-        video: GeneratorSection2,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/2-turning-device.mp4"),
         name: "Turning Device",
         top: 233,
         left: 545,
       },
       {
         id: 2,
-        video: GeneratorSection3,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/3-base-plate-turning-device.mp4"
+          ),
         name: "Base Plate Turning Device",
         top: 235,
         left: 415,
       },
       {
         id: 3,
-        video: GeneratorSection4,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/4-cover-coupling-lower.mp4"
+          ),
         name: "Cover Coupling Lower",
         top: 235,
         left: 545,
       },
       {
         id: 4,
-        video: GeneratorSection5,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/5-air-seal-cover-exciter.mp4"
+          ),
         name: "Air Seal Cover Exciter",
         top: 235,
         left: 530,
       },
       {
         id: 5,
-        video: GeneratorSection6,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/6-cover-exciter.mp4"),
         name: "Cover Exciter",
         top: 235,
         left: 590,
       },
       {
         id: 6,
-        video: GeneratorSection7,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/7-cover-bearing-5.mp4"),
         name: "Cover Bearing 5",
         top: 235,
         left: 585,
       },
       {
         id: 7,
-        video: GeneratorSection8,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/8-bearing-5.mp4"),
         name: "Bearing 5",
         top: 240,
         left: 630,
       },
       {
         id: 8,
-        video: GeneratorSection9,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/9-pedestal-bearing-5.mp4"
+          ),
         name: "Pedestal Bearing 5",
         top: 235,
         left: 570,
       },
       {
         id: 9,
-        video: GeneratorSection10,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/10-cover-fan-outer-seal.mp4"
+          ),
         name: "Cover Fan Outer Seal",
         top: 235,
         left: 570,
       },
       {
         id: 10,
-        video: GeneratorSection11,
-        duration: 155000,
+        video: () => import("/videos/add-scope/generator-section/11-brush.mp4"),
         name: "Brush",
         top: 238,
         left: 705,
       },
       {
         id: 11,
-        video: GeneratorSection12,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/12-brush-rigging.mp4"),
         name: "Brush Rigging",
         top: 236,
         left: 660,
       },
       {
         id: 12,
-        video: GeneratorSection13,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/13-base-plate-bearing 5.mp4"
+          ),
         name: "Base Plate Bearing 5",
         top: 235,
         left: 580,
       },
       {
         id: 13,
-        video: GeneratorSection14,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/14-outer-oil-deflector-nde.mp4"
+          ),
         name: "Outer Oil Deflector NDE",
         top: 235,
         left: 615,
       },
       {
         id: 14,
-        video: GeneratorSection15,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/15-upper-outer-braket-nde.mp4"
+          ),
         name: "Upper Outer Braket NDE",
         top: 238,
         left: 570,
       },
       {
         id: 15,
-        video: GeneratorSection16,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/16-upper-bearing-4.mp4"),
         name: "Upper Bearing 4",
         top: 235,
         left: 670,
       },
       {
         id: 16,
-        video: GeneratorSection17,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/17-outer-oil-deflector-de.mp4"
+          ),
         name: "Outer Oil Deflector DE",
         top: 235,
         left: 615,
       },
       {
         id: 17,
-        video: GeneratorSection18,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/18-upper-outer-bracket-nde.mp4"
+          ),
         name: "Upper Outer Bracket NDE",
         top: 235,
         left: 560,
       },
       {
         id: 18,
-        video: GeneratorSection19,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/19-upper-bearing-3.mp4"),
         name: "Upper Bearing 3",
         top: 235,
         left: 580,
       },
       {
         id: 19,
-        video: GeneratorSection20,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/20-lower-bearing-4.mp4"),
         name: "Lower Bearing 4",
         top: 235,
         left: 660,
       },
       {
         id: 20,
-        video: GeneratorSection21,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/21-lower-outer-bracket-nde.mp4"
+          ),
         name: "Lower Outer Bracket NDE",
         top: 238,
         left: 590,
       },
       {
         id: 21,
-        video: GeneratorSection22,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/22-lower-bearing-3.mp4"),
         name: "Lower Bearing 3",
         top: 238,
         left: 580,
       },
       {
         id: 22,
-        video: GeneratorSection23,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/23-lower-outer-bracket-nde.mp4"
+          ),
         name: "Lower Outer Bracket NDE",
         top: 236,
         left: 535,
       },
       {
         id: 23,
-        video: GeneratorSection24,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/24-rotor-generator.mp4"),
         name: "Rotor Generator",
         top: 236,
         left: 740,
       },
       {
         id: 24,
-        video: GeneratorSection25,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/25-rotor-generator.mp4"),
         name: "Rotor Generator",
         top: 238,
         left: 700,
       },
       {
         id: 25,
-        video: GeneratorSection26,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/26-lower-outer-bracket-nde.mp4"
+          ),
         name: "Lower Outer Bracket NDE",
         top: 238,
         left: 595,
       },
       {
         id: 26,
-        video: GeneratorSection27,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/27-lower-bearing-3.mp4"),
         name: "Lower Bearing 3",
         top: 237,
         left: 580,
       },
       {
         id: 27,
-        video: GeneratorSection28,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/28-lower-outer-bracket-nde.mp4"
+          ),
         name: "Lower Outer Bracket NDE",
         top: 236,
         left: 590,
       },
       {
         id: 28,
-        video: GeneratorSection29,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/29-lower-bearing-4.mp4"),
         name: "Lower Bearing 4",
         top: 236,
         left: 660,
       },
       {
         id: 29,
-        video: GeneratorSection30,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/30-upper-bearing-4.mp4"),
         name: "Upper Bearing 4",
         top: 236,
         left: 660,
       },
       {
         id: 30,
-        video: GeneratorSection31,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/31-upper-outer-bracket-nde.mp4"
+          ),
         name: "Upper Outer Bracket NDE",
         top: 235,
         left: 560,
       },
       {
         id: 31,
-        video: GeneratorSection32,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/32-upper-bearing-3.mp4"),
         name: "Upper Bearing 3",
         top: 236,
         left: 580,
       },
       {
         id: 32,
-        video: GeneratorSection33,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/33-upper-outer-bracket-nde.mp4"
+          ),
         name: "Upper Outer Bracket NDE",
         top: 236,
         left: 560,
       },
       {
         id: 33,
-        video: GeneratorSection34,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/34-outer-oil-deflector-de.mp4"
+          ),
         name: "Outer Oil Deflector DE",
         top: 236,
         left: 620,
       },
       {
         id: 34,
-        video: GeneratorSection35,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/35-outer-oil-deflector-nde.mp4"
+          ),
         name: "Outer Oil Deflector NDE",
         top: 236,
         left: 615,
       },
       {
         id: 35,
-        video: GeneratorSection36,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/36-base-plate-bearing-5.mp4"
+          ),
         name: "Base Plate Bearing 5",
         top: 236,
         left: 580,
       },
       {
         id: 36,
-        video: GeneratorSection37,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/37-brush-rigging.mp4"),
         name: "Brush Rigging",
         top: 236,
         left: 660,
       },
       {
         id: 37,
-        video: GeneratorSection38,
-        duration: 155000,
+        video: () => import("/videos/add-scope/generator-section/38-brush.mp4"),
         name: "Brush",
         top: 236,
         left: 710,
       },
       {
         id: 38,
-        video: GeneratorSection39,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/39-cover-fan-outer-seal.mp4"
+          ),
         name: "Cover Fan Outer Seal",
         top: 235,
         left: 570,
       },
       {
         id: 39,
-        video: GeneratorSection40,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/40-pedestal-bearing-5.mp4"
+          ),
         name: "Pedestal Bearing 5",
         top: 235,
         left: 570,
       },
       {
         id: 40,
-        video: GeneratorSection41,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/41-bearing-5.mp4"),
         name: "Bearing 5",
         top: 240,
         left: 630,
       },
       {
         id: 41,
-        video: GeneratorSection42,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/42-cover-bearing-5.mp4"),
         name: "Cover Bearing 5",
         top: 236,
         left: 585,
       },
       {
         id: 42,
-        video: GeneratorSection43,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/43-cover-exciter.mp4"),
         name: "Cover Exciter",
         top: 235,
         left: 590,
       },
       {
         id: 43,
-        video: GeneratorSection44,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/44-air-seal-cover-exciter.mp4"
+          ),
         name: "Air Seal Cover Exciter",
         top: 235,
         left: 530,
       },
       {
         id: 44,
-        video: GeneratorSection45,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/45-base-plate-turning-device.mp4"
+          ),
         name: "Base Plate Turning Device",
         top: 237,
         left: 415,
       },
       {
         id: 45,
-        video: GeneratorSection46,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/46-housing-coupling-turning-device.mp4"
+          ),
         name: "Housing Coupling Turning Device",
         top: 235,
         left: 470,
       },
       {
         id: 46,
-        video: GeneratorSection47,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/47-turning-device.mp4"),
         name: "Turning Device",
         top: 233,
         left: 545,
       },
       {
         id: 47,
-        video: GeneratorSection48,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/48-cover-coupling-turning-device.mp4"
+          ),
         name: "Cover Coupling Turning Device",
         top: 235,
         left: 465,
@@ -4745,384 +4742,432 @@ const videosData = ref({
     ["generator-section"]: [
       {
         id: 0,
-        video: GeneratorSection1,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/1-cover-bearing-5.mp4"),
         name: "Cover Bearing 5",
         top: 235,
         left: 470,
       },
       {
         id: 1,
-        video: GeneratorSection2,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/2-turning-device.mp4"),
         name: "Turning Device",
         top: 233,
         left: 545,
       },
       {
         id: 2,
-        video: GeneratorSection3,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/3-base-plate-turning-device.mp4"
+          ),
         name: "Base Plate Turning Device",
         top: 235,
         left: 415,
       },
       {
         id: 3,
-        video: GeneratorSection4,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/4-cover-coupling-lower.mp4"
+          ),
         name: "Cover Coupling Lower",
         top: 235,
         left: 545,
       },
       {
         id: 4,
-        video: GeneratorSection5,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/5-air-seal-cover-exciter.mp4"
+          ),
         name: "Air Seal Cover Exciter",
         top: 235,
         left: 530,
       },
       {
         id: 5,
-        video: GeneratorSection6,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/6-cover-exciter.mp4"),
         name: "Cover Exciter",
         top: 235,
         left: 590,
       },
       {
         id: 6,
-        video: GeneratorSection7,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/7-cover-bearing-5.mp4"),
         name: "Cover Bearing 5",
         top: 235,
         left: 585,
       },
       {
         id: 7,
-        video: GeneratorSection8,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/8-bearing-5.mp4"),
         name: "Bearing 5",
         top: 240,
         left: 630,
       },
       {
         id: 8,
-        video: GeneratorSection9,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/9-pedestal-bearing-5.mp4"
+          ),
         name: "Pedestal Bearing 5",
         top: 235,
         left: 570,
       },
       {
         id: 9,
-        video: GeneratorSection10,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/10-cover-fan-outer-seal.mp4"
+          ),
         name: "Cover Fan Outer Seal",
         top: 235,
         left: 570,
       },
       {
         id: 10,
-        video: GeneratorSection11,
-        duration: 155000,
+        video: () => import("/videos/add-scope/generator-section/11-brush.mp4"),
         name: "Brush",
         top: 238,
         left: 705,
       },
       {
         id: 11,
-        video: GeneratorSection12,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/12-brush-rigging.mp4"),
         name: "Brush Rigging",
         top: 236,
         left: 660,
       },
       {
         id: 12,
-        video: GeneratorSection13,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/13-base-plate-bearing 5.mp4"
+          ),
         name: "Base Plate Bearing 5",
         top: 235,
         left: 580,
       },
       {
         id: 13,
-        video: GeneratorSection14,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/14-outer-oil-deflector-nde.mp4"
+          ),
         name: "Outer Oil Deflector NDE",
         top: 235,
         left: 615,
       },
       {
         id: 14,
-        video: GeneratorSection15,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/15-upper-outer-braket-nde.mp4"
+          ),
         name: "Upper Outer Braket NDE",
         top: 238,
         left: 570,
       },
       {
         id: 15,
-        video: GeneratorSection16,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/16-upper-bearing-4.mp4"),
         name: "Upper Bearing 4",
         top: 235,
         left: 670,
       },
       {
         id: 16,
-        video: GeneratorSection17,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/17-outer-oil-deflector-de.mp4"
+          ),
         name: "Outer Oil Deflector DE",
         top: 235,
         left: 615,
       },
       {
         id: 17,
-        video: GeneratorSection18,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/18-upper-outer-bracket-nde.mp4"
+          ),
         name: "Upper Outer Bracket NDE",
         top: 235,
         left: 560,
       },
       {
         id: 18,
-        video: GeneratorSection19,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/19-upper-bearing-3.mp4"),
         name: "Upper Bearing 3",
         top: 235,
         left: 580,
       },
       {
         id: 19,
-        video: GeneratorSection20,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/20-lower-bearing-4.mp4"),
         name: "Lower Bearing 4",
         top: 235,
         left: 660,
       },
       {
         id: 20,
-        video: GeneratorSection21,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/21-lower-outer-bracket-nde.mp4"
+          ),
         name: "Lower Outer Bracket NDE",
         top: 238,
         left: 590,
       },
       {
         id: 21,
-        video: GeneratorSection22,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/22-lower-bearing-3.mp4"),
         name: "Lower Bearing 3",
         top: 238,
         left: 580,
       },
       {
         id: 22,
-        video: GeneratorSection23,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/23-lower-outer-bracket-nde.mp4"
+          ),
         name: "Lower Outer Bracket NDE",
         top: 236,
         left: 535,
       },
       {
         id: 23,
-        video: GeneratorSection24,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/24-rotor-generator.mp4"),
         name: "Rotor Generator",
         top: 236,
         left: 740,
       },
       {
         id: 24,
-        video: GeneratorSection25,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/25-rotor-generator.mp4"),
         name: "Rotor Generator",
         top: 238,
         left: 700,
       },
       {
         id: 25,
-        video: GeneratorSection26,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/26-lower-outer-bracket-nde.mp4"
+          ),
         name: "Lower Outer Bracket NDE",
         top: 238,
         left: 595,
       },
       {
         id: 26,
-        video: GeneratorSection27,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/27-lower-bearing-3.mp4"),
         name: "Lower Bearing 3",
         top: 237,
         left: 580,
       },
       {
         id: 27,
-        video: GeneratorSection28,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/28-lower-outer-bracket-nde.mp4"
+          ),
         name: "Lower Outer Bracket NDE",
         top: 236,
         left: 590,
       },
       {
         id: 28,
-        video: GeneratorSection29,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/29-lower-bearing-4.mp4"),
         name: "Lower Bearing 4",
         top: 236,
         left: 660,
       },
       {
         id: 29,
-        video: GeneratorSection30,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/30-upper-bearing-4.mp4"),
         name: "Upper Bearing 4",
         top: 236,
         left: 660,
       },
       {
         id: 30,
-        video: GeneratorSection31,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/31-upper-outer-bracket-nde.mp4"
+          ),
         name: "Upper Outer Bracket NDE",
         top: 235,
         left: 560,
       },
       {
         id: 31,
-        video: GeneratorSection32,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/32-upper-bearing-3.mp4"),
         name: "Upper Bearing 3",
         top: 236,
         left: 580,
       },
       {
         id: 32,
-        video: GeneratorSection33,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/33-upper-outer-bracket-nde.mp4"
+          ),
         name: "Upper Outer Bracket NDE",
         top: 236,
         left: 560,
       },
       {
         id: 33,
-        video: GeneratorSection34,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/34-outer-oil-deflector-de.mp4"
+          ),
         name: "Outer Oil Deflector DE",
         top: 236,
         left: 620,
       },
       {
         id: 34,
-        video: GeneratorSection35,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/35-outer-oil-deflector-nde.mp4"
+          ),
         name: "Outer Oil Deflector NDE",
         top: 236,
         left: 615,
       },
       {
         id: 35,
-        video: GeneratorSection36,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/36-base-plate-bearing-5.mp4"
+          ),
         name: "Base Plate Bearing 5",
         top: 236,
         left: 580,
       },
       {
         id: 36,
-        video: GeneratorSection37,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/37-brush-rigging.mp4"),
         name: "Brush Rigging",
         top: 236,
         left: 660,
       },
       {
         id: 37,
-        video: GeneratorSection38,
-        duration: 155000,
+        video: () => import("/videos/add-scope/generator-section/38-brush.mp4"),
         name: "Brush",
         top: 236,
         left: 710,
       },
       {
         id: 38,
-        video: GeneratorSection39,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/39-cover-fan-outer-seal.mp4"
+          ),
         name: "Cover Fan Outer Seal",
         top: 235,
         left: 570,
       },
       {
         id: 39,
-        video: GeneratorSection40,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/40-pedestal-bearing-5.mp4"
+          ),
         name: "Pedestal Bearing 5",
         top: 235,
         left: 570,
       },
       {
         id: 40,
-        video: GeneratorSection41,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/41-bearing-5.mp4"),
         name: "Bearing 5",
         top: 240,
         left: 630,
       },
       {
         id: 41,
-        video: GeneratorSection42,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/42-cover-bearing-5.mp4"),
         name: "Cover Bearing 5",
         top: 236,
         left: 585,
       },
       {
         id: 42,
-        video: GeneratorSection43,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/43-cover-exciter.mp4"),
         name: "Cover Exciter",
         top: 235,
         left: 590,
       },
       {
         id: 43,
-        video: GeneratorSection44,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/44-air-seal-cover-exciter.mp4"
+          ),
         name: "Air Seal Cover Exciter",
         top: 235,
         left: 530,
       },
       {
         id: 44,
-        video: GeneratorSection45,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/45-base-plate-turning-device.mp4"
+          ),
         name: "Base Plate Turning Device",
         top: 237,
         left: 415,
       },
       {
         id: 45,
-        video: GeneratorSection46,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/46-housing-coupling-turning-device.mp4"
+          ),
         name: "Housing Coupling Turning Device",
         top: 235,
         left: 470,
       },
       {
         id: 46,
-        video: GeneratorSection47,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/generator-section/47-turning-device.mp4"),
         name: "Turning Device",
         top: 233,
         left: 545,
       },
       {
         id: 47,
-        video: GeneratorSection48,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/generator-section/48-cover-coupling-turning-device.mp4"
+          ),
         name: "Cover Coupling Turning Device",
         top: 235,
         left: 465,
@@ -5131,104 +5176,105 @@ const videosData = ref({
     ["exhaust-section"]: [
       {
         id: 0,
-        video: TIExhaustSection1,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/exhaust-section/1-exhaust-manifold.mp4"),
         name: "Exhaust Manifold",
         top: 237,
         left: 910,
       },
       {
         id: 1,
-        video: TIExhaustSection2,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/exhaust-section/2-ost-pipe.mp4"),
         name: "OST Pipe",
         top: 238,
         left: 1110,
       },
       {
         id: 2,
-        video: TIExhaustSection3,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/exhaust-section/3-ost-cover.mp4"),
         name: "OST Cover",
         top: 242,
         left: 850,
       },
       {
         id: 3,
-        video: TIExhaustSection4,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/exhaust-section/4-ost-device.mp4"),
         name: "OST Device",
         top: 240,
         left: 830,
       },
       {
         id: 4,
-        video: TIExhaustSection5,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/exhaust-section/5-exhaust-cylinder.mp4"),
         name: "Exhaust Cylinder",
         top: 238,
         left: 1170,
       },
       {
         id: 5,
-        video: TIExhaustSection6,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/exhaust-section/6-upper-bearing-1.mp4"),
         name: "Upper Bearing 1",
         top: 238,
         left: 810,
       },
       {
         id: 6,
-        video: TIExhaustSection7,
-        duration: 155000,
+        video: () => import("/videos/add-scope/ti/exhaust-section/7.mp4"),
         name: "",
         top: 0,
         left: 0,
       },
       {
         id: 7,
-        video: TIExhaustSection8,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/exhaust-section/8-upper-bearing-1.mp4"),
         name: "Upper Bearing 1",
         top: 238,
         left: 810,
       },
       {
         id: 8,
-        video: TIExhaustSection9,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/exhaust-section/9-exhaust-cylinder.mp4"),
         name: "Exhaust Cylinder",
         top: 238,
         left: 590,
       },
       {
         id: 9,
-        video: TIExhaustSection10,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/exhaust-section/10-ost-device.mp4"),
         name: "OST Device",
         top: 240,
         left: 830,
       },
       {
         id: 10,
-        video: TIExhaustSection11,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/exhaust-section/11-ost-cover.mp4"),
         name: "OST Cover",
         top: 242,
         left: 850,
       },
       {
         id: 11,
-        video: TIExhaustSection12,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/exhaust-section/12-ost-pipe.mp4"),
         name: "OST Pipe",
         top: 238,
         left: 1110,
       },
       {
         id: 12,
-        video: TIExhaustSection13,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ti/exhaust-section/13-exhaust-manifold.mp4"
+          ),
         name: "Exhaust Manifold",
         top: 238,
         left: 910,
@@ -5237,120 +5283,119 @@ const videosData = ref({
     ["inlet-section"]: [
       {
         id: 0,
-        video: TIInletSection1,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/inlet-section/1-inlet-duct.mp4"),
         name: "Inlet Duct",
         top: 237,
         left: 555,
       },
       {
         id: 1,
-        video: TIInletSection2,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/inlet-section/2-inlet-manifold.mp4"),
         name: "Inlet Manifold",
         top: 240,
         left: 520,
       },
       {
         id: 2,
-        video: TIInletSection3,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/inlet-section/3-vapour-pipe.mp4"),
         name: "Vapour Pipe",
         top: 239,
         left: 700,
       },
       {
         id: 3,
-        video: TIInletSection4,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/inlet-section/4-casing-upper.mp4"),
         name: "Casing Upper",
         top: 235,
         left: 1000,
       },
       {
         id: 4,
-        video: TIInletSection5,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/inlet-section/5-igv-link.mp4"),
         name: "IGV Link",
         top: 232,
         left: 810,
       },
       {
         id: 5,
-        video: TIInletSection6,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/inlet-section/6-seal-housing-upper.mp4"),
         name: "Seal Housing Upper",
         top: 236,
         left: 510,
       },
       {
         id: 6,
-        video: TIInletSection7,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/inlet-section/7-igv-upper.mp4"),
         name: "IGV Upper",
         top: 236,
         left: 570,
       },
       {
         id: 7,
-        video: TIInletSection8,
-        duration: 155000,
+        video: () => import("/videos/add-scope/ti/inlet-section/8.mp4"),
         name: "",
         top: 0,
         left: 0,
       },
       {
         id: 8,
-        video: TIInletSection9,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/inlet-section/9-igv-upper.mp4"),
         name: "IGV Upper",
         top: 232,
         left: 800,
       },
       {
         id: 9,
-        video: TIInletSection10,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/inlet-section/10-seal-housing.mp4"),
         name: "Seal Housing Upper",
         top: 236,
         left: 560,
       },
       {
         id: 10,
-        video: TIInletSection11,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/inlet-section/11-igv-link.mp4"),
         name: "IGV Link",
         top: 233,
         left: 810,
       },
       {
         id: 11,
-        video: TIInletSection12,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/inlet-section/12-casing-upper.mp4"),
         name: "Casing Upper",
         top: 240,
         left: 980,
       },
       {
         id: 12,
-        video: TIInletSection13,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/inlet-section/13-vapour-pipe.mp4"),
         name: "Vapour Pipe",
         top: 241,
         left: 670,
       },
       {
         id: 13,
-        video: TIInletSection14,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/inlet-section/14-inlet-manifold.mp4"),
         name: "Inlet Manifold",
         top: 238,
         left: 585,
       },
       {
         id: 14,
-        video: TIInletSection15,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/inlet-section/15-inlet-duct.mp4"),
         name: "Inlet Duct",
         top: 237,
         left: 560,
@@ -5359,112 +5404,134 @@ const videosData = ref({
     ["turbine-section"]: [
       {
         id: 0,
-        video: TITurbineSection1,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ti/turbine-section/1-turbine-blade-row-4.mp4"
+          ),
         name: "Blade Row 4",
         top: 238,
         left: 900,
       },
       {
         id: 1,
-        video: TITurbineSection2,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ti/turbine-section/2-turbine-ring-segment-row-4-upper.mp4"
+          ),
         name: "Ring Segment Row 4 Upper",
         top: 240,
         left: 630,
       },
       {
         id: 2,
-        video: TITurbineSection3,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ti/turbine-section/3-turbine-vane-segment-row-4-upper.mp4"
+          ),
         name: "Vane Segment Row 4 Upper",
         top: 240,
         left: 780,
       },
       {
         id: 3,
-        video: TITurbineSection4,
-        duration: 155000,
+        video: () => import("/videos/add-scope/ti/turbine-section/4.mp4"),
         name: "",
         top: 0,
         left: 0,
       },
       {
         id: 4,
-        video: TITurbineSection5,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ti/turbine-section/5-turbine-vane-segment-row-4-upper.mp4"
+          ),
         name: "Vane Segment Row 4 Upper",
         top: 240,
         left: 780,
       },
       {
         id: 5,
-        video: TITurbineSection6,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ti/turbine-section/6-turbine-ring-segment-row-4-upper.mp4"
+          ),
         name: "Ring Segment Row 4 Upper",
         top: 240,
         left: 630,
       },
       {
         id: 6,
-        video: TITurbineSection7,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ti/turbine-section/7-turbine-seal-housing-row-4-lower.mp4"
+          ),
         name: "Seal Housing Row 4 Lower",
         top: 241,
         left: 1140,
       },
       {
         id: 7,
-        video: TITurbineSection8,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ti/turbine-section/8-turbine-ring-segment-row-4-lower.mp4"
+          ),
         name: "Ring Segment Row 4 Lower",
         top: 240,
         left: 750,
       },
       {
         id: 8,
-        video: TITurbineSection9,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ti/turbine-section/9-turbine-vane-segment-row-4-lower.mp4"
+          ),
         name: "Vane Segment Row 4 Lower",
         top: 240,
         left: 940,
       },
       {
         id: 9,
-        video: TITurbineSection10,
-        duration: 155000,
+        video: () => import("/videos/add-scope/ti/turbine-section/10.mp4"),
         name: "",
         top: 0,
         left: 0,
       },
       {
         id: 10,
-        video: TITurbineSection11,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ti/turbine-section/11-turbine-vane-segment-row-4-lower.mp4"
+          ),
         name: "Vane Segment Row 4 Lower",
         top: 241,
         left: 940,
       },
       {
         id: 11,
-        video: TITurbineSection12,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ti/turbine-section/12-turbine-ring-segment-row-4-lower.mp4"
+          ),
         name: "Ring Segment Row 4 Lower",
         top: 240,
         left: 750,
       },
       {
         id: 12,
-        video: TITurbineSection13,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ti/turbine-section/13-turbine-seal-housing-row-4-lower.mp4"
+          ),
         name: "Seal Housing Row 4 Lower",
         top: 241,
         left: 1140,
       },
       {
         id: 13,
-        video: TITurbineSection14,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ti/turbine-section/14-turbine-blade-row-4.mp4"
+          ),
         name: "Blade Row 4",
         top: 238,
         left: 900,
@@ -5473,472 +5540,551 @@ const videosData = ref({
     ["compressor-section"]: [
       {
         id: 0,
-        video: TIInletSection1,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/inlet-section/1-inlet-duct.mp4"),
         name: "Inlet Duct",
         top: 237,
         left: 555,
       },
       {
         id: 1,
-        video: TIInletSection2,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/inlet-section/2-inlet-manifold.mp4"),
         name: "Inlet Manifold",
         top: 240,
         left: 520,
       },
       {
         id: 2,
-        video: TIInletSection3,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/inlet-section/3-vapour-pipe.mp4"),
         name: "Vapour Pipe",
         top: 239,
         left: 700,
       },
       {
         id: 3,
-        video: TIInletSection4,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/inlet-section/4-casing-upper.mp4"),
         name: "Casing Upper",
         top: 235,
         left: 1000,
       },
       {
         id: 4,
-        video: TIInletSection5,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/inlet-section/5-igv-link.mp4"),
         name: "IGV Link",
         top: 232,
         left: 810,
       },
       {
         id: 5,
-        video: CICompressorSection6,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/6-seal-housing-upper.mp4"
+          ),
         name: "Seal Housing Upper",
         top: 235,
         left: 510,
       },
       {
         id: 6,
-        video: CICompressorSection7,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ci/compressor-section/7-igv-upper.mp4"),
         name: "IGV Upper",
         top: 235,
         left: 570,
       },
       {
         id: 7,
-        video: TICompressorSection8,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/compressor-section/8-fuel-manifold.mp4"),
         name: "Fuel Manifold",
         top: 238,
         left: 1220,
       },
       {
         id: 8,
-        video: TICompressorSection9,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/compressor-section/9-bleed-pipe.mp4"),
         name: "Bleed Pipe",
         top: 237,
         left: 1080,
       },
       {
         id: 9,
-        video: TICompressorSection10,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/compressor-section/10-rca-pipe.mp4"),
         name: "RCA Pipe",
         top: 237,
         left: 1080,
       },
       {
         id: 10,
-        video: TICompressorSection11,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ti/compressor-section/11-compressor-cylinder.mp4"
+          ),
         name: "Compressor Cylinder",
         top: 237,
         left: 1080,
       },
       {
         id: 11,
-        video: TICompressorSection12,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ti/compressor-section/12-compressor-vane-row-1-lower.mp4"
+          ),
         name: "Compressor Vane Row 1 Lower",
         top: 237,
         left: 545,
       },
       {
         id: 12,
-        video: CICompressorSection13,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/13-compressor-vane-row-2-lower.mp4"
+          ),
         name: "Compressor Vane Row 2 Lower",
         top: 238,
         left: 730,
       },
       {
         id: 13,
-        video: CICompressorSection14,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/14-compressor-vane-row-3-lower.mp4"
+          ),
         name: "Compressor Vane Row 3 Lower",
         top: 235,
         left: 470,
       },
       {
         id: 14,
-        video: CICompressorSection15,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/15-compressor-vane-row-4-lower.mp4"
+          ),
         name: "Compressor Vane Row 4 Lower",
         top: 235,
         left: 360,
       },
       {
         id: 15,
-        video: CICompressorSection16,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/16-compressor-vane-row-5-lower.mp4"
+          ),
         name: "Compressor Vane Row 5 Lower",
         top: 238,
         left: 360,
       },
       {
         id: 16,
-        video: CICompressorSection17,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/17-compressor-vane-row-6-lower.mp4"
+          ),
         name: "Compressor Vane Row 6 Lower",
         top: 235,
         left: 265,
       },
       {
         id: 17,
-        video: CICompressorSection18,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/18-compressor-vane-row-1-upper.mp4"
+          ),
         name: "Compressor Vane Row 1 Upper",
         top: 237,
         left: 780,
       },
       {
         id: 18,
-        video: CICompressorSection19,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/19-compressor-vane-row-2-upper.mp4"
+          ),
         name: "Compressor Vane Row 2 Upper",
         top: 235,
         left: 410,
       },
       {
         id: 19,
-        video: CICompressorSection20,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/20-compressor-vane-row-3-upper.mp4"
+          ),
         name: "Compressor Vane Row 3 Upper",
         top: 235,
         left: 420,
       },
       {
         id: 20,
-        video: CICompressorSection21,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/21-compressor-vane-row-4-upper.mp4"
+          ),
         name: "Compressor Vane Row 4 Upper",
         top: 235,
         left: 435,
       },
       {
         id: 21,
-        video: CICompressorSection22,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/22-compressor-vane-row-5-upper.mp4"
+          ),
         name: "Compressor Vane Row 5 Upper",
         top: 225,
         left: 520,
       },
       {
         id: 22,
-        video: CICompressorSection23,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/23-compressor-vane-row-6-upper.mp4"
+          ),
         name: "Compressor Vane Row 6 Upper",
         top: 236,
         left: 540,
       },
       {
         id: 23,
-        video: CICompressorSection24,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/24-compressor-blade-row-1.mp4"
+          ),
         name: "Compressor Blade Row 1",
         top: 233,
         left: 620,
       },
       {
         id: 24,
-        video: CICompressorSection25,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/25-compressor-blade-row-2.mp4"
+          ),
         name: "Compressor Blade Row 2",
         top: 237,
         left: 560,
       },
       {
         id: 25,
-        video: CICompressorSection26,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/26-compressor-blade-row-3.mp4"
+          ),
         name: "Compressor Blade Row 3",
         top: 236,
         left: 480,
       },
       {
         id: 26,
-        video: CICompressorSection27,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/27-compressor-blade-row-4.mp4"
+          ),
         name: "Compressor Blade Row 4",
         top: 233,
         left: 480,
       },
       {
         id: 27,
-        video: CICompressorSection28,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/28-compressor-blade-row-5.mp4"
+          ),
         name: "Compressor Blade Row 5",
         top: 235,
         left: 390,
       },
       {
         id: 28,
-        video: CICompressorSection29,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/29-compressor-blade-row-6.mp4"
+          ),
         name: "Compressor Blade Row 6",
         top: 235,
         left: 295,
       },
       {
         id: 29,
-        video: CICompressorSection30,
-        duration: 155000,
+        video: () => import("/videos/add-scope/ci/compressor-section/30.mov"),
         name: "",
         top: 0,
         left: 0,
       },
       {
         id: 30,
-        video: CICompressorSection31,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/31-compressor-blade-row-6.mp4"
+          ),
         name: "Compressor Blade Row 6",
         top: 235,
         left: 290,
       },
       {
         id: 31,
-        video: CICompressorSection32,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/32-compressor-blade-row-5.mp4"
+          ),
         name: "Compressor Blade Row 5",
         top: 235,
         left: 380,
       },
       {
         id: 32,
-        video: CICompressorSection33,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/33-compressor-blade-row-4.mp4"
+          ),
         name: "Compressor Blade Row 4",
         top: 233,
         left: 480,
       },
       {
         id: 33,
-        video: CICompressorSection34,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/34-compressor-blade-row-3.mp4"
+          ),
         name: "Compressor Blade Row 3",
         top: 237,
         left: 480,
       },
       {
         id: 34,
-        video: CICompressorSection35,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/35-compressor-blade-row-2.mp4"
+          ),
         name: "Compressor Blade Row 2",
         top: 236,
         left: 560,
       },
       {
         id: 35,
-        video: CICompressorSection36,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/36-compressor-blade-row-1.mp4"
+          ),
         name: "Compressor Blade Row 1",
         top: 233,
         left: 620,
       },
       {
         id: 36,
-        video: CICompressorSection37,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/37-compressor-vane-row-1-upper.mp4"
+          ),
         name: "Compressor Vane Row 1 Upper",
         top: 242,
         left: 350,
       },
       {
         id: 37,
-        video: CICompressorSection38,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/38-compressor-vane-row-2-upper.mp4"
+          ),
         name: "Compressor Vane Row 2 Upper",
         top: 238,
         left: 350,
       },
       {
         id: 38,
-        video: CICompressorSection39,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/39-compressor-vane-row-3-upper.mp4"
+          ),
         name: "Compressor Vane Row 3 Upper",
         top: 237,
         left: 380,
       },
       {
         id: 39,
-        video: CICompressorSection40,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/40-compressor-vane-row-4-upper.mp4"
+          ),
         name: "Compressor Vane Row 4 Upper",
         top: 238,
         left: 1050,
       },
       {
         id: 40,
-        video: CICompressorSection41,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/41-compressor-vane-row-5-upper.mp4"
+          ),
         name: "Compressor Vane Row 5 Upper",
         top: 237,
         left: 1090,
       },
       {
         id: 41,
-        video: CICompressorSection42,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/42-compressor-vane-row-6-upper.mp4"
+          ),
         name: "Compressor Vane Row 6 Upper",
         top: 237,
         left: 550,
       },
       {
         id: 42,
-        video: CICompressorSection43,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/43-compressor-vane-row-1-lower.mp4"
+          ),
         name: "Compressor Vane Row 1 Lower",
         top: 240,
         left: 730,
       },
       {
         id: 43,
-        video: CICompressorSection44,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/44-compressor-vane-row-2-lower.mp4"
+          ),
         name: "Compressor Vane Row 2 Lower",
         top: 240,
         left: 580,
       },
       {
         id: 44,
-        video: CICompressorSection45,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/45-compressor-vane-row-3-lower.mp4"
+          ),
         name: "Compressor Vane Row 3 Lower",
         top: 233,
         left: 470,
       },
       {
         id: 45,
-        video: CICompressorSection46,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/46-compressor-vane-row-4-lower.mp4"
+          ),
         name: "Compressor Vane Row 4 Lower",
         top: 232,
         left: 1010,
       },
       {
         id: 46,
-        video: CICompressorSection47,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/47-compressor-vane-row-5-lower.mp4"
+          ),
         name: "Compressor Vane Row 5 Lower",
         top: 237,
         left: 910,
       },
       {
         id: 47,
-        video: CICompressorSection48,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ci/compressor-section/48-compressor-vane-row-6-lower.mp4"
+          ),
         name: "Compressor Vane Row 6 Lower",
         top: 237,
         left: 720,
       },
       {
         id: 48,
-        video: TICompressorSection49,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ti/compressor-section/49-compressor-cylinder.mp4"
+          ),
         name: "Compressor Cylinder",
         top: 236,
         left: 1070,
       },
       {
         id: 49,
-        video: TICompressorSection50,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/compressor-section/50-rca-pipe.mp4"),
         name: "RCA Pipe",
         top: 235,
         left: 1070,
       },
       {
         id: 50,
-        video: TICompressorSection51,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/compressor-section/51-bleed-pipe.mp4"),
         name: "Bleed Pipe",
         top: 235,
         left: 1000,
       },
       {
         id: 51,
-        video: TICompressorSection52,
-        duration: 155000,
+        video: () =>
+          import(
+            "/videos/add-scope/ti/compressor-section/52-fuel-manifold.mp4"
+          ),
         name: "Fuel Manifold",
         top: 235,
         left: 1000,
       },
       {
         id: 52,
-        video: TIInletSection9,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/inlet-section/9-igv-upper.mp4"),
         name: "IGV Upper",
         top: 232,
         left: 800,
       },
       {
         id: 53,
-        video: CICompressorSection54,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ci/compressor-section/54-seal-housing.mp4"),
         name: "Seal Housing",
         top: 236,
         left: 560,
       },
       {
         id: 54,
-        video: CICompressorSection55,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ci/compressor-section/55-igv-link.mp4"),
         name: "IGV Link",
         top: 233,
         left: 810,
       },
       {
         id: 55,
-        video: TIInletSection12,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/inlet-section/12-casing-upper.mp4"),
         name: "Casing Upper",
         top: 240,
         left: 980,
       },
       {
         id: 56,
-        video: TIInletSection13,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/inlet-section/13-vapour-pipe.mp4"),
         name: "Vapour Pipe",
         top: 241,
         left: 670,
       },
       {
         id: 57,
-        video: TIInletSection14,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/inlet-section/14-inlet-manifold.mp4"),
         name: "Inlet Manifold",
         top: 238,
         left: 585,
       },
       {
         id: 58,
-        video: TIInletSection15,
-        duration: 155000,
+        video: () =>
+          import("/videos/add-scope/ti/inlet-section/15-inlet-duct.mp4"),
         name: "Inlet Duct",
         top: 237,
         left: 560,
@@ -5947,22 +6093,29 @@ const videosData = ref({
   },
 });
 
-const route = useRoute();
 const videos: any = computed(() => {
   return videosData.value[(route.params.menu as string) || "ci"][
     (route.params.section as string) || "inlet-section"
   ];
 });
 
-const currentVideoIndex = ref(0);
-const videoRef = ref<HTMLVideoElement | null>(null);
-const isButtonVisible = ref(false);
-const openStep = ref(false);
-const isReversing = ref(false);
-let reverseInterval: number | null = null;
+const videoSrc = ref<string | null>(null);
 
+const loadVideo = async () => {
+  if (videos.value[currentVideoIndex.value]) {
+    videoSrc.value = (
+      await videos.value[currentVideoIndex.value].video()
+    ).default;
+    preloadVideo(videoSrc.value as string);
+
+    // if (videoRef.value) {
+    //   videoRef.value.load();
+    // }
+  }
+};
+
+const route = useRoute();
 const router = useRouter();
-
 const globalStore = useGlobalStore();
 const {
   titleHeader,
@@ -5970,12 +6123,43 @@ const {
   disabledBack,
   isStepNavigation,
   isAddScope,
+  isFinish,
 } = storeToRefs(globalStore);
-const breadcrumb = ref<BreadcrumbType[]>([]);
+
+// const breadcrumb = ref<BreadcrumbType[]>([]);
+const currentVideoIndex = ref(0);
+const videoRef = ref<HTMLVideoElement | null>(null);
+const isButtonVisible = ref(false);
+const openStep = ref(false);
+const isReversing = ref(false);
+let reverseInterval: number | null = null;
+const is_loading = ref(false);
 
 const videoState = ref({
   isTransitioning: false,
 });
+
+async function preloadVideo(url: string): Promise<void> {
+  is_loading.value = true;
+  try {
+    const response = await fetch(url);
+    if (!response.ok)
+      throw new Error(`Gagal mengambil video: ${response.statusText}`);
+
+    const blob = await response.blob();
+    const videoUrl = URL.createObjectURL(blob);
+
+    const videoElement = document.getElementById("video") as HTMLVideoElement;
+    videoElement.src = videoUrl;
+
+    videoElement.onloadeddata = () => {
+      is_loading.value = false;
+    };
+  } catch (error) {
+    console.error(error);
+    is_loading.value = false;
+  }
+}
 
 const handleVideoEnd = () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -6028,7 +6212,10 @@ const handleVideoEnd = () => {
   }
 };
 
-const initializeVideo = async (index: number, startAtEnd = false) => {
+const index_temp = ref<number>(0);
+const is_start_at_end = ref<boolean>(false);
+
+const initializeVideo = async () => {
   videoState.value.isTransitioning = true;
   isButtonVisible.value = false;
   disabledNext.value = true;
@@ -6038,28 +6225,49 @@ const initializeVideo = async (index: number, startAtEnd = false) => {
     videoRef.value.pause();
   }
 
-  currentVideoIndex.value = index;
+  currentVideoIndex.value = index_temp.value;
   // isFinish.value = index === videos.value.length - 1;
   // isAddScope.value = index === videos.length - 1;
 
-  await new Promise((resolve) => {
-    if (videoRef.value) {
-      videoRef.value.onloadedmetadata = () => {
-        if (startAtEnd && videoRef.value) {
-          videoRef.value.currentTime = videoRef.value.duration - 0.1;
-          isButtonVisible.value = true;
-          disabledNext.value = false;
-          disabledBack.value = false;
-        } else {
-          videoRef.value?.play();
-        }
-        resolve(null);
-      };
-    }
-  });
-
-  videoState.value.isTransitioning = false;
+  await loadVideo();
+  preloadVideo(videoSrc.value as string);
 };
+
+watch(is_loading, async (value) => {
+  if (!value) {
+    isFinish.value = index_temp.value === videos.value.length - 1;
+    isAddScope.value = index_temp.value === videos.value.length - 1;
+
+    await new Promise<void>((resolve) => {
+      if (videoRef.value) {
+        videoRef.value.onloadedmetadata = null;
+
+        videoRef.value.onloadedmetadata = () => {
+          if (is_start_at_end.value && videoRef.value) {
+            videoRef.value.currentTime = videoRef.value.duration - 0.1;
+            isButtonVisible.value = true;
+            disabledNext.value = false;
+            disabledBack.value = false;
+          } else {
+            videoRef.value?.play();
+          }
+
+          resolve();
+        };
+
+        if (videoRef.value.readyState >= 1) {
+          console.log("Force metadata ready");
+          videoRef.value.dispatchEvent(new Event("loadedmetadata"));
+        }
+      } else {
+        console.error("videoRef belum terinisialisasi!");
+        resolve();
+      }
+    });
+
+    videoState.value.isTransitioning = false;
+  }
+});
 
 const updateURLParameter = (index: number, startAtEnd = false) => {
   const url = new URL(window.location.href);
@@ -6095,9 +6303,10 @@ const reverseVideo = () => {
       return;
     }
 
-    currentVideoIndex.value = prevIndex;
+    index_temp.value = prevIndex;
+    is_start_at_end.value = true;
     updateURLParameter(prevIndex, true);
-    initializeVideo(prevIndex, true);
+    initializeVideo();
     return;
   }
 
@@ -6134,8 +6343,10 @@ const handleNext = async () => {
     }
   } else {
     const nextIndex = currentVideoIndex.value + 1;
+    index_temp.value = nextIndex;
+    is_start_at_end.value = false;
     updateURLParameter(nextIndex);
-    await initializeVideo(nextIndex);
+    await initializeVideo();
   }
 };
 
@@ -6161,7 +6372,8 @@ const handleJumpStep = async (index: number) => {
         router.push({ path, query: updatedQuery });
         const nextIndex = currentVideoIndex.value + 1;
         currentVideoIndex.value = nextIndex;
-        await initializeVideo(nextIndex);
+        is_start_at_end.value = false;
+        await initializeVideo();
       } else {
         const updatedQuery = { video: video, to: index };
         router.push({ path, query: updatedQuery });
@@ -6200,7 +6412,9 @@ const initializeFromURL = async () => {
     Math.min(parseInt(videoParam, 10) - 1, videos.value.length - 1)
   );
 
-  await initializeVideo(index, startParam === "end");
+  index_temp.value = index;
+  is_start_at_end.value = startParam === "end";
+  await initializeVideo();
 };
 
 onMounted(() => {
@@ -6244,8 +6458,8 @@ onMounted(() => {
 
   disabledNext.value = true;
   disabledBack.value = true;
-  // isFinish.value = false;
   isStepNavigation.value = true;
+  // isFinish.value = false;
 
   window.addEventListener("popstate", initializeFromURL);
   eventBus.on("next", handleNext);
@@ -6275,15 +6489,22 @@ onUnmounted(() => {
     <!-- <div class="scope-breadcrumb">
       <Breadcrumb :items="breadcrumb" />
     </div> -->
+    <div
+      v-if="is_loading"
+      class="z-[100000000000] fixed top-0 right-0 bottom-0 left-0 bg-neutral-900 bg-opacity-50 flex justify-center items-center"
+    >
+      <Loading width="50" height="50" />
+    </div>
     <div class="scope-video-container">
       <video
+        id="video"
         ref="videoRef"
-        :src="videos[currentVideoIndex]?.video"
-        @ended="handleVideoEnd"
+        preload="auto"
         autoplay
         muted
         playsinline
         class="scope-video"
+        @ended="handleVideoEnd"
       ></video>
       <div v-for="(item, key) in videos" :key="key">
         <div
