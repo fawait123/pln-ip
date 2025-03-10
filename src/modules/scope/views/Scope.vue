@@ -104,11 +104,11 @@ const {
         perPage: 3,
       });
       const response = data.data as IPagination<InspectionTypeInterface[]>;
-      console.log("AAA", response);
 
       const order = [
         "Combustion Inspection",
         "Turbine Inspection",
+        "Turbin Inspection",
         "Major Inspection",
       ];
       const sorted_data = response.data.sort(
