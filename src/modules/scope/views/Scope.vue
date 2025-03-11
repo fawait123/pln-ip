@@ -150,7 +150,7 @@ const { mutate: generate, isPending: isLoadingGenerate } = useMutation({
   },
   onSuccess: (data) => {
     router.push(
-      `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route.params?.id_machine}/${inspection_selected.value}/${data?.data?.uuid}/${scopeSelected.value}/scope-mekanik`
+      `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route.params?.id_machine}/${inspection_selected.value}/${data?.data?.data?.uuid}/${scopeSelected.value}/scope-mekanik`
     );
   },
   onError: (error: any) => {

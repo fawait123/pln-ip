@@ -57,6 +57,7 @@ const {
   queryFn: async () => {
     try {
       const { data } = await mainStore.getScopeStandar(params);
+      console.log(params, route.params);
       const response = data as IPagination<ResponseScopeInterface[]>;
 
       total_item.value = response.total;
