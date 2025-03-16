@@ -452,6 +452,7 @@ const {
           return {
             id: item.uuid,
             squence: item.sequence_animation,
+            animation: item.animation,
             day: item.day,
             asset: item.name || "",
             asset_welness: item.asset_welnes
@@ -695,7 +696,7 @@ const toDetail = (id: string) => {
 
 const toSquence = (item: AddScopeInterface) => {
   router.push(
-    `/${route.params.id}/create/unit/${route.params.id_unit}/${route.params.id_machine}/${route.params.menu}/${route?.params?.id_project}/${route.params.id_inspection}/add-scope-squences/${item.squence?.slug}`
+    `/${route.params.id}/create/unit/${route.params.id_unit}/${route.params.id_machine}/${route.params.menu}/${route?.params?.id_project}/${route.params.id_inspection}/add-scope-squences/${item.animation}`
   );
 };
 

@@ -16,3 +16,14 @@ export interface ManpowerCreateInterface {
   type: string;
   note: string;
 }
+
+export interface ManpowerCreateModelInterface {
+  name: string;
+  qty: string;
+  type: string;
+  note: string;
+  location_uuid: string;
+  unit_uuid: string;
+  machine_uuid: string;
+  inspection_type_uuid: string;
+}

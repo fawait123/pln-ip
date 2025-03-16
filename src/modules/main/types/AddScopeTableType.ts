@@ -66,6 +66,7 @@ export interface AddScopeInterface {
   ncr: WithFileInterface | null;
   squence: ResponseSequenceAnimationInterface;
   day: number;
+  animation: string;
 }
 
 interface Category {
@@ -112,6 +113,7 @@ export interface ResponseAddScopeInterface {
   ncr: Category;
   day: number;
   sequence_animation: ResponseSequenceAnimationInterface;
+  animation: string;
 }
 
 export interface CreateAddScopeInterface {

@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/vue-query";
 import type { ResultsInterface } from "../types/ResultsType";
 import { ColumnsResults } from "../constants/ResultsConstant";
 import { useMainStore } from "../stores/MainStore";
+import { useRoute } from "vue-router";
 
 const Data = ref<ResultsInterface[]>([
   {
@@ -35,9 +36,20 @@ const Data = ref<ResultsInterface[]>([
     uuid: "tools",
     manpower: "Tools",
   },
+  {
+    id: 6,
+    uuid: "hse",
+    manpower: "HSE",
+  },
+  {
+    id: 7,
+    uuid: "qc_plan",
+    manpower: "QC Plan",
+  },
 ]);
 
 const mainStore = useMainStore();
+const route = useRoute();
 const is_loading = ref<string | null>(null);
 
 //--- DOWNLOAD SCOPE
@@ -45,7 +57,7 @@ const { refetch: refetchDownloadScope } = useQuery({
   queryKey: ["downloadResultScope"],
   queryFn: async () => {
     try {
-      await mainStore.getDownloadResultScope();
+      await mainStore.getDownloadResultScope(route.params.id_project as string);
       is_loading.value = null;
 
       return true;
@@ -66,7 +78,9 @@ const { refetch: refetchDownloadConsMat } = useQuery({
   queryKey: ["downloadResultConsMat"],
   queryFn: async () => {
     try {
-      await mainStore.getDownloadResultConsMat();
+      await mainStore.getDownloadResultConsMat(
+        route.params.id_project as string
+      );
       is_loading.value = null;
 
       return true;
@@ -87,7 +101,7 @@ const { refetch: refetchDownloadPart } = useQuery({
   queryKey: ["downloadResultPart"],
   queryFn: async () => {
     try {
-      await mainStore.getDownloadResultPart();
+      await mainStore.getDownloadResultPart(route.params.id_project as string);
       is_loading.value = null;
 
       return true;
@@ -108,7 +122,9 @@ const { refetch: refetchDownloadManpower } = useQuery({
   queryKey: ["downloadResultManpower"],
   queryFn: async () => {
     try {
-      await mainStore.getDownloadResultManpower();
+      await mainStore.getDownloadResultManpower(
+        route.params.id_project as string
+      );
       is_loading.value = null;
 
       return true;
@@ -129,7 +145,51 @@ const { refetch: refetchDownloadTools } = useQuery({
   queryKey: ["downloadResultTools"],
   queryFn: async () => {
     try {
-      await mainStore.getDownloadResultTools();
+      await mainStore.getDownloadResultTools(route.params.id_project as string);
+      is_loading.value = null;
+
+      return true;
+    } catch (error: any) {
+      const err = error as AxiosError;
+      is_loading.value = null;
+
+      throw err.response;
+    }
+  },
+  enabled: false,
+  refetchOnWindowFocus: false,
+});
+//--- END
+
+//--- DOWNLOAD HSE
+const { refetch: refetchDownloadHse } = useQuery({
+  queryKey: ["downloadResultHse"],
+  queryFn: async () => {
+    try {
+      await mainStore.getDownloadResultHse(route.params.id_project as string);
+      is_loading.value = null;
+
+      return true;
+    } catch (error: any) {
+      const err = error as AxiosError;
+      is_loading.value = null;
+
+      throw err.response;
+    }
+  },
+  enabled: false,
+  refetchOnWindowFocus: false,
+});
+//--- END
+
+//--- DOWNLOAD QC PLAN
+const { refetch: refetchDownloadQcPlan } = useQuery({
+  queryKey: ["downloadResultQcPlan"],
+  queryFn: async () => {
+    try {
+      await mainStore.getDownloadResultQcPlan(
+        route.params.id_project as string
+      );
       is_loading.value = null;
 
       return true;
@@ -167,6 +227,14 @@ const handleDownload = (item: ResultsInterface) => {
 
     case "tools":
       refetchDownloadTools();
+      break;
+
+    case "hse":
+      refetchDownloadHse();
+      break;
+
+    case "qc_plan":
+      refetchDownloadQcPlan();
       break;
   }
 };

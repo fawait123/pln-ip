@@ -247,9 +247,12 @@ export const useMainStore = defineStore(
         });
     };
 
-    const getDownloadResultScope = async () => {
+    const getDownloadResultScope = async (project_uuid: string) => {
       return await api
         .get(`/transaction/result/resource/export/scope-standart`, {
+          params: {
+            project_uuid,
+          },
           responseType: "blob",
         })
         .then((resp) => {
@@ -277,9 +280,12 @@ export const useMainStore = defineStore(
         });
     };
 
-    const getDownloadResultConsMat = async () => {
+    const getDownloadResultConsMat = async (project_uuid: string) => {
       return await api
         .get(`/transaction/result/resource/export/consmat`, {
+          params: {
+            project_uuid,
+          },
           responseType: "blob",
         })
         .then((resp) => {
@@ -307,9 +313,12 @@ export const useMainStore = defineStore(
         });
     };
 
-    const getDownloadResultPart = async () => {
+    const getDownloadResultPart = async (project_uuid: string) => {
       return await api
         .get(`/transaction/result/resource/export/part`, {
+          params: {
+            project_uuid,
+          },
           responseType: "blob",
         })
         .then((resp) => {
@@ -337,9 +346,12 @@ export const useMainStore = defineStore(
         });
     };
 
-    const getDownloadResultManpower = async () => {
+    const getDownloadResultManpower = async (project_uuid: string) => {
       return await api
         .get(`/transaction/result/resource/export/manpower`, {
+          params: {
+            project_uuid,
+          },
           responseType: "blob",
         })
         .then((resp) => {
@@ -367,9 +379,78 @@ export const useMainStore = defineStore(
         });
     };
 
-    const getDownloadResultTools = async () => {
+    const getDownloadResultTools = async (project_uuid: string) => {
       return await api
         .get(`/transaction/result/resource/export/tools`, {
+          params: {
+            project_uuid,
+          },
+          responseType: "blob",
+        })
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Tools.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const getDownloadResultHse = async (project_uuid: string) => {
+      return await api
+        .get(`/transaction/result/resource/export/hse`, {
+          params: {
+            project_uuid,
+          },
+          responseType: "blob",
+        })
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Tools.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const getDownloadResultQcPlan = async (project_uuid: string) => {
+      return await api
+        .get(`/transaction/result/resource/export/qc-plan`, {
+          params: {
+            project_uuid,
+          },
           responseType: "blob",
         })
         .then((resp) => {
@@ -422,6 +503,8 @@ export const useMainStore = defineStore(
       getDownloadResultPart,
       getDownloadResultManpower,
       getDownloadResultTools,
+      getDownloadResultHse,
+      getDownloadResultQcPlan,
     };
   },
   {
