@@ -64,6 +64,7 @@ async function onSubmit() {
     //     username: "Superadmin",
     //     email: "superadmin@gmail.com",
     //     id: "1",
+    //     role: "superadmin",
     //   },
     // };
 
@@ -74,6 +75,11 @@ async function onSubmit() {
     //   ) {
     //     // is_loading.value = false;
     //     authStore.setToken(dummy.access_token);
+    //     authStore.setUsers(dummy.user);
+
+    //     if (dummy.user.role === "superadmin")
+    //       return router.push("/master/location");
+
     //     router.push("/");
     //   } else {
     //     error_message.value = "Invalid email or password";

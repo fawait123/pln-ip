@@ -15,6 +15,8 @@ export interface ManpowerCreateInterface {
   qty: number;
   type: string;
   note: string;
+  inspection_type_uuid: string;
+  additional_scope_uuid: string | null;
 }
 
 export interface ManpowerCreateModelInterface {

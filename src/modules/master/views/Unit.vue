@@ -11,7 +11,6 @@ import type { UnitInterface } from "../types/UnitType";
 import { useMasterStore } from "../stores/MasterStore";
 import FormUnit from "../components/FormUnit.vue";
 
-const Entities: UnitInterface[] = [];
 const masterStore = useMasterStore();
 const total_item = ref(0);
 const params = reactive({

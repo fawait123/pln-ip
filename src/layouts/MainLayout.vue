@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { HeaderMain, Footer } from "@/components";
-import Sidebar from "@/components/layouts/Sidebar.vue";
-import { useMainStore } from "@/modules/main/stores/MainStore";
-import type { TInspection } from "@/modules/scope/types/ScopeType";
-import { useGlobalStore } from "@/stores/GlobalStore";
-import { useQuery } from "@tanstack/vue-query";
 import type { AxiosError } from "axios";
 import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
+
+import { HeaderMain, Footer } from "@/components";
+import Sidebar from "@/components/layouts/Sidebar.vue";
+import type { TInspection } from "@/modules/inspection/types/InspectionType";
+import { useGlobalStore } from "@/stores/GlobalStore";
+import { useQuery } from "@tanstack/vue-query";
+import { useInspectionStore } from "@/modules/inspection/stores/InspectionStore";
+import { useTransactionStore } from "@/modules/transaction/stores/TransactionStore";
 
 const imgUrl = new URL("@/assets/images/bg-main-page.jpg", import.meta.url)
   .href;
@@ -15,7 +17,7 @@ const imgUrl = new URL("@/assets/images/bg-main-page.jpg", import.meta.url)
 const page = ["blok", "unit"];
 
 const route = useRoute();
-const mainStore = useMainStore();
+const transactionStore = useTransactionStore();
 const globalStore = useGlobalStore();
 const { InspectionType } = storeToRefs(globalStore);
 
@@ -28,7 +30,7 @@ const {
   queryKey: ["getDetailInspection"],
   queryFn: async () => {
     try {
-      const { data } = await mainStore.getDetailInspection(
+      const { data } = await transactionStore.getDetailInspection(
         route.params?.id_inspection as string
       );
 

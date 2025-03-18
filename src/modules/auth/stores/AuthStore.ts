@@ -79,6 +79,7 @@ export const useAuthStore = defineStore(
     return {
       access_token,
       refresh_token,
+      users,
       getToken,
       setToken,
       getRefreshToken,

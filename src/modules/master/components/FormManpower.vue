@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { reactive, ref, computed, type PropType, watch } from "vue";
 
-import { Button, Input, Modal, Select, Textarea } from "@/components";
+import { Button, Input, Modal, Select } from "@/components";
 import useVuelidate from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
 import {
@@ -10,18 +10,18 @@ import {
   useQueryClient,
 } from "@tanstack/vue-query";
 import type { IPagination, IParams } from "@/types/GlobalType";
-import { mergeArrays } from "@/helpers/global";
-import type { ManPowerInterface } from "@/modules/main/types/ManpowerType";
 
-import type { UnitCreateInterface, UnitInterface } from "../types/UnitType";
-import { useMasterStore } from "../stores/MasterStore";
 import type { LocationInterface } from "../types/LocationType";
+import type { UnitInterface } from "../types/UnitType";
+import type { MachineInterface } from "../types/MachineType";
+import type { InspectionTypeInterface } from "../types/InspectionType";
+import { useMasterStore } from "../stores/MasterStore";
 import type {
   ManpowerCreateInterface,
   ManpowerCreateModelInterface,
+  ManpowerInterface,
 } from "../types/ManpowerType";
-import type { MachineInterface } from "../types/MachineType";
-import type { InspectionTypeInterface } from "../types/InspectionType";
+import { all_characters, numbers_positive_negative } from "@/helpers/global";
 
 type OptionType = {
   value: string;
@@ -30,7 +30,7 @@ type OptionType = {
 
 const props = defineProps({
   selectedValue: {
-    type: Object as PropType<ManPowerInterface | null>,
+    type: Object as PropType<ManpowerInterface | null>,
   },
 });
 
@@ -75,6 +75,15 @@ const rules = computed(() => {
       required: helpers.withMessage(`This field is required`, required),
     },
     inspection_type_uuid: {
+      required: helpers.withMessage(`This field is required`, required),
+    },
+    qty: {
+      required: helpers.withMessage(`This field is required`, required),
+    },
+    type: {
+      required: helpers.withMessage(`This field is required`, required),
+    },
+    note: {
       required: helpers.withMessage(`This field is required`, required),
     },
   };
@@ -244,10 +253,10 @@ const {
 });
 //--- END
 
-//--- CREATE UNIT
-const { mutate: createUnit, isPending: isLoadingCreate } = useMutation({
-  mutationFn: async (payload: UnitCreateInterface) => {
-    return await masterStore.createUnit(payload);
+//--- CREATE MANPOWER
+const { mutate: createManpower, isPending: isLoadingCreate } = useMutation({
+  mutationFn: async (payload: ManpowerCreateInterface) => {
+    return await masterStore.createManpower(payload);
   },
   onSuccess: () => {
     modelValue.value = false;
@@ -260,16 +269,16 @@ const { mutate: createUnit, isPending: isLoadingCreate } = useMutation({
 });
 //--- END
 
-//--- UPDATE UNIT
-const { mutate: updateUnit, isPending: isLoadingUpdate } = useMutation({
+//--- UPDATE MANPOWER
+const { mutate: updateManpower, isPending: isLoadingUpdate } = useMutation({
   mutationFn: async ({
     id,
     payload,
   }: {
     id: string;
-    payload: UnitCreateInterface;
+    payload: ManpowerCreateInterface;
   }) => {
-    return await masterStore.updateUnit(id, payload);
+    return await masterStore.updateManpower(id, payload);
   },
   onSuccess: async () => {
     modelValue.value = false;
@@ -287,21 +296,35 @@ const handleSubmit = async () => {
 
   if (!isValid) return;
 
-  // if (props.selectedValue) {
-  //   updateUnit({
-  //     id: props.selectedValue?.uuid,
-  //     payload: model.value,
-  //   });
-  // } else {
-  //   createUnit(model.value);
-  // }
+  if (props.selectedValue) {
+    updateManpower({
+      id: props.selectedValue?.uuid,
+      payload: {
+        name: model.value.name,
+        qty: parseFloat(model.value.qty),
+        type: model.value.type,
+        note: model.value.note,
+        additional_scope_uuid: null,
+        inspection_type_uuid: model.value.inspection_type_uuid,
+      },
+    });
+  } else {
+    createManpower({
+      name: model.value.name,
+      qty: parseFloat(model.value.qty),
+      type: model.value.type,
+      note: model.value.note,
+      additional_scope_uuid: null,
+      inspection_type_uuid: model.value.inspection_type_uuid,
+    });
+  }
 };
 
 const setValue = () => {
-  // model.value = {
-  //   name: props.selectedValue?.name || "",
-  //   location_uuid: props.selectedValue?.location_uuid || "",
-  // };
+  model.value.name = props.selectedValue?.name || "";
+  model.value.qty = props.selectedValue?.qty?.toString() || "";
+  model.value.type = props.selectedValue?.type || "";
+  model.value.note = props.selectedValue?.note || "";
 };
 
 const resetValue = () => {
@@ -598,7 +621,30 @@ watch(
       class="flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-y-auto mx-[-20px] px-5"
       @submit.prevent="handleSubmit"
     >
-      <Input v-model="model.name" :rules="rules.name" label="Nama" />
+      <Input
+        v-model="model.name"
+        label="Nama"
+        :rules="rules.name"
+        :custom_symbols="all_characters"
+      />
+      <Input
+        v-model="model.qty"
+        label="Quantity"
+        :rules="rules.qty"
+        :custom_symbols="numbers_positive_negative"
+      />
+      <Input
+        v-model="model.type"
+        label="Type"
+        :rules="rules.type"
+        :custom_symbols="all_characters"
+      />
+      <Input
+        v-model="model.note"
+        label="Note"
+        :rules="rules.note"
+        :custom_symbols="all_characters"
+      />
       <Select
         v-model="model.location_uuid"
         label="Lokasi"

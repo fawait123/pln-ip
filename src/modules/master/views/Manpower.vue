@@ -10,9 +10,7 @@ import { ColumnsManpower } from "../constants/ManpowerConstant";
 import type { ManpowerInterface } from "../types/ManpowerType";
 import { useMasterStore } from "../stores/MasterStore";
 import FormManpower from "../components/FormManpower.vue";
-// import FormManpower from "../components/FormManpower.vue";
 
-const Entities: ManpowerInterface[] = [];
 const masterStore = useMasterStore();
 const total_item = ref(0);
 const params = reactive({
@@ -195,6 +193,7 @@ const onDelete = () => {
 
     <FormManpower
       v-model="open_form"
+      :selected-value="selected_item"
       @success="handleSuccess"
       @error="handleError"
     />

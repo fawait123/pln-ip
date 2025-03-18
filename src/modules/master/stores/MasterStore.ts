@@ -10,6 +10,9 @@ import type { UnitCreateInterface } from "../types/UnitType";
 import type { MachineCreateInterface } from "../types/MachineType";
 import type { InspectionTypeCreateInterface } from "../types/InspectionType";
 import type { PartCreateInterface } from "../types/PartType";
+import type { ManpowerCreateInterface } from "../types/ManpowerType";
+import type { ConsMatCreateInterface } from "../types/ConsumableMaterialType";
+import type { ToolsCreateInterface } from "../types/ToolsType";
 
 export const useMasterStore = defineStore(
   "master",
@@ -231,7 +234,7 @@ export const useMasterStore = defineStore(
         });
     };
 
-    const createConsMat = async (payload: UnitCreateInterface) => {
+    const createConsMat = async (payload: ConsMatCreateInterface) => {
       return await api
         .post(`/consumble-material`, payload)
         .then((resp) => {
@@ -242,7 +245,10 @@ export const useMasterStore = defineStore(
         });
     };
 
-    const updateConsMat = async (id: string, payload: UnitCreateInterface) => {
+    const updateConsMat = async (
+      id: string,
+      payload: ConsMatCreateInterface
+    ) => {
       return await api
         .put(`/consumble-material/${id}`, payload)
         .then((resp) => {
@@ -327,7 +333,7 @@ export const useMasterStore = defineStore(
         });
     };
 
-    const createTools = async (payload: MachineCreateInterface) => {
+    const createTools = async (payload: ToolsCreateInterface) => {
       return await api
         .post(`/tools`, payload)
         .then((resp) => {
@@ -338,7 +344,7 @@ export const useMasterStore = defineStore(
         });
     };
 
-    const updateTools = async (id: string, payload: MachineCreateInterface) => {
+    const updateTools = async (id: string, payload: ToolsCreateInterface) => {
       return await api
         .put(`/tools/${id}`, payload)
         .then((resp) => {
@@ -375,7 +381,7 @@ export const useMasterStore = defineStore(
         });
     };
 
-    const createManpower = async (payload: MachineCreateInterface) => {
+    const createManpower = async (payload: ManpowerCreateInterface) => {
       return await api
         .post(`/manpower`, payload)
         .then((resp) => {
@@ -388,7 +394,7 @@ export const useMasterStore = defineStore(
 
     const updateManpower = async (
       id: string,
-      payload: MachineCreateInterface
+      payload: ManpowerCreateInterface
     ) => {
       return await api
         .put(`/manpower/${id}`, payload)
