@@ -9,9 +9,8 @@ import type { IPagination } from "@/types/GlobalType";
 import { ColumnsManpower } from "../constants/ManpowerConstant";
 import type { ManpowerInterface } from "../types/ManpowerType";
 import { useMasterStore } from "../stores/MasterStore";
-// import FormManpower from "../components/FormManpower.vue";
+import FormManpower from "../components/FormManpower.vue";
 
-const Entities: ManpowerInterface[] = [];
 const masterStore = useMasterStore();
 const total_item = ref(0);
 const params = reactive({
@@ -36,7 +35,7 @@ const {
   queryFn: async () => {
     try {
       const { data } = await masterStore.getManpower(params);
-      const response = data as IPagination<ManpowerInterface[]>;
+      const response = data.data as IPagination<ManpowerInterface[]>;
 
       total_item.value = response.total;
 
@@ -192,11 +191,11 @@ const onDelete = () => {
       </template> -->
     </Table>
 
-    <!-- <FormPart
+    <FormManpower
       v-model="open_form"
       :selected-value="selected_item"
       @success="handleSuccess"
       @error="handleError"
-    /> -->
+    />
   </div>
 </template>

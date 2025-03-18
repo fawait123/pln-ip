@@ -6,12 +6,11 @@ import { Button, Icon, ModalDelete, Table, Toast } from "@/components";
 import { useMutation, useQuery } from "@tanstack/vue-query";
 import type { IPagination } from "@/types/GlobalType";
 
-import { ColumnsMachine } from "../constants/MachineConstant";
-import type { MachineInterface } from "../types/MachineType";
+import { ColumnsConsMat } from "../constants/ConsumableMaterialConstant";
 import { useMasterStore } from "../stores/MasterStore";
-import FormMachine from "../components/FormMachine.vue";
+import type { ConsMatInterface } from "../types/ConsumableMaterialType";
+import FormConsumableMaterial from "../components/FormConsumableMaterial.vue";
 
-const Entities: MachineInterface[] = [];
 const masterStore = useMasterStore();
 const total_item = ref(0);
 const params = reactive({
@@ -22,22 +21,21 @@ const params = reactive({
 });
 const open_form = ref(false);
 const open_delete = ref(false);
-const selected_item = ref<MachineInterface | null>(null);
+const selected_item = ref<ConsMatInterface | null>(null);
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
 const timeout = ref(0);
 
 //--- GET CONSUMABLE MATERIAL
 const {
-  data: dataMachine,
-  isFetching: isLoadingMachine,
-  refetch: refetchMachine,
+  data: dataConsMat,
+  isFetching: isLoadingConsMat,
+  refetch: refetchConsMat,
 } = useQuery({
   queryKey: ["getConsMatMaster"],
   queryFn: async () => {
     try {
-      const { data } = await masterStore.getPart(params);
-      const response = data.data as IPagination<MachineInterface[]>;
-      console.log("AAA", response);
+      const { data } = await masterStore.getConsMat(params);
+      const response = data.data as IPagination<ConsMatInterface[]>;
 
       total_item.value = response.total;
 
@@ -51,10 +49,10 @@ const {
 });
 //--- END
 
-//--- DELETE MACHINE
-const { mutate: deleteMachine, isPending: isLoadingDelete } = useMutation({
+//--- DELETE CONSUMABLE MATERIAL
+const { mutate: deleteConsMat, isPending: isLoadingDelete } = useMutation({
   mutationFn: async (id: string) => {
-    return await masterStore.deleteMachine(id);
+    return await masterStore.deleteConsMat(id);
   },
   onSuccess: () => {
     toastRef.value?.showToast({
@@ -63,7 +61,7 @@ const { mutate: deleteMachine, isPending: isLoadingDelete } = useMutation({
       type: "success",
     });
     open_delete.value = false;
-    refetchMachine();
+    refetchConsMat();
   },
   onError: (error: any) => {
     console.log(error);
@@ -86,20 +84,20 @@ const pagination = computed(() => {
 
 const changePage = (e: number) => {
   params.currentPage = e;
-  refetchMachine();
+  refetchConsMat();
 };
 
 const changeLimit = (e: string) => {
   params.perPage = parseInt(e);
   params.currentPage = 1;
-  refetchMachine();
+  refetchConsMat();
 };
 
 const searchTable = () => {
   clearTimeout(timeout.value);
   timeout.value = window.setTimeout(() => {
     params.currentPage = 1;
-    refetchMachine();
+    refetchConsMat();
   }, 1000);
 };
 
@@ -110,7 +108,7 @@ const handleSuccess = () => {
     type: "success",
   });
   params.currentPage = 1;
-  refetchMachine();
+  refetchConsMat();
 };
 
 const handleError = (error: any) => {
@@ -126,18 +124,18 @@ const handleCreate = () => {
   open_form.value = true;
 };
 
-const handleUpdate = (item: MachineInterface) => {
+const handleUpdate = (item: ConsMatInterface) => {
   selected_item.value = item;
   open_form.value = true;
 };
 
-const handleDelete = (item: MachineInterface) => {
+const handleDelete = (item: ConsMatInterface) => {
   selected_item.value = item;
   open_delete.value = true;
 };
 
 const onDelete = () => {
-  deleteMachine(selected_item.value?.uuid as string);
+  deleteConsMat(selected_item.value?.uuid as string);
 };
 </script>
 
@@ -161,10 +159,10 @@ const onDelete = () => {
     />
 
     <Table
-      label-create="Machine"
-      :columns="ColumnsMachine"
-      :entities="dataMachine?.data || []"
-      :loading="isLoadingMachine"
+      label-create="ConsMat"
+      :columns="ColumnsConsMat"
+      :entities="dataConsMat?.data || []"
+      :loading="isLoadingConsMat"
       :pagination="pagination"
       :is-create="false"
       v-model:model-search="params.search"
@@ -186,14 +184,9 @@ const onDelete = () => {
           />
         </div>
       </template>
-      <template #column_unit="{ entity }">
-        <p class="text-base text-neutral-50 text-center">
-          {{ entity.unit?.name }}
-        </p>
-      </template>
     </Table>
 
-    <FormMachine
+    <FormConsumableMaterial
       v-model="open_form"
       :selected-value="selected_item"
       @success="handleSuccess"

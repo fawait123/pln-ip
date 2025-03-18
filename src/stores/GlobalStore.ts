@@ -5,7 +5,7 @@ import { ref } from "vue";
 import { encryptStorage } from "@/utils/storage";
 import { api } from "@/api/axios";
 import type { CreateDocumentInterface } from "@/types/GlobalType";
-import type { TInspection } from "@/modules/scope/types/ScopeType";
+import type { TInspection } from "@/modules/inspection/types/InspectionType";
 
 export const useGlobalStore = defineStore(
   "global",

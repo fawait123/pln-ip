@@ -2,18 +2,24 @@ import { createRouter, createWebHistory } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "@/modules/auth/stores/AuthStore";
 import { routeAuth } from "@/modules/auth/router/AuthRouter";
-import { routeScope } from "@/modules/scope/router/ScopeRouter";
-import { routeDashboard } from "@/modules/dashboard/router/DashboardRouter";
-import { routeMain } from "@/modules/main/router/MainRouter";
 import { routeMaster } from "@/modules/master/router/MasterRouter";
 import { api } from "@/api/axios";
+import { routeLocation } from "@/modules/location/router/LocationRouter";
+import { routeUnit } from "@/modules/unit/router/UnitRouter";
+import { routeInspection } from "@/modules/inspection/router/InspectionRouter";
+import { routeTransaction } from "@/modules/transaction/router/TransactionRouter";
+import { routeUser } from "@/modules/user/router/UserRouter";
+import { routeNotFound } from "@/modules/not-found/router/NotFoundRouter";
 
 const routes = [
   ...routeAuth,
-  ...routeDashboard,
-  ...routeScope,
-  ...routeMain,
+  ...routeLocation,
+  ...routeUnit,
+  ...routeInspection,
+  ...routeTransaction,
   ...routeMaster,
+  ...routeUser,
+  ...routeNotFound,
 ];
 
 const router = createRouter({
@@ -37,7 +43,7 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
-  const { access_token } = storeToRefs(authStore);
+  const { access_token, users } = storeToRefs(authStore);
   const token = access_token.value;
 
   if (token) {
@@ -49,7 +55,11 @@ router.beforeEach(async (to, from, next) => {
       if (to.matched.some((record) => record.meta.onlyGuest)) {
         next({ path: "/" });
       } else if (to.matched.some((record) => record.meta.requireAuth)) {
-        next();
+        if (users.value?.role === to.meta?.role) {
+          next();
+        } else {
+          next({ path: "/not-found" });
+        }
       } else {
         next();
       }

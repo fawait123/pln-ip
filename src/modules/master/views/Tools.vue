@@ -9,9 +9,8 @@ import type { IPagination } from "@/types/GlobalType";
 import { ColumnsTools } from "../constants/ToolsConstant";
 import type { ToolsInterface } from "../types/ToolsType";
 import { useMasterStore } from "../stores/MasterStore";
-// import FormTools from "../components/FormTools.vue";
+import FormTools from "../components/FormTools.vue";
 
-const Entities: ToolsInterface[] = [];
 const masterStore = useMasterStore();
 const total_item = ref(0);
 const params = reactive({
@@ -185,18 +184,13 @@ const onDelete = () => {
           />
         </div>
       </template>
-      <!-- <template #column_unit="{ entity }">
-        <p class="text-base text-neutral-50 text-center">
-          {{ entity.unit?.name }}
-        </p>
-      </template> -->
     </Table>
 
-    <!-- <FormPart
+    <FormTools
       v-model="open_form"
       :selected-value="selected_item"
       @success="handleSuccess"
       @error="handleError"
-    /> -->
+    />
   </div>
 </template>

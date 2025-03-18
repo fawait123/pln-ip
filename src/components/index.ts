@@ -16,24 +16,11 @@ import HeaderUserHistory from "@/components/layouts/HeaderUserHistory.vue";
 import HeaderMaster from "@/components/layouts/HeaderMaster.vue";
 import Footer from "@/components/layouts/Footer.vue";
 import Template from "@/components/structures/Template.vue";
-import ButtonPopover from "@/components/action/ButtonPopover.vue";
 import Table from "@/components/tables/Table.vue";
-import AssetWelness from "@/components/action/components/Button/AssetWelness.vue";
-import CreateRow from "@/components/action/components/Button/CreateRow.vue";
-import FormWithFile from "@/components/action/components/Button/FormWithFile.vue";
-import FormUploadOnly from "@/components/action/components/Button/FormUploadOnly.vue";
-import FormAddNote from "@/components/action/components/Button/FormAddNote.vue";
-import Quantity from "@/components/action/components/Button/Quantity.vue";
-import Volume from "@/components/action/components/Button/Volume.vue";
-import FormDuration from "@/components/action/components/Button/FormDuration.vue";
-import FormIK from "@/components/action/components/Button/FormIK.vue";
-import FormQcPlan from "@/components/action/components/Button/FormQcPlan.vue";
-import FormMaterial from "@/components/action/components/Button/FormMaterial.vue";
-import FormManpower from "@/components/action/components/Button/FormManpower.vue";
-import FormPart from "@/components/action/components/Button/FormPart.vue";
 import Modal from "@/components/overlays/Modal.vue";
 import ModalDelete from "@/components/overlays/ModalDelete.vue";
 import Toast from "@/components/overlays/Toast.vue";
+import CreateRow from "@/components/action/components/Button/CreateRow.vue";
 import ButtonDots from "@/components/action/components/Button/ButtonDots.vue";
 import ButtonOptions from "@/components/action/components/Button/ButtonOptions.vue";
 
@@ -45,7 +32,6 @@ export {
   Select,
   Loading,
   Button,
-  ButtonPopover,
   Breadcrumb,
   Pagination,
   HeaderTransparant,
@@ -58,19 +44,7 @@ export {
   Footer,
   Template,
   Table,
-  AssetWelness,
   CreateRow,
-  FormWithFile,
-  FormUploadOnly,
-  FormAddNote,
-  Quantity,
-  Volume,
-  FormDuration,
-  FormIK,
-  FormQcPlan,
-  FormMaterial,
-  FormManpower,
-  FormPart,
   Modal,
   ModalDelete,
   Toast,

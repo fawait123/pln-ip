@@ -7,11 +7,10 @@ import { useMutation, useQuery } from "@tanstack/vue-query";
 import type { IPagination } from "@/types/GlobalType";
 
 import { ColumnsPart } from "../constants/PartConstant";
-import type { PartInterface } from "../types/PartType";
 import { useMasterStore } from "../stores/MasterStore";
+import type { PartInterface } from "../types/PartType";
 import FormPart from "../components/FormPart.vue";
 
-const Entities: PartInterface[] = [];
 const masterStore = useMasterStore();
 const total_item = ref(0);
 const params = reactive({
@@ -36,7 +35,7 @@ const {
   queryFn: async () => {
     try {
       const { data } = await masterStore.getPart(params);
-      const response = data as IPagination<PartInterface[]>;
+      const response = data.data as IPagination<PartInterface[]>;
 
       total_item.value = response.total;
 
@@ -185,18 +184,13 @@ const onDelete = () => {
           />
         </div>
       </template>
-      <!-- <template #column_unit="{ entity }">
-        <p class="text-base text-neutral-50 text-center">
-          {{ entity.unit?.name }}
-        </p>
-      </template> -->
     </Table>
 
-    <!-- <FormPart
+    <FormPart
       v-model="open_form"
       :selected-value="selected_item"
       @success="handleSuccess"
       @error="handleError"
-    /> -->
+    />
   </div>
 </template>
