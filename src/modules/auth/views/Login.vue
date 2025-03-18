@@ -43,8 +43,18 @@ const { mutate: login, isPending: isLoadingLogin } = useMutation({
   onSuccess: async (data) => {
     const response = data?.data?.data as LoginInterface;
     authStore.setToken(response.token);
+    authStore.setUsers({
+      email: response?.email,
+      id: response?.id,
+      name: response?.name,
+      role: response?.roles?.[0]?.name,
+    });
 
-    router.push("/");
+    if (response?.roles?.[0]?.name === "superuser") {
+      router.push("/master/location");
+    } else {
+      router.push("/");
+    }
   },
   onError: () => {
     error_message.value = "Invalid email or password";
