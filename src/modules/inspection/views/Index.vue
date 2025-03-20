@@ -4,9 +4,9 @@ import { useRoute, useRouter } from "vue-router";
 import type { AxiosError } from "axios";
 import { storeToRefs } from "pinia";
 
-import Home0 from "@/assets/videos/home/0-homepage.mp4";
-import Home1 from "@/assets/videos/home/1-homepage.mp4";
-import Home2 from "@/assets/videos/home/2-homepage.mp4";
+import Home0 from "/videos/home/0-homepage.mp4";
+import Home1 from "/videos/home/1-homepage.mp4";
+import Home2 from "/videos/home/2-homepage.mp4";
 
 import { useGlobalStore } from "@/stores/GlobalStore";
 import { Breadcrumb, Input, Button, Toast } from "@/components";

@@ -827,7 +827,7 @@ const videosData = ref({
       id: 76,
       video: () =>
         import(
-          "@/assets/videos/turbine-inspection/35-turbine-ring-segment-row-1-upper .mp4"
+          "/videos/turbine-inspection/35-turbine-ring-segment-row-1-upper.mp4"
         ),
       name: "Turbine Ring Segment Row 1 Upper",
       top: 240,
@@ -837,7 +837,7 @@ const videosData = ref({
       id: 77,
       video: () =>
         import(
-          "@/assets/videos/turbine-inspection/36-turbine-ring-segment-row-2-upper.mp4"
+          "/videos/turbine-inspection/36-turbine-ring-segment-row-2-upper.mp4"
         ),
       name: "Turbine Ring Segment Row 2 Upper",
       top: 240,
@@ -847,7 +847,7 @@ const videosData = ref({
       id: 78,
       video: () =>
         import(
-          "@/assets/videos/turbine-inspection/37-turbine-vane-segment-row-2-upper.mp4"
+          "/videos/turbine-inspection/37-turbine-vane-segment-row-2-upper.mp4"
         ),
       name: "Turbine Vane Segment Row 2 Upper",
       top: 240,
@@ -855,7 +855,7 @@ const videosData = ref({
     },
     {
       id: 79,
-      video: () => import("@/assets/videos/turbine-inspection/38.mp4"),
+      video: () => import("/videos/turbine-inspection/38.mp4"),
       name: "",
       top: 0,
       left: 0,
@@ -864,7 +864,7 @@ const videosData = ref({
       id: 80,
       video: () =>
         import(
-          "@/assets/videos/turbine-inspection/39-turbine-vane-segment-row-2-upper.mp4"
+          "/videos/turbine-inspection/39-turbine-vane-segment-row-2-upper.mp4"
         ),
       name: "Turbine Vane Segment Row 2 Upper",
       top: 240,
@@ -874,7 +874,7 @@ const videosData = ref({
       id: 81,
       video: () =>
         import(
-          "@/assets/videos/turbine-inspection/40-turbine-ring-segment-row-2-upper.mp4"
+          "/videos/turbine-inspection/40-turbine-ring-segment-row-2-upper.mp4"
         ),
       name: "Turbine Ring Segment Row 2 Upper",
       top: 240,
@@ -884,7 +884,7 @@ const videosData = ref({
       id: 82,
       video: () =>
         import(
-          "@/assets/videos/turbine-inspection/41-turbine-ring-segment-row-3-upper.mp4"
+          "/videos/turbine-inspection/41-turbine-ring-segment-row-3-upper.mp4"
         ),
       name: "Turbine Ring Segment Row 3 Upper",
       top: 241,
@@ -894,7 +894,7 @@ const videosData = ref({
       id: 83,
       video: () =>
         import(
-          "@/assets/videos/turbine-inspection/42-turbine-vane-segment-row-3-upper.mp4"
+          "/videos/turbine-inspection/42-turbine-vane-segment-row-3-upper.mp4"
         ),
       name: "Turbine Vane Segment Row 3 Upper",
       top: 241,
@@ -902,7 +902,7 @@ const videosData = ref({
     },
     {
       id: 84,
-      video: () => import("@/assets/videos/turbine-inspection/43.mp4"),
+      video: () => import("/videos/turbine-inspection/43.mp4"),
       name: "",
       top: 0,
       left: 0,
@@ -911,7 +911,7 @@ const videosData = ref({
       id: 85,
       video: () =>
         import(
-          "@/assets/videos/turbine-inspection/44-turbine-vane-segment-row-3-upper.mp4"
+          "/videos/turbine-inspection/44-turbine-vane-segment-row-3-upper.mp4"
         ),
       name: "Turbine Vane Segment Row 3 Upper",
       top: 241,
@@ -921,7 +921,7 @@ const videosData = ref({
       id: 86,
       video: () =>
         import(
-          "@/assets/videos/turbine-inspection/45-turbine-ring-segment-row-3-upper.mp4"
+          "/videos/turbine-inspection/45-turbine-ring-segment-row-3-upper.mp4"
         ),
       name: "Turbine Ring Segment Row 3 Upper",
       top: 241,
@@ -931,7 +931,7 @@ const videosData = ref({
       id: 87,
       video: () =>
         import(
-          "@/assets/videos/turbine-inspection/46-turbine-ring-segment-row-4-upper.mp4"
+          "/videos/turbine-inspection/46-turbine-ring-segment-row-4-upper.mp4"
         ),
       name: "Turbine Ring Segment Row 4 Upper",
       top: 241,
@@ -941,7 +941,7 @@ const videosData = ref({
       id: 88,
       video: () =>
         import(
-          "@/assets/videos/turbine-inspection/47-turbine-vane-segment-row-4-upper.mp4"
+          "/videos/turbine-inspection/47-turbine-vane-segment-row-4-upper.mp4"
         ),
       name: "Turbine Vane Segment Row 4 Upper",
       top: 241,
@@ -949,7 +949,7 @@ const videosData = ref({
     },
     {
       id: 89,
-      video: () => import("@/assets/videos/turbine-inspection/48.mp4"),
+      video: () => import("/videos/turbine-inspection/48.mp4"),
       name: "",
       top: 0,
       left: 0,
@@ -958,7 +958,7 @@ const videosData = ref({
       id: 90,
       video: () =>
         import(
-          "@/assets/videos/turbine-inspection/49-turbine-vane-segment-row-4-upper.mp4"
+          "/videos/turbine-inspection/49-turbine-vane-segment-row-4-upper.mp4"
         ),
       name: "Turbine Vane Segment Row 4 Upper",
       top: 241,
