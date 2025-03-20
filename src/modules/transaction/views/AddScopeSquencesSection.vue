@@ -6287,40 +6287,47 @@ const handleNext = async () => {
 };
 
 const handleJumpStep = async (index: number) => {
-  if (videoRef.value) {
-    if (videoRef.value.currentTime === videoRef.value.duration) {
-      const urlParams = new URLSearchParams(window.location.search);
-      const videoParam = urlParams.get("video") || "1";
-      const video = parseInt(videoParam, 10);
+  const nextIndex = index - 1;
+  index_temp.value = nextIndex;
+  is_start_at_end.value = false;
+  updateURLParameter(nextIndex);
+  await initializeVideo();
+  openStep.value = false;
 
-      if (index === video) {
-        return;
-      }
+  // if (videoRef.value) {
+  //   if (videoRef.value.currentTime === videoRef.value.duration) {
+  //     const urlParams = new URLSearchParams(window.location.search);
+  //     const videoParam = urlParams.get("video") || "1";
+  //     const video = parseInt(videoParam, 10);
 
-      const { path } = route;
+  //     if (index === video) {
+  //       return;
+  //     }
 
-      disabledNext.value = true;
-      disabledBack.value = true;
-      isButtonVisible.value = false;
+  //     const { path } = route;
 
-      if (index > video) {
-        const updatedQuery = { video: video + 1, to: index };
-        router.push({ path, query: updatedQuery });
-        const nextIndex = currentVideoIndex.value + 1;
-        currentVideoIndex.value = nextIndex;
-        is_start_at_end.value = false;
-        await initializeVideo();
-      } else {
-        const updatedQuery = { video: video, to: index };
-        router.push({ path, query: updatedQuery });
-        if (videoRef.value) {
-          reverseInterval = setInterval(reverseVideo, 100);
-        }
-      }
+  //     disabledNext.value = true;
+  //     disabledBack.value = true;
+  //     isButtonVisible.value = false;
 
-      openStep.value = false;
-    }
-  }
+  //     if (index > video) {
+  //       const updatedQuery = { video: video + 1, to: index };
+  //       router.push({ path, query: updatedQuery });
+  //       const nextIndex = currentVideoIndex.value + 1;
+  //       currentVideoIndex.value = nextIndex;
+  //       is_start_at_end.value = false;
+  //       await initializeVideo();
+  //     } else {
+  //       const updatedQuery = { video: video, to: index };
+  //       router.push({ path, query: updatedQuery });
+  //       if (videoRef.value) {
+  //         reverseInterval = setInterval(reverseVideo, 100);
+  //       }
+  //     }
+
+  //     openStep.value = false;
+  //   }
+  // }
 };
 
 const handleStepNavigation = () => {
