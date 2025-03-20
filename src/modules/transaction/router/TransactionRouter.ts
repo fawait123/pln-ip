@@ -1,7 +1,14 @@
 import MainLayout from "@/layouts/MainLayout.vue";
 import AddScopeLayout from "@/layouts/AddScopeLayout.vue";
+import DefaultLayout from "@/layouts/DefaultLayout.vue";
 
 export const routeTransaction = [
+  {
+    path: "/:id/create/unit/:id_unit/:id_machine/:menu/:id_project/:id_inspection/squences",
+    name: "transaction squences",
+    component: () => import("@/modules/transaction/views/Squences.vue"),
+    meta: { layout: DefaultLayout, requireAuth: true, role: "planner" },
+  },
   //
   {
     path: "/:id/create/unit/:id_unit/:id_machine/:menu/:id_project/:id_inspection/scope-mekanik",
@@ -105,7 +112,7 @@ export const routeTransaction = [
     name: "transaction add scope squences section",
     component: () =>
       import("@/modules/transaction/views/AddScopeSquencesSection.vue"),
-    meta: { layout: MainLayout, requireAuth: true, role: "planner" },
+    meta: { layout: DefaultLayout, requireAuth: true, role: "planner" },
   },
   {
     path: "/:id/create/unit/:id_unit/:id_machine/:menu/:id_project/:id_inspection/add-scope-table",

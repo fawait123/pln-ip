@@ -249,26 +249,44 @@ export const MenusMaster: MenuInterface[] = [
   },
   {
     id: 5,
+    name: "Global Unit",
+    url: "/global-unit",
+    icon: "ruler",
+  },
+  {
+    id: 6,
     name: "Consumable Material",
     url: "/consumable-material",
     icon: "box",
   },
   {
-    id: 6,
+    id: 7,
     name: "Manpower",
     url: "/manpower",
     icon: "male",
   },
   {
-    id: 7,
+    id: 8,
     name: "Part",
     url: "/part",
     icon: "trolley-items",
   },
   {
-    id: 8,
+    id: 9,
     name: "Tools",
     url: "/tools",
     icon: "tools",
+  },
+  {
+    id: 10,
+    name: "Role",
+    url: "/role",
+    icon: "users",
+  },
+  {
+    id: 11,
+    name: "User",
+    url: "/user",
+    icon: "user",
   },
 ];

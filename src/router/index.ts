@@ -53,13 +53,25 @@ router.beforeEach(async (to, from, next) => {
   const handleNavigation = () => {
     if (token) {
       if (to.matched.some((record) => record.meta.onlyGuest)) {
-        next({ path: "/" });
+        if (users.value?.role === "superuser") {
+          next({ path: "/master/location" });
+        } else {
+          next({ path: "/" });
+        }
       } else if (to.matched.some((record) => record.meta.requireAuth)) {
+        // if (to.path === "/") {
+        //   if (users.value?.role === "superuser") {
+        //     next({ path: "/master/location" });
+        //   } else {
+        //     next({ path: "/" });
+        //   }
+        // } else {
         if (users.value?.role === to.meta?.role) {
           next();
         } else {
           next({ path: "/not-found" });
         }
+        // }
       } else {
         next();
       }

@@ -13,6 +13,9 @@ import type { PartCreateInterface } from "../types/PartType";
 import type { ManpowerCreateInterface } from "../types/ManpowerType";
 import type { ConsMatCreateInterface } from "../types/ConsumableMaterialType";
 import type { ToolsCreateInterface } from "../types/ToolsType";
+import type { GlobalUnitCreateInterface } from "../types/GlobalUnitType";
+import type { RoleCreateInterface } from "../types/RoleType";
+import type { UserCreateInterface } from "../types/UserType";
 
 export const useMasterStore = defineStore(
   "master",
@@ -220,6 +223,57 @@ export const useMasterStore = defineStore(
     };
     // --- END
 
+    // --- GLOBAL UNIT
+    const getGlobalUnit = async (payload: IParams) => {
+      return await api
+        .get(`/global-unit`, {
+          params: payload,
+        })
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const createGlobalUnit = async (payload: GlobalUnitCreateInterface) => {
+      return await api
+        .post(`/global-unit`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const updateGlobalUnit = async (
+      id: string,
+      payload: GlobalUnitCreateInterface
+    ) => {
+      return await api
+        .put(`/global-unit/${id}`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const deleteGlobalUnit = async (id: string) => {
+      return await api
+        .delete(`/global-unit/${id}`)
+        .then((res) => {
+          return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    // --- END
+
     // --- CONSUMABLE MATERIAL
     const getConsMat = async (payload: IParams) => {
       return await api
@@ -418,6 +472,102 @@ export const useMasterStore = defineStore(
     };
     // --- END
 
+    // --- USER
+    const getUser = async (payload: IParams) => {
+      return await api
+        .get(`/user`, {
+          params: payload,
+        })
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const createUser = async (payload: UserCreateInterface) => {
+      return await api
+        .post(`/user`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const updateUser = async (id: string, payload: UserCreateInterface) => {
+      return await api
+        .put(`/user/${id}`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const deleteUser = async (id: string) => {
+      return await api
+        .delete(`/user/${id}`)
+        .then((res) => {
+          return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    // --- END
+
+    // --- ROLE
+    const getRole = async (payload: IParams) => {
+      return await api
+        .get(`/role`, {
+          params: payload,
+        })
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const createRole = async (payload: RoleCreateInterface) => {
+      return await api
+        .post(`/role`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const updateRole = async (id: string, payload: RoleCreateInterface) => {
+      return await api
+        .put(`/role/${id}`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const deleteRole = async (id: string) => {
+      return await api
+        .delete(`/role/${id}`)
+        .then((res) => {
+          return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    // --- END
+
     return {
       getLocation,
       createLocation,
@@ -435,6 +585,10 @@ export const useMasterStore = defineStore(
       createInspectionType,
       updateInspectionType,
       deleteInspectionType,
+      getGlobalUnit,
+      createGlobalUnit,
+      updateGlobalUnit,
+      deleteGlobalUnit,
       getConsMat,
       createConsMat,
       updateConsMat,
@@ -451,6 +605,14 @@ export const useMasterStore = defineStore(
       createManpower,
       updateManpower,
       deleteManpower,
+      getUser,
+      createUser,
+      updateUser,
+      deleteUser,
+      getRole,
+      createRole,
+      updateRole,
+      deleteRole,
     };
   },
   {

@@ -1,3 +1,5 @@
+import type { InspectionTypeInterface } from "./InspectionType";
+
 export interface ToolsInterface {
   uuid: string;
   name: string;
@@ -5,6 +7,7 @@ export interface ToolsInterface {
   section: string;
   global_unit_uuid: string;
   inspection_type_uuid: string;
+  inspection_type: InspectionTypeInterface;
   additional_scope_uuid: string | null;
   created_at: string;
   updated_at: string;

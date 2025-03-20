@@ -10,7 +10,11 @@ import {
   useQueryClient,
 } from "@tanstack/vue-query";
 import type { IPagination, IParams } from "@/types/GlobalType";
-import { all_characters, numbers_positive_negative } from "@/helpers/global";
+import {
+  all_characters,
+  mergeArrays,
+  numbers_positive_negative,
+} from "@/helpers/global";
 
 import type { LocationInterface } from "../types/LocationType";
 import type { UnitInterface } from "../types/UnitType";
@@ -324,6 +328,11 @@ const setValue = () => {
   model.value.name = props.selectedValue?.name || "";
   model.value.qty = props.selectedValue?.qty?.toString() || "";
   model.value.merk = props.selectedValue?.merk || "";
+
+  model.value.machine_uuid =
+    props.selectedValue?.inspection_type?.machine_uuid || "";
+  model.value.inspection_type_uuid =
+    props.selectedValue?.inspection_type_uuid || "";
 };
 
 const resetValue = () => {
@@ -434,38 +443,29 @@ watch(modelValue, (value) => {
   }
 });
 
-watch(
-  () => model.value.location_uuid,
-  (value) => {
-    queryClient.removeQueries({ queryKey: ["getMachineManpower"] });
-    queryClient.removeQueries({ queryKey: ["getInspectionManpower"] });
-    model.value.unit_uuid = "";
-    model.value.machine_uuid = "";
-    model.value.inspection_type_uuid = "";
-    params_unit.filters = `location_uuid,${value}`;
-    refetchUnit();
-  }
-);
+const selectLocation = (e: OptionType) => {
+  queryClient.removeQueries({ queryKey: ["getMachineManpower"] });
+  queryClient.removeQueries({ queryKey: ["getInspectionManpower"] });
+  model.value.unit_uuid = "";
+  model.value.machine_uuid = "";
+  model.value.inspection_type_uuid = "";
+  params_unit.filters = `location_uuid,${e.value}`;
+  refetchUnit();
+};
 
-watch(
-  () => model.value.unit_uuid,
-  (value) => {
-    queryClient.removeQueries({ queryKey: ["getInspectionManpower"] });
-    model.value.machine_uuid = "";
-    model.value.inspection_type_uuid = "";
-    params_machine.filters = `unit_uuid,${value}`;
-    refetchMachine();
-  }
-);
+const selectUnit = (e: OptionType) => {
+  queryClient.removeQueries({ queryKey: ["getInspectionManpower"] });
+  model.value.machine_uuid = "";
+  model.value.inspection_type_uuid = "";
+  params_machine.filters = `unit_uuid,${e.value}`;
+  refetchMachine();
+};
 
-watch(
-  () => model.value.machine_uuid,
-  (value) => {
-    model.value.inspection_type_uuid = "";
-    params_inspection.filters = `machine_uuid,${value}`;
-    refetchInspection();
-  }
-);
+const selectMachine = (e: OptionType) => {
+  model.value.inspection_type_uuid = "";
+  params_inspection.filters = `machine_uuid,${e.value}`;
+  refetchInspection();
+};
 
 watch(
   [modelValue, dataLocation],
@@ -541,23 +541,24 @@ watch(
   dataMachine,
   (newMachine) => {
     if (props.selectedValue) {
-      // const new_data: OptionType[] =
-      //   newMachine?.pages
-      //     .flatMap((page) => page?.data)
-      //     ?.map((item) => {
-      //       return { value: item.uuid, label: item.name };
-      //     }) || [];
-      // options_unit.value = mergeArrays(
-      //   [
-      //     {
-      //       value: props.selectedValue.lo,
-      //       label: props.selectedValue.,
-      //     },
-      //   ],
-      //   new_data.filter(
-      //     (item) => item.value !== props.selectedValue?.location_uuid
-      //   )
-      // );
+      const new_data: OptionType[] =
+        newMachine?.pages
+          .flatMap((page) => page?.data)
+          ?.map((item) => {
+            return { value: item.uuid, label: item.name };
+          }) || [];
+      options_machine.value = mergeArrays(
+        [
+          {
+            value: props.selectedValue?.inspection_type?.machine_uuid,
+            label: props.selectedValue?.inspection_type?.machine?.name,
+          },
+        ],
+        new_data.filter(
+          (item) =>
+            item.value !== props.selectedValue?.inspection_type?.machine_uuid
+        )
+      );
     } else {
       const new_data: OptionType[] =
         newMachine?.pages
@@ -576,23 +577,23 @@ watch(
   dataInspection,
   (newInspection) => {
     if (props.selectedValue) {
-      // const new_data: OptionType[] =
-      //   newInspection?.pages
-      //     .flatMap((page) => page?.data)
-      //     ?.map((item) => {
-      //       return { value: item.uuid, label: item.name };
-      //     }) || [];
-      // options_unit.value = mergeArrays(
-      //   [
-      //     {
-      //       value: props.selectedValue.lo,
-      //       label: props.selectedValue.,
-      //     },
-      //   ],
-      //   new_data.filter(
-      //     (item) => item.value !== props.selectedValue?.location_uuid
-      //   )
-      // );
+      const new_data: OptionType[] =
+        newInspection?.pages
+          .flatMap((page) => page?.data)
+          ?.map((item) => {
+            return { value: item.uuid, label: item.name };
+          }) || [];
+      options_inspection.value = mergeArrays(
+        [
+          {
+            value: props.selectedValue?.inspection_type_uuid,
+            label: props.selectedValue?.inspection_type?.name,
+          },
+        ],
+        new_data.filter(
+          (item) => item.value !== props.selectedValue?.inspection_type?.uuid
+        )
+      );
     } else {
       const new_data: OptionType[] =
         newInspection?.pages
@@ -605,6 +606,32 @@ watch(
     }
   },
   { deep: true, immediate: true }
+);
+
+watch(
+  () => props.selectedValue,
+  (value) => {
+    if (value) {
+      if (value.inspection_type?.machine?.unit?.location) {
+        refetchLocation();
+      }
+
+      if (value.inspection_type?.machine?.unit) {
+        params_unit.filters = `location_uuid,${value?.inspection_type?.machine?.unit?.location_uuid}`;
+        refetchUnit();
+      }
+
+      if (value.inspection_type?.machine) {
+        params_machine.filters = `unit_uuid,${value?.inspection_type?.machine?.unit_uuid}`;
+        refetchMachine();
+      }
+
+      if (value.inspection_type) {
+        params_inspection.filters = `machine_uuid,${value?.inspection_type?.machine_uuid}`;
+        refetchInspection();
+      }
+    }
+  }
 );
 </script>
 
@@ -657,6 +684,7 @@ watch(
         :options="options_location"
         @scroll="scrollLocation"
         @search="searchLocation"
+        @select="selectLocation"
       />
       <Select
         v-model="model.unit_uuid"
@@ -671,6 +699,7 @@ watch(
         :options="options_unit"
         @scroll="scrollUnit"
         @search="searchUnit"
+        @select="selectUnit"
       />
       <Select
         v-model="model.machine_uuid"
@@ -685,6 +714,7 @@ watch(
         :options="options_machine"
         @scroll="scrollMachine"
         @search="searchMachine"
+        @select="selectMachine"
       />
       <Select
         v-model="model.inspection_type_uuid"
