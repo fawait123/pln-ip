@@ -4,12 +4,12 @@ import { useRoute, useRouter } from "vue-router";
 
 import { convertToKebabCase } from "@/helpers/global";
 
-import Section1 from "@/assets/videos/add-scope/1-exhaust.mp4";
-import Section2 from "@/assets/videos/add-scope/2-turbine.mp4";
-import Section3 from "@/assets/videos/add-scope/3-combustion.mp4";
-import Section4 from "@/assets/videos/add-scope/4-compressor.mp4";
-import Section5 from "@/assets/videos/add-scope/5-inlet.mp4";
-import Section6 from "@/assets/videos/add-scope/6-generator.mp4";
+import Section1 from "/videos/add-scope/1-exhaust.mp4";
+import Section2 from "/videos/add-scope/2-turbine.mp4";
+import Section3 from "/videos/add-scope/3-combustion.mp4";
+import Section4 from "/videos/add-scope/4-compressor.mp4";
+import Section5 from "/videos/add-scope/5-inlet.mp4";
+import Section6 from "/videos/add-scope/6-generator.mp4";
 
 const videos = [Section1, Section2, Section3, Section4, Section5, Section6];
 const section = [
