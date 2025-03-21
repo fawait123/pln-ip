@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { reactive, ref, computed, type PropType, watch } from "vue";
 
-import { Button, Input, Modal, Select, Textarea } from "@/components";
+import { Button, Input, Modal } from "@/components";
 import useVuelidate from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
 import { useMutation } from "@tanstack/vue-query";
+import { all_characters } from "@/helpers/global";
 
 import type {
   GlobalUnitCreateInterface,
@@ -125,7 +126,12 @@ watch(modelValue, (value) => {
       class="flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-y-auto mx-[-20px] px-5"
       @submit.prevent="handleSubmit"
     >
-      <Input v-model="model.name" :rules="rules.name" label="Nama" />
+      <Input
+        v-model="model.name"
+        :rules="rules.name"
+        :custom_symbols="all_characters"
+        label="Nama"
+      />
 
       <div class="w-full flex items-center gap-4 mt-4">
         <Button

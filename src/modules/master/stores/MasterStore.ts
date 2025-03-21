@@ -16,6 +16,14 @@ import type { ToolsCreateInterface } from "../types/ToolsType";
 import type { GlobalUnitCreateInterface } from "../types/GlobalUnitType";
 import type { RoleCreateInterface } from "../types/RoleType";
 import type { UserCreateInterface } from "../types/UserType";
+import type {
+  ScopeCreateInterface,
+  ScopeUpdateInterface,
+} from "../types/ScopeType";
+import type {
+  AdditionalScopeCreateInterface,
+  AdditionalScopeUpdateInterface,
+} from "../types/AdditionalScopeType";
 
 export const useMasterStore = defineStore(
   "master",
@@ -274,6 +282,107 @@ export const useMasterStore = defineStore(
     };
     // --- END
 
+    // --- SCOPE
+    const getScope = async (payload: IParams) => {
+      return await api
+        .get(`/scope-standart`, {
+          params: payload,
+        })
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const createScope = async (payload: ScopeCreateInterface) => {
+      return await api
+        .post(`/scope-standart`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const updateScope = async (id: string, payload: ScopeUpdateInterface) => {
+      return await api
+        .put(`/scope-standart/${id}`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const deleteScope = async (id: string) => {
+      return await api
+        .delete(`/scope-standart/${id}`)
+        .then((res) => {
+          return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    // --- END
+
+    // --- ADDITIONAL SCOPE
+    const getAdditionalScope = async (payload: IParams) => {
+      return await api
+        .get(`/additional-scope`, {
+          params: payload,
+        })
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const createAdditionalScope = async (
+      payload: AdditionalScopeCreateInterface
+    ) => {
+      return await api
+        .post(`/additional-scope`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const updateAdditionalScope = async (
+      id: string,
+      payload: AdditionalScopeUpdateInterface
+    ) => {
+      return await api
+        .put(`/additional-scope/${id}`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const deleteAdditionalScope = async (id: string) => {
+      return await api
+        .delete(`/additional-scope/${id}`)
+        .then((res) => {
+          return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    // --- END
+
     // --- CONSUMABLE MATERIAL
     const getConsMat = async (payload: IParams) => {
       return await api
@@ -497,7 +606,7 @@ export const useMasterStore = defineStore(
         });
     };
 
-    const updateUser = async (id: string, payload: UserCreateInterface) => {
+    const updateUser = async (id: number, payload: UserCreateInterface) => {
       return await api
         .put(`/user/${id}`, payload)
         .then((resp) => {
@@ -508,7 +617,7 @@ export const useMasterStore = defineStore(
         });
     };
 
-    const deleteUser = async (id: string) => {
+    const deleteUser = async (id: number) => {
       return await api
         .delete(`/user/${id}`)
         .then((res) => {
@@ -534,6 +643,17 @@ export const useMasterStore = defineStore(
         });
     };
 
+    const getPermission = async () => {
+      return await api
+        .get(`/role/list/permissions`)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
     const createRole = async (payload: RoleCreateInterface) => {
       return await api
         .post(`/role`, payload)
@@ -545,7 +665,7 @@ export const useMasterStore = defineStore(
         });
     };
 
-    const updateRole = async (id: string, payload: RoleCreateInterface) => {
+    const updateRole = async (id: number, payload: RoleCreateInterface) => {
       return await api
         .put(`/role/${id}`, payload)
         .then((resp) => {
@@ -556,7 +676,7 @@ export const useMasterStore = defineStore(
         });
     };
 
-    const deleteRole = async (id: string) => {
+    const deleteRole = async (id: number) => {
       return await api
         .delete(`/role/${id}`)
         .then((res) => {
@@ -589,6 +709,14 @@ export const useMasterStore = defineStore(
       createGlobalUnit,
       updateGlobalUnit,
       deleteGlobalUnit,
+      getScope,
+      createScope,
+      updateScope,
+      deleteScope,
+      getAdditionalScope,
+      createAdditionalScope,
+      updateAdditionalScope,
+      deleteAdditionalScope,
       getConsMat,
       createConsMat,
       updateConsMat,
@@ -610,6 +738,7 @@ export const useMasterStore = defineStore(
       updateUser,
       deleteUser,
       getRole,
+      getPermission,
       createRole,
       updateRole,
       deleteRole,

@@ -26,6 +26,7 @@ import type {
   ConsMatCreateModelInterface,
   ConsMatInterface,
 } from "../types/ConsumableMaterialType";
+import type { GlobalUnitInterface } from "../types/GlobalUnitType";
 
 type OptionType = {
   value: string;
@@ -44,6 +45,8 @@ const masterStore = useMasterStore();
 
 const queryClient = useQueryClient();
 const modelValue = defineModel<boolean>({ default: false });
+const is_loading_global_unit = ref(false);
+const options_global_unit = ref<OptionType[]>([]);
 const is_loading_location = ref(false);
 const options_location = ref<OptionType[]>([]);
 const is_loading_unit = ref(false);
@@ -92,6 +95,47 @@ const rules = computed(() => {
     },
   };
 });
+
+//--- GET GLOBAL UNIT
+const params_global_unit = reactive<IParams>({
+  search: "",
+  filters: "",
+  currentPage: 1,
+  perPage: 10,
+});
+const {
+  data: dataGlobalUnit,
+  refetch: refetchGlobalUnit,
+  fetchNextPage: fetchNextPageGlobalUnit,
+  hasNextPage: hasNextPageGlobalUnit,
+  isFetchingNextPage: isFetchingNextPageGlobalUnit,
+} = useInfiniteQuery({
+  queryKey: ["getGlobalUnitManpower"],
+  enabled: !props.selectedValue && !is_loading_global_unit.value,
+  queryFn: async ({ pageParam = 1 }) => {
+    try {
+      const { data } = await masterStore.getGlobalUnit({
+        ...params_global_unit,
+        currentPage: pageParam,
+      });
+
+      const response = data.data as IPagination<GlobalUnitInterface[]>;
+
+      return response;
+    } catch (error: any) {
+      throw error.response;
+    } finally {
+      is_loading_global_unit.value = false;
+    }
+  },
+  refetchOnWindowFocus: false,
+  getNextPageParam: (lastPage) => {
+    if (!lastPage?.data?.length) return undefined;
+    return lastPage.current_page + 1;
+  },
+  initialPageParam: 1,
+});
+//--- END
 
 //--- GET LOCATION
 const params_location = reactive<IParams>({
@@ -329,6 +373,11 @@ const setValue = () => {
   model.value.qty = props.selectedValue?.qty?.toString() || "";
   model.value.merk = props.selectedValue?.merk || "";
 
+  model.value.global_unit_uuid = props.selectedValue?.global_unit_uuid || "";
+  model.value.location_uuid =
+    props.selectedValue?.inspection_type?.machine?.unit?.location_uuid || "";
+  model.value.unit_uuid =
+    props.selectedValue?.inspection_type?.machine?.unit_uuid || "";
   model.value.machine_uuid =
     props.selectedValue?.inspection_type?.machine_uuid || "";
   model.value.inspection_type_uuid =
@@ -347,6 +396,26 @@ const resetValue = () => {
     global_unit_uuid: "",
   };
   refetchLocation();
+};
+
+const timeout_global_unit = ref(0);
+const searchGlobalUnit = () => {
+  clearTimeout(timeout_global_unit.value);
+  timeout_global_unit.value = window.setTimeout(() => {
+    is_loading_global_unit.value = true;
+    params_global_unit.currentPage = 1;
+    refetchGlobalUnit();
+  }, 1000);
+};
+const scrollGlobalUnit = (e: Event) => {
+  const { scrollTop, scrollHeight, clientHeight } = e.target as HTMLElement;
+  if (
+    scrollTop + clientHeight >= scrollHeight - 1 &&
+    hasNextPageGlobalUnit.value &&
+    !isFetchingNextPageGlobalUnit.value
+  ) {
+    fetchNextPageGlobalUnit();
+  }
 };
 
 const timeout_location = ref(0);
@@ -468,26 +537,67 @@ const selectMachine = (e: OptionType) => {
 };
 
 watch(
+  [modelValue, dataGlobalUnit],
+  ([_, newGlobalUnit]) => {
+    if (props.selectedValue) {
+      const new_data: OptionType[] =
+        newGlobalUnit?.pages
+          .flatMap((page) => page?.data)
+          ?.map((item) => {
+            return { value: item.uuid, label: item.name };
+          }) || [];
+      options_global_unit.value = mergeArrays(
+        [
+          {
+            value: props.selectedValue?.global_unit_uuid,
+            label: props.selectedValue?.global_unit?.name,
+          },
+        ],
+        new_data.filter(
+          (item) => item.value !== props.selectedValue?.global_unit_uuid
+        )
+      );
+    } else {
+      const new_data: OptionType[] =
+        newGlobalUnit?.pages
+          .flatMap((page) => page?.data)
+          ?.map((item) => {
+            return { value: item.uuid, label: item.name };
+          }) || [];
+
+      options_global_unit.value = new_data;
+    }
+  },
+  { deep: true, immediate: true }
+);
+
+watch(
   [modelValue, dataLocation],
   ([_, newLocation]) => {
     if (props.selectedValue) {
-      // const new_data: OptionType[] =
-      //   newLocation?.pages
-      //     .flatMap((page) => page?.data)
-      //     ?.map((item) => {
-      //       return { value: item.uuid, label: item.name };
-      //     }) || [];
-      // options_location.value = mergeArrays(
-      //   [
-      //     {
-      //       value: props.selectedValue.location_uuid,
-      //       label: props.selectedValue.location?.name,
-      //     },
-      //   ],
-      //   new_data.filter(
-      //     (item) => item.value !== props.selectedValue?.location_uuid
-      //   )
-      // );
+      const new_data: OptionType[] =
+        newLocation?.pages
+          .flatMap((page) => page?.data)
+          ?.map((item) => {
+            return { value: item.uuid, label: item.name };
+          }) || [];
+      options_location.value = mergeArrays(
+        [
+          {
+            value:
+              props.selectedValue?.inspection_type?.machine?.unit
+                ?.location_uuid,
+            label:
+              props.selectedValue?.inspection_type?.machine?.unit?.location
+                ?.name,
+          },
+        ],
+        new_data.filter(
+          (item) =>
+            item.value !==
+            props.selectedValue?.inspection_type?.machine?.unit?.location_uuid
+        )
+      );
     } else {
       const new_data: OptionType[] =
         newLocation?.pages
@@ -506,23 +616,25 @@ watch(
   dataUnit,
   (newUnit) => {
     if (props.selectedValue) {
-      // const new_data: OptionType[] =
-      //   newUnit?.pages
-      //     .flatMap((page) => page?.data)
-      //     ?.map((item) => {
-      //       return { value: item.uuid, label: item.name };
-      //     }) || [];
-      // options_unit.value = mergeArrays(
-      //   [
-      //     {
-      //       value: props.selectedValue.lo,
-      //       label: props.selectedValue.,
-      //     },
-      //   ],
-      //   new_data.filter(
-      //     (item) => item.value !== props.selectedValue?.location_uuid
-      //   )
-      // );
+      const new_data: OptionType[] =
+        newUnit?.pages
+          .flatMap((page) => page?.data)
+          ?.map((item) => {
+            return { value: item.uuid, label: item.name };
+          }) || [];
+      options_unit.value = mergeArrays(
+        [
+          {
+            value: props.selectedValue?.inspection_type?.machine?.unit_uuid,
+            label: props.selectedValue?.inspection_type?.machine?.unit?.name,
+          },
+        ],
+        new_data.filter(
+          (item) =>
+            item.value !==
+            props.selectedValue?.inspection_type?.machine?.unit_uuid
+        )
+      );
     } else {
       const new_data: OptionType[] =
         newUnit?.pages
@@ -665,11 +777,19 @@ watch(
         :rules="rules.merk"
         :custom_symbols="all_characters"
       />
-      <Input
+      <Select
         v-model="model.global_unit_uuid"
-        label="Unit"
-        disabled
+        label="Global Unit"
+        options_label="label"
+        options_value="value"
+        v-model:model-search="params_global_unit.search"
+        :search="true"
+        :loading="is_loading_global_unit"
+        :loading-next-page="isFetchingNextPageGlobalUnit"
         :rules="rules.global_unit_uuid"
+        :options="options_global_unit"
+        @scroll="scrollGlobalUnit"
+        @search="searchGlobalUnit"
       />
       <Select
         v-model="model.location_uuid"

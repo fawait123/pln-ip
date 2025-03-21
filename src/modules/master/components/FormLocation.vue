@@ -5,6 +5,7 @@ import { Button, Input, Modal, Select, Textarea } from "@/components";
 import useVuelidate from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
 import { useMutation } from "@tanstack/vue-query";
+import { all_characters } from "@/helpers/global";
 
 import type {
   LocationCreateInterface,
@@ -181,10 +182,30 @@ watch(modelValue, (value) => {
       class="flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-y-auto mx-[-20px] px-5"
       @submit.prevent="handleSubmit"
     >
-      <Input v-model="model.name" :rules="rules.name" label="Nama" />
-      <Input v-model="model.lat" :rules="rules.lat" label="Latitude" />
-      <Input v-model="model.lon" :rules="rules.lon" label="Longitude" />
-      <Input v-model="model.slug" :rules="rules.slug" label="Slug" />
+      <Input
+        v-model="model.name"
+        :rules="rules.name"
+        :custom_symbols="all_characters"
+        label="Nama"
+      />
+      <Input
+        v-model="model.lat"
+        :rules="rules.lat"
+        :custom_symbols="all_characters"
+        label="Latitude"
+      />
+      <Input
+        v-model="model.lon"
+        :rules="rules.lon"
+        :custom_symbols="all_characters"
+        label="Longitude"
+      />
+      <Input
+        v-model="model.slug"
+        :rules="rules.slug"
+        :custom_symbols="all_characters"
+        label="Slug"
+      />
       <Textarea
         v-model="model.description"
         label="Deskripsi"

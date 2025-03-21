@@ -1,3 +1,4 @@
+import type { GlobalUnitInterface } from "./GlobalUnitType";
 import type { InspectionTypeInterface } from "./InspectionType";
 
 export interface ToolsInterface {
@@ -6,6 +7,7 @@ export interface ToolsInterface {
   qty: number;
   section: string;
   global_unit_uuid: string;
+  global_unit: GlobalUnitInterface;
   inspection_type_uuid: string;
   inspection_type: InspectionTypeInterface;
   additional_scope_uuid: string | null;

@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { reactive, ref, computed, type PropType, watch } from "vue";
 
-import { Button, Input, Modal, Select, Textarea } from "@/components";
+import { Button, Input, Modal, Select } from "@/components";
 import useVuelidate from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
 import { useInfiniteQuery, useMutation } from "@tanstack/vue-query";
+import { all_characters, mergeArrays } from "@/helpers/global";
+import type { IPagination, IParams } from "@/types/GlobalType";
 
 import type { UnitCreateInterface, UnitInterface } from "../types/UnitType";
 import { useMasterStore } from "../stores/MasterStore";
-import type { IPagination, IParams } from "@/types/GlobalType";
 import type { LocationInterface } from "../types/LocationType";
-import { mergeArrays } from "@/helpers/global";
 
 type OptionType = {
   value: string;
@@ -238,7 +238,12 @@ watch(
       class="flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-y-auto mx-[-20px] px-5"
       @submit.prevent="handleSubmit"
     >
-      <Input v-model="model.name" :rules="rules.name" label="Nama" />
+      <Input
+        v-model="model.name"
+        :rules="rules.name"
+        :custom_symbols="all_characters"
+        label="Nama"
+      />
       <Select
         v-model="model.location_uuid"
         label="Lokasi"

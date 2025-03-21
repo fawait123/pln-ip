@@ -10,6 +10,11 @@ import {
   useQueryClient,
 } from "@tanstack/vue-query";
 import type { IPagination, IParams } from "@/types/GlobalType";
+import {
+  all_characters,
+  mergeArrays,
+  numbers_positive_negative,
+} from "@/helpers/global";
 
 import type { LocationInterface } from "../types/LocationType";
 import type { UnitInterface } from "../types/UnitType";
@@ -21,11 +26,6 @@ import type {
   ManpowerCreateModelInterface,
   ManpowerInterface,
 } from "../types/ManpowerType";
-import {
-  all_characters,
-  mergeArrays,
-  numbers_positive_negative,
-} from "@/helpers/global";
 
 type OptionType = {
   value: string;
@@ -44,6 +44,8 @@ const masterStore = useMasterStore();
 
 const queryClient = useQueryClient();
 const modelValue = defineModel<boolean>({ default: false });
+const is_loading_global_unit = ref(false);
+const options_global_unit = ref<OptionType[]>([]);
 const is_loading_location = ref(false);
 const options_location = ref<OptionType[]>([]);
 const is_loading_unit = ref(false);
@@ -330,6 +332,10 @@ const setValue = () => {
   model.value.type = props.selectedValue?.type || "";
   model.value.note = props.selectedValue?.note || "";
 
+  model.value.location_uuid =
+    props.selectedValue?.inspection_type?.machine?.unit?.location_uuid || "";
+  model.value.unit_uuid =
+    props.selectedValue?.inspection_type?.machine?.unit_uuid || "";
   model.value.machine_uuid =
     props.selectedValue?.inspection_type?.machine_uuid || "";
   model.value.inspection_type_uuid =
@@ -472,23 +478,29 @@ watch(
   [modelValue, dataLocation],
   ([_, newLocation]) => {
     if (props.selectedValue) {
-      // const new_data: OptionType[] =
-      //   newLocation?.pages
-      //     .flatMap((page) => page?.data)
-      //     ?.map((item) => {
-      //       return { value: item.uuid, label: item.name };
-      //     }) || [];
-      // options_location.value = mergeArrays(
-      //   [
-      //     {
-      //       value: props.selectedValue.location_uuid,
-      //       label: props.selectedValue.location?.name,
-      //     },
-      //   ],
-      //   new_data.filter(
-      //     (item) => item.value !== props.selectedValue?.location_uuid
-      //   )
-      // );
+      const new_data: OptionType[] =
+        newLocation?.pages
+          .flatMap((page) => page?.data)
+          ?.map((item) => {
+            return { value: item.uuid, label: item.name };
+          }) || [];
+      options_location.value = mergeArrays(
+        [
+          {
+            value:
+              props.selectedValue?.inspection_type?.machine?.unit
+                ?.location_uuid,
+            label:
+              props.selectedValue?.inspection_type?.machine?.unit?.location
+                ?.name,
+          },
+        ],
+        new_data.filter(
+          (item) =>
+            item.value !==
+            props.selectedValue?.inspection_type?.machine?.unit?.location_uuid
+        )
+      );
     } else {
       const new_data: OptionType[] =
         newLocation?.pages
@@ -507,23 +519,25 @@ watch(
   dataUnit,
   (newUnit) => {
     if (props.selectedValue) {
-      // const new_data: OptionType[] =
-      //   newUnit?.pages
-      //     .flatMap((page) => page?.data)
-      //     ?.map((item) => {
-      //       return { value: item.uuid, label: item.name };
-      //     }) || [];
-      // options_unit.value = mergeArrays(
-      //   [
-      //     {
-      //       value: props.selectedValue.lo,
-      //       label: props.selectedValue.,
-      //     },
-      //   ],
-      //   new_data.filter(
-      //     (item) => item.value !== props.selectedValue?.location_uuid
-      //   )
-      // );
+      const new_data: OptionType[] =
+        newUnit?.pages
+          .flatMap((page) => page?.data)
+          ?.map((item) => {
+            return { value: item.uuid, label: item.name };
+          }) || [];
+      options_unit.value = mergeArrays(
+        [
+          {
+            value: props.selectedValue?.inspection_type?.machine?.unit_uuid,
+            label: props.selectedValue?.inspection_type?.machine?.unit?.name,
+          },
+        ],
+        new_data.filter(
+          (item) =>
+            item.value !==
+            props.selectedValue?.inspection_type?.machine?.unit_uuid
+        )
+      );
     } else {
       const new_data: OptionType[] =
         newUnit?.pages
