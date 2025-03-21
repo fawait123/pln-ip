@@ -1,3 +1,4 @@
+import type { GlobalUnitInterface } from "./GlobalUnitType";
 import type { InspectionTypeInterface } from "./InspectionType";
 
 export interface ConsMatInterface {
@@ -6,12 +7,7 @@ export interface ConsMatInterface {
   merk: string;
   qty: number;
   global_unit_uuid: string;
-  global_unit: {
-    created_at: string;
-    updated_at: string;
-    name: string;
-    uuid: string;
-  };
+  global_unit: GlobalUnitInterface;
   inspection_type_uuid: string;
   inspection_type: InspectionTypeInterface;
   additional_scope_uuid: string | null;

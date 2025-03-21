@@ -6,10 +6,10 @@ import { Button, Icon, ModalDelete, Table, Toast } from "@/components";
 import { useMutation, useQuery } from "@tanstack/vue-query";
 import type { IPagination } from "@/types/GlobalType";
 
-import { ColumnsUser } from "../constants/UserConstant";
-import type { UserInterface } from "../types/UserType";
+import { ColumnsAdditionalScope } from "../constants/AdditionalScopeConstant";
+import type { AdditionalScopeInterface } from "../types/AdditionalScopeType";
 import { useMasterStore } from "../stores/MasterStore";
-import FormUser from "../components/FormUser.vue";
+import FormAdditionalScope from "../components/FormAdditionalScope.vue";
 
 const masterStore = useMasterStore();
 const total_item = ref(0);
@@ -21,21 +21,21 @@ const params = reactive({
 });
 const open_form = ref(false);
 const open_delete = ref(false);
-const selected_item = ref<UserInterface | null>(null);
+const selected_item = ref<AdditionalScopeInterface | null>(null);
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
 const timeout = ref(0);
 
-//--- GET USER
+//--- GET ADDITIONAL SCOPE
 const {
-  data: dataUser,
-  isFetching: isLoadingUser,
-  refetch: refetchUser,
+  data: dataAdditionalScope,
+  isFetching: isLoadingAdditionalScope,
+  refetch: refetchAdditionalScope,
 } = useQuery({
-  queryKey: ["getUserMaster"],
+  queryKey: ["getAdditionalScopeMaster"],
   queryFn: async () => {
     try {
-      const { data } = await masterStore.getUser(params);
-      const response = data.data as IPagination<UserInterface[]>;
+      const { data } = await masterStore.getAdditionalScope(params);
+      const response = data as IPagination<AdditionalScopeInterface[]>;
 
       total_item.value = response.total;
 
@@ -49,29 +49,30 @@ const {
 });
 //--- END
 
-//--- DELETE USER
-const { mutate: deleteUser, isPending: isLoadingDelete } = useMutation({
-  mutationFn: async (id: number) => {
-    return await masterStore.deleteUser(id);
-  },
-  onSuccess: () => {
-    toastRef.value?.showToast({
-      title: "Success",
-      description: "Deleted successfully",
-      type: "success",
-    });
-    open_delete.value = false;
-    refetchUser();
-  },
-  onError: (error: any) => {
-    console.log(error);
-    toastRef.value?.showToast({
-      title: "Error",
-      description: error?.response?.data?.message || "Something went wrong",
-      type: "error",
-    });
-  },
-});
+//--- DELETE ADDITIONAL SCOPE
+const { mutate: deleteAdditionalScope, isPending: isLoadingDelete } =
+  useMutation({
+    mutationFn: async (id: string) => {
+      return await masterStore.deleteAdditionalScope(id);
+    },
+    onSuccess: () => {
+      toastRef.value?.showToast({
+        title: "Success",
+        description: "Deleted successfully",
+        type: "success",
+      });
+      open_delete.value = false;
+      refetchAdditionalScope();
+    },
+    onError: (error: any) => {
+      console.log(error);
+      toastRef.value?.showToast({
+        title: "Error",
+        description: error?.response?.data?.message || "Something went wrong",
+        type: "error",
+      });
+    },
+  });
 //--- END
 
 const pagination = computed(() => {
@@ -84,20 +85,20 @@ const pagination = computed(() => {
 
 const changePage = (e: number) => {
   params.currentPage = e;
-  refetchUser();
+  refetchAdditionalScope();
 };
 
 const changeLimit = (e: string) => {
   params.perPage = parseInt(e);
   params.currentPage = 1;
-  refetchUser();
+  refetchAdditionalScope();
 };
 
 const searchTable = () => {
   clearTimeout(timeout.value);
   timeout.value = window.setTimeout(() => {
     params.currentPage = 1;
-    refetchUser();
+    refetchAdditionalScope();
   }, 1000);
 };
 
@@ -108,7 +109,7 @@ const handleSuccess = () => {
     type: "success",
   });
   params.currentPage = 1;
-  refetchUser();
+  refetchAdditionalScope();
 };
 
 const handleError = (error: any) => {
@@ -124,18 +125,18 @@ const handleCreate = () => {
   open_form.value = true;
 };
 
-const handleUpdate = (item: UserInterface) => {
+const handleUpdate = (item: AdditionalScopeInterface) => {
   selected_item.value = item;
   open_form.value = true;
 };
 
-const handleDelete = (item: UserInterface) => {
+const handleDelete = (item: AdditionalScopeInterface) => {
   selected_item.value = item;
   open_delete.value = true;
 };
 
 const onDelete = () => {
-  deleteUser(selected_item.value?.id as number);
+  deleteAdditionalScope(selected_item.value?.uuid as string);
 };
 </script>
 
@@ -158,10 +159,10 @@ const onDelete = () => {
     />
 
     <Table
-      label-create="User"
-      :columns="ColumnsUser"
-      :entities="dataUser?.data || []"
-      :loading="isLoadingUser"
+      label-create="additional-scope"
+      :columns="ColumnsAdditionalScope"
+      :entities="dataAdditionalScope?.data || []"
+      :loading="isLoadingAdditionalScope"
       :pagination="pagination"
       :is-create="false"
       v-model:model-search="params.search"
@@ -170,10 +171,7 @@ const onDelete = () => {
       @search="searchTable"
     >
       <template #column_action="{ entity }">
-        <div
-          v-if="entity.roles?.[0]?.name !== 'superuser'"
-          class="flex items-center justify-center gap-4"
-        >
+        <div class="flex items-center justify-center gap-4">
           <Icon
             name="pencil"
             class="icon-action-table"
@@ -185,11 +183,10 @@ const onDelete = () => {
             @click="handleDelete(entity)"
           />
         </div>
-        <div v-else />
       </template>
     </Table>
 
-    <FormUser
+    <FormAdditionalScope
       v-model="open_form"
       :selected-value="selected_item"
       @success="handleSuccess"

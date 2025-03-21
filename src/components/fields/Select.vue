@@ -25,12 +25,9 @@ import {
   ComboboxCancel,
 } from "radix-vue";
 import useVuelidate from "@vuelidate/core";
+import { v4 as uuidv4 } from "uuid";
 
 const props = defineProps({
-  id: {
-    type: String,
-    default: "text",
-  },
   label: {
     type: String,
   },
@@ -131,6 +128,7 @@ const props = defineProps({
   },
 });
 
+const id = ref(uuidv4());
 const open = ref(false);
 const value_disabled = ref(false);
 const element_input = ref<HTMLElement | null>(null);
@@ -377,7 +375,7 @@ function checkErrorMessageSelect() {
 
 function getElementContainer() {
   const element_datepicker_range = document.getElementById(
-    `${props.id}-anchor`
+    `${id.value}-anchor`
   );
   const count = {
     offset_left: element_datepicker_range?.offsetLeft || 0,

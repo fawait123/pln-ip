@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { reactive, ref, computed, type PropType, watch } from "vue";
 
-import { Button, Input, Modal, Select } from "@/components";
+import { Button, Icon, Input, Modal, Select } from "@/components";
 import useVuelidate from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
 import {
@@ -10,11 +10,7 @@ import {
   useQueryClient,
 } from "@tanstack/vue-query";
 import type { IPagination, IParams } from "@/types/GlobalType";
-import {
-  all_characters,
-  mergeArrays,
-  numbers_positive_negative,
-} from "@/helpers/global";
+import { all_characters, mergeArrays } from "@/helpers/global";
 
 import type { LocationInterface } from "../types/LocationType";
 import type { UnitInterface } from "../types/UnitType";
@@ -22,11 +18,11 @@ import type { MachineInterface } from "../types/MachineType";
 import type { InspectionTypeInterface } from "../types/InspectionType";
 import { useMasterStore } from "../stores/MasterStore";
 import type {
-  ToolsCreateInterface,
-  ToolsCreateModelInterface,
-  ToolsInterface,
-} from "../types/ToolsType";
-import type { GlobalUnitInterface } from "../types/GlobalUnitType";
+  ScopeCreateInterface,
+  ScopeCreateModelInterface,
+  ScopeInterface,
+  ScopeUpdateInterface,
+} from "../types/ScopeType";
 
 type OptionType = {
   value: string;
@@ -35,7 +31,7 @@ type OptionType = {
 
 const props = defineProps({
   selectedValue: {
-    type: Object as PropType<ToolsInterface | null>,
+    type: Object as PropType<ScopeInterface | null>,
   },
 });
 
@@ -45,8 +41,11 @@ const masterStore = useMasterStore();
 
 const queryClient = useQueryClient();
 const modelValue = defineModel<boolean>({ default: false });
-const is_loading_global_unit = ref(false);
-const options_global_unit = ref<OptionType[]>([]);
+const options_category = ref([
+  { value: "mekanik", label: "Mekanik" },
+  { value: "listrik", label: "Listrik" },
+  { value: "instrument", label: "Instrument" },
+]);
 const is_loading_location = ref(false);
 const options_location = ref<OptionType[]>([]);
 const is_loading_unit = ref(false);
@@ -55,16 +54,18 @@ const is_loading_machine = ref(false);
 const options_machine = ref<OptionType[]>([]);
 const is_loading_inspection = ref(false);
 const options_inspection = ref<OptionType[]>([]);
+const model_details = ref<{ name: string; id: string }[]>([
+  { id: "0", name: "" },
+]);
 
-const model = ref<ToolsCreateModelInterface>({
+const model = ref<ScopeCreateModelInterface>({
   name: "",
-  qty: "",
-  section: "",
-  global_unit_uuid: "",
   location_uuid: "",
   unit_uuid: "",
   machine_uuid: "",
   inspection_type_uuid: "",
+  category: "",
+  link: "",
 });
 const v$_form = reactive(useVuelidate());
 const rules = computed(() => {
@@ -84,58 +85,11 @@ const rules = computed(() => {
     inspection_type_uuid: {
       required: helpers.withMessage(`This field is required`, required),
     },
-    qty: {
-      required: helpers.withMessage(`This field is required`, required),
-    },
-    section: {
-      required: helpers.withMessage(`This field is required`, required),
-    },
-    global_unit_uuid: {
+    category: {
       required: helpers.withMessage(`This field is required`, required),
     },
   };
 });
-
-//--- GET GLOBAL UNIT
-const params_global_unit = reactive<IParams>({
-  search: "",
-  filters: "",
-  currentPage: 1,
-  perPage: 10,
-});
-const {
-  data: dataGlobalUnit,
-  refetch: refetchGlobalUnit,
-  fetchNextPage: fetchNextPageGlobalUnit,
-  hasNextPage: hasNextPageGlobalUnit,
-  isFetchingNextPage: isFetchingNextPageGlobalUnit,
-} = useInfiniteQuery({
-  queryKey: ["getGlobalUnitManpower"],
-  enabled: !props.selectedValue && !is_loading_global_unit.value,
-  queryFn: async ({ pageParam = 1 }) => {
-    try {
-      const { data } = await masterStore.getGlobalUnit({
-        ...params_global_unit,
-        currentPage: pageParam,
-      });
-
-      const response = data.data as IPagination<GlobalUnitInterface[]>;
-
-      return response;
-    } catch (error: any) {
-      throw error.response;
-    } finally {
-      is_loading_global_unit.value = false;
-    }
-  },
-  refetchOnWindowFocus: false,
-  getNextPageParam: (lastPage) => {
-    if (!lastPage?.data?.length) return undefined;
-    return lastPage.current_page + 1;
-  },
-  initialPageParam: 1,
-});
-//--- END
 
 //--- GET LOCATION
 const params_location = reactive<IParams>({
@@ -301,10 +255,10 @@ const {
 });
 //--- END
 
-//--- CREATE TOOLS
-const { mutate: createTools, isPending: isLoadingCreate } = useMutation({
-  mutationFn: async (payload: ToolsCreateInterface) => {
-    return await masterStore.createTools(payload);
+//--- CREATE SCOPE
+const { mutate: createScope, isPending: isLoadingCreate } = useMutation({
+  mutationFn: async (payload: ScopeCreateInterface) => {
+    return await masterStore.createScope(payload);
   },
   onSuccess: () => {
     modelValue.value = false;
@@ -317,16 +271,16 @@ const { mutate: createTools, isPending: isLoadingCreate } = useMutation({
 });
 //--- END
 
-//--- UPDATE TOOLS
-const { mutate: updateTools, isPending: isLoadingUpdate } = useMutation({
+//--- UPDATE SCOPE
+const { mutate: updateScope, isPending: isLoadingUpdate } = useMutation({
   mutationFn: async ({
     id,
     payload,
   }: {
     id: string;
-    payload: ToolsCreateInterface;
+    payload: ScopeUpdateInterface;
   }) => {
-    return await masterStore.updateTools(id, payload);
+    return await masterStore.updateScope(id, payload);
   },
   onSuccess: async () => {
     modelValue.value = false;
@@ -345,35 +299,61 @@ const handleSubmit = async () => {
   if (!isValid) return;
 
   if (props.selectedValue) {
-    updateTools({
+    const details =
+      model_details.value.length === 1 && model_details.value?.[0]?.name === ""
+        ? []
+        : model_details.value.map((item) => {
+            const find_item = props.selectedValue?.details?.find(
+              (el) => el.uuid === item.id
+            );
+
+            if (find_item) {
+              return {
+                name: item.name,
+                uuid: find_item.uuid,
+              };
+            } else {
+              return {
+                name: item.name,
+                uuid: null,
+              };
+            }
+          });
+
+    updateScope({
       id: props.selectedValue?.uuid,
       payload: {
         name: model.value.name,
-        qty: parseFloat(model.value.qty),
-        section: model.value.section,
-        global_unit_uuid: model.value.global_unit_uuid,
         additional_scope_uuid: null,
         inspection_type_uuid: model.value.inspection_type_uuid,
+        category: model.value.category,
+        link: model.value.link,
+        details,
       },
     });
   } else {
-    createTools({
+    createScope({
       name: model.value.name,
-      qty: parseFloat(model.value.qty),
-      section: model.value.section,
-      global_unit_uuid: model.value.global_unit_uuid,
       additional_scope_uuid: null,
       inspection_type_uuid: model.value.inspection_type_uuid,
+      category: model.value.category,
+      link: model.value.link,
+      details:
+        model_details.value.length === 1 &&
+        model_details.value?.[0]?.name === ""
+          ? []
+          : model_details.value
+              .map((item) => ({ name: item.name }))
+              .filter((item) => item.name !== ""),
     });
   }
 };
 
 const setValue = () => {
   model.value.name = props.selectedValue?.name || "";
-  model.value.qty = props.selectedValue?.qty?.toString() || "";
-  model.value.section = props.selectedValue?.section || "";
+  model.value.category = props.selectedValue?.category || "";
+  model.value.link = props.selectedValue?.link || "";
 
-  model.value.global_unit_uuid = props.selectedValue?.global_unit_uuid || "";
   model.value.location_uuid =
     props.selectedValue?.inspection_type?.machine?.unit?.location_uuid || "";
   model.value.unit_uuid =
@@ -382,6 +362,13 @@ const setValue = () => {
     props.selectedValue?.inspection_type?.machine_uuid || "";
   model.value.inspection_type_uuid =
     props.selectedValue?.inspection_type_uuid || "";
+  model_details.value =
+    props.selectedValue?.details?.length === 0
+      ? [{ name: "", id: "0" }]
+      : props.selectedValue?.details?.map((item) => ({
+          name: item.name,
+          id: item.uuid,
+        })) || [{ name: "", id: "0" }];
 };
 
 const resetValue = () => {
@@ -391,30 +378,23 @@ const resetValue = () => {
     unit_uuid: "",
     machine_uuid: "",
     inspection_type_uuid: "",
-    section: "",
-    qty: "",
-    global_unit_uuid: "",
+    category: "",
+    link: "",
   };
+  model_details.value = [{ name: "", id: "0" }];
   refetchLocation();
 };
 
-const timeout_global_unit = ref(0);
-const searchGlobalUnit = () => {
-  clearTimeout(timeout_global_unit.value);
-  timeout_global_unit.value = window.setTimeout(() => {
-    is_loading_global_unit.value = true;
-    params_global_unit.currentPage = 1;
-    refetchGlobalUnit();
-  }, 1000);
+const addDetails = () => {
+  model_details.value = [
+    ...model_details.value,
+    { id: (model_details.value?.length + 1).toString(), name: "" },
+  ];
 };
-const scrollGlobalUnit = (e: Event) => {
-  const { scrollTop, scrollHeight, clientHeight } = e.target as HTMLElement;
-  if (
-    scrollTop + clientHeight >= scrollHeight - 1 &&
-    hasNextPageGlobalUnit.value &&
-    !isFetchingNextPageGlobalUnit.value
-  ) {
-    fetchNextPageGlobalUnit();
+
+const removeDetails = (id: string) => {
+  if (model_details.value.length > 1) {
+    model_details.value = model_details.value.filter((item) => item.id !== id);
   }
 };
 
@@ -535,41 +515,6 @@ const selectMachine = (e: OptionType) => {
   params_inspection.filters = `machine_uuid,${e.value}`;
   refetchInspection();
 };
-
-watch(
-  [modelValue, dataGlobalUnit],
-  ([_, newGlobalUnit]) => {
-    if (props.selectedValue) {
-      const new_data: OptionType[] =
-        newGlobalUnit?.pages
-          .flatMap((page) => page?.data)
-          ?.map((item) => {
-            return { value: item.uuid, label: item.name };
-          }) || [];
-      options_global_unit.value = mergeArrays(
-        [
-          {
-            value: props.selectedValue?.global_unit_uuid,
-            label: props.selectedValue?.global_unit?.name,
-          },
-        ],
-        new_data.filter(
-          (item) => item.value !== props.selectedValue?.global_unit_uuid
-        )
-      );
-    } else {
-      const new_data: OptionType[] =
-        newGlobalUnit?.pages
-          .flatMap((page) => page?.data)
-          ?.map((item) => {
-            return { value: item.uuid, label: item.name };
-          }) || [];
-
-      options_global_unit.value = new_data;
-    }
-  },
-  { deep: true, immediate: true }
-);
 
 watch(
   [modelValue, dataLocation],
@@ -752,7 +697,7 @@ watch(
     width="440"
     height="200"
     :showButtonClose="false"
-    title="Tambah Tools"
+    title="Tambah Scope"
     v-model="modelValue"
   >
     <form
@@ -765,31 +710,18 @@ watch(
         :rules="rules.name"
         :custom_symbols="all_characters"
       />
-      <Input
-        v-model="model.qty"
-        label="Quantity"
-        :rules="rules.qty"
-        :custom_symbols="numbers_positive_negative"
-      />
-      <Input
-        v-model="model.section"
-        label="Section"
-        :rules="rules.section"
-        :custom_symbols="all_characters"
-      />
       <Select
-        v-model="model.global_unit_uuid"
-        label="Global Unit"
+        v-model="model.category"
+        label="Kategori"
         options_label="label"
         options_value="value"
-        v-model:model-search="params_global_unit.search"
-        :search="true"
-        :loading="is_loading_global_unit"
-        :loading-next-page="isFetchingNextPageGlobalUnit"
-        :rules="rules.global_unit_uuid"
-        :options="options_global_unit"
-        @scroll="scrollGlobalUnit"
-        @search="searchGlobalUnit"
+        :rules="rules.category"
+        :options="options_category"
+      />
+      <Input
+        v-model="model.link"
+        label="Link"
+        :custom_symbols="all_characters"
       />
       <Select
         v-model="model.location_uuid"
@@ -850,6 +782,36 @@ watch(
         @scroll="scrollInspection"
         @search="searchInspection"
       />
+      <div>
+        <div class="w-full flex justify-between items-center">
+          <p class="text-sm font-bold text-neutral-950">Details</p>
+          <button
+            class="text-sm text-cyan-500 hover:text-cyan-600 font-bold"
+            type="button"
+            @click="addDetails"
+          >
+            Tambah
+          </button>
+        </div>
+        <div class="flex flex-col gap-1">
+          <div
+            v-for="(item, key) in model_details"
+            :key="key"
+            class="w-full flex items-center gap-4 mt-2"
+          >
+            <Input
+              v-model="model_details[key].name"
+              :custom_symbols="all_characters"
+            />
+            <Icon
+              v-if="model_details.length > 1"
+              name="trash"
+              class="text-red-500 cursor-pointer text-base hover:text-red-600"
+              @click="removeDetails(item.id)"
+            />
+          </div>
+        </div>
+      </div>
 
       <div class="w-full flex items-center gap-4 mt-4">
         <Button

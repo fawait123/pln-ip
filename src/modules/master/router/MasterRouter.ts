@@ -32,6 +32,18 @@ export const routeMaster = [
     meta: { layout: MasterLayout, requireAuth: true, role: "superuser" },
   },
   {
+    path: "/master/scope",
+    name: "master scope",
+    component: () => import("@/modules/master/views/Scope.vue"),
+    meta: { layout: MasterLayout, requireAuth: true, role: "superuser" },
+  },
+  {
+    path: "/master/additional-scope",
+    name: "master additional scope",
+    component: () => import("@/modules/master/views/AdditionalScope.vue"),
+    meta: { layout: MasterLayout, requireAuth: true, role: "superuser" },
+  },
+  {
     path: "/master/consumable-material",
     name: "master consumable material",
     component: () => import("@/modules/master/views/ConsumableMaterial.vue"),

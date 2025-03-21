@@ -1,3 +1,4 @@
+import type { GlobalUnitInterface } from "./GlobalUnitType";
 import type { InspectionTypeInterface } from "./InspectionType";
 
 export interface PartInterface {
@@ -7,11 +8,14 @@ export interface PartInterface {
   no_drawing: string;
   note: string | null;
   global_unit_uuid: string;
+  global_unit: GlobalUnitInterface;
   inspection_type_uuid: string;
   inspection_type: InspectionTypeInterface;
   additional_scope_uuid: string | null;
   created_at: string;
   updated_at: string;
+  location: string;
+  size: string;
 }
 
 export interface PartCreateInterface {

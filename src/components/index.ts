@@ -2,6 +2,7 @@ import Icon from "@/components/images-icons/Icon.vue";
 import Upload from "@/components/fields/Upload.vue";
 import Input from "@/components/fields/Input.vue";
 import Textarea from "@/components/fields/Textarea.vue";
+import Checkbox from "@/components/fields/Checkbox.vue";
 import Select from "@/components/fields/Select.vue";
 import Loading from "@/components/feedback-indicators/Loading.vue";
 import Button from "@/components/action/Button.vue";
@@ -27,6 +28,7 @@ import ButtonOptions from "@/components/action/components/Button/ButtonOptions.v
 export {
   Icon,
   Input,
+  Checkbox,
   Upload,
   Textarea,
   Select,

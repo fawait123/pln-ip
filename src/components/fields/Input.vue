@@ -20,6 +20,7 @@ import {
   numberFormat,
 } from "@/helpers/global";
 import useVuelidate from "@vuelidate/core";
+import { v4 as uuidv4 } from "uuid";
 
 defineOptions({
   inheritAttrs: false,
@@ -109,10 +110,6 @@ const props = defineProps({
     type: Boolean,
     value: false,
   },
-  id: {
-    type: String,
-    default: "input",
-  },
   allow_symbols: {
     type: Boolean,
     default: false,
@@ -171,6 +168,7 @@ const emit = defineEmits([
   "copy",
 ]);
 
+const id = ref(uuidv4());
 const slots = useSlots();
 const input_type = ref("");
 const element_before = ref<HTMLElement | null>(null);

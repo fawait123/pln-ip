@@ -51,7 +51,7 @@ const {
 
 //--- DELETE ROLE
 const { mutate: deleteRole, isPending: isLoadingDelete } = useMutation({
-  mutationFn: async (id: string) => {
+  mutationFn: async (id: number) => {
     return await masterStore.deleteRole(id);
   },
   onSuccess: () => {
@@ -135,7 +135,7 @@ const handleDelete = (item: RoleInterface) => {
 };
 
 const onDelete = () => {
-  deleteRole(selected_item.value?.uuid as string);
+  deleteRole(selected_item.value?.id as number);
 };
 </script>
 

@@ -32,6 +32,8 @@ export interface ResponsePartInterface {
   created_at: string;
   updated_at: string;
   additional_scope_uuid: string | null;
+  location: string;
+  size: string;
 }
 
 export interface UpdatePartInterface {
