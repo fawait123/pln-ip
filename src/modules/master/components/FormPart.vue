@@ -391,6 +391,8 @@ const setValue = () => {
   model.value.qty = props.selectedValue?.qty?.toString() || "";
   model.value.note = props.selectedValue?.note || "";
   model.value.no_drawing = props.selectedValue?.no_drawing || "";
+  model.value.location = props.selectedValue?.location || "";
+  model.value.size = props.selectedValue?.size || "";
 
   model.value.global_unit_uuid = props.selectedValue?.global_unit_uuid || "";
   model.value.location_uuid =
