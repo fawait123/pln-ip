@@ -58,6 +58,8 @@ const {
             project_uuid: item.project_uuid,
             additional_scope_uuid: item.additional_scope_uuid,
             note: item.note,
+            location: item.location,
+            size: item.size,
           };
         }) || [];
       entitiesPart.value = new_arr;
