@@ -75,7 +75,7 @@ const detail = () => {
 .popover-content-dots
   @apply flex gap-2 rounded mx-4 px-3 py-4 bg-white shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)] will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade
   > button
-    @apply bg-buttonGray rounded-lg px-2 min-w-[100px] text-base text-neutral-50 hover:bg-neutral-500
+    @apply bg-cyan-500 rounded-lg px-2 min-w-[100px] text-base text-neutral-50 hover:bg-cyan-600
   &--day
     @apply bg-buttonGray rounded-lg px-2 min-w-[100px] text-base text-neutral-50 text-center
 </style>
