@@ -12,7 +12,6 @@ import { v4 as uuidv4 } from "uuid";
 
 import { Icon, Toast } from "@/components";
 import useVuelidate from "@vuelidate/core";
-import axios from "axios";
 
 export interface ValueUploadType {
   id: string;
@@ -49,7 +48,16 @@ const props = defineProps({
     },
     validator: function (value: string[]) {
       const format_value = value.map((item) => item.toLowerCase());
-      const type_file = ["png", "jpg", "jpeg", "pdf", "doc", "docx"];
+      const type_file = [
+        "png",
+        "jpg",
+        "jpeg",
+        "pdf",
+        "doc",
+        "docx",
+        "xls",
+        "xlsx",
+      ];
       let result = true;
       for (const item of format_value) {
         if (!type_file.includes(item)) {
@@ -148,6 +156,10 @@ const check = {
   docx: (type: string) =>
     type ===
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  xls: (type: string) => type === "application/vnd.ms-excel",
+  xlsx: (type: string) =>
+    type ===
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
 };
 
 function handleInput(e: InputEvent): void {
