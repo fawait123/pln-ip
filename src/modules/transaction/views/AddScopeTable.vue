@@ -181,7 +181,7 @@ const { mutate: createAddScope } = useMutation({
     return await transactionStore.createAddScope(payload);
   },
   onSuccess: async (data) => {
-    if (file.value === null) {
+    if (file.value === null && file_deleted.value === "") {
       refetchScope();
       asset_welness.value.modelOpenInputData = false;
       toastRef.value?.showToast({
@@ -216,7 +216,7 @@ const { mutate: createAddScope } = useMutation({
         }
       } else {
         createDocument({
-          document: file.value,
+          document: file.value as File,
           document_type: "App\\Models\\Transaction\\ScopeStandartAsset",
           document_uuid: data.data.uuid,
         });
