@@ -66,6 +66,8 @@ const model = ref<PartCreateModelInterface>({
   unit_uuid: "",
   machine_uuid: "",
   inspection_type_uuid: "",
+  size: "",
+  location: "",
 });
 const v$_form = reactive(useVuelidate());
 const rules = computed(() => {
@@ -95,6 +97,12 @@ const rules = computed(() => {
       required: helpers.withMessage(`This field is required`, required),
     },
     global_unit_uuid: {
+      required: helpers.withMessage(`This field is required`, required),
+    },
+    location: {
+      required: helpers.withMessage(`This field is required`, required),
+    },
+    size: {
       required: helpers.withMessage(`This field is required`, required),
     },
   };
@@ -359,6 +367,8 @@ const handleSubmit = async () => {
         global_unit_uuid: model.value.global_unit_uuid,
         additional_scope_uuid: null,
         inspection_type_uuid: model.value.inspection_type_uuid,
+        location: model.value.location,
+        size: model.value.size,
       },
     });
   } else {
@@ -370,6 +380,8 @@ const handleSubmit = async () => {
       global_unit_uuid: model.value.global_unit_uuid,
       additional_scope_uuid: null,
       inspection_type_uuid: model.value.inspection_type_uuid,
+      location: model.value.location,
+      size: model.value.size,
     });
   }
 };
@@ -402,6 +414,8 @@ const resetValue = () => {
     no_drawing: "",
     qty: "",
     global_unit_uuid: "",
+    location: "",
+    size: "",
   };
   refetchLocation();
 };
@@ -789,6 +803,18 @@ watch(
         v-model="model.no_drawing"
         label="No. Drawing"
         :rules="rules.no_drawing"
+        :custom_symbols="all_characters"
+      />
+      <Input
+        v-model="model.location"
+        label="Location"
+        :rules="rules.location"
+        :custom_symbols="all_characters"
+      />
+      <Input
+        v-model="model.size"
+        label="Size"
+        :rules="rules.size"
         :custom_symbols="all_characters"
       />
       <Select

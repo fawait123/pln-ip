@@ -26,6 +26,8 @@ export interface PartCreateInterface {
   global_unit_uuid: string;
   inspection_type_uuid: string;
   additional_scope_uuid: string | null;
+  location: string;
+  size: string;
 }
 
 export interface PartCreateModelInterface {
@@ -38,4 +40,6 @@ export interface PartCreateModelInterface {
   unit_uuid: string;
   machine_uuid: string;
   inspection_type_uuid: string;
+  location: string;
+  size: string;
 }
