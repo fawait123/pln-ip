@@ -98,7 +98,7 @@ export const ColumnsAddScopeDetailPart: TableColumnType[] = [
     sort: false,
   },
   {
-    key: "no_drawing",
+    key: "number_drawing",
     label: "No. Drawing",
     align: "center",
     sort: false,
