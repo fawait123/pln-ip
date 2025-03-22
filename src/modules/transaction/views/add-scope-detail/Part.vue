@@ -61,6 +61,7 @@ const {
             location: item?.location || "",
           };
         }) || [];
+      console.log("AAA", new_arr);
       entitiesPart.value = new_arr;
 
       return response;
