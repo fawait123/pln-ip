@@ -42,10 +42,10 @@ const props = defineProps({
   },
   fileType: {
     type: Array as PropType<
-      ("png" | "jpg" | "jpeg" | "pdf" | "doc" | "docx")[]
+      ("png" | "jpg" | "jpeg" | "pdf" | "doc" | "docx" | "xls" | "xlsx")[]
     >,
     default() {
-      return ["pdf"];
+      return ["pdf", "xls", "xlsx"];
     },
     validator: function (value: string[]) {
       const format_value = value.map((item) => item.toLowerCase());
