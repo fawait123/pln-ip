@@ -51,9 +51,7 @@ const cancel = () => {
 };
 
 const save = () => {
-  if (model.value.color || model.value.note) {
-    emit("save", { ...model.value, file: modelUpload.value });
-  }
+  emit("save", { ...model.value, file: modelUpload.value });
 };
 
 const onClear = () => {
@@ -102,7 +100,7 @@ defineExpose({
           {
             'button-trigger-active': modelOpenInputData === true,
           },
-          (value && value?.color !== '') || (value && value?.note !== '')
+          (value && value?.color) || (value && value?.note)
             ? value?.color === 'red'
               ? '!bg-red-500'
               : value?.color === 'yellow'
@@ -114,7 +112,7 @@ defineExpose({
         ]"
       >
         {{
-          (value && value?.color !== "") || (value && value?.note !== "")
+          (value && value?.color) || (value && value?.note)
             ? value.color === "red"
               ? "Red"
               : value.color === "yellow"
