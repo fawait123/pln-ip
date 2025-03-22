@@ -8,15 +8,15 @@ export const ColumnsPart: TableColumnType[] = [
     sort: false,
   },
   {
-    key: "location",
-    label: "Location",
-    align: "left",
-    sort: false,
-  },
-  {
     key: "size",
     label: "Size",
     align: "center",
+    sort: false,
+  },
+  {
+    key: "location",
+    label: "Location",
+    align: "left",
     sort: false,
   },
   {
