@@ -295,7 +295,7 @@ const saveAssetWelness = (
   is_loading_create.value = true;
   if (typeof e.file?.[0]?.file !== "string") {
     if (e.file.length === 0) {
-      file_deleted.value = entity.asset_welness?.file?.[0]?.id as string;
+      file_deleted.value = entity.asset_welness?.file?.[0]?.id || "";
     } else {
       file.value = e.file?.[0]?.file as File;
       file_deleted.value = "";
@@ -321,15 +321,15 @@ const saveFieldWithFile = (
   if (typeof e.file?.[0]?.file !== "string") {
     if (e.file.length === 0) {
       if (field === "oh-recom") {
-        file_deleted.value = entity?.oh_recom?.file?.[0]?.id as string;
+        file_deleted.value = entity?.oh_recom?.file?.[0]?.id || "";
       } else if (field === "wo-priority") {
-        file_deleted.value = entity?.wo_priority?.file?.[0]?.id as string;
+        file_deleted.value = entity?.wo_priority?.file?.[0]?.id || "";
       } else if (field === "history") {
-        file_deleted.value = entity?.history?.file?.[0]?.id as string;
+        file_deleted.value = entity?.history?.file?.[0]?.id || "";
       } else if (field === "rla") {
-        file_deleted.value = entity?.rla?.file?.[0]?.id as string;
+        file_deleted.value = entity?.rla?.file?.[0]?.id || "";
       } else if (field === "ncr") {
-        file_deleted.value = entity?.ncr?.file?.[0]?.id as string;
+        file_deleted.value = entity?.ncr?.file?.[0]?.id || "";
       }
     } else {
       file.value = e.file?.[0]?.file as File;

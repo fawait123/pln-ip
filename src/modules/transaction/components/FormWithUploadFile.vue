@@ -85,13 +85,15 @@ defineExpose({
           {
             'button-trigger-active': modelOpenInputData === true,
           },
-          (value && value?.file?.length > 0) || (value && value?.note !== '')
+          (value && value?.file?.length > 0) ||
+          (value && value?.note !== '' && value && value?.note !== null)
             ? 'button-trigger-active'
             : '',
         ]"
       >
         {{
-          (value && value?.file?.length > 0) || (value && value?.note !== "")
+          (value && value?.file?.length > 0) ||
+          (value && value?.note !== "" && value && value?.note !== null)
             ? "Active"
             : "Add"
         }}
