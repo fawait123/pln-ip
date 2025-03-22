@@ -13,6 +13,8 @@ export interface PartInterface {
   project_uuid: string | null;
   additional_scope_uuid: string | null;
   note: string | null;
+  location: string;
+  size: string;
 }
 
 export interface ResponsePartInterface {

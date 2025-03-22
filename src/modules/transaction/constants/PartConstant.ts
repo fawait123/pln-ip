@@ -7,13 +7,18 @@ export const ColumnsPart: TableColumnType[] = [
     align: "left",
     sort: false,
   },
-  // {
-  //   key: "document",
-  //   label: "",
-  //   align: "center",
-  //   sort: false,
-  //   width: "150",
-  // },
+  {
+    key: "location",
+    label: "Location",
+    align: "left",
+    sort: false,
+  },
+  {
+    key: "size",
+    label: "Size",
+    align: "center",
+    sort: false,
+  },
   {
     key: "quantity",
     label: "Quantity",
