@@ -31,6 +31,7 @@ const params = reactive({
 const total_item = ref(0);
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
 const attachment = ref<any>(null);
+const is_loading_create = ref(false);
 
 //--- GET QC PLAN
 const {
@@ -82,7 +83,7 @@ const {
 //--- END
 
 //--- CREATE DOCUMENT
-const { mutate: createDocument, isPending: isLoadingCreate } = useMutation({
+const { mutate: createDocument } = useMutation({
   mutationFn: async (payload: CreateDocumentInterface) => {
     return await globalStore.createDocument(payload);
   },
@@ -138,12 +139,40 @@ const preview = (item: QcPlanInterface) => {
   document.body.removeChild(a);
 };
 
-const saveFile = (e: { file: ValueUploadType[] }, entity: QcPlanInterface) => {
-  createDocument({
-    document: e.file?.[0]?.file as File,
-    document_type: "App\\Models\\Transaction\\QcPlan",
-    document_uuid: entity.id,
-  });
+const saveFile = async (
+  e: { file: ValueUploadType[] },
+  entity: QcPlanInterface
+) => {
+  if (e.file.length === 0) {
+    is_loading_create.value = true;
+    try {
+      await globalStore.deleteDocument([
+        entity.document_original?.uuid as string,
+      ]);
+      refetchQcPlan();
+      attachment.value.modelOpenInputData = false;
+      toastRef.value?.showToast({
+        title: "Success",
+        description: "Saved successfully",
+        type: "success",
+      });
+      is_loading_create.value = false;
+    } catch (error) {
+      toastRef.value?.showToast({
+        title: "Error",
+        description: "Something went wrong",
+        type: "error",
+      });
+      is_loading_create.value = false;
+    }
+  } else {
+    is_loading_create.value = true;
+    createDocument({
+      document: e.file?.[0]?.file as File,
+      document_type: "App\\Models\\Transaction\\QcPlan",
+      document_uuid: entity.id,
+    });
+  }
 };
 </script>
 
@@ -166,7 +195,7 @@ const saveFile = (e: { file: ValueUploadType[] }, entity: QcPlanInterface) => {
           ref="attachment"
           :value="entity.document"
           :label="entity.name"
-          :loading="isLoadingCreate"
+          :loading="is_loading_create"
           @save="(e) => saveFile(e, entity)"
         />
       </div>
