@@ -46,6 +46,7 @@ const open_delete = ref(false);
 const file = ref<File | null>(null);
 const is_loading_create = ref(false);
 const timeout = ref(0);
+const file_deleted = ref("");
 
 //--- GET SCOPE
 const {
@@ -186,7 +187,7 @@ const { mutate: createScope } = useMutation({
   mutationFn: async (payload: CreateScopeInterface) => {
     return await transactionStore.createScopeStandar(payload);
   },
-  onSuccess: (data) => {
+  onSuccess: async (data) => {
     if (file.value === null) {
       refetchScope();
       asset_welness.value.modelOpenInputData = false;
@@ -198,11 +199,35 @@ const { mutate: createScope } = useMutation({
       file.value = null;
       is_loading_create.value = false;
     } else {
-      createDocument({
-        document: file.value,
-        document_type: "App\\Models\\Transaction\\ScopeStandartAsset",
-        document_uuid: data.data.uuid,
-      });
+      if (file_deleted.value) {
+        try {
+          await globalStore.deleteDocument([file_deleted.value]);
+
+          refetchScope();
+          asset_welness.value.modelOpenInputData = false;
+          toastRef.value?.showToast({
+            title: "Success",
+            description: "Saved successfully",
+            type: "success",
+          });
+          file.value = null;
+          is_loading_create.value = false;
+        } catch (error) {
+          toastRef.value?.showToast({
+            title: "Error",
+            description: "Something went wrong",
+            type: "error",
+          });
+          file.value = null;
+          is_loading_create.value = false;
+        }
+      } else {
+        createDocument({
+          document: file.value,
+          document_type: "App\\Models\\Transaction\\ScopeStandartAsset",
+          document_uuid: data.data.uuid,
+        });
+      }
     }
   },
   onError: (error: any) => {
@@ -301,9 +326,15 @@ const saveAssetWelness = (
 ) => {
   is_loading_create.value = true;
   if (typeof e.file?.[0]?.file !== "string") {
-    file.value = e.file?.[0]?.file as File;
+    if (e.file.length === 0) {
+      file_deleted.value = entity.asset_welness?.file?.[0]?.id as string;
+    } else {
+      file.value = e.file?.[0]?.file as File;
+      file_deleted.value = "";
+    }
   } else {
     file.value = null;
+    file_deleted.value = "";
   }
   createScope({
     color: e.color,
@@ -320,9 +351,25 @@ const saveFieldWithFile = (
 ) => {
   is_loading_create.value = true;
   if (typeof e.file?.[0]?.file !== "string") {
-    file.value = e.file?.[0]?.file as File;
+    if (e.file.length === 0) {
+      if (field === "oh-recom") {
+        file_deleted.value = entity?.oh_recom?.file?.[0]?.id as string;
+      } else if (field === "wo-priority") {
+        file_deleted.value = entity?.wo_priority?.file?.[0]?.id as string;
+      } else if (field === "history") {
+        file_deleted.value = entity?.history?.file?.[0]?.id as string;
+      } else if (field === "rla") {
+        file_deleted.value = entity?.rla?.file?.[0]?.id as string;
+      } else if (field === "ncr") {
+        file_deleted.value = entity?.ncr?.file?.[0]?.id as string;
+      }
+    } else {
+      file.value = e.file?.[0]?.file as File;
+      file_deleted.value = "";
+    }
   } else {
     file.value = null;
+    file_deleted.value = "";
   }
   createScope({
     color: null,
