@@ -74,6 +74,18 @@ export const ColumnsAddScopeDetailPart: TableColumnType[] = [
     sort: false,
   },
   {
+    key: "size",
+    label: "Size",
+    align: "center",
+    sort: false,
+  },
+  {
+    key: "location",
+    label: "Location",
+    align: "left",
+    sort: false,
+  },
+  {
     key: "quantity",
     label: "Quantity",
     align: "center",
