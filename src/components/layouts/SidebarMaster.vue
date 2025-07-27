@@ -23,21 +23,11 @@ const isActive = (item: { id: number; name: string; url: string }) => {
   <div class="sidebar-master">
     <p class="sidebar-master--title">MAIN MENU</p>
     <div class="sidebar-master--menus">
-      <div
-        v-for="(item, key) in MenusMaster"
-        :key="key"
-        class="flex flex-col gap-2"
-      >
-        <RouterLink
-          v-if="!item.children"
-          :to="{
-            path: `/master${item.url}`,
-          }"
-          replace
-          :class="route.path.includes(item.url) ? 'menu-active' : ''"
-          class="menu-item"
-          @click="selected_menu = null"
-        >
+      <div v-for="(item, key) in MenusMaster" :key="key" class="flex flex-col gap-2">
+        <RouterLink v-if="!item.children" :to="{
+          path: `/master${item.url}`,
+        }" replace :class="route.path.includes(item.url) ? 'menu-active' : ''" class="menu-item"
+          @click="selected_menu = null">
           <Icon :name="item.icon" class="menu-icon" />
           <p class="menu-title">{{ item.name }}</p>
         </RouterLink>
@@ -47,13 +37,9 @@ const isActive = (item: { id: number; name: string; url: string }) => {
             <p class="menu-title">{{ item.name }}</p>
           </div>
           <div v-if="isActive(item)" class="pl-5 flex flex-col gap-2">
-            <RouterLink
-              v-for="(element, index) in item.children"
-              :key="index"
-              :to="`/master${element.url}`"
-              :class="route.path.includes(element?.url) ? 'menu-active' : ''"
-              class="menu-item"
-            >
+            <RouterLink v-for="(element, index) in item.children" :key="index" :to="`/master${element.url}`"
+              :class="route.path.includes(element?.url) ? 'menu-active' : ''" class="menu-item">
+              <Icon :name="element.icon" class="menu-icon" v-if="element.icon" />
               <p class="menu-title">{{ element?.name }}</p>
             </RouterLink>
           </div>

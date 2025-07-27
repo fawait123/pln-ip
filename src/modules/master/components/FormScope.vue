@@ -23,6 +23,7 @@ import type {
   ScopeInterface,
   ScopeUpdateInterface,
 } from "../types/ScopeType";
+import type { SubBidangInterface } from "../types/SubBidangType";
 
 type OptionType = {
   value: string;
@@ -54,6 +55,8 @@ const is_loading_machine = ref(false);
 const options_machine = ref<OptionType[]>([]);
 const is_loading_inspection = ref(false);
 const options_inspection = ref<OptionType[]>([]);
+const is_loading_sub_bidang = ref(false);
+const options_sub_bidang = ref<OptionType[]>([]);
 const model_details = ref<{ name: string; id: string }[]>([
   { id: "0", name: "" },
 ]);
@@ -66,11 +69,15 @@ const model = ref<ScopeCreateModelInterface>({
   inspection_type_uuid: "",
   category: "",
   link: "",
+  sub_bidang_uuid: "",
 });
 const v$_form = reactive(useVuelidate());
 const rules = computed(() => {
   return {
     name: {
+      required: helpers.withMessage(`This field is required`, required),
+    },
+    sub_bidang_uuid: {
       required: helpers.withMessage(`This field is required`, required),
     },
     location_uuid: {
@@ -90,6 +97,47 @@ const rules = computed(() => {
     },
   };
 });
+
+//--- GET SUB BIDANG
+const params_sub_bidang = reactive<IParams>({
+  search: "",
+  filters: "",
+  currentPage: 1,
+  perPage: 10,
+});
+const {
+  data: dataSubBidang,
+  refetch: refetchSubBidang,
+  fetchNextPage: fetchNextPageSubBidang,
+  hasNextPage: hasNextPageSubBidang,
+  isFetchingNextPage: isFetchingNextPageSubBidang,
+} = useInfiniteQuery({
+  queryKey: ["getSubBidangScope"],
+  enabled: !props.selectedValue && !is_loading_location.value,
+  queryFn: async ({ pageParam = 1 }) => {
+    try {
+      const { data } = await masterStore.getSubBidang({
+        ...params_sub_bidang,
+        currentPage: pageParam,
+      });
+
+      const response = data.data as IPagination<SubBidangInterface[]>;
+
+      return response;
+    } catch (error: any) {
+      throw error.response;
+    } finally {
+      is_loading_sub_bidang.value = false;
+    }
+  },
+  refetchOnWindowFocus: false,
+  getNextPageParam: (lastPage) => {
+    if (!lastPage?.data?.length) return undefined;
+    return lastPage.current_page + 1;
+  },
+  initialPageParam: 1,
+});
+//--- END
 
 //--- GET LOCATION
 const params_location = reactive<IParams>({
@@ -303,22 +351,22 @@ const handleSubmit = async () => {
       model_details.value.length === 1 && model_details.value?.[0]?.name === ""
         ? []
         : model_details.value.map((item) => {
-            const find_item = props.selectedValue?.details?.find(
-              (el) => el.uuid === item.id
-            );
+          const find_item = props.selectedValue?.details?.find(
+            (el) => el.uuid === item.id
+          );
 
-            if (find_item) {
-              return {
-                name: item.name,
-                uuid: find_item.uuid,
-              };
-            } else {
-              return {
-                name: item.name,
-                uuid: null,
-              };
-            }
-          });
+          if (find_item) {
+            return {
+              name: item.name,
+              uuid: find_item.uuid,
+            };
+          } else {
+            return {
+              name: item.name,
+              uuid: null,
+            };
+          }
+        });
 
     updateScope({
       id: props.selectedValue?.uuid,
@@ -329,6 +377,7 @@ const handleSubmit = async () => {
         category: model.value.category,
         link: model.value.link,
         details,
+        sub_bidang_uuid: model.value.sub_bidang_uuid,
       },
     });
   } else {
@@ -338,13 +387,14 @@ const handleSubmit = async () => {
       inspection_type_uuid: model.value.inspection_type_uuid,
       category: model.value.category,
       link: model.value.link,
+      sub_bidang_uuid: model.value.sub_bidang_uuid,
       details:
         model_details.value.length === 1 &&
-        model_details.value?.[0]?.name === ""
+          model_details.value?.[0]?.name === ""
           ? []
           : model_details.value
-              .map((item) => ({ name: item.name }))
-              .filter((item) => item.name !== ""),
+            .map((item) => ({ name: item.name }))
+            .filter((item) => item.name !== ""),
     });
   }
 };
@@ -353,6 +403,7 @@ const setValue = () => {
   model.value.name = props.selectedValue?.name || "";
   model.value.category = props.selectedValue?.category || "";
   model.value.link = props.selectedValue?.link || "";
+  model.value.sub_bidang_uuid = props.selectedValue?.sub_bidang_uuid || "";
 
   model.value.location_uuid =
     props.selectedValue?.inspection_type?.machine?.unit?.location_uuid || "";
@@ -366,9 +417,9 @@ const setValue = () => {
     props.selectedValue?.details?.length === 0
       ? [{ name: "", id: "0" }]
       : props.selectedValue?.details?.map((item) => ({
-          name: item.name,
-          id: item.uuid,
-        })) || [{ name: "", id: "0" }];
+        name: item.name,
+        id: item.uuid,
+      })) || [{ name: "", id: "0" }];
 };
 
 const resetValue = () => {
@@ -380,6 +431,7 @@ const resetValue = () => {
     inspection_type_uuid: "",
     category: "",
     link: "",
+    sub_bidang_uuid: "",
   };
   model_details.value = [{ name: "", id: "0" }];
   refetchLocation();
@@ -397,6 +449,28 @@ const removeDetails = (id: string) => {
     model_details.value = model_details.value.filter((item) => item.id !== id);
   }
 };
+
+// sub bidang
+const timeout_sub_bidang = ref(0);
+const searchSubBidang = () => {
+  clearTimeout(timeout_sub_bidang.value);
+  timeout_sub_bidang.value = window.setTimeout(() => {
+    is_loading_sub_bidang.value = true;
+    params_sub_bidang.currentPage = 1;
+    refetchSubBidang();
+  }, 1000);
+};
+const scrollSubBidang = (e: Event) => {
+  const { scrollTop, scrollHeight, clientHeight } = e.target as HTMLElement;
+  if (
+    scrollTop + clientHeight >= scrollHeight - 1 &&
+    hasNextPageSubBidang.value &&
+    !isFetchingNextPageSubBidang.value
+  ) {
+    fetchNextPageSubBidang();
+  }
+};
+// end
 
 const timeout_location = ref(0);
 const searchLocation = () => {
@@ -516,6 +590,86 @@ const selectMachine = (e: OptionType) => {
   refetchInspection();
 };
 
+// sub bidang
+
+watch(
+  [modelValue, dataLocation],
+  ([_, newLocation]) => {
+    if (props.selectedValue) {
+      const new_data: OptionType[] =
+        newLocation?.pages
+          .flatMap((page) => page?.data)
+          ?.map((item) => {
+            return { value: item.uuid, label: item.name };
+          }) || [];
+      options_location.value = mergeArrays(
+        [
+          {
+            value:
+              props.selectedValue?.inspection_type?.machine?.unit
+                ?.location_uuid,
+            label:
+              props.selectedValue?.inspection_type?.machine?.unit?.location
+                ?.name,
+          },
+        ],
+        new_data.filter(
+          (item) =>
+            item.value !==
+            props.selectedValue?.inspection_type?.machine?.unit?.location_uuid
+        )
+      );
+    } else {
+      const new_data: OptionType[] =
+        newLocation?.pages
+          .flatMap((page) => page?.data)
+          ?.map((item) => {
+            return { value: item.uuid, label: item.name };
+          }) || [];
+
+      options_location.value = new_data;
+    }
+  },
+  { deep: true, immediate: true }
+);
+
+watch(
+  dataSubBidang,
+  (newSubBidang) => {
+    if (props.selectedValue) {
+      const new_data: OptionType[] =
+        newSubBidang?.pages
+          .flatMap((page) => page?.data)
+          ?.map((item) => {
+            return { value: item.uuid, label: item.name };
+          }) || [];
+      options_sub_bidang.value = mergeArrays(
+        [
+          {
+            value: props.selectedValue?.sub_bidang_uuid,
+            label: props.selectedValue?.sub_bidang?.name,
+          },
+        ],
+        new_data.filter(
+          (item) =>
+            item.value !==
+            props.selectedValue?.sub_bidang_uuid
+        )
+      );
+    } else {
+      const new_data: OptionType[] =
+        newSubBidang?.pages
+          .flatMap((page) => page?.data)
+          ?.map((item) => {
+            return { value: item.uuid, label: item.name };
+          }) || [];
+
+      options_sub_bidang.value = new_data;
+    }
+  },
+  { deep: true, immediate: true }
+);
+// end sub bidang
 watch(
   [modelValue, dataLocation],
   ([_, newLocation]) => {
@@ -693,142 +847,54 @@ watch(
 </script>
 
 <template>
-  <Modal
-    width="440"
-    height="200"
-    :showButtonClose="false"
-    title="Tambah Scope"
-    v-model="modelValue"
-  >
-    <form
-      class="flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-y-auto mx-[-20px] px-5"
-      @submit.prevent="handleSubmit"
-    >
-      <Input
-        v-model="model.name"
-        label="Nama"
-        :rules="rules.name"
-        :custom_symbols="all_characters"
-      />
-      <Select
-        v-model="model.category"
-        label="Kategori"
-        options_label="label"
-        options_value="value"
-        :rules="rules.category"
-        :options="options_category"
-      />
-      <Input
-        v-model="model.link"
-        label="Link"
-        :custom_symbols="all_characters"
-      />
-      <Select
-        v-model="model.location_uuid"
-        label="Lokasi"
-        options_label="label"
-        options_value="value"
-        v-model:model-search="params_location.search"
-        :search="true"
-        :loading="is_loading_location"
-        :loading-next-page="isFetchingNextPageLocation"
-        :rules="rules.location_uuid"
-        :options="options_location"
-        @scroll="scrollLocation"
-        @search="searchLocation"
-        @select="selectLocation"
-      />
-      <Select
-        v-model="model.unit_uuid"
-        label="Unit"
-        options_label="label"
-        options_value="value"
-        v-model:model-search="params_unit.search"
-        :search="true"
-        :loading="is_loading_unit"
-        :loading-next-page="isFetchingNextPageUnit"
-        :rules="rules.unit_uuid"
-        :options="options_unit"
-        @scroll="scrollUnit"
-        @search="searchUnit"
-        @select="selectUnit"
-      />
-      <Select
-        v-model="model.machine_uuid"
-        label="Mesin"
-        options_label="label"
-        options_value="value"
-        v-model:model-search="params_machine.search"
-        :search="true"
-        :loading="is_loading_machine"
-        :loading-next-page="isFetchingNextPageMachine"
-        :rules="rules.machine_uuid"
-        :options="options_machine"
-        @scroll="scrollMachine"
-        @search="searchMachine"
-        @select="selectMachine"
-      />
-      <Select
-        v-model="model.inspection_type_uuid"
-        label="Tipe Inspeksi"
-        options_label="label"
-        options_value="value"
-        v-model:model-search="params_inspection.search"
-        :search="true"
-        :loading="is_loading_inspection"
-        :loading-next-page="isFetchingNextPageInspection"
-        :rules="rules.inspection_type_uuid"
-        :options="options_inspection"
-        @scroll="scrollInspection"
-        @search="searchInspection"
-      />
+  <Modal width="440" height="200" :showButtonClose="false" title="Tambah Scope" v-model="modelValue">
+    <form class="flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-y-auto mx-[-20px] px-5"
+      @submit.prevent="handleSubmit">
+      <Input v-model="model.name" label="Nama" :rules="rules.name" :custom_symbols="all_characters" />
+      <Select v-model="model.category" label="Kategori" options_label="label" options_value="value"
+        :rules="rules.category" :options="options_category" />
+      <Input v-model="model.link" label="Link" :custom_symbols="all_characters" />
+      <Select v-model="model.sub_bidang_uuid" label="Sub Bidang" options_label="label" options_value="value"
+        v-model:model-search="params_sub_bidang.search" :search="true" :loading="is_loading_sub_bidang"
+        :loading-next-page="isFetchingNextPageSubBidang" :rules="rules.sub_bidang_uuid" :options="options_sub_bidang"
+        @scroll="scrollSubBidang" @search="searchSubBidang" />
+      <Select v-model="model.location_uuid" label="Lokasi" options_label="label" options_value="value"
+        v-model:model-search="params_location.search" :search="true" :loading="is_loading_location"
+        :loading-next-page="isFetchingNextPageLocation" :rules="rules.location_uuid" :options="options_location"
+        @scroll="scrollLocation" @search="searchLocation" @select="selectLocation" />
+      <Select v-model="model.unit_uuid" label="Unit" options_label="label" options_value="value"
+        v-model:model-search="params_unit.search" :search="true" :loading="is_loading_unit"
+        :loading-next-page="isFetchingNextPageUnit" :rules="rules.unit_uuid" :options="options_unit"
+        @scroll="scrollUnit" @search="searchUnit" @select="selectUnit" />
+      <Select v-model="model.machine_uuid" label="Mesin" options_label="label" options_value="value"
+        v-model:model-search="params_machine.search" :search="true" :loading="is_loading_machine"
+        :loading-next-page="isFetchingNextPageMachine" :rules="rules.machine_uuid" :options="options_machine"
+        @scroll="scrollMachine" @search="searchMachine" @select="selectMachine" />
+      <Select v-model="model.inspection_type_uuid" label="Tipe Inspeksi" options_label="label" options_value="value"
+        v-model:model-search="params_inspection.search" :search="true" :loading="is_loading_inspection"
+        :loading-next-page="isFetchingNextPageInspection" :rules="rules.inspection_type_uuid"
+        :options="options_inspection" @scroll="scrollInspection" @search="searchInspection" />
       <div>
         <div class="w-full flex justify-between items-center">
           <p class="text-sm font-bold text-neutral-950">Details</p>
-          <button
-            class="text-sm text-cyan-500 hover:text-cyan-600 font-bold"
-            type="button"
-            @click="addDetails"
-          >
+          <button class="text-sm text-cyan-500 hover:text-cyan-600 font-bold" type="button" @click="addDetails">
             Tambah
           </button>
         </div>
         <div class="flex flex-col gap-1">
-          <div
-            v-for="(item, key) in model_details"
-            :key="key"
-            class="w-full flex items-center gap-4 mt-2"
-          >
-            <Input
-              v-model="model_details[key].name"
-              :custom_symbols="all_characters"
-            />
-            <Icon
-              v-if="model_details.length > 1"
-              name="trash"
-              class="text-red-500 cursor-pointer text-base hover:text-red-600"
-              @click="removeDetails(item.id)"
-            />
+          <div v-for="(item, key) in model_details" :key="key" class="w-full flex items-center gap-4 mt-2">
+            <Input v-model="model_details[key].name" :custom_symbols="all_characters" />
+            <Icon v-if="model_details.length > 1" name="trash"
+              class="text-red-500 cursor-pointer text-base hover:text-red-600" @click="removeDetails(item.id)" />
           </div>
         </div>
       </div>
 
       <div class="w-full flex items-center gap-4 mt-4">
-        <Button
-          text="Batal"
-          class="w-full"
-          variant="secondary"
-          :disabled="isLoadingCreate || isLoadingUpdate"
-          @click="modelValue = false"
-        />
-        <Button
-          type="submit"
-          text="Simpan"
-          class="w-full"
-          color="blue"
-          :disabled="isLoadingCreate || isLoadingUpdate"
-          :loading="isLoadingCreate || isLoadingUpdate"
-        />
+        <Button text="Batal" class="w-full" variant="secondary" :disabled="isLoadingCreate || isLoadingUpdate"
+          @click="modelValue = false" />
+        <Button type="submit" text="Simpan" class="w-full" color="blue" :disabled="isLoadingCreate || isLoadingUpdate"
+          :loading="isLoadingCreate || isLoadingUpdate" />
       </div>
     </form>
   </Modal>

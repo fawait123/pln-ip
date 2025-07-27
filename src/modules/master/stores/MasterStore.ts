@@ -26,6 +26,9 @@ import type {
 } from "../types/AdditionalScopeType";
 import type { BidangCreateInterface } from "../types/BidangType";
 import type { SubBidangCreateInterface } from "../types/SubBidangType";
+import type { HseDocCreateInterface } from "../types/HseDocTypes";
+import type { HseCreateInterface } from "../types/HseTypes";
+import type { SequenceCreateInterface } from "../types/SequenceTypes";
 
 export const useMasterStore = defineStore(
   "master",
@@ -789,6 +792,161 @@ export const useMasterStore = defineStore(
     };
     // --- END
 
+
+    // --- HSE DOC
+    const getHseDoc = async (payload: IParams) => {
+      return await api
+        .get(`/hse-doc`, {
+          params: payload,
+        })
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const createHseDoc = async (payload: HseDocCreateInterface) => {
+      return await api
+        .post(`/hse-doc`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const updateHseDoc = async (
+      id: string,
+      payload: HseDocCreateInterface
+    ) => {
+      return await api
+        .put(`/hse-doc/${id}`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const deleteHseDoc = async (id: string) => {
+      return await api
+        .delete(`/hse-doc/${id}`)
+        .then((res) => {
+          return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    // --- END
+
+
+    // --- HSE
+    const getHse = async (payload: IParams) => {
+      return await api
+        .get(`/hse`, {
+          params: payload,
+        })
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const createHse = async (payload: HseCreateInterface) => {
+      return await api
+        .post(`/hse`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const updateHse = async (
+      id: string,
+      payload: HseCreateInterface
+    ) => {
+      return await api
+        .put(`/hse/${id}`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const deleteHse = async (id: string) => {
+      return await api
+        .delete(`/hse/${id}`)
+        .then((res) => {
+          return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    // --- END
+
+    // --- HSE
+    const getSequence = async (payload: IParams) => {
+      return await api
+        .get(`/sequence`, {
+          params: payload,
+        })
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const createSequence = async (payload: SequenceCreateInterface) => {
+      return await api
+        .post(`/sequence`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const updateSequence = async (
+      id: string,
+      payload: SequenceCreateInterface
+    ) => {
+      return await api
+        .put(`/sequence/${id}`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const deleteSequence = async (id: string) => {
+      return await api
+        .delete(`/sequence/${id}`)
+        .then((res) => {
+          return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    // --- END
+
     return {
       getLocation,
       createLocation,
@@ -851,6 +1009,18 @@ export const useMasterStore = defineStore(
       createSubBidang,
       updateSubBidang,
       deleteSubBidang,
+      getHseDoc,
+      updateHseDoc,
+      createHseDoc,
+      deleteHseDoc,
+      getHse,
+      createHse,
+      updateHse,
+      deleteHse,
+      getSequence,
+      createSequence,
+      updateSequence,
+      deleteSequence,
     };
   },
   {

@@ -13,4 +13,10 @@ export const ColumnsMachine: TableColumnType[] = [
     align: "center",
     sort: false,
   },
+  {
+    key: "location",
+    label: "Lokasi",
+    align: "center",
+    sort: false,
+  },
 ];

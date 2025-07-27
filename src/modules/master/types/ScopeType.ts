@@ -1,4 +1,5 @@
 import type { InspectionTypeInterface } from "./InspectionType";
+import type { SubBidangInterface } from "./SubBidangType";
 
 export interface ScopeInterface {
   uuid: string;
@@ -8,6 +9,8 @@ export interface ScopeInterface {
   details: ScopeDetailInterface[];
   inspection_type_uuid: string;
   inspection_type: InspectionTypeInterface;
+  sub_bidang_uuid: string;
+  sub_bidang: SubBidangInterface;
   additional_scope_uuid: string | null;
   created_at: string;
   updated_at: string;
@@ -34,6 +37,7 @@ export interface ScopeCreateInterface {
   link: string;
   category: string;
   details: { name: string }[];
+  sub_bidang_uuid: string;
 }
 
 export interface ScopeUpdateInterface {
@@ -43,6 +47,7 @@ export interface ScopeUpdateInterface {
   link: string;
   category: string;
   details: { name: string; uuid: string | null }[];
+  sub_bidang_uuid: string;
 }
 
 export interface ScopeCreateModelInterface {
@@ -53,4 +58,5 @@ export interface ScopeCreateModelInterface {
   inspection_type_uuid: string;
   link: string;
   category: string;
+  sub_bidang_uuid: string;
 }

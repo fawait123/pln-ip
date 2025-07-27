@@ -7,6 +7,7 @@ export interface MenuInterface {
     id: number;
     name: string;
     url: string;
+    icon?: string;
   }[];
 }
 
@@ -224,40 +225,72 @@ export const MenusAddScope: MenuInterface[] = [
 
 export const MenusMaster: MenuInterface[] = [
   {
-    id: 1,
-    name: "Location",
-    url: "/location",
-    icon: "location-pin",
-  },
-  {
-    id: 2,
-    name: "Unit",
-    url: "/unit",
-    icon: "unit",
-  },
-  {
-    id: 3,
-    name: "Machine",
-    url: "/machine",
-    icon: "machine",
-  },
-  {
-    id: 4,
-    name: "Inspection Type",
-    url: "/inspection-type",
-    icon: "inspection-type",
+    id: 16,
+    name: 'Master Data',
+    url: '/master-data',
+    icon: 'arrow',
+    children: [
+      {
+        id: 14,
+        name: "Bidang",
+        url: "/bidang",
+        icon: "health",
+      },
+      {
+        id: 15,
+        name: "Sub Bidang",
+        url: "/sub-bidang",
+        icon: "health",
+      },
+      {
+        id: 15,
+        name: "HSE DOC",
+        url: "/hse-doc",
+        icon: "document",
+      },
+      {
+        id: 15,
+        name: "HSE",
+        url: "/hses",
+        icon: "health",
+      },
+      {
+        id: 1,
+        name: "Location",
+        url: "/location",
+        icon: "location-pin",
+      },
+      {
+        id: 2,
+        name: "Unit",
+        url: "/unit",
+        icon: "unit",
+      },
+      {
+        id: 3,
+        name: "Machine",
+        url: "/machine",
+        icon: "machine",
+      },
+      {
+        id: 4,
+        name: "Inspection Type",
+        url: "/inspection-type",
+        icon: "inspection-type",
+      },
+      {
+        id: 6,
+        name: "Global Unit",
+        url: "/global-unit",
+        icon: "ruler",
+      },
+    ]
   },
   {
     id: 5,
     name: "Scope",
     url: "/scope",
     icon: "document",
-  },
-  {
-    id: 6,
-    name: "Global Unit",
-    url: "/global-unit",
-    icon: "ruler",
   },
   {
     id: 7,
@@ -284,34 +317,22 @@ export const MenusMaster: MenuInterface[] = [
     icon: "tools",
   },
   {
+    id: 15,
+    name: "Sequence",
+    url: "/sequence",
+    icon: "health",
+  },
+  {
     id: 11,
     name: "Role",
     url: "/role",
     icon: "users",
   },
   {
-    id: 12,
-    name: "User",
-    url: "/user",
-    icon: "user",
-  },
-  {
     id: 13,
     name: "Additional Scope",
     url: "/additional-scope",
     icon: "login",
-  },
-  {
-    id: 14,
-    name: "Bidang",
-    url: "/bidang",
-    icon: "folder",
-  },
-  {
-    id: 15,
-    name: "Sub Bidang",
-    url: "/sub-bidang",
-    icon: "grid",
   },
 ];
 

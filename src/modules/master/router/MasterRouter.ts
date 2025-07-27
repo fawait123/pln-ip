@@ -116,4 +116,22 @@ export const routeMaster = [
     component: () => import("@/modules/master/views/SubBidang.vue"),
     meta: { layout: MasterLayout, requireAuth: true, role: "superuser" },
   },
+  {
+    path: "/master/hse-doc",
+    name: "master hse doc",
+    component: () => import("@/modules/master/views/HseDoc.vue"),
+    meta: { layout: MasterLayout, requireAuth: true, role: "superuser" },
+  },
+  {
+    path: "/master/hses",
+    name: "master hse",
+    component: () => import("@/modules/master/views/Hse.vue"),
+    meta: { layout: MasterLayout, requireAuth: true, role: "superuser" },
+  },
+  {
+    path: "/master/sequence",
+    name: "master sequence",
+    component: () => import("@/modules/master/views/Sequence.vue"),
+    meta: { layout: MasterLayout, requireAuth: true, role: "superuser" },
+  },
 ];
