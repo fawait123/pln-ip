@@ -79,4 +79,16 @@ export const routeMaster = [
     component: () => import("@/modules/master/views/User.vue"),
     meta: { layout: MasterLayout, requireAuth: true, role: "superuser" },
   },
+  {
+    path: "/master/bidang",
+    name: "master bidang",
+    component: () => import("@/modules/master/views/Bidang.vue"),
+    meta: { layout: MasterLayout, requireAuth: true, role: "superuser" },
+  },
+  {
+    path: "/master/sub-bidang",
+    name: "master subbidang",
+    component: () => import("@/modules/master/views/SubBidang.vue"),
+    meta: { layout: MasterLayout, requireAuth: true, role: "superuser" },
+  },
 ];

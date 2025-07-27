@@ -24,6 +24,8 @@ import type {
   AdditionalScopeCreateInterface,
   AdditionalScopeUpdateInterface,
 } from "../types/AdditionalScopeType";
+import type { BidangCreateInterface } from "../types/BidangType";
+import type { SubBidangCreateInterface } from "../types/SubBidangType";
 
 export const useMasterStore = defineStore(
   "master",
@@ -688,6 +690,105 @@ export const useMasterStore = defineStore(
     };
     // --- END
 
+    // --- BIDANG
+    const getBidang = async (payload: IParams) => {
+      return await api
+        .get(`/bidang`, {
+          params: payload,
+        })
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const createBidang = async (payload: BidangCreateInterface) => {
+      return await api
+        .post(`/bidang`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const updateBidang = async (id: string, payload: BidangCreateInterface) => {
+      return await api
+        .put(`/bidang/${id}`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const deleteBidang = async (id: string) => {
+      return await api
+        .delete(`/bidang/${id}`)
+        .then((res) => {
+          return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    // --- END
+
+    // --- SUBBIDANG
+    const getSubBidang = async (payload: IParams) => {
+      return await api
+        .get(`/sub-bidang`, {
+          params: payload,
+        })
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const createSubBidang = async (payload: SubBidangCreateInterface) => {
+      return await api
+        .post(`/sub-bidang`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const updateSubBidang = async (
+      id: string,
+      payload: SubBidangCreateInterface
+    ) => {
+      return await api
+        .put(`/sub-bidang/${id}`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const deleteSubBidang = async (id: string) => {
+      return await api
+        .delete(`/sub-bidang/${id}`)
+        .then((res) => {
+          return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    // --- END
+
     return {
       getLocation,
       createLocation,
@@ -742,6 +843,14 @@ export const useMasterStore = defineStore(
       createRole,
       updateRole,
       deleteRole,
+      getBidang,
+      createBidang,
+      updateBidang,
+      deleteBidang,
+      getSubBidang,
+      createSubBidang,
+      updateSubBidang,
+      deleteSubBidang,
     };
   },
   {

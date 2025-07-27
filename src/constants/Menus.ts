@@ -301,4 +301,16 @@ export const MenusMaster: MenuInterface[] = [
     url: "/additional-scope",
     icon: "login",
   },
+  {
+    id: 14,
+    name: "Bidang",
+    url: "/bidang",
+    icon: "folder",
+  },
+  {
+    id: 15,
+    name: "Sub Bidang",
+    url: "/sub-bidang",
+    icon: "grid",
+  },
 ];
