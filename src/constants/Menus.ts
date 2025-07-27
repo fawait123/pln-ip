@@ -302,3 +302,30 @@ export const MenusMaster: MenuInterface[] = [
     icon: "login",
   },
 ];
+
+export const MenuAdditional: MenuInterface[] = [
+  {
+    id: 5,
+    name: "Scope",
+    url: "/master/additional-scope/:id/:name/scope-standart",
+    icon: "document",
+  },
+  {
+    id: 7,
+    name: "Consumable Material",
+    url: "/master/additional-scope/:id/:name/consumable-material",
+    icon: "box",
+  },
+  {
+    id: 8,
+    name: "Manpower",
+    url: "/master/additional-scope/:id/:name/manpower",
+    icon: "male",
+  },
+  {
+    id: 9,
+    name: "Part",
+    url: "/master/additional-scope/:id/:name/part",
+    icon: "trolley-items",
+  },
+];

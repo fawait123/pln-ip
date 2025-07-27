@@ -1,3 +1,4 @@
+import MasterAdditionalLayout from "@/layouts/MasterAdditionalLayout.vue";
 import MasterLayout from "@/layouts/MasterLayout.vue";
 
 export const routeMaster = [
@@ -42,6 +43,30 @@ export const routeMaster = [
     name: "master additional scope",
     component: () => import("@/modules/master/views/AdditionalScope.vue"),
     meta: { layout: MasterLayout, requireAuth: true, role: "superuser" },
+  },
+  {
+    path: "/master/additional-scope/:id/:name/scope-standart",
+    name: "master additional scope standart",
+    component: () => import("@/modules/master/views/additional-scope/Scope.vue"),
+    meta: { layout: MasterAdditionalLayout, requireAuth: true, role: "superuser" },
+  },
+  {
+    path: "/master/additional-scope/:id/:name/consumable-material",
+    name: "master additional consumable material",
+    component: () => import("@/modules/master/views/additional-scope/ConsumableMaterial.vue"),
+    meta: { layout: MasterAdditionalLayout, requireAuth: true, role: "superuser" },
+  },
+  {
+    path: "/master/additional-scope/:id/:name/manpower",
+    name: "master additional manpower",
+    component: () => import("@/modules/master/views/additional-scope/Manpower.vue"),
+    meta: { layout: MasterAdditionalLayout, requireAuth: true, role: "superuser" },
+  },
+  {
+    path: "/master/additional-scope/:id/:name/part",
+    name: "master additional part",
+    component: () => import("@/modules/master/views/additional-scope/Part.vue"),
+    meta: { layout: MasterAdditionalLayout, requireAuth: true, role: "superuser" },
   },
   {
     path: "/master/consumable-material",
