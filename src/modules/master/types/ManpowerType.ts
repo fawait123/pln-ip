@@ -1,3 +1,4 @@
+import type { ActivityInterface } from "./AcitivityType";
 import type { InspectionTypeInterface } from "./InspectionType";
 
 export interface ManpowerInterface {
@@ -6,9 +7,8 @@ export interface ManpowerInterface {
   qty: number;
   type: string;
   note: string | null;
-  inspection_type_uuid: string;
-  inspection_type: InspectionTypeInterface;
-  additional_scope_uuid: string | null;
+  activity_uuid: string;
+  activity: ActivityInterface;
   created_at: string;
   updated_at: string;
 }
@@ -18,8 +18,7 @@ export interface ManpowerCreateInterface {
   qty: number;
   type: string;
   note: string;
-  inspection_type_uuid: string;
-  additional_scope_uuid: string | null;
+  activity_uuid: string;
 }
 
 export interface ManpowerCreateModelInterface {
@@ -27,8 +26,5 @@ export interface ManpowerCreateModelInterface {
   qty: string;
   type: string;
   note: string;
-  location_uuid: string;
-  unit_uuid: string;
-  machine_uuid: string;
-  inspection_type_uuid: string;
+  activity_uuid: string;
 }

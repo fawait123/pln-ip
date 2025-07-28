@@ -945,7 +945,22 @@ export const useMasterStore = defineStore(
           return Promise.reject(err);
         });
     };
-    // --- END
+    // --- END\
+
+    // ACTIVITY
+    const getActivityList = async (payload: IParams) => {
+      return await api
+        .get(`/activity`, {
+          params: payload,
+        })
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    // END
 
     return {
       getLocation,
@@ -1021,6 +1036,7 @@ export const useMasterStore = defineStore(
       createSequence,
       updateSequence,
       deleteSequence,
+      getActivityList
     };
   },
   {

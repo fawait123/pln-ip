@@ -141,56 +141,27 @@ const onDelete = () => {
 
 <template>
   <Toast ref="toastRef" />
-  <ModalDelete
-    v-model="open_delete"
-    :title="selected_item?.name"
-    :loading="isLoadingDelete"
-    @delete="onDelete"
-  />
+  <ModalDelete v-model="open_delete" :title="selected_item?.name" :loading="isLoadingDelete" @delete="onDelete" />
 
   <div class="relative w-full">
-    <Button
-      icon_only="plus"
-      class="absolute right-0"
-      size="sm"
-      rounded="full"
-      color="blue"
-      @click="handleCreate"
-    />
+    <Button icon_only="plus" class="absolute right-0" size="sm" rounded="full" color="blue" @click="handleCreate" />
 
-    <Table
-      label-create="Tools"
-      :columns="ColumnsTools"
-      :entities="dataTools?.data || []"
-      :loading="isLoadingTools"
-      :pagination="pagination"
-      :is-create="false"
-      v-model:model-search="params.search"
-      @change-page="changePage"
-      @change-limit="changeLimit"
-      @search="searchTable"
-    >
+    <Table label-create="Tools" :columns="ColumnsTools" :entities="dataTools?.data || []" :loading="isLoadingTools"
+      :pagination="pagination" :is-create="false" v-model:model-search="params.search" @change-page="changePage"
+      @change-limit="changeLimit" @search="searchTable">
       <template #column_action="{ entity }">
         <div class="flex items-center justify-center gap-4">
-          <Icon
-            name="pencil"
-            class="icon-action-table"
-            @click="handleUpdate(entity)"
-          />
-          <Icon
-            name="trash"
-            class="icon-action-table"
-            @click="handleDelete(entity)"
-          />
+          <Icon name="pencil" class="icon-action-table" @click="handleUpdate(entity)" />
+          <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
         </div>
+      </template>
+      <template #column_activity="{ entity }">
+        <p class="text-base text-neutral-50 text-center">
+          {{ entity.activity?.name ?? '-' }}
+        </p>
       </template>
     </Table>
 
-    <FormTools
-      v-model="open_form"
-      :selected-value="selected_item"
-      @success="handleSuccess"
-      @error="handleError"
-    />
+    <FormTools v-model="open_form" :selected-value="selected_item" @success="handleSuccess" @error="handleError" />
   </div>
 </template>

@@ -19,4 +19,10 @@ export const ColumnsConsMat: TableColumnType[] = [
     align: "center",
     sort: false,
   },
+  {
+    key: "activity",
+    label: "Aktifitas",
+    align: "center",
+    sort: false,
+  },
 ];

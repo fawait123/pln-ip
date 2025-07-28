@@ -1,3 +1,4 @@
+import type { ActivityInterface } from "./AcitivityType";
 import type { GlobalUnitInterface } from "./GlobalUnitType";
 import type { InspectionTypeInterface } from "./InspectionType";
 
@@ -9,9 +10,8 @@ export interface PartInterface {
   note: string | null;
   global_unit_uuid: string;
   global_unit: GlobalUnitInterface;
-  inspection_type_uuid: string;
-  inspection_type: InspectionTypeInterface;
-  additional_scope_uuid: string | null;
+  activity_uuid: string;
+  activity: ActivityInterface;
   created_at: string;
   updated_at: string;
   location: string;
@@ -24,8 +24,7 @@ export interface PartCreateInterface {
   no_drawing: string;
   note: string;
   global_unit_uuid: string;
-  inspection_type_uuid: string;
-  additional_scope_uuid: string | null;
+  activity_uuid: string;
   location: string;
   size: string;
 }
@@ -36,10 +35,7 @@ export interface PartCreateModelInterface {
   no_drawing: string;
   note: string;
   global_unit_uuid: string;
-  location_uuid: string;
-  unit_uuid: string;
-  machine_uuid: string;
-  inspection_type_uuid: string;
+  activity_uuid: string;
   location: string;
   size: string;
 }
