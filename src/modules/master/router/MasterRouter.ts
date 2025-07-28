@@ -47,26 +47,45 @@ export const routeMaster = [
   {
     path: "/master/additional-scope/:id/:name/scope-standart",
     name: "master additional scope standart",
-    component: () => import("@/modules/master/views/additional-scope/Scope.vue"),
-    meta: { layout: MasterAdditionalLayout, requireAuth: true, role: "superuser" },
+    component: () =>
+      import("@/modules/master/views/additional-scope/Scope.vue"),
+    meta: {
+      layout: MasterAdditionalLayout,
+      requireAuth: true,
+      role: "superuser",
+    },
   },
   {
     path: "/master/additional-scope/:id/:name/consumable-material",
     name: "master additional consumable material",
-    component: () => import("@/modules/master/views/additional-scope/ConsumableMaterial.vue"),
-    meta: { layout: MasterAdditionalLayout, requireAuth: true, role: "superuser" },
+    component: () =>
+      import("@/modules/master/views/additional-scope/ConsumableMaterial.vue"),
+    meta: {
+      layout: MasterAdditionalLayout,
+      requireAuth: true,
+      role: "superuser",
+    },
   },
   {
     path: "/master/additional-scope/:id/:name/manpower",
     name: "master additional manpower",
-    component: () => import("@/modules/master/views/additional-scope/Manpower.vue"),
-    meta: { layout: MasterAdditionalLayout, requireAuth: true, role: "superuser" },
+    component: () =>
+      import("@/modules/master/views/additional-scope/Manpower.vue"),
+    meta: {
+      layout: MasterAdditionalLayout,
+      requireAuth: true,
+      role: "superuser",
+    },
   },
   {
     path: "/master/additional-scope/:id/:name/part",
     name: "master additional part",
     component: () => import("@/modules/master/views/additional-scope/Part.vue"),
-    meta: { layout: MasterAdditionalLayout, requireAuth: true, role: "superuser" },
+    meta: {
+      layout: MasterAdditionalLayout,
+      requireAuth: true,
+      role: "superuser",
+    },
   },
   {
     path: "/master/consumable-material",
@@ -132,6 +151,18 @@ export const routeMaster = [
     path: "/master/sequence",
     name: "master sequence",
     component: () => import("@/modules/master/views/Sequence.vue"),
+    meta: { layout: MasterLayout, requireAuth: true, role: "superuser" },
+  },
+  {
+    path: "/master/activity",
+    name: "master activity",
+    component: () => import("@/modules/master/views/Activity.vue"),
+    meta: { layout: MasterLayout, requireAuth: true, role: "superuser" },
+  },
+  {
+    path: "/master/equipment",
+    name: "master equipment",
+    component: () => import("@/modules/master/views/Equipment.vue"),
     meta: { layout: MasterLayout, requireAuth: true, role: "superuser" },
   },
 ];

@@ -29,6 +29,8 @@ import type { SubBidangCreateInterface } from "../types/SubBidangType";
 import type { HseDocCreateInterface } from "../types/HseDocTypes";
 import type { HseCreateInterface } from "../types/HseTypes";
 import type { SequenceCreateInterface } from "../types/SequenceTypes";
+import type { ActivityCreateInterface } from "../types/AcitivityType";
+import type { EquipmentCreateInterface } from "../types/EquipmentType";
 
 export const useMasterStore = defineStore(
   "master",
@@ -792,7 +794,6 @@ export const useMasterStore = defineStore(
     };
     // --- END
 
-
     // --- HSE DOC
     const getHseDoc = async (payload: IParams) => {
       return await api
@@ -818,10 +819,7 @@ export const useMasterStore = defineStore(
         });
     };
 
-    const updateHseDoc = async (
-      id: string,
-      payload: HseDocCreateInterface
-    ) => {
+    const updateHseDoc = async (id: string, payload: HseDocCreateInterface) => {
       return await api
         .put(`/hse-doc/${id}`, payload)
         .then((resp) => {
@@ -843,7 +841,6 @@ export const useMasterStore = defineStore(
         });
     };
     // --- END
-
 
     // --- HSE
     const getHse = async (payload: IParams) => {
@@ -870,10 +867,7 @@ export const useMasterStore = defineStore(
         });
     };
 
-    const updateHse = async (
-      id: string,
-      payload: HseCreateInterface
-    ) => {
+    const updateHse = async (id: string, payload: HseCreateInterface) => {
       return await api
         .put(`/hse/${id}`, payload)
         .then((resp) => {
@@ -948,13 +942,94 @@ export const useMasterStore = defineStore(
     // --- END\
 
     // ACTIVITY
-    const getActivityList = async (payload: IParams) => {
+    const getActivity = async (payload: IParams) => {
       return await api
         .get(`/activity`, {
           params: payload,
         })
         .then((resp) => {
           return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    const createActivity = async (payload: ActivityCreateInterface) => {
+      return await api
+        .post(`/activity`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    const updateActivity = async (
+      id: string,
+      payload: ActivityCreateInterface
+    ) => {
+      return await api
+        .put(`/activity/${id}`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    const deleteActivity = async (id: string) => {
+      return await api
+        .delete(`/activity/${id}`)
+        .then((res) => {
+          return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    // END
+
+    // EQUIPMENT
+    const getEquipment = async (payload: IParams) => {
+      return await api
+        .get(`/equipment`, {
+          params: payload,
+        })
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    const createEquipment = async (payload: EquipmentCreateInterface) => {
+      return await api
+        .post(`/equipment`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    const updateEquipment = async (
+      id: string,
+      payload: EquipmentCreateInterface
+    ) => {
+      return await api
+        .put(`/equipment/${id}`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    const deleteEquipment = async (id: string) => {
+      return await api
+        .delete(`/equipment/${id}`)
+        .then((res) => {
+          return Promise.resolve(res);
         })
         .catch((err) => {
           return Promise.reject(err);
@@ -1036,7 +1111,14 @@ export const useMasterStore = defineStore(
       createSequence,
       updateSequence,
       deleteSequence,
-      getActivityList
+      getActivity,
+      createActivity,
+      updateActivity,
+      deleteActivity,
+      getEquipment,
+      createEquipment,
+      updateEquipment,
+      deleteEquipment,
     };
   },
   {
