@@ -226,9 +226,9 @@ export const MenusAddScope: MenuInterface[] = [
 export const MenusMaster: MenuInterface[] = [
   {
     id: 16,
-    name: 'Master Data',
-    url: '/master-data',
-    icon: 'arrow',
+    name: "Master Data",
+    url: "/master-data",
+    icon: "arrow",
     children: [
       {
         id: 14,
@@ -284,7 +284,7 @@ export const MenusMaster: MenuInterface[] = [
         url: "/global-unit",
         icon: "ruler",
       },
-    ]
+    ],
   },
   {
     id: 5,
@@ -327,6 +327,18 @@ export const MenusMaster: MenuInterface[] = [
     name: "Role",
     url: "/role",
     icon: "users",
+  },
+  {
+    id: 11,
+    name: "Equipment",
+    url: "/equipment",
+    icon: "wrench",
+  },
+  {
+    id: 11,
+    name: "Activity",
+    url: "/activity",
+    icon: "pulse-line",
   },
   {
     id: 13,
