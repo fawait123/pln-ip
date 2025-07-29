@@ -100,6 +100,18 @@ export const routeMaster = [
     meta: { layout: MasterAdditionalLayout, requireAuth: true, role: "superuser" },
   },
   {
+    path: "/master/additional-scope/:id/:name/equipment",
+    name: "master additional equipment",
+    component: () => import("@/modules/master/views/additional-scope/Equipment.vue"),
+    meta: { layout: MasterAdditionalLayout, requireAuth: true, role: "superuser" },
+  },
+  {
+    path: "/master/additional-scope/:id/:name/activity",
+    name: "master additional activity",
+    component: () => import("@/modules/master/views/additional-scope/Activity.vue"),
+    meta: { layout: MasterAdditionalLayout, requireAuth: true, role: "superuser" },
+  },
+  {
     path: "/master/consumable-material",
     name: "master consumable material",
     component: () => import("@/modules/master/views/ConsumableMaterial.vue"),

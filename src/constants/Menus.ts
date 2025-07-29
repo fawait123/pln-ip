@@ -234,25 +234,25 @@ export const MenusMaster: MenuInterface[] = [
         id: 14,
         name: "Bidang",
         url: "/bidang",
-        icon: "health",
+        icon: "bidang",
       },
       {
         id: 15,
         name: "Sub Bidang",
         url: "/sub-bidang",
-        icon: "health",
+        icon: "sub-bidang",
       },
       {
         id: 15,
         name: "HSE DOC",
         url: "/hse-doc",
-        icon: "document",
+        icon: "hse-doc",
       },
       {
         id: 15,
         name: "HSE",
         url: "/hses",
-        icon: "health",
+        icon: "hse",
       },
       {
         id: 1,
@@ -320,7 +320,7 @@ export const MenusMaster: MenuInterface[] = [
     id: 15,
     name: "Sequence",
     url: "/sequence",
-    icon: "health",
+    icon: "sequence",
   },
   {
     id: 11,
@@ -356,6 +356,18 @@ export const MenuAdditional: MenuInterface[] = [
     icon: "document",
   },
   {
+    id: 9,
+    name: "Equipment",
+    url: "/master/additional-scope/:id/:name/equipment",
+    icon: "wrench",
+  },
+  {
+    id: 9,
+    name: "Activity",
+    url: "/master/additional-scope/:id/:name/activity",
+    icon: "pulse-line",
+  },
+  {
     id: 7,
     name: "Consumable Material",
     url: "/master/additional-scope/:id/:name/consumable-material",
@@ -377,12 +389,12 @@ export const MenuAdditional: MenuInterface[] = [
     id: 9,
     name: "Tools",
     url: "/master/additional-scope/:id/:name/tools",
-    icon: "trolley-items",
+    icon: "tools",
   },
   {
     id: 9,
     name: "Sequence",
     url: "/master/additional-scope/:id/:name/sequence",
-    icon: "trolley-items",
+    icon: "sequence",
   },
 ];
