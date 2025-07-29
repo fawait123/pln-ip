@@ -69,6 +69,18 @@ export const routeMaster = [
     meta: { layout: MasterAdditionalLayout, requireAuth: true, role: "superuser" },
   },
   {
+    path: "/master/additional-scope/:id/:name/tools",
+    name: "master additional tools",
+    component: () => import("@/modules/master/views/additional-scope/Tools.vue"),
+    meta: { layout: MasterAdditionalLayout, requireAuth: true, role: "superuser" },
+  },
+  {
+    path: "/master/additional-scope/:id/:name/sequence",
+    name: "master additional sequence",
+    component: () => import("@/modules/master/views/additional-scope/Sequence.vue"),
+    meta: { layout: MasterAdditionalLayout, requireAuth: true, role: "superuser" },
+  },
+  {
     path: "/master/consumable-material",
     name: "master consumable material",
     component: () => import("@/modules/master/views/ConsumableMaterial.vue"),

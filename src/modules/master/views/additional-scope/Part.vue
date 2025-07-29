@@ -17,7 +17,15 @@ const route = useRoute();
 const total_item = ref(0);
 const params = reactive({
     search: "",
-    filter: `additional_scope_uuid,${route.params?.id}`,
+    filter: "",
+    filters: [
+        {
+            group: "AND",
+            operator: "EQ",
+            column: "activity.equipment.scopeStandart.additional_scope_uuid",
+            value: route.params?.id,
+        }
+    ],
     currentPage: 1,
     perPage: 10,
 });
@@ -156,6 +164,11 @@ const onDelete = () => {
                     <Icon name="pencil" class="icon-action-table" @click="handleUpdate(entity)" />
                     <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
                 </div>
+            </template>
+            <template #column_activity="{ entity }">
+                <p class="text-base text-neutral-50 text-center">
+                    {{ entity.activity?.name ?? '-' }}
+                </p>
             </template>
         </Table>
 

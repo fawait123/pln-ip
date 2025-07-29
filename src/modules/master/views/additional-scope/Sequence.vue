@@ -6,11 +6,13 @@ import { Button, Icon, ModalDelete, Table, Toast } from "@/components";
 import { useMutation, useQuery } from "@tanstack/vue-query";
 import type { IPagination } from "@/types/GlobalType";
 
-import { ColumnsScope } from "../../constants/ScopeConstant";
-import type { ScopeInterface } from "../../types/ScopeType";
 import { useMasterStore } from "../../stores/MasterStore";
+import type { SequenceInterface } from "../../types/SequenceTypes";
+import FormHse from "../../components/FormHse.vue";
+import { ColumnHse } from "../../constants/HseConstant";
+import FormSequence from "../../components/FormSequence.vue";
+import { ColumnSequence } from "../../constants/SequenceConstant";
 import { useRoute } from "vue-router";
-import FormAdScope from "../../components/FormAdScope.vue";
 
 const masterStore = useMasterStore();
 const route = useRoute();
@@ -31,21 +33,21 @@ const params = reactive({
 });
 const open_form = ref(false);
 const open_delete = ref(false);
-const selected_item = ref<ScopeInterface | null>(null);
+const selected_item = ref<SequenceInterface | null>(null);
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
 const timeout = ref(0);
 
-//--- GET SCOPE
+//--- GET HSE
 const {
-    data: dataScope,
-    isFetching: isLoadingScope,
-    refetch: refetchScope,
+    data: dataSequence,
+    isFetching: isLoadingSequence,
+    refetch: refetchSequence,
 } = useQuery({
-    queryKey: ["getScopeMaster"],
+    queryKey: ["getSequence"],
     queryFn: async () => {
         try {
-            const { data } = await masterStore.getScope(params);
-            const response = data as IPagination<ScopeInterface[]>;
+            const { data } = await masterStore.getSequence(params);
+            const response = data.data as IPagination<SequenceInterface[]>;
 
             total_item.value = response.total;
 
@@ -59,10 +61,10 @@ const {
 });
 //--- END
 
-//--- DELETE SCOPE
-const { mutate: deleteScope, isPending: isLoadingDelete } = useMutation({
+//--- DELETE SUBBIDANG
+const { mutate: deleteSequence, isPending: isLoadingDelete } = useMutation({
     mutationFn: async (id: string) => {
-        return await masterStore.deleteScope(id);
+        return await masterStore.deleteSequence(id);
     },
     onSuccess: () => {
         toastRef.value?.showToast({
@@ -71,7 +73,7 @@ const { mutate: deleteScope, isPending: isLoadingDelete } = useMutation({
             type: "success",
         });
         open_delete.value = false;
-        refetchScope();
+        refetchSequence();
     },
     onError: (error: any) => {
         console.log(error);
@@ -94,20 +96,20 @@ const pagination = computed(() => {
 
 const changePage = (e: number) => {
     params.currentPage = e;
-    refetchScope();
+    refetchSequence();
 };
 
 const changeLimit = (e: string) => {
     params.perPage = parseInt(e);
     params.currentPage = 1;
-    refetchScope();
+    refetchSequence();
 };
 
 const searchTable = () => {
     clearTimeout(timeout.value);
     timeout.value = window.setTimeout(() => {
         params.currentPage = 1;
-        refetchScope();
+        refetchSequence();
     }, 1000);
 };
 
@@ -118,7 +120,7 @@ const handleSuccess = () => {
         type: "success",
     });
     params.currentPage = 1;
-    refetchScope();
+    refetchSequence();
 };
 
 const handleError = (error: any) => {
@@ -134,64 +136,48 @@ const handleCreate = () => {
     open_form.value = true;
 };
 
-const handleUpdate = (item: ScopeInterface) => {
+const handleUpdate = (item: SequenceInterface) => {
     selected_item.value = item;
     open_form.value = true;
 };
 
-const handleDelete = (item: ScopeInterface) => {
+const handleDelete = (item: SequenceInterface) => {
     selected_item.value = item;
     open_delete.value = true;
 };
 
 const onDelete = () => {
-    deleteScope(selected_item.value?.uuid as string);
+    deleteSequence(selected_item.value?.uuid as string);
 };
 </script>
 
 <template>
     <Toast ref="toastRef" />
     <ModalDelete v-model="open_delete" :title="selected_item?.name" :loading="isLoadingDelete" @delete="onDelete" />
+
     <div class="relative w-full">
         <Button icon_only="plus" class="absolute right-0" size="sm" rounded="full" color="blue" @click="handleCreate" />
 
-        <Table label-create="User" :columns="ColumnsScope" :entities="dataScope?.data || []" :loading="isLoadingScope"
-            :pagination="pagination" :is-create="false" v-model:model-search="params.search" @change-page="changePage"
-            @change-limit="changeLimit" @search="searchTable">
+        <Table label-create="Sub Bidang" :columns="ColumnSequence" :entities="dataSequence?.data || []"
+            :loading="isLoadingSequence" :pagination="pagination" :is-create="false"
+            v-model:model-search="params.search" @change-page="changePage" @change-limit="changeLimit"
+            @search="searchTable">
             <template #column_action="{ entity }">
                 <div class="flex items-center justify-center gap-4">
                     <Icon name="pencil" class="icon-action-table" @click="handleUpdate(entity)" />
                     <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
                 </div>
             </template>
-            <template #column_sub_bidang="{ entity }">
-                <p class="text-base text-neutral-50 text-center">
-                    {{ entity.sub_bidang?.name ?? '-' }}
-                </p>
-            </template>
             <template #column_inspection_type="{ entity }">
                 <p class="text-base text-neutral-50 text-center">
-                    {{ entity.inspection_type?.name ?? '-' }}
-                </p>
-            </template>
-            <template #column_machine="{ entity }">
-                <p class="text-base text-neutral-50 text-center">
-                    {{ entity.inspection_type?.machine?.name ?? '-' }}
-                </p>
-            </template>
-            <template #column_unit="{ entity }">
-                <p class="text-base text-neutral-50 text-center">
-                    {{ entity.inspection_type?.machine?.unit?.name ?? '-' }}
-                </p>
-            </template>
-            <template #column_location="{ entity }">
-                <p class="text-base text-neutral-50 text-center">
-                    {{ entity.inspection_type?.machine?.unit?.location?.name ?? '-' }}
+                    {{ entity.inspection_type?.name }}
                 </p>
             </template>
         </Table>
 
-        <FormAdScope v-model="open_form" :selected-value="selected_item" @success="handleSuccess"
+        <FormSequence v-model="open_form" :selected-value="selected_item" @success="handleSuccess"
             @error="handleError" />
     </div>
 </template>
+
+<style lang="sass"></style>

@@ -32,8 +32,8 @@ export interface ScopeDetailInterface {
 
 export interface ScopeCreateInterface {
   name: string;
-  inspection_type_uuid: string;
-  additional_scope_uuid: string | null;
+  inspection_type_uuid?: string;
+  additional_scope_uuid?: string | null;
   link: string;
   category: string;
   details: { name: string }[];
@@ -42,8 +42,8 @@ export interface ScopeCreateInterface {
 
 export interface ScopeUpdateInterface {
   name: string;
-  inspection_type_uuid: string;
-  additional_scope_uuid: string | null;
+  inspection_type_uuid?: string;
+  additional_scope_uuid?: string | null;
   link: string;
   category: string;
   details: { name: string; uuid: string | null }[];
@@ -55,7 +55,8 @@ export interface ScopeCreateModelInterface {
   location_uuid: string;
   unit_uuid: string;
   machine_uuid: string;
-  inspection_type_uuid: string;
+  inspection_type_uuid?: string;
+  additional_scope_uuid?: string;
   link: string;
   category: string;
   sub_bidang_uuid: string;

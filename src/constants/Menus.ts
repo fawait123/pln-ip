@@ -361,4 +361,16 @@ export const MenuAdditional: MenuInterface[] = [
     url: "/master/additional-scope/:id/:name/part",
     icon: "trolley-items",
   },
+  {
+    id: 9,
+    name: "Tools",
+    url: "/master/additional-scope/:id/:name/tools",
+    icon: "trolley-items",
+  },
+  {
+    id: 9,
+    name: "Sequence",
+    url: "/master/additional-scope/:id/:name/sequence",
+    icon: "trolley-items",
+  },
 ];

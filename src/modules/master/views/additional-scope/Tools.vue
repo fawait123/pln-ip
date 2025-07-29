@@ -6,11 +6,11 @@ import { Button, Icon, ModalDelete, Table, Toast } from "@/components";
 import { useMutation, useQuery } from "@tanstack/vue-query";
 import type { IPagination } from "@/types/GlobalType";
 
-import { ColumnsScope } from "../../constants/ScopeConstant";
-import type { ScopeInterface } from "../../types/ScopeType";
+import { ColumnsTools } from "../../constants/ToolsConstant";
+import type { ToolsInterface } from "../../types/ToolsType";
 import { useMasterStore } from "../../stores/MasterStore";
+import FormTools from "../../components/FormTools.vue";
 import { useRoute } from "vue-router";
-import FormAdScope from "../../components/FormAdScope.vue";
 
 const masterStore = useMasterStore();
 const route = useRoute();
@@ -22,7 +22,7 @@ const params = reactive({
         {
             group: "AND",
             operator: "EQ",
-            column: "additional_scope_uuid",
+            column: "activity.equipment.scopeStandart.additional_scope_uuid",
             value: route.params?.id,
         }
     ],
@@ -31,21 +31,21 @@ const params = reactive({
 });
 const open_form = ref(false);
 const open_delete = ref(false);
-const selected_item = ref<ScopeInterface | null>(null);
+const selected_item = ref<ToolsInterface | null>(null);
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
 const timeout = ref(0);
 
-//--- GET SCOPE
+//--- GET TOOLS
 const {
-    data: dataScope,
-    isFetching: isLoadingScope,
-    refetch: refetchScope,
+    data: dataTools,
+    isFetching: isLoadingTools,
+    refetch: refetchTools,
 } = useQuery({
-    queryKey: ["getScopeMaster"],
+    queryKey: ["getToolsMaster"],
     queryFn: async () => {
         try {
-            const { data } = await masterStore.getScope(params);
-            const response = data as IPagination<ScopeInterface[]>;
+            const { data } = await masterStore.getTools(params);
+            const response = data.data as IPagination<ToolsInterface[]>;
 
             total_item.value = response.total;
 
@@ -59,10 +59,10 @@ const {
 });
 //--- END
 
-//--- DELETE SCOPE
-const { mutate: deleteScope, isPending: isLoadingDelete } = useMutation({
+//--- DELETE TOOLS
+const { mutate: deleteTools, isPending: isLoadingDelete } = useMutation({
     mutationFn: async (id: string) => {
-        return await masterStore.deleteScope(id);
+        return await masterStore.deleteTools(id);
     },
     onSuccess: () => {
         toastRef.value?.showToast({
@@ -71,7 +71,7 @@ const { mutate: deleteScope, isPending: isLoadingDelete } = useMutation({
             type: "success",
         });
         open_delete.value = false;
-        refetchScope();
+        refetchTools();
     },
     onError: (error: any) => {
         console.log(error);
@@ -94,20 +94,20 @@ const pagination = computed(() => {
 
 const changePage = (e: number) => {
     params.currentPage = e;
-    refetchScope();
+    refetchTools();
 };
 
 const changeLimit = (e: string) => {
     params.perPage = parseInt(e);
     params.currentPage = 1;
-    refetchScope();
+    refetchTools();
 };
 
 const searchTable = () => {
     clearTimeout(timeout.value);
     timeout.value = window.setTimeout(() => {
         params.currentPage = 1;
-        refetchScope();
+        refetchTools();
     }, 1000);
 };
 
@@ -118,7 +118,7 @@ const handleSuccess = () => {
         type: "success",
     });
     params.currentPage = 1;
-    refetchScope();
+    refetchTools();
 };
 
 const handleError = (error: any) => {
@@ -134,28 +134,29 @@ const handleCreate = () => {
     open_form.value = true;
 };
 
-const handleUpdate = (item: ScopeInterface) => {
+const handleUpdate = (item: ToolsInterface) => {
     selected_item.value = item;
     open_form.value = true;
 };
 
-const handleDelete = (item: ScopeInterface) => {
+const handleDelete = (item: ToolsInterface) => {
     selected_item.value = item;
     open_delete.value = true;
 };
 
 const onDelete = () => {
-    deleteScope(selected_item.value?.uuid as string);
+    deleteTools(selected_item.value?.uuid as string);
 };
 </script>
 
 <template>
     <Toast ref="toastRef" />
     <ModalDelete v-model="open_delete" :title="selected_item?.name" :loading="isLoadingDelete" @delete="onDelete" />
+
     <div class="relative w-full">
         <Button icon_only="plus" class="absolute right-0" size="sm" rounded="full" color="blue" @click="handleCreate" />
 
-        <Table label-create="User" :columns="ColumnsScope" :entities="dataScope?.data || []" :loading="isLoadingScope"
+        <Table label-create="Tools" :columns="ColumnsTools" :entities="dataTools?.data || []" :loading="isLoadingTools"
             :pagination="pagination" :is-create="false" v-model:model-search="params.search" @change-page="changePage"
             @change-limit="changeLimit" @search="searchTable">
             <template #column_action="{ entity }">
@@ -164,34 +165,13 @@ const onDelete = () => {
                     <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
                 </div>
             </template>
-            <template #column_sub_bidang="{ entity }">
+            <template #column_activity="{ entity }">
                 <p class="text-base text-neutral-50 text-center">
-                    {{ entity.sub_bidang?.name ?? '-' }}
-                </p>
-            </template>
-            <template #column_inspection_type="{ entity }">
-                <p class="text-base text-neutral-50 text-center">
-                    {{ entity.inspection_type?.name ?? '-' }}
-                </p>
-            </template>
-            <template #column_machine="{ entity }">
-                <p class="text-base text-neutral-50 text-center">
-                    {{ entity.inspection_type?.machine?.name ?? '-' }}
-                </p>
-            </template>
-            <template #column_unit="{ entity }">
-                <p class="text-base text-neutral-50 text-center">
-                    {{ entity.inspection_type?.machine?.unit?.name ?? '-' }}
-                </p>
-            </template>
-            <template #column_location="{ entity }">
-                <p class="text-base text-neutral-50 text-center">
-                    {{ entity.inspection_type?.machine?.unit?.location?.name ?? '-' }}
+                    {{ entity.activity?.name ?? '-' }}
                 </p>
             </template>
         </Table>
 
-        <FormAdScope v-model="open_form" :selected-value="selected_item" @success="handleSuccess"
-            @error="handleError" />
+        <FormTools v-model="open_form" :selected-value="selected_item" @success="handleSuccess" @error="handleError" />
     </div>
 </template>
