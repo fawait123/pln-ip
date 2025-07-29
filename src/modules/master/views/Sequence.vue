@@ -8,8 +8,6 @@ import type { IPagination } from "@/types/GlobalType";
 
 import { useMasterStore } from "../stores/MasterStore";
 import type { SequenceInterface } from "../types/SequenceTypes";
-import FormHse from "../components/FormHse.vue";
-import { ColumnHse } from "../constants/HseConstant";
 import FormSequence from "../components/FormSequence.vue";
 import { ColumnSequence } from "../constants/SequenceConstant";
 
@@ -18,6 +16,14 @@ const total_item = ref(0);
 const params = reactive({
     search: "",
     filter: "",
+    filters: [
+        {
+            group: "AND",
+            operator: "NOT_NULL",
+            column: "inspection_type_uuid",
+            value: null,
+        }
+    ],
     currentPage: 1,
     perPage: 10,
 });

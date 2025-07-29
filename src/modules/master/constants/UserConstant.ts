@@ -7,4 +7,16 @@ export const ColumnsUser: TableColumnType[] = [
     align: "left",
     sort: false,
   },
+  {
+    key: "email",
+    label: "Email",
+    align: "center",
+    sort: false,
+  },
+  {
+    key: "role",
+    label: "Role",
+    align: "center",
+    sort: false,
+  },
 ];

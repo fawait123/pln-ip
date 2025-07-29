@@ -13,6 +13,7 @@ import { ColumnHse } from "../../constants/HseConstant";
 import FormSequence from "../../components/FormSequence.vue";
 import { ColumnSequence } from "../../constants/SequenceConstant";
 import { useRoute } from "vue-router";
+import FormAdSequence from "../../components/FormAdSequence.vue";
 
 const masterStore = useMasterStore();
 const route = useRoute();
@@ -175,7 +176,7 @@ const onDelete = () => {
             </template>
         </Table>
 
-        <FormSequence v-model="open_form" :selected-value="selected_item" @success="handleSuccess"
+        <FormAdSequence v-model="open_form" :selected-value="selected_item" @success="handleSuccess"
             @error="handleError" />
     </div>
 </template>

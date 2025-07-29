@@ -2,21 +2,18 @@
 import { MenusMaster } from "@/constants/Menus";
 import { Icon } from "@/components";
 import { RouterLink, useRoute } from "vue-router";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 const route = useRoute();
-const selected_menu = ref<number | null>(null);
+const activeSubMenu = ref<boolean>(true);
 
-const openChildren = (e: { id: number; name: string; url: string }) => {
-  selected_menu.value = e.id;
+const openChildren = () => {
+  activeSubMenu.value = !activeSubMenu.value
 };
 
-const isActive = (item: { id: number; name: string; url: string }) => {
-  const path = route.path.split("/");
-  const last_path = "/" + path[path.length - 1];
-
-  return selected_menu.value === item.id || last_path === item.url;
-};
+watch(activeSubMenu, (newVal, oldVal) => {
+  console.log('Count berubah:', oldVal, '→', newVal);
+});
 </script>
 
 <template>
@@ -26,17 +23,17 @@ const isActive = (item: { id: number; name: string; url: string }) => {
       <div v-for="(item, key) in MenusMaster" :key="key" class="flex flex-col gap-2">
         <RouterLink v-if="!item.children" :to="{
           path: `/master${item.url}`,
-        }" replace :class="route.path.includes(item.url) ? 'menu-active' : ''" class="menu-item"
-          @click="selected_menu = null">
+        }" replace :class="route.path.includes(item.url) ? 'menu-active' : ''" class="menu-item">
           <Icon :name="item.icon" class="menu-icon" />
           <p class="menu-title">{{ item.name }}</p>
         </RouterLink>
-        <div v-else class="flex flex-col gap-2" @click="openChildren(item)">
-          <div class="menu-item" :class="isActive(item) ? 'menu-active' : ''">
-            <Icon :name="item.icon" class="menu-icon" />
+        <div v-else class="flex flex-col gap-2" @click="openChildren()">
+          <div class="menu-item" :class="activeSubMenu ? 'menu-active' : ''">
+            <Icon name="arrow-up" class="menu-icon" v-if="activeSubMenu" />
+            <Icon name="arrow" class="menu-icon" v-else />
             <p class="menu-title">{{ item.name }}</p>
           </div>
-          <div v-if="isActive(item)" class="pl-5 flex flex-col gap-2">
+          <div v-if="activeSubMenu" class="pl-5 flex flex-col gap-2">
             <RouterLink v-for="(element, index) in item.children" :key="index" :to="`/master${element.url}`"
               :class="route.path.includes(element?.url) ? 'menu-active' : ''" class="menu-item">
               <Icon :name="element.icon" class="menu-icon" v-if="element.icon" />

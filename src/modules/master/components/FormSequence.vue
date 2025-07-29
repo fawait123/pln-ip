@@ -587,7 +587,7 @@ watch(
             options_inspection.value = mergeArrays(
                 [
                     {
-                        value: props.selectedValue?.inspection_type_uuid,
+                        value: String(props.selectedValue?.inspection_type_uuid),
                         label: props.selectedValue?.inspection_type?.name,
                     },
                 ],
@@ -654,7 +654,7 @@ watch(
                 v-model:model-search="params_machine.search" :search="true" :loading="is_loading_machine"
                 :loading-next-page="isFetchingNextPageMachine" :rules="rules.machine_uuid" :options="options_machine"
                 @scroll="scrollMachine" @search="searchMachine" @select="selectMachine" />
-            <Select v-model="model.inspection_type_uuid" label="Tipe Inspeksi" options_label="label"
+            <Select v-model="model.inspection_type_uuid as string" label="Tipe Inspeksi" options_label="label"
                 options_value="value" v-model:model-search="params_inspection.search" :search="true"
                 :loading="is_loading_inspection" :loading-next-page="isFetchingNextPageInspection"
                 :rules="rules.inspection_type_uuid" :options="options_inspection" @scroll="scrollInspection"

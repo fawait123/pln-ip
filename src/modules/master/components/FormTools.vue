@@ -16,10 +16,6 @@ import {
   numbers_positive_negative,
 } from "@/helpers/global";
 
-import type { LocationInterface } from "../types/LocationType";
-import type { UnitInterface } from "../types/UnitType";
-import type { MachineInterface } from "../types/MachineType";
-import type { InspectionTypeInterface } from "../types/InspectionType";
 import { useMasterStore } from "../stores/MasterStore";
 import type {
   ToolsCreateInterface,
@@ -44,7 +40,6 @@ const emit = defineEmits(["success", "error"]);
 
 const masterStore = useMasterStore();
 
-const queryClient = useQueryClient();
 const modelValue = defineModel<boolean>({ default: false });
 const is_loading_global_unit = ref(false);
 const options_global_unit = ref<OptionType[]>([]);
@@ -123,7 +118,14 @@ const {
 //--- GET ACTIVITY
 const params_activity = reactive<IParams>({
   search: "",
-  filters: "",
+  filters: [
+    {
+      group: "AND",
+      operator: "NOT_NULL",
+      column: "equipment.scopeStandart.inspection_type_uuid",
+      value: null,
+    }
+  ],
   currentPage: 1,
   perPage: 10,
 });
@@ -138,7 +140,7 @@ const {
   enabled: !props.selectedValue && !is_loading_activity.value,
   queryFn: async ({ pageParam = 1 }) => {
     try {
-      const { data } = await masterStore.getActivityList({
+      const { data } = await masterStore.getActivity({
         ...params_activity,
         currentPage: pageParam,
       });

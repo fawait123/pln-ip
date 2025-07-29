@@ -11,6 +11,7 @@ import type { ManpowerInterface } from "../../types/ManpowerType";
 import { useMasterStore } from "../../stores/MasterStore";
 import FormManpower from "../../components/FormManpower.vue";
 import { useRoute } from "vue-router";
+import FormAdManpower from "../../components/FormAdManpower.vue";
 
 const masterStore = useMasterStore();
 const route = useRoute();
@@ -173,7 +174,7 @@ const onDelete = () => {
             </template>
         </Table>
 
-        <FormManpower v-model="open_form" :selected-value="selected_item" @success="handleSuccess"
+        <FormAdManpower v-model="open_form" :selected-value="selected_item" @success="handleSuccess"
             @error="handleError" />
     </div>
 </template>

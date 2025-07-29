@@ -62,6 +62,14 @@ const rules = computed(() => {
 const params_equipment = reactive<IParams>({
   search: "",
   filter: "",
+  filters: [
+    {
+      group: "AND",
+      operator: "NOT_NULL",
+      column: "scopeStandart.inspection_type_uuid",
+      value: null,
+    }
+  ],
   currentPage: 1,
   perPage: 10,
 });
@@ -240,60 +248,21 @@ watch(
 </script>
 
 <template>
-  <Modal
-    width="440"
-    height="200"
-    :showButtonClose="false"
-    title="Tambah Activity"
-    v-model="modelValue"
-  >
-    <form
-      class="flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-y-auto mx-[-20px] px-5"
-      @submit.prevent="handleSubmit"
-    >
-      <Input
-        v-model="model.name"
-        :rules="rules.name"
-        :custom_symbols="numbers_positive_negative"
-        label="Nama"
-      />
-      <Input
-        v-model="model.duration"
-        :rules="rules.duration"
-        :custom_symbols="all_characters"
-        label="Duration"
-      />
-      <Select
-        v-model="model.equipment_uuid"
-        label="Equipment"
-        options_label="label"
-        options_value="value"
-        v-model:model-search="params_equipment.search"
-        :search="true"
-        :loading="is_loading_equipment"
-        :loading-next-page="isFetchingNextPageEquipment"
-        :rules="rules.equipment_uuid"
-        :options="options_equipment"
-        @scroll="scrollEquipment"
-        @search="searchEquipment"
-      />
+  <Modal width="440" height="200" :showButtonClose="false" title="Tambah Activity" v-model="modelValue">
+    <form class="flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-y-auto mx-[-20px] px-5"
+      @submit.prevent="handleSubmit">
+      <Input v-model="model.name" :rules="rules.name" :custom_symbols="all_characters" label="Nama" />
+      <Input v-model="model.duration" :rules="rules.duration" :custom_symbols="all_characters" label="Duration" />
+      <Select v-model="model.equipment_uuid" label="Equipment" options_label="label" options_value="value"
+        v-model:model-search="params_equipment.search" :search="true" :loading="is_loading_equipment"
+        :loading-next-page="isFetchingNextPageEquipment" :rules="rules.equipment_uuid" :options="options_equipment"
+        @scroll="scrollEquipment" @search="searchEquipment" />
 
       <div class="w-full flex items-center gap-4 mt-4">
-        <Button
-          text="Batal"
-          class="w-full"
-          variant="secondary"
-          :disabled="isLoadingCreate || isLoadingUpdate"
-          @click="modelValue = false"
-        />
-        <Button
-          type="submit"
-          text="Simpan"
-          class="w-full"
-          color="blue"
-          :disabled="isLoadingCreate || isLoadingUpdate"
-          :loading="isLoadingCreate || isLoadingUpdate"
-        />
+        <Button text="Batal" class="w-full" variant="secondary" :disabled="isLoadingCreate || isLoadingUpdate"
+          @click="modelValue = false" />
+        <Button type="submit" text="Simpan" class="w-full" color="blue" :disabled="isLoadingCreate || isLoadingUpdate"
+          :loading="isLoadingCreate || isLoadingUpdate" />
       </div>
     </form>
   </Modal>

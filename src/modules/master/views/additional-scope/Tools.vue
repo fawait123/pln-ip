@@ -11,6 +11,7 @@ import type { ToolsInterface } from "../../types/ToolsType";
 import { useMasterStore } from "../../stores/MasterStore";
 import FormTools from "../../components/FormTools.vue";
 import { useRoute } from "vue-router";
+import FormAdTools from "../../components/FormAdTools.vue";
 
 const masterStore = useMasterStore();
 const route = useRoute();
@@ -172,6 +173,7 @@ const onDelete = () => {
             </template>
         </Table>
 
-        <FormTools v-model="open_form" :selected-value="selected_item" @success="handleSuccess" @error="handleError" />
+        <FormAdTools v-model="open_form" :selected-value="selected_item" @success="handleSuccess"
+            @error="handleError" />
     </div>
 </template>

@@ -231,6 +231,12 @@ export const MenusMaster: MenuInterface[] = [
     icon: "arrow",
     children: [
       {
+        id: 11,
+        name: "User",
+        url: "/user",
+        icon: "users",
+      },
+      {
         id: 14,
         name: "Bidang",
         url: "/bidang",
@@ -321,12 +327,6 @@ export const MenusMaster: MenuInterface[] = [
     name: "Sequence",
     url: "/sequence",
     icon: "sequence",
-  },
-  {
-    id: 11,
-    name: "Role",
-    url: "/role",
-    icon: "users",
   },
   {
     id: 11,

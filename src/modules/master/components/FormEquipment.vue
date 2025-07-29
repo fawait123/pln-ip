@@ -54,6 +54,14 @@ const rules = computed(() => {
 const params_scope = reactive<IParams>({
   search: "",
   filter: "",
+  filters: [
+    {
+      group: "AND",
+      operator: "NOT_NULL",
+      column: "inspection_type_uuid",
+      value: null,
+    }
+  ],
   currentPage: 1,
   perPage: 10,
 });
@@ -228,54 +236,20 @@ watch(
 </script>
 
 <template>
-  <Modal
-    width="440"
-    height="200"
-    :showButtonClose="false"
-    title="Tambah Equipment"
-    v-model="modelValue"
-  >
-    <form
-      class="flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-y-auto mx-[-20px] px-5"
-      @submit.prevent="handleSubmit"
-    >
-      <Input
-        v-model="model.name"
-        :rules="rules.name"
-        :custom_symbols="all_characters"
-        label="Nama"
-      />
-      <Select
-        v-model="model.scope_standart_uuid"
-        label="Scope"
-        options_label="label"
-        options_value="value"
-        v-model:model-search="params_scope.search"
-        :search="true"
-        :loading="is_loading_scope"
-        :loading-next-page="isFetchingNextPageScope"
-        :rules="rules.scope_standart_uuid"
-        :options="options_scope"
-        @scroll="scrollScope"
-        @search="searchScope"
-      />
+  <Modal width="440" height="200" :showButtonClose="false" title="Tambah Equipment" v-model="modelValue">
+    <form class="flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-y-auto mx-[-20px] px-5"
+      @submit.prevent="handleSubmit">
+      <Input v-model="model.name" :rules="rules.name" :custom_symbols="all_characters" label="Nama" />
+      <Select v-model="model.scope_standart_uuid" label="Scope" options_label="label" options_value="value"
+        v-model:model-search="params_scope.search" :search="true" :loading="is_loading_scope"
+        :loading-next-page="isFetchingNextPageScope" :rules="rules.scope_standart_uuid" :options="options_scope"
+        @scroll="scrollScope" @search="searchScope" />
 
       <div class="w-full flex items-center gap-4 mt-4">
-        <Button
-          text="Batal"
-          class="w-full"
-          variant="secondary"
-          :disabled="isLoadingCreate || isLoadingUpdate"
-          @click="modelValue = false"
-        />
-        <Button
-          type="submit"
-          text="Simpan"
-          class="w-full"
-          color="blue"
-          :disabled="isLoadingCreate || isLoadingUpdate"
-          :loading="isLoadingCreate || isLoadingUpdate"
-        />
+        <Button text="Batal" class="w-full" variant="secondary" :disabled="isLoadingCreate || isLoadingUpdate"
+          @click="modelValue = false" />
+        <Button type="submit" text="Simpan" class="w-full" color="blue" :disabled="isLoadingCreate || isLoadingUpdate"
+          :loading="isLoadingCreate || isLoadingUpdate" />
       </div>
     </form>
   </Modal>

@@ -16,6 +16,14 @@ const total_item = ref(0);
 const params = reactive({
   search: "",
   filter: "",
+  filters: [
+    {
+      group: "AND",
+      operator: "NOT_NULL",
+      column: "inspection_type_uuid",
+      value: null,
+    }
+  ],
   currentPage: 1,
   perPage: 10,
 });

@@ -119,7 +119,14 @@ const {
 // ACTIVITY
 const params_activity = reactive<IParams>({
   search: "",
-  filters: "",
+  filters: [
+    {
+      group: "AND",
+      operator: "NOT_NULL",
+      column: "equipment.scopeStandart.inspection_type_uuid",
+      value: null,
+    }
+  ],
   currentPage: 1,
   perPage: 10,
 });
@@ -134,7 +141,7 @@ const {
   enabled: !props.selectedValue && !is_loading_activity.value,
   queryFn: async ({ pageParam = 1 }) => {
     try {
-      const { data } = await masterStore.getActivityList({
+      const { data } = await masterStore.getActivity({
         ...params_activity,
         currentPage: pageParam,
       });
