@@ -52,9 +52,9 @@ export interface ScopeUpdateInterface {
 
 export interface ScopeCreateModelInterface {
   name: string;
-  location_uuid: string;
-  unit_uuid: string;
-  machine_uuid: string;
+  location_uuid?: string;
+  unit_uuid?: string;
+  machine_uuid?: string;
   inspection_type_uuid?: string;
   additional_scope_uuid?: string;
   link: string;
