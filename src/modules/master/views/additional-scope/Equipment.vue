@@ -9,7 +9,7 @@ import type { IPagination } from "@/types/GlobalType";
 import { ColumnsEquipment } from "../../constants/EquipmentConstant";
 import { useMasterStore } from "../../stores/MasterStore";
 import type { EquipmentInterface } from "../../types/EquipmentType";
-import FormEquipment from "../../components/FormEquipment.vue";
+import FormAdEquipment from "../../components/FormAdEquipment.vue";
 import { useRoute } from "vue-router";
 
 const masterStore = useMasterStore();
@@ -201,7 +201,7 @@ const onDelete = () => {
       </template>
     </Table>
 
-    <FormEquipment
+    <FormAdEquipment
       v-model="open_form"
       :selected-value="selected_item"
       @success="handleSuccess"
