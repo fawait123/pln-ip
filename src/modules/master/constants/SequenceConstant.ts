@@ -8,14 +8,8 @@ export const ColumnSequence: TableColumnType[] = [
         sort: false,
     },
     {
-        key: "link",
+        key: "document",
         label: "Link",
-        align: "left",
-        sort: false,
-    },
-    {
-        key: "inspection_type",
-        label: "Jenis Inspeksi",
         align: "left",
         sort: false,
     },

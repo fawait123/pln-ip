@@ -14,3 +14,10 @@ export interface InspectionTypeCreateInterface {
   name: string;
   machine_uuid: string;
 }
+
+export interface InspectionTypeModelCreateInterface {
+  name: string;
+  machine_uuid: string;
+  location_uuid: string;
+  unit_uuid: string;
+}

@@ -12,4 +12,11 @@ export interface MachineInterface {
 export interface MachineCreateInterface {
   name: string;
   unit_uuid: string;
+  location_uuid: string;
+}
+
+export interface MachineModelCreateInterface {
+  name: string;
+  unit_uuid: string;
+  location_uuid: string;
 }

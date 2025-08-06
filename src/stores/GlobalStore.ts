@@ -41,6 +41,32 @@ export const useGlobalStore = defineStore(
         });
     };
 
+    const createStreamDocument = async (payload: CreateDocumentInterface, onProgress?: (percent: number) => void) => {
+      return await api
+        .post(`/document/stream`, payload.document, {
+          headers: {
+            "Content-Type": payload.document.type,
+            "X-filename": encodeURIComponent(payload.document.name),
+            "X-modeltype": payload.document_type,
+            "X-modeluuid": payload.document_uuid,
+            "X-filemimetype": payload.document.type,
+            "X-filesize": payload.document.size
+          },
+          onUploadProgress: (progressEvent) => {
+            if (onProgress && progressEvent.total) {
+              const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+              onProgress(percent);
+            }
+          },
+        })
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
     const deleteDocument = async (ids: string[]) => {
       return await api
         .delete(`/document/delete/multi`, {
@@ -56,6 +82,7 @@ export const useGlobalStore = defineStore(
 
     return {
       createDocument,
+      createStreamDocument,
       deleteDocument,
       titleHeader,
       disabledNext,

@@ -3,7 +3,7 @@ import type { TableColumnType } from "@/components/tables/Table.vue";
 export const ColumnsMachine: TableColumnType[] = [
   {
     key: "name",
-    label: "Machine",
+    label: "Nama Mesin",
     align: "left",
     sort: false,
   },

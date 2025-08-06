@@ -255,12 +255,6 @@ export const MenusMaster: MenuInterface[] = [
         icon: "hse-doc",
       },
       {
-        id: 15,
-        name: "HSE",
-        url: "/hses",
-        icon: "hse",
-      },
-      {
         id: 1,
         name: "Location",
         url: "/location",
@@ -279,24 +273,48 @@ export const MenusMaster: MenuInterface[] = [
         icon: "machine",
       },
       {
-        id: 4,
-        name: "Inspection Type",
-        url: "/inspection-type",
-        icon: "inspection-type",
-      },
-      {
         id: 6,
         name: "Global Unit",
         url: "/global-unit",
         icon: "ruler",
       },
+      {
+        id: 15,
+        name: "Sequence",
+        url: "/sequence",
+        icon: "sequence",
+      },
     ],
+  },
+  {
+    id: 4,
+    name: "Inspection Type",
+    url: "/inspection-type",
+    icon: "inspection-type",
   },
   {
     id: 5,
     name: "Scope",
     url: "/scope",
     icon: "document",
+  },
+  {
+    id: 15,
+    name: "HSE",
+    url: "/hses",
+    icon: "hse",
+  },
+  {
+    id: 11,
+    name: "Equipment",
+    url: "/equipment",
+    icon: "wrench",
+  },
+  {
+    id: 11,
+    name: "Activity",
+    url: "/activity",
+    icon: "pulse-line",
   },
   {
     id: 7,
@@ -321,24 +339,6 @@ export const MenusMaster: MenuInterface[] = [
     name: "Tools",
     url: "/tools",
     icon: "tools",
-  },
-  {
-    id: 15,
-    name: "Sequence",
-    url: "/sequence",
-    icon: "sequence",
-  },
-  {
-    id: 11,
-    name: "Equipment",
-    url: "/equipment",
-    icon: "wrench",
-  },
-  {
-    id: 11,
-    name: "Activity",
-    url: "/activity",
-    icon: "pulse-line",
   },
   {
     id: 13,

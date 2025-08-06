@@ -4,7 +4,7 @@ import type { AxiosError } from "axios";
 
 import { Button, Icon, ModalDelete, Table, Toast } from "@/components";
 import { useMutation, useQuery } from "@tanstack/vue-query";
-import type { IPagination } from "@/types/GlobalType";
+import type { IPagination, ResponseDocumentInterface } from "@/types/GlobalType";
 
 import { useMasterStore } from "../stores/MasterStore";
 import type { SequenceInterface } from "../types/SequenceTypes";
@@ -145,6 +145,14 @@ const handleDelete = (item: SequenceInterface) => {
 const onDelete = () => {
     deleteSequence(selected_item.value?.uuid as string);
 };
+
+const handleRemoveSuccess = () => {
+    refetchSequence()
+}
+
+const redirectDocument = (document: ResponseDocumentInterface) => {
+    window.open(import.meta.env.VITE_API_BASE_URL.replace("api", "") + document.document_link, '_blank')
+}
 </script>
 
 <template>
@@ -164,15 +172,19 @@ const onDelete = () => {
                     <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
                 </div>
             </template>
-            <template #column_inspection_type="{ entity }">
-                <p class="text-base text-neutral-50 text-center">
-                    {{ entity.inspection_type?.name }}
+            <template #column_document="{ entity }">
+                <p @click="redirectDocument(entity.document)"
+                    class="text-base text-neutral-50 text-center underline cursor-pointer" v-if="entity.document">
+                    {{ entity.document?.document_name }}
+                </p>
+                <p v-else class="text-base text-neutral-50 text-center">
+                    -
                 </p>
             </template>
         </Table>
 
-        <FormSequence v-model="open_form" :selected-value="selected_item" @success="handleSuccess"
-            @error="handleError" />
+        <FormSequence v-model="open_form" :selected-value="selected_item" @success="handleSuccess" @error="handleError"
+            @removeSucess="handleRemoveSuccess" />
     </div>
 </template>
 
