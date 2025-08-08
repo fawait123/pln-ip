@@ -5,6 +5,6 @@ export const routeUnit = [
     path: "/:id/create/unit",
     name: "unit",
     component: () => import("@/modules/unit/views/Index.vue"),
-    meta: { layout: DefaultLayout, requireAuth: true, role: "planner" },
+    meta: { layout: DefaultLayout, requireAuth: false, role: "planner" },
   },
 ];

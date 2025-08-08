@@ -72,8 +72,8 @@ api.interceptors.response.use(
       authStore.logout();
       window.location.href = "/login";
     } else if ((err.response?.data as any)?.message === "Unauthenticated.") {
-      authStore.logout();
-      window.location.href = "/login";
+      // authStore.logout();
+      // window.location.href = "/login";
     }
 
     return Promise.reject(error);
