@@ -8,6 +8,12 @@ export const ColumnsInspectionType: TableColumnType[] = [
     sort: false,
   },
   {
+    key: "sequence",
+    label: "Sequence",
+    align: "center",
+    sort: false,
+  },
+  {
     key: "machine",
     label: "Machine",
     align: "center",

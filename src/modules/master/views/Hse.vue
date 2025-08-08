@@ -141,7 +141,7 @@ const onDelete = () => {
 
 <template>
     <Toast ref="toastRef" />
-    <ModalDelete v-model="open_delete" :title="selected_item?.title" :loading="isLoadingDelete" @delete="onDelete" />
+    <ModalDelete v-model="open_delete" :title="selected_item?.uuid" :loading="isLoadingDelete" @delete="onDelete" />
 
     <div class="relative w-full">
         <Button icon_only="plus" class="absolute right-0" size="sm" rounded="full" color="blue" @click="handleCreate" />
@@ -156,13 +156,28 @@ const onDelete = () => {
                 </div>
             </template>
             <template #column_hse_doc="{ entity }">
-                <p class="text-base text-neutral-50 text-center">
+                <p class="text-base text-neutral-50 text-left">
                     {{ entity.hse_doc?.name || '-' }}
                 </p>
             </template>
             <template #column_inspection_type="{ entity }">
-                <p class="text-base text-neutral-50 text-center">
-                    {{ entity.inspection_type?.name }}
+                <p class="text-base text-neutral-50 text-left">
+                    {{ entity.inspection_type?.name ?? '-' }}
+                </p>
+            </template>
+            <template #column_machine="{ entity }">
+                <p class="text-base text-neutral-50 text-left">
+                    {{ entity.inspection_type?.machine?.name ?? '-' }}
+                </p>
+            </template>
+            <template #column_unit="{ entity }">
+                <p class="text-base text-neutral-50 text-left">
+                    {{ entity.inspection_type?.machine?.unit?.name ?? '-' }}
+                </p>
+            </template>
+            <template #column_location="{ entity }">
+                <p class="text-base text-neutral-50 text-left">
+                    {{ entity.inspection_type?.machine?.unit?.location?.name ?? '-' }}
                 </p>
             </template>
         </Table>

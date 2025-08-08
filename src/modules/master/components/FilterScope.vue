@@ -1,19 +1,15 @@
 <script setup lang="ts">
 import { reactive, ref, computed, type PropType, watch } from "vue";
 
-import { Button, Input, Modal, Select } from "@/components";
+import { Button, Select } from "@/components";
 import useVuelidate from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
 import {
     useInfiniteQuery,
-    useMutation,
     useQueryClient,
 } from "@tanstack/vue-query";
 import type { IPagination, IParams } from "@/types/GlobalType";
-import {
-    all_characters,
-    mergeArrays,
-} from "@/helpers/global";
+import { mergeArrays } from "@/helpers/global";
 
 import type { LocationInterface } from "../types/LocationType";
 import type { UnitInterface } from "../types/UnitType";
@@ -21,11 +17,11 @@ import type { MachineInterface } from "../types/MachineType";
 import type { InspectionTypeInterface } from "../types/InspectionType";
 import { useMasterStore } from "../stores/MasterStore";
 import type {
-    HseCreateInterface,
-    HseCreateModelInterface,
-    HseInterface,
-} from "../types/HseTypes";
-import type { HseDocInterface } from "../types/HseDocTypes";
+    ScopeCreateModelInterface,
+    ScopeInterface,
+} from "../types/ScopeType";
+import type { SubBidangInterface } from "../types/SubBidangType";
+import type { BidangInterface } from "../types/BidangType";
 
 type OptionType = {
     value: string;
@@ -34,11 +30,14 @@ type OptionType = {
 
 const props = defineProps({
     selectedValue: {
-        type: Object as PropType<HseInterface | null>,
+        type: Object as PropType<ScopeInterface | null>,
     },
+    loading: {
+        type: Boolean
+    }
 });
 
-const emit = defineEmits(["success", "error"]);
+const emit = defineEmits(["success", "error", "filter", "resetFilter"]);
 
 const masterStore = useMasterStore();
 
@@ -52,20 +51,34 @@ const is_loading_machine = ref(false);
 const options_machine = ref<OptionType[]>([]);
 const is_loading_inspection = ref(false);
 const options_inspection = ref<OptionType[]>([]);
-const is_loading_hse_doc = ref(false);
-const options_hse_doc = ref<OptionType[]>([]);
+const is_loading_sub_bidang = ref(false);
+const options_sub_bidang = ref<OptionType[]>([]);
+const is_loading_bidang = ref(false);
+const options_bidang = ref<OptionType[]>([]);
+const is_loading_sequence = ref(false);
+const options_sequence = ref<OptionType[]>([]);
+const model_details = ref<{ name: string; id: string }[]>([
+    { id: "0", name: "" },
+]);
 
-const model = ref<HseCreateModelInterface>({
-    hse_doc_uuid: "",
+const model = ref<ScopeCreateModelInterface>({
+    name: "",
     location_uuid: "",
     unit_uuid: "",
     machine_uuid: "",
     inspection_type_uuid: "",
+    category: "-",
+    link: "",
+    sub_bidang_uuid: "",
+    bidang_uuid: "",
 });
 const v$_form = reactive(useVuelidate());
 const rules = computed(() => {
     return {
-        hse_doc_uuid: {
+        sub_bidang_uuid: {
+            required: helpers.withMessage(`This field is required`, required),
+        },
+        bidang_uuid: {
             required: helpers.withMessage(`This field is required`, required),
         },
         location_uuid: {
@@ -83,36 +96,125 @@ const rules = computed(() => {
     };
 });
 
-//--- GET HSE DOC
-const params_hse_doc = reactive<IParams>({
+//--- GET SEQUENCE
+const params_sequence = reactive<IParams>({
     search: "",
     filters: "",
     currentPage: 1,
     perPage: 10,
 });
 const {
-    data: dataHseDoc,
-    refetch: refetchHseDoc,
-    fetchNextPage: fetchNextPageHseDoc,
-    hasNextPage: hasNextPageHseDoc,
-    isFetchingNextPage: isFetchingNextPageHseDoc,
+    data: dataSequence,
+    refetch: refetchSequence,
+    fetchNextPage: fetchNextPageSequence,
+    hasNextPage: hasNextPageSequence,
+    isFetchingNextPage: isFetchingNextPageSequence,
 } = useInfiniteQuery({
-    queryKey: ["getHseDocHse"],
-    enabled: !props.selectedValue && !is_loading_hse_doc.value,
+    queryKey: ["getSequenceScope"],
+    enabled: !props.selectedValue && !is_loading_sequence.value,
     queryFn: async ({ pageParam = 1 }) => {
         try {
-            const { data } = await masterStore.getHseDoc({
-                ...params_hse_doc,
+            const { data } = await masterStore.getSequence({
+                ...params_sequence,
                 currentPage: pageParam,
             });
 
-            const response = data.data as IPagination<HseDocInterface[]>;
+            const response = data.data as IPagination<BidangInterface[]>;
 
             return response;
         } catch (error: any) {
             throw error.response;
         } finally {
-            is_loading_hse_doc.value = false;
+            is_loading_sequence.value = false;
+        }
+    },
+    refetchOnWindowFocus: false,
+    getNextPageParam: (lastPage) => {
+        if (!lastPage?.data?.length) return undefined;
+        return lastPage.current_page + 1;
+    },
+    initialPageParam: 1,
+});
+//--- END
+
+//--- GET BIDANG
+const params_bidang = reactive<IParams>({
+    search: "",
+    filters: "",
+    currentPage: 1,
+    perPage: 10,
+});
+const {
+    data: dataBidang,
+    refetch: refetchBidang,
+    fetchNextPage: fetchNextPageBidang,
+    hasNextPage: hasNextPageBidang,
+    isFetchingNextPage: isFetchingNextPageBidang,
+} = useInfiniteQuery({
+    queryKey: ["getBidangScope"],
+    enabled: !props.selectedValue && !is_loading_bidang.value,
+    queryFn: async ({ pageParam = 1 }) => {
+        try {
+            const { data } = await masterStore.getBidang({
+                ...params_bidang,
+                currentPage: pageParam,
+            });
+
+            const response = data.data as IPagination<BidangInterface[]>;
+
+            return response;
+        } catch (error: any) {
+            throw error.response;
+        } finally {
+            is_loading_bidang.value = false;
+        }
+    },
+    refetchOnWindowFocus: false,
+    getNextPageParam: (lastPage) => {
+        if (!lastPage?.data?.length) return undefined;
+        return lastPage.current_page + 1;
+    },
+    initialPageParam: 1,
+});
+//--- END
+
+//--- GET SUB BIDANG
+const params_sub_bidang = reactive<IParams>({
+    search: "",
+    filters: [
+        {
+            group: "AND",
+            operator: "EQ",
+            column: "bidang_uuid",
+            value: null,
+        }
+    ],
+    currentPage: 1,
+    perPage: 10,
+});
+const {
+    data: dataSubBidang,
+    refetch: refetchSubBidang,
+    fetchNextPage: fetchNextPageSubBidang,
+    hasNextPage: hasNextPageSubBidang,
+    isFetchingNextPage: isFetchingNextPageSubBidang,
+} = useInfiniteQuery({
+    queryKey: ["getSubBidangScope"],
+    enabled: !props.selectedValue && !is_loading_sub_bidang.value,
+    queryFn: async ({ pageParam = 1 }) => {
+        try {
+            const { data } = await masterStore.getSubBidang({
+                ...params_sub_bidang,
+                currentPage: pageParam,
+            });
+
+            const response = data.data as IPagination<SubBidangInterface[]>;
+
+            return response;
+        } catch (error: any) {
+            throw error.response;
+        } finally {
+            is_loading_sub_bidang.value = false;
         }
     },
     refetchOnWindowFocus: false,
@@ -138,7 +240,7 @@ const {
     hasNextPage: hasNextPageLocation,
     isFetchingNextPage: isFetchingNextPageLocation,
 } = useInfiniteQuery({
-    queryKey: ["getLocationHse"],
+    queryKey: ["getLocationManpower"],
     enabled: !props.selectedValue && !is_loading_location.value,
     queryFn: async ({ pageParam = 1 }) => {
         try {
@@ -179,7 +281,7 @@ const {
     hasNextPage: hasNextPageUnit,
     isFetchingNextPage: isFetchingNextPageUnit,
 } = useInfiniteQuery({
-    queryKey: ["getUnitHse"],
+    queryKey: ["getUnitManpower"],
     enabled: false,
     queryFn: async ({ pageParam = 1 }) => {
         try {
@@ -220,7 +322,7 @@ const {
     hasNextPage: hasNextPageMachine,
     isFetchingNextPage: isFetchingNextPageMachine,
 } = useInfiniteQuery({
-    queryKey: ["getMachineHse"],
+    queryKey: ["getMachineManpower"],
     enabled: false,
     queryFn: async ({ pageParam = 1 }) => {
         try {
@@ -261,7 +363,7 @@ const {
     hasNextPage: hasNextPageInspection,
     isFetchingNextPage: isFetchingNextPageInspection,
 } = useInfiniteQuery({
-    queryKey: ["getInspectionHse"],
+    queryKey: ["getInspectionManpower"],
     enabled: false,
     queryFn: async ({ pageParam = 1 }) => {
         try {
@@ -288,73 +390,20 @@ const {
 });
 //--- END
 
-//--- CREATE MANPOWER
-const { mutate: createHse, isPending: isLoadingCreate } = useMutation({
-    mutationFn: async (payload: HseCreateInterface) => {
-        return await masterStore.createHse({
-            hse_doc_uuid: payload.hse_doc_uuid,
-            inspection_type_uuid: payload.inspection_type_uuid,
-        });
-    },
-    onSuccess: () => {
-        modelValue.value = false;
-        emit("success");
-    },
-    onError: (error) => {
-        console.log(error);
-        emit("error", error);
-    },
-});
-//--- END
-
-//--- UPDATE HSE
-const { mutate: updateHse, isPending: isLoadingUpdate } = useMutation({
-    mutationFn: async ({
-        id,
-        payload,
-    }: {
-        id: string;
-        payload: HseCreateInterface;
-    }) => {
-        return await masterStore.updateHse(id, {
-            hse_doc_uuid: payload.hse_doc_uuid,
-            inspection_type_uuid: payload.inspection_type_uuid,
-        });
-    },
-    onSuccess: async () => {
-        modelValue.value = false;
-        emit("success");
-    },
-    onError: (error) => {
-        console.log(error);
-        emit("error", error);
-    },
-});
-//--- END
-
 const handleSubmit = async () => {
     const isValid = await v$_form.value.$validate();
 
     if (!isValid) return;
 
-    if (props.selectedValue) {
-        updateHse({
-            id: props.selectedValue?.uuid,
-            payload: {
-                hse_doc_uuid: model.value.hse_doc_uuid,
-                inspection_type_uuid: model.value.inspection_type_uuid,
-            },
-        });
-    } else {
-        createHse({
-            hse_doc_uuid: model.value.hse_doc_uuid,
-            inspection_type_uuid: model.value.inspection_type_uuid,
-        });
-    }
+    emit("filter", model.value)
 };
 
 const setValue = () => {
-    model.value.hse_doc_uuid = props.selectedValue?.hse_doc_uuid || "";
+    model.value.name = props.selectedValue?.name || "";
+    model.value.category = props.selectedValue?.category || "";
+    model.value.link = props.selectedValue?.link || "";
+    model.value.sub_bidang_uuid = props.selectedValue?.sub_bidang_uuid || "";
+    model.value.bidang_uuid = props.selectedValue?.sub_bidang?.bidang_uuid || "";
 
     model.value.location_uuid =
         props.selectedValue?.inspection_type?.machine?.unit?.location_uuid || "";
@@ -364,40 +413,108 @@ const setValue = () => {
         props.selectedValue?.inspection_type?.machine_uuid || "";
     model.value.inspection_type_uuid =
         props.selectedValue?.inspection_type_uuid || "";
+    model_details.value =
+        props.selectedValue?.details?.length === 0
+            ? [{ name: "", id: "0" }]
+            : props.selectedValue?.details?.map((item) => ({
+                name: item.name,
+                id: item.uuid,
+            })) || [{ name: "", id: "0" }];
 };
 
 const resetValue = () => {
     model.value = {
-        hse_doc_uuid: "",
+        name: "",
         location_uuid: "",
         unit_uuid: "",
         machine_uuid: "",
         inspection_type_uuid: "",
+        category: "-",
+        link: "",
+        sub_bidang_uuid: "",
+        bidang_uuid: "",
     };
+    model_details.value = [{ name: "", id: "0" }];
     refetchLocation();
+    emit("resetFilter")
 };
 
-// HSE DOC
-const timeout_hse_doc = ref(0);
-const searchHseDoc = () => {
-    clearTimeout(timeout_hse_doc.value);
-    timeout_hse_doc.value = window.setTimeout(() => {
-        is_loading_hse_doc.value = true;
-        params_hse_doc.currentPage = 1;
-        refetchHseDoc();
+const addDetails = () => {
+    model_details.value = [
+        ...model_details.value,
+        { id: (model_details.value?.length + 1).toString(), name: "" },
+    ];
+};
+
+const removeDetails = (id: string) => {
+    if (model_details.value.length > 1) {
+        model_details.value = model_details.value.filter((item) => item.id !== id);
+    }
+};
+// sequence
+const timeout_sequence = ref(0);
+const searchSequence = () => {
+    clearTimeout(timeout_sequence.value);
+    timeout_sequence.value = window.setTimeout(() => {
+        is_loading_sequence.value = true;
+        params_sequence.currentPage = 1;
+        refetchSequence();
     }, 1000);
 };
-const scrollHseDoc = (e: Event) => {
+const scrollSequence = (e: Event) => {
     const { scrollTop, scrollHeight, clientHeight } = e.target as HTMLElement;
     if (
         scrollTop + clientHeight >= scrollHeight - 1 &&
-        hasNextPageHseDoc.value &&
-        !isFetchingNextPageHseDoc.value
+        hasNextPageSequence.value &&
+        !isFetchingNextPageSequence.value
     ) {
-        fetchNextPageHseDoc();
+        fetchNextPageSequence();
     }
 };
-// END
+// end
+// bidang
+const timeout_bidang = ref(0);
+const searchBidang = () => {
+    clearTimeout(timeout_bidang.value);
+    timeout_bidang.value = window.setTimeout(() => {
+        is_loading_bidang.value = true;
+        params_bidang.currentPage = 1;
+        refetchBidang();
+    }, 1000);
+};
+const scrollBidang = (e: Event) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.target as HTMLElement;
+    if (
+        scrollTop + clientHeight >= scrollHeight - 1 &&
+        hasNextPageBidang.value &&
+        !isFetchingNextPageBidang.value
+    ) {
+        fetchNextPageBidang();
+    }
+};
+// end
+
+// sub bidang
+const timeout_sub_bidang = ref(0);
+const searchSubBidang = () => {
+    clearTimeout(timeout_sub_bidang.value);
+    timeout_sub_bidang.value = window.setTimeout(() => {
+        is_loading_sub_bidang.value = true;
+        params_sub_bidang.currentPage = 1;
+        refetchSubBidang();
+    }, 1000);
+};
+const scrollSubBidang = (e: Event) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.target as HTMLElement;
+    if (
+        scrollTop + clientHeight >= scrollHeight - 1 &&
+        hasNextPageSubBidang.value &&
+        !isFetchingNextPageSubBidang.value
+    ) {
+        fetchNextPageSubBidang();
+    }
+};
+// end
 
 const timeout_location = ref(0);
 const searchLocation = () => {
@@ -493,13 +610,34 @@ watch(modelValue, (value) => {
     }
 });
 
+const selectBidang = (e: OptionType) => {
+    queryClient.removeQueries({ queryKey: ["getSubBidangScope"] });
+    model.value.sub_bidang_uuid = "";
+    params_sub_bidang.filters = [
+        {
+            group: "AND",
+            operator: "EQ",
+            column: "bidang_uuid",
+            value: e.value,
+        }
+    ];
+    refetchSubBidang();
+};
+
 const selectLocation = (e: OptionType) => {
     queryClient.removeQueries({ queryKey: ["getMachineManpower"] });
     queryClient.removeQueries({ queryKey: ["getInspectionManpower"] });
     model.value.unit_uuid = "";
     model.value.machine_uuid = "";
     model.value.inspection_type_uuid = "";
-    params_unit.filters = `location_uuid,${e.value}`;
+    params_unit.filters = [
+        {
+            group: "AND",
+            operator: "EQ",
+            column: "location_uuid",
+            value: e.value,
+        }
+    ];
     refetchUnit();
 };
 
@@ -507,55 +645,148 @@ const selectUnit = (e: OptionType) => {
     queryClient.removeQueries({ queryKey: ["getInspectionManpower"] });
     model.value.machine_uuid = "";
     model.value.inspection_type_uuid = "";
-    params_machine.filters = `unit_uuid,${e.value}`;
+    params_machine.filters = [
+        {
+            group: "AND",
+            operator: "EQ",
+            column: "unit_uuid",
+            value: e.value,
+        }
+    ];
     refetchMachine();
 };
 
 const selectMachine = (e: OptionType) => {
     model.value.inspection_type_uuid = "";
-    params_inspection.filters = `machine_uuid,${e.value}`;
+    params_inspection.filters = [
+        {
+            group: "AND",
+            operator: "EQ",
+            column: "machine_uuid",
+            value: e.value,
+        }
+    ];
     refetchInspection();
 };
 
+// location
 watch(
-    [modelValue, dataHseDoc],
-    ([_, newHseDoc]) => {
+    [modelValue, dataLocation],
+    ([_, newLocation]) => {
         if (props.selectedValue) {
             const new_data: OptionType[] =
-                newHseDoc?.pages
+                newLocation?.pages
                     .flatMap((page) => page?.data)
                     ?.map((item) => {
                         return { value: item.uuid, label: item.name };
                     }) || [];
-            options_hse_doc.value = mergeArrays(
+            options_location.value = mergeArrays(
                 [
                     {
                         value:
-                            props.selectedValue?.hse_doc_uuid,
+                            props.selectedValue?.inspection_type?.machine?.unit
+                                ?.location_uuid,
                         label:
-                            props.selectedValue?.hse_doc?.name,
+                            props.selectedValue?.inspection_type?.machine?.unit?.location
+                                ?.name,
                     },
                 ],
                 new_data.filter(
                     (item) =>
                         item.value !==
-                        props.selectedValue?.hse_doc_uuid
+                        props.selectedValue?.inspection_type?.machine?.unit?.location_uuid
                 )
             );
         } else {
             const new_data: OptionType[] =
-                newHseDoc?.pages
+                newLocation?.pages
                     .flatMap((page) => page?.data)
                     ?.map((item) => {
                         return { value: item.uuid, label: item.name };
                     }) || [];
 
-            options_hse_doc.value = new_data;
+            options_location.value = new_data;
         }
     },
     { deep: true, immediate: true }
 );
 
+// bidang
+watch(
+    dataBidang,
+    (newBidang) => {
+        if (props.selectedValue) {
+            const new_data: OptionType[] =
+                newBidang?.pages
+                    .flatMap((page) => page?.data)
+                    ?.map((item) => {
+                        return { value: item.uuid, label: item.name };
+                    }) || [];
+            options_bidang.value = mergeArrays(
+                [
+                    {
+                        value: props.selectedValue?.sub_bidang?.bidang_uuid,
+                        label: props.selectedValue?.sub_bidang?.bidang?.name,
+                    },
+                ],
+                new_data.filter(
+                    (item) =>
+                        item.value !==
+                        props.selectedValue?.sub_bidang?.bidang_uuid
+                )
+            );
+        } else {
+            const new_data: OptionType[] =
+                newBidang?.pages
+                    .flatMap((page) => page?.data)
+                    ?.map((item) => {
+                        return { value: item.uuid, label: item.name };
+                    }) || [];
+
+            options_bidang.value = new_data;
+        }
+    },
+    { deep: true, immediate: true }
+);
+// end bidang
+// sub bidang
+watch(
+    dataSubBidang,
+    (newSubBidang) => {
+        if (props.selectedValue) {
+            const new_data: OptionType[] =
+                newSubBidang?.pages
+                    .flatMap((page) => page?.data)
+                    ?.map((item) => {
+                        return { value: item.uuid, label: item.name };
+                    }) || [];
+            options_sub_bidang.value = mergeArrays(
+                [
+                    {
+                        value: props.selectedValue?.sub_bidang_uuid,
+                        label: props.selectedValue?.sub_bidang?.name,
+                    },
+                ],
+                new_data.filter(
+                    (item) =>
+                        item.value !==
+                        props.selectedValue?.sub_bidang_uuid
+                )
+            );
+        } else {
+            const new_data: OptionType[] =
+                newSubBidang?.pages
+                    .flatMap((page) => page?.data)
+                    ?.map((item) => {
+                        return { value: item.uuid, label: item.name };
+                    }) || [];
+
+            options_sub_bidang.value = new_data;
+        }
+    },
+    { deep: true, immediate: true }
+);
+// end sub bidang
 watch(
     [modelValue, dataLocation],
     ([_, newLocation]) => {
@@ -714,17 +945,38 @@ watch(
             }
 
             if (value.inspection_type?.machine?.unit) {
-                params_unit.filters = `location_uuid,${value?.inspection_type?.machine?.unit?.location_uuid}`;
+                params_unit.filters = [
+                    {
+                        group: "AND",
+                        operator: "EQ",
+                        column: "location_uuid",
+                        value: value?.inspection_type?.machine?.unit?.location_uuid,
+                    }
+                ];
                 refetchUnit();
             }
 
             if (value.inspection_type?.machine) {
-                params_machine.filters = `unit_uuid,${value?.inspection_type?.machine?.unit_uuid}`;
+                params_machine.filters = [
+                    {
+                        group: "AND",
+                        operator: "EQ",
+                        column: "unit_uuid",
+                        value: value?.inspection_type?.machine?.unit_uuid,
+                    }
+                ];
                 refetchMachine();
             }
 
             if (value.inspection_type) {
-                params_inspection.filters = `machine_uuid,${value?.inspection_type?.machine_uuid}`;
+                params_inspection.filters = [
+                    {
+                        group: "AND",
+                        operator: "EQ",
+                        column: "machine_uuid",
+                        value: value?.inspection_type?.machine_uuid,
+                    }
+                ];
                 refetchInspection();
             }
         }
@@ -733,10 +985,10 @@ watch(
 </script>
 
 <template>
-    <Modal width="440" height="200" :showButtonClose="false" :title="props.selectedValue ? 'Ubah HSE' : 'Tambah HSE'"
-        v-model="modelValue">
-        <form class="flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-y-auto mx-[-20px] px-5"
-            @submit.prevent="handleSubmit">
+    <div
+        class="flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-y-auto mx-[-20px] p-5 bg-white shadow-md rounded-md">
+        <span class="text-blue-950 font-semibold">Pilih Scope Standart</span>
+        <form class="" @submit.prevent="handleSubmit">
             <Select v-model="model.location_uuid" label="Lokasi" options_label="label" options_value="value"
                 v-model:model-search="params_location.search" :search="true" :loading="is_loading_location"
                 :loading-next-page="isFetchingNextPageLocation" :rules="rules.location_uuid" :options="options_location"
@@ -754,17 +1006,20 @@ watch(
                 :loading="is_loading_inspection" :loading-next-page="isFetchingNextPageInspection"
                 :rules="rules.inspection_type_uuid" :options="options_inspection" @scroll="scrollInspection"
                 @search="searchInspection" />
-            <Select v-model="model.hse_doc_uuid" label="Hse Dokumen" options_label="label" options_value="value"
-                v-model:model-search="params_hse_doc.search" :search="true" :loading="is_loading_hse_doc"
-                :loading-next-page="isFetchingNextPageHseDoc" :rules="rules.hse_doc_uuid" :options="options_hse_doc"
-                @scroll="scrollHseDoc" @search="searchHseDoc" />
+            <Select v-model="model.bidang_uuid" label="Bidang" options_label="label" options_value="value"
+                v-model:model-search="params_bidang.search" :search="true" :loading="is_loading_bidang"
+                :loading-next-page="isFetchingNextPageBidang" :rules="rules.bidang_uuid" :options="options_bidang"
+                @scroll="scrollBidang" @search="searchBidang" @select="selectBidang" />
+            <Select v-model="model.sub_bidang_uuid" label="Sub Bidang" options_label="label" options_value="value"
+                v-model:model-search="params_sub_bidang.search" :search="true" :loading="is_loading_sub_bidang"
+                :loading-next-page="isFetchingNextPageSubBidang" :rules="rules.sub_bidang_uuid"
+                :options="options_sub_bidang" @scroll="scrollSubBidang" @search="searchSubBidang" />
 
             <div class="w-full flex items-center gap-4 mt-4">
-                <Button text="Batal" class="w-full" variant="secondary" :disabled="isLoadingCreate || isLoadingUpdate"
-                    @click="modelValue = false" />
-                <Button type="submit" text="Simpan" class="w-full" color="blue"
-                    :disabled="isLoadingCreate || isLoadingUpdate" :loading="isLoadingCreate || isLoadingUpdate" />
+                <Button text="Reset" class="w-full" variant="secondary" :disabled="props.loading" @click="resetValue" />
+                <Button type="submit" text="Terapkan" class="w-full" color="blue" :disabled="props.loading"
+                    :loading="props.loading" />
             </div>
         </form>
-    </Modal>
+    </div>
 </template>

@@ -8,8 +8,8 @@ export const ColumnsConsMat: TableColumnType[] = [
     sort: false,
   },
   {
-    key: "qty",
-    label: "Quantity",
+    key: "price",
+    label: "Harga",
     align: "center",
     sort: false,
   },
@@ -20,8 +20,8 @@ export const ColumnsConsMat: TableColumnType[] = [
     sort: false,
   },
   {
-    key: "activity",
-    label: "Aktifitas",
+    key: "global_unit",
+    label: "Satuan",
     align: "center",
     sort: false,
   },

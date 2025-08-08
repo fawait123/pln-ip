@@ -27,8 +27,8 @@ watch(activeSubMenu, (newVal, oldVal) => {
           <Icon :name="item.icon" class="menu-icon" />
           <p class="menu-title">{{ item.name }}</p>
         </RouterLink>
-        <div v-else class="flex flex-col gap-2" @click="openChildren()">
-          <div class="menu-item" :class="activeSubMenu ? 'menu-active' : ''">
+        <div v-else class="flex flex-col gap-2">
+          <div class="menu-item" :class="activeSubMenu ? 'menu-active' : ''" @click="openChildren()">
             <Icon name="arrow-up" class="menu-icon" v-if="activeSubMenu" />
             <Icon name="arrow" class="menu-icon" v-else />
             <p class="menu-title">{{ item.name }}</p>

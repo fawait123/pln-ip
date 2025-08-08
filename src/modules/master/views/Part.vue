@@ -10,20 +10,14 @@ import { ColumnsPart } from "../constants/PartConstant";
 import { useMasterStore } from "../stores/MasterStore";
 import type { PartInterface } from "../types/PartType";
 import FormPart from "../components/FormPart.vue";
+import { numberFormat } from "@/helpers/global";
 
 const masterStore = useMasterStore();
 const total_item = ref(0);
 const params = reactive({
   search: "",
   filter: "",
-  filters: [
-    {
-      group: "AND",
-      operator: "NOT_NULL",
-      column: "activity.equipment.scopeStandart.inspection_type_uuid",
-      value: null,
-    }
-  ],
+  filters: [],
   currentPage: 1,
   perPage: 10,
 });
@@ -163,9 +157,14 @@ const onDelete = () => {
           <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
         </div>
       </template>
-      <template #column_activity="{ entity }">
+      <template #column_price="{ entity }">
         <p class="text-base text-neutral-50 text-center">
-          {{ entity.activity?.name ?? '-' }}
+          {{ numberFormat(entity.price, true) }}
+        </p>
+      </template>
+      <template #column_global_unit="{ entity }">
+        <p class="text-base text-neutral-50 text-center">
+          {{ entity.global_unit?.name ?? '-' }}
         </p>
       </template>
     </Table>

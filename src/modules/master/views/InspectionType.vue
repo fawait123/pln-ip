@@ -157,6 +157,11 @@ const onDelete = () => {
           <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
         </div>
       </template>
+      <template #column_sequence="{ entity }">
+        <p class="text-base text-neutral-50 text-center">
+          {{ entity.sequence?.name || '-' }}
+        </p>
+      </template>
       <template #column_machine="{ entity }">
         <p class="text-base text-neutral-50 text-center">
           {{ entity.machine?.name || '-' }}

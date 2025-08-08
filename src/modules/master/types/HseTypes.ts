@@ -3,7 +3,6 @@ import type { InspectionTypeInterface } from "./InspectionType";
 
 export interface HseInterface {
     uuid: string;
-    title: string;
     hse_doc: HseDocInterface;
     hse_doc_uuid: string;
     inspection_type_uuid: string;
@@ -13,13 +12,11 @@ export interface HseInterface {
 }
 
 export interface HseCreateInterface {
-    title: string;
     hse_doc_uuid: string;
     inspection_type_uuid: string;
 }
 
 export interface HseCreateModelInterface {
-    title: string;
     hse_doc_uuid: string;
     location_uuid: string;
     unit_uuid: string;

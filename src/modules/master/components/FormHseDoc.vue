@@ -118,7 +118,8 @@ watch(modelValue, (value) => {
 </script>
 
 <template>
-    <Modal width="440" height="200" :showButtonClose="false" title="Tambah Bidang" v-model="modelValue">
+    <Modal width="440" height="200" :showButtonClose="false"
+        :title="props.selectedValue ? 'Ubah HSE DOC' : 'Tambah HSE DOC'" v-model="modelValue">
         <form class="flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-y-auto mx-[-20px] px-5"
             @submit.prevent="handleSubmit">
             <Input v-model="model.name" :rules="rules.name" :custom_symbols="all_characters" label="Nama" />

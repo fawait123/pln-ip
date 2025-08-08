@@ -284,6 +284,24 @@ export const MenusMaster: MenuInterface[] = [
         url: "/sequence",
         icon: "sequence",
       },
+      {
+        id: 7,
+        name: "Consumable Material",
+        url: "/consumable-material",
+        icon: "box",
+      },
+      {
+        id: 8,
+        name: "Manpower",
+        url: "/manpower",
+        icon: "male",
+      },
+      {
+        id: 9,
+        name: "Part",
+        url: "/part",
+        icon: "trolley-items",
+      },
     ],
   },
   {
@@ -298,12 +316,12 @@ export const MenusMaster: MenuInterface[] = [
     url: "/scope",
     icon: "document",
   },
-  {
-    id: 15,
-    name: "HSE",
-    url: "/hses",
-    icon: "hse",
-  },
+  // {
+  //   id: 15,
+  //   name: "HSE",
+  //   url: "/hses",
+  //   icon: "hse",
+  // },
   {
     id: 11,
     name: "Equipment",
@@ -316,30 +334,12 @@ export const MenusMaster: MenuInterface[] = [
     url: "/activity",
     icon: "pulse-line",
   },
-  {
-    id: 7,
-    name: "Consumable Material",
-    url: "/consumable-material",
-    icon: "box",
-  },
-  {
-    id: 8,
-    name: "Manpower",
-    url: "/manpower",
-    icon: "male",
-  },
-  {
-    id: 9,
-    name: "Part",
-    url: "/part",
-    icon: "trolley-items",
-  },
-  {
-    id: 10,
-    name: "Tools",
-    url: "/tools",
-    icon: "tools",
-  },
+  // {
+  //   id: 10,
+  //   name: "Tools",
+  //   url: "/tools",
+  //   icon: "tools",
+  // },
   {
     id: 13,
     name: "Additional Scope",

@@ -7,13 +7,12 @@ import { required, helpers } from "@vuelidate/validators";
 import {
   useInfiniteQuery,
   useMutation,
-  useQueryClient,
 } from "@tanstack/vue-query";
 import type { IPagination, IParams } from "@/types/GlobalType";
 import {
   all_characters,
   mergeArrays,
-  numbers_positive_negative,
+  numbers_positive,
 } from "@/helpers/global";
 
 import { useMasterStore } from "../stores/MasterStore";
@@ -23,8 +22,6 @@ import type {
   PartInterface,
 } from "../types/PartType";
 import type { GlobalUnitInterface } from "../types/GlobalUnitType";
-import type { ActivityInterface } from "../types/AcitivityType";
-import { useRoute } from "vue-router";
 
 type OptionType = {
   value: string;
@@ -40,22 +37,16 @@ const props = defineProps({
 const emit = defineEmits(["success", "error"]);
 
 const masterStore = useMasterStore();
-const route = useRoute();
 const modelValue = defineModel<boolean>({ default: false });
 const is_loading_global_unit = ref(false);
 const options_global_unit = ref<OptionType[]>([]);
-const is_loading_activity = ref(false);
-const options_activity = ref<OptionType[]>([]);
 
 const model = ref<PartCreateModelInterface>({
   name: "",
-  note: "",
-  qty: "",
+  merk: "",
+  price: "",
   no_drawing: "",
   global_unit_uuid: "",
-  activity_uuid: "",
-  size: "",
-  location: "",
 });
 const v$_form = reactive(useVuelidate());
 const rules = computed(() => {
@@ -63,25 +54,16 @@ const rules = computed(() => {
     name: {
       required: helpers.withMessage(`This field is required`, required),
     },
-    activity_uuid: {
+    merk: {
       required: helpers.withMessage(`This field is required`, required),
     },
-    qty: {
-      required: helpers.withMessage(`This field is required`, required),
-    },
-    note: {
+    price: {
       required: helpers.withMessage(`This field is required`, required),
     },
     no_drawing: {
       required: helpers.withMessage(`This field is required`, required),
     },
     global_unit_uuid: {
-      required: helpers.withMessage(`This field is required`, required),
-    },
-    location: {
-      required: helpers.withMessage(`This field is required`, required),
-    },
-    size: {
       required: helpers.withMessage(`This field is required`, required),
     },
   };
@@ -117,54 +99,6 @@ const {
       throw error.response;
     } finally {
       is_loading_global_unit.value = false;
-    }
-  },
-  refetchOnWindowFocus: false,
-  getNextPageParam: (lastPage) => {
-    if (!lastPage?.data?.length) return undefined;
-    return lastPage.current_page + 1;
-  },
-  initialPageParam: 1,
-});
-//--- END
-
-//--- GET ACTIVITY
-const params_activity = reactive<IParams>({
-  search: "",
-  filters: [
-    {
-      group: "AND",
-      operator: "NOT_NULL",
-      column: "equipment.scopeStandart.inspection_type_uuid",
-      value: null,
-    }
-  ],
-  currentPage: 1,
-  perPage: 10,
-});
-const {
-  data: dataActivity,
-  refetch: refetchActivity,
-  fetchNextPage: fetchNextPageActivity,
-  hasNextPage: hasNextPageActivity,
-  isFetchingNextPage: isFetchingNextPageActivity,
-} = useInfiniteQuery({
-  queryKey: ["getActivityPart"],
-  enabled: !props.selectedValue && !is_loading_activity.value,
-  queryFn: async ({ pageParam = 1 }) => {
-    try {
-      const { data } = await masterStore.getActivity({
-        ...params_activity,
-        currentPage: pageParam,
-      });
-
-      const response = data.data as IPagination<ActivityInterface[]>;
-
-      return response;
-    } catch (error: any) {
-      throw error.response;
-    } finally {
-      is_loading_activity.value = false;
     }
   },
   refetchOnWindowFocus: false,
@@ -224,51 +158,38 @@ const handleSubmit = async () => {
       id: props.selectedValue?.uuid,
       payload: {
         name: model.value.name,
-        qty: parseFloat(model.value.qty),
-        note: model.value.note,
+        price: parseFloat(model.value.price),
+        merk: model.value.merk,
         no_drawing: model.value.no_drawing,
         global_unit_uuid: model.value.global_unit_uuid,
-        activity_uuid: model.value.activity_uuid,
-        location: model.value.location,
-        size: model.value.size,
       },
     });
   } else {
     createPart({
       name: model.value.name,
-      qty: parseFloat(model.value.qty),
-      note: model.value.note,
+      price: parseFloat(model.value.price),
+      merk: model.value.merk,
       no_drawing: model.value.no_drawing,
       global_unit_uuid: model.value.global_unit_uuid,
-      activity_uuid: model.value.activity_uuid,
-      location: model.value.location,
-      size: model.value.size,
     });
   }
 };
 
 const setValue = () => {
   model.value.name = props.selectedValue?.name || "";
-  model.value.qty = props.selectedValue?.qty?.toString() || "";
-  model.value.note = props.selectedValue?.note || "";
+  model.value.price = props.selectedValue?.price?.toString() || "";
+  model.value.merk = props.selectedValue?.merk || "";
   model.value.no_drawing = props.selectedValue?.no_drawing || "";
-  model.value.location = props.selectedValue?.location || "";
-  model.value.size = props.selectedValue?.size || "";
-
   model.value.global_unit_uuid = props.selectedValue?.global_unit_uuid || "";
-  model.value.activity_uuid = props.selectedValue?.activity_uuid || "";
 };
 
 const resetValue = () => {
   model.value = {
     name: "",
-    activity_uuid: "",
-    note: "",
     no_drawing: "",
-    qty: "",
     global_unit_uuid: "",
-    location: "",
-    size: "",
+    merk: "",
+    price: "",
   };
 };
 
@@ -291,28 +212,6 @@ const scrollGlobalUnit = (e: Event) => {
     fetchNextPageGlobalUnit();
   }
 };
-
-// activity
-const timeout_activity = ref(0);
-const searchActivity = () => {
-  clearTimeout(timeout_activity.value);
-  timeout_activity.value = window.setTimeout(() => {
-    is_loading_activity.value = true;
-    params_activity.currentPage = 1;
-    refetchActivity();
-  }, 1000);
-};
-const scrollActivity = (e: Event) => {
-  const { scrollTop, scrollHeight, clientHeight } = e.target as HTMLElement;
-  if (
-    scrollTop + clientHeight >= scrollHeight - 1 &&
-    hasNextPageActivity.value &&
-    !isFetchingNextPageActivity.value
-  ) {
-    fetchNextPageActivity();
-  }
-};
-// end
 
 
 watch(modelValue, (value) => {
@@ -363,63 +262,22 @@ watch(
   },
   { deep: true, immediate: true }
 );
-
-watch(
-  [modelValue, dataActivity],
-  ([_, newActivity]) => {
-    if (props.selectedValue) {
-      const new_data: OptionType[] =
-        newActivity?.pages
-          .flatMap((page) => page?.data)
-          ?.map((item) => {
-            return { value: item.uuid, label: item.name };
-          }) || [];
-      options_activity.value = mergeArrays(
-        [
-          {
-            value: props.selectedValue?.activity_uuid,
-            label: props.selectedValue?.activity?.name,
-          },
-        ],
-        new_data.filter(
-          (item) => item.value !== props.selectedValue?.activity_uuid
-        )
-      );
-    } else {
-      const new_data: OptionType[] =
-        newActivity?.pages
-          .flatMap((page) => page?.data)
-          ?.map((item) => {
-            return { value: item.uuid, label: item.name };
-          }) || [];
-
-      options_activity.value = new_data;
-    }
-  },
-  { deep: true, immediate: true }
-);
 </script>
 
 <template>
-  <Modal width="440" height="200" :showButtonClose="false" title="Tambah Part" v-model="modelValue">
+  <Modal width="440" height="200" :showButtonClose="false" :title="props.selectedValue ? 'Ubah Part' : 'Tambah Part'"
+    v-model="modelValue">
     <form class="flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-y-auto mx-[-20px] px-5"
       @submit.prevent="handleSubmit">
       <Input v-model="model.name" label="Nama" :rules="rules.name" :custom_symbols="all_characters" />
-      <Input v-model="model.qty" label="Quantity" :rules="rules.qty" :custom_symbols="numbers_positive_negative" />
-      <Input v-model="model.note" label="Note" :rules="rules.note" :custom_symbols="all_characters" />
+      <Input v-model="model.merk" label="Merk" :rules="rules.merk" :custom_symbols="all_characters" />
       <Input v-model="model.no_drawing" label="No. Drawing" :rules="rules.no_drawing"
         :custom_symbols="all_characters" />
-      <Input v-model="model.location" label="Location" :rules="rules.location" :custom_symbols="all_characters" />
-      <Input v-model="model.size" label="Size" :rules="rules.size" :custom_symbols="all_characters" />
+      <Input v-model="model.price" label="Harga" :rules="rules.price" :custom_symbols="numbers_positive" />
       <Select v-model="model.global_unit_uuid" label="Global Unit" options_label="label" options_value="value"
         v-model:model-search="params_global_unit.search" :search="true" :loading="is_loading_global_unit"
         :loading-next-page="isFetchingNextPageGlobalUnit" :rules="rules.global_unit_uuid" :options="options_global_unit"
         @scroll="scrollGlobalUnit" @search="searchGlobalUnit" />
-      <Select v-model="model.activity_uuid" label="Aktifitas" options_label="label" options_value="value"
-        v-model:model-search="params_activity.search" :search="true" :loading="is_loading_activity"
-        :loading-next-page="isFetchingNextPageActivity" :rules="rules.activity_uuid" :options="options_activity"
-        @scroll="scrollActivity" @search="searchActivity" />
-
 
       <div class="w-full flex items-center gap-4 mt-4">
         <Button text="Batal" class="w-full" variant="secondary" :disabled="isLoadingCreate || isLoadingUpdate"

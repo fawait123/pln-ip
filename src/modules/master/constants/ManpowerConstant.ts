@@ -8,14 +8,8 @@ export const ColumnsManpower: TableColumnType[] = [
     sort: false,
   },
   {
-    key: "qty",
-    label: "Quantity",
-    align: "center",
-    sort: false,
-  },
-  {
-    key: "activity",
-    label: "Aktifitas",
+    key: "price",
+    label: "Harga",
     align: "center",
     sort: false,
   },

@@ -17,6 +17,7 @@ import { useMasterStore } from "../stores/MasterStore";
 import type { MachineInterface } from "../types/MachineType";
 import type { LocationInterface } from "../types/LocationType";
 import type { UnitInterface } from "../types/UnitType";
+import type { SequenceInterface } from "../types/SequenceTypes";
 
 type OptionType = {
   value: string;
@@ -40,12 +41,15 @@ const is_loading_location = ref(false);
 const options_location = ref<OptionType[]>([]);
 const is_loading_machine = ref(false);
 const options_machine = ref<OptionType[]>([]);
+const is_loading_sequence = ref(false);
+const options_sequence = ref<OptionType[]>([]);
 
 const model = ref<InspectionTypeModelCreateInterface>({
   name: "",
   machine_uuid: "",
   location_uuid: "",
   unit_uuid: "",
+  sequence_uuid: "",
 });
 const v$_form = reactive(useVuelidate());
 const rules = computed(() => {
@@ -62,8 +66,53 @@ const rules = computed(() => {
     machine_uuid: {
       required: helpers.withMessage(`This field is required`, required),
     },
+    sequence_uuid: {
+      required: helpers.withMessage(`This field is required`, required),
+    },
   };
 });
+
+//--- GET SEQUENCE
+const params_sequence = reactive<IParams>({
+  search: "",
+  filter: "",
+  filters: [],
+  currentPage: 1,
+  perPage: 10,
+});
+const {
+  data: dataSequence,
+  refetch: refetchSequence,
+  fetchNextPage: fetchNextPageSequence,
+  hasNextPage: hasNextPageSequence,
+  isFetchingNextPage: isFetchingNextPageSequence,
+} = useInfiniteQuery({
+  queryKey: ["getSequenceInspection"],
+  enabled: !props.selectedValue && !is_loading_sequence.value,
+  queryFn: async ({ pageParam = 1 }) => {
+    try {
+      const { data } = await masterStore.getSequence({
+        ...params_sequence,
+        currentPage: pageParam,
+      });
+
+      const response = data.data as IPagination<SequenceInterface[]>;
+
+      return response;
+    } catch (error: any) {
+      throw error.response;
+    } finally {
+      is_loading_sequence.value = false;
+    }
+  },
+  refetchOnWindowFocus: false,
+  getNextPageParam: (lastPage) => {
+    if (!lastPage?.data?.length) return undefined;
+    return lastPage.current_page + 1;
+  },
+  initialPageParam: 1,
+});
+//--- END
 
 
 //--- GET UNIT
@@ -252,6 +301,7 @@ const setValue = () => {
     machine_uuid: props.selectedValue?.machine_uuid || "",
     location_uuid: props?.selectedValue?.machine?.unit?.location_uuid || "",
     unit_uuid: props.selectedValue?.machine?.unit_uuid || "",
+    sequence_uuid: props.selectedValue?.sequence_uuid || ""
   };
 };
 
@@ -259,11 +309,32 @@ const resetValue = () => {
   model.value = {
     name: "",
     machine_uuid: "",
-    location_uuid: props?.selectedValue?.machine?.unit?.location_uuid || "",
-    unit_uuid: props.selectedValue?.machine?.unit_uuid || "",
+    location_uuid: "",
+    unit_uuid: "",
+    sequence_uuid: ""
   };
 };
-
+// sequence
+const timeout_sequence = ref(0);
+const searchSequence = () => {
+  clearTimeout(timeout_sequence.value);
+  timeout_sequence.value = window.setTimeout(() => {
+    is_loading_sequence.value = true;
+    params_sequence.currentPage = 1;
+    refetchSequence();
+  }, 1000);
+};
+const scrollSequence = (e: Event) => {
+  const { scrollTop, scrollHeight, clientHeight } = e.target as HTMLElement;
+  if (
+    scrollTop + clientHeight >= scrollHeight - 1 &&
+    hasNextPageSequence.value &&
+    !isFetchingNextPageSequence.value
+  ) {
+    fetchNextPageSequence();
+  }
+};
+// end sequence
 const timeout_machine = ref(0);
 const searchMachine = () => {
   clearTimeout(timeout_machine.value);
@@ -372,6 +443,43 @@ watch(modelValue, (value) => {
   }
 });
 
+// sequence
+watch(
+  [modelValue, dataSequence],
+  ([newModel, newSequence]) => {
+    if (props.selectedValue) {
+      const new_data: OptionType[] =
+        newSequence?.pages
+          .flatMap((page) => page?.data)
+          ?.map((item) => {
+            return { value: item.uuid, label: item.name };
+          }) || [];
+
+      options_sequence.value = mergeArrays(
+        [
+          {
+            value: props.selectedValue?.sequence_uuid,
+            label: props.selectedValue?.sequence?.name,
+          },
+        ],
+        new_data.filter(
+          (item) => item.value !== props.selectedValue?.sequence_uuid
+        )
+      );
+    } else {
+      const new_data: OptionType[] =
+        newSequence?.pages
+          .flatMap((page) => page?.data)
+          ?.map((item) => {
+            return { value: item.uuid, label: item.name };
+          }) || [];
+
+      options_sequence.value = new_data;
+    }
+  },
+  { deep: true, immediate: true }
+);
+// end sequence
 
 watch(
   [modelValue, dataLocation],
@@ -497,6 +605,10 @@ watch(
         v-model:model-search="params_machine.search" :search="true" :loading="is_loading_machine"
         :loading-next-page="isFetchingNextPageMachine" :rules="rules.machine_uuid" :options="options_machine"
         @scroll="scrollMachine" @search="searchMachine" />
+      <Select v-model="model.sequence_uuid" label="Sequence" options_label="label" options_value="value"
+        v-model:model-search="params_sequence.search" :search="true" :loading="is_loading_sequence"
+        :loading-next-page="isFetchingNextPageSequence" :rules="rules.sequence_uuid" :options="options_sequence"
+        @scroll="scrollSequence" @search="searchSequence" />
       <Input v-model="model.name" :rules="rules.name" :custom_symbols="all_characters" label="Nama Inspeksi" />
 
       <div class="w-full flex items-center gap-4 mt-4">

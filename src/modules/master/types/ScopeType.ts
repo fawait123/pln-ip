@@ -1,4 +1,6 @@
+import type { ResponseDocumentInterface } from "@/types/GlobalType";
 import type { InspectionTypeInterface } from "./InspectionType";
+import type { SequenceInterface } from "./SequenceTypes";
 import type { SubBidangInterface } from "./SubBidangType";
 
 export interface ScopeInterface {
@@ -12,6 +14,8 @@ export interface ScopeInterface {
   sub_bidang_uuid: string;
   sub_bidang: SubBidangInterface;
   additional_scope_uuid: string | null;
+  document_uuid: string;
+  document: ResponseDocumentInterface;
   created_at: string;
   updated_at: string;
 }
@@ -60,4 +64,5 @@ export interface ScopeCreateModelInterface {
   link: string;
   category: string;
   sub_bidang_uuid: string;
+  bidang_uuid: string;
 }
