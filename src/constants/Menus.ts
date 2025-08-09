@@ -334,6 +334,18 @@ export const MenusMaster: MenuInterface[] = [
     url: "/activity",
     icon: "pulse-line",
   },
+  {
+    id: 11,
+    name: "Part Std",
+    url: "/part-std",
+    icon: "part-std",
+  },
+  {
+    id: 11,
+    name: "Manpower Std",
+    url: "/manpower-std",
+    icon: "manpower-std",
+  },
   // {
   //   id: 10,
   //   name: "Tools",

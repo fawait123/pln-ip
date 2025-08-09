@@ -13,22 +13,4 @@ export const ColumnsInspectionType: TableColumnType[] = [
     align: "center",
     sort: false,
   },
-  {
-    key: "machine",
-    label: "Machine",
-    align: "center",
-    sort: false,
-  },
-  {
-    key: "unit",
-    label: "Unit",
-    align: "center",
-    sort: false,
-  },
-  {
-    key: "location",
-    label: "Lokasi",
-    align: "center",
-    sort: false,
-  },
 ];

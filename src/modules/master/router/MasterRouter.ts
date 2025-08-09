@@ -189,4 +189,16 @@ export const routeMaster = [
     component: () => import("@/modules/master/views/Equipment.vue"),
     meta: { layout: MasterLayout, requireAuth: true, role: "superuser" },
   },
+  {
+    path: "/master/part-std",
+    name: "master part std",
+    component: () => import("@/modules/master/views/PartStd.vue"),
+    meta: { layout: MasterLayout, requireAuth: true, role: "superuser" },
+  },
+  {
+    path: "/master/manpower-std",
+    name: "master manpower std",
+    component: () => import("@/modules/master/views/ManpowerStd.vue"),
+    meta: { layout: MasterLayout, requireAuth: true, role: "superuser" },
+  },
 ];

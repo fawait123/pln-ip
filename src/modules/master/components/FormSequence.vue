@@ -87,6 +87,9 @@ const { mutate: createHse, isPending: isLoadingCreate } = useMutation({
                 document_type: "App\\Models\\Sequence",
                 document_uuid: data.data.data.uuid,
             })
+        } else {
+            modelValue.value = false;
+            emit("success");
         }
     },
     onError: (error) => {
@@ -117,6 +120,9 @@ const { mutate: updateSequence, isPending: isLoadingUpdate } = useMutation({
                 document_type: "App\\Models\\Sequence",
                 document_uuid: props.selectedValue?.uuid as string,
             })
+        } else {
+            modelValue.value = false;
+            emit("success");
         }
     },
     onError: (error) => {

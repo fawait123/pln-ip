@@ -48,7 +48,7 @@ watch(activeSubMenu, (newVal, oldVal) => {
 
 <style lang="sass">
 .sidebar-master
-  @apply w-[240px] z-[2] fixed top-[80px] bottom-[10px] left-[10px] bg-blue-900 rounded-lg px-6 py-4
+  @apply w-[240px] z-[2] fixed top-[80px] bottom-[10px] left-[10px] bg-blue-900 rounded-lg px-6 py-4 overflow-y-scroll
   &--title
     @apply text-lg font-bold text-neutral-50
   &--menus

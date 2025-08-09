@@ -7,16 +7,19 @@ import { useMutation, useQuery } from "@tanstack/vue-query";
 import type { IPagination } from "@/types/GlobalType";
 
 import { ColumnsInspectionType } from "../constants/InspectionTypeConstant";
-import type { InspectionTypeInterface } from "../types/InspectionType";
+import type { InspectionTypeInterface, InspectionTypeModelCreateInterface } from "../types/InspectionType";
 import { useMasterStore } from "../stores/MasterStore";
 import FormInspectionType from "../components/FormInspectionType.vue";
+import FilterInspectionType from "../components/FilterInspectionType.vue";
 
 const Entities: InspectionTypeInterface[] = [];
+const dataForm = ref<InspectionTypeModelCreateInterface | null>(null)
 const masterStore = useMasterStore();
 const total_item = ref(0);
 const params = reactive({
   search: "",
   filter: "",
+  filters: [],
   currentPage: 1,
   perPage: 10,
 });
@@ -139,6 +142,33 @@ const handleDelete = (item: InspectionTypeInterface) => {
 const onDelete = () => {
   deleteInspectionType(selected_item.value?.uuid as string);
 };
+
+const setFilter = () => {
+  params.filters = [
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "machine_uuid",
+      value: String(dataForm.value?.machine_uuid),
+    },
+  ] as any;
+}
+
+const resetFilter = () => {
+  dataForm.value = null;
+  params.filters = [];
+}
+
+const handleOnFilter = (data: InspectionTypeModelCreateInterface) => {
+  dataForm.value = data;
+  setFilter()
+  refetchInspectionType();
+}
+
+const handleResetFilter = () => {
+  resetFilter()
+  refetchInspectionType();
+}
 </script>
 
 <template>
@@ -146,40 +176,35 @@ const onDelete = () => {
   <ModalDelete v-model="open_delete" :title="selected_item?.name" :loading="isLoadingDelete" @delete="onDelete" />
 
   <div class="relative w-full">
-    <Button icon_only="plus" class="absolute right-0" size="sm" rounded="full" color="blue" @click="handleCreate" />
+    <Button icon_only="plus" class="absolute right-0" size="sm" rounded="full" color="blue" @click="handleCreate"
+      v-if="dataForm?.machine_uuid" />
 
-    <Table label-create="Inspection Type" :columns="ColumnsInspectionType" :entities="dataInspectionType?.data || []"
-      :loading="isLoadingInspectionType" :pagination="pagination" :is-create="false"
-      v-model:model-search="params.search" @change-page="changePage" @change-limit="changeLimit" @search="searchTable">
-      <template #column_action="{ entity }">
-        <div class="flex items-center justify-center gap-4">
-          <Icon name="pencil" class="icon-action-table" @click="handleUpdate(entity)" />
-          <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
-        </div>
-      </template>
-      <template #column_sequence="{ entity }">
-        <p class="text-base text-neutral-50 text-center">
-          {{ entity.sequence?.name || '-' }}
-        </p>
-      </template>
-      <template #column_machine="{ entity }">
-        <p class="text-base text-neutral-50 text-center">
-          {{ entity.machine?.name || '-' }}
-        </p>
-      </template>
-      <template #column_unit="{ entity }">
-        <p class="text-base text-neutral-50 text-center">
-          {{ entity.machine?.unit?.name || '-' }}
-        </p>
-      </template>
-      <template #column_location="{ entity }">
-        <p class="text-base text-neutral-50 text-center">
-          {{ entity.machine?.unit?.location?.name || '-' }}
-        </p>
-      </template>
-    </Table>
+    <div class="flex gap-8">
+      <div class="w-[330px]">
+        <FilterInspectionType @filter="handleOnFilter" @reset-filter="handleResetFilter"
+          :loading="isLoadingInspectionType" />
+      </div>
+      <div class="w-full">
+        <Table label-create="Inspection Type" :columns="ColumnsInspectionType"
+          :entities="dataInspectionType?.data || []" :loading="isLoadingInspectionType" :pagination="pagination"
+          :is-create="false" v-model:model-search="params.search" @change-page="changePage" @change-limit="changeLimit"
+          @search="searchTable">
+          <template #column_action="{ entity }">
+            <div class="flex items-center justify-center gap-4">
+              <Icon name="pencil" class="icon-action-table" @click="handleUpdate(entity)" />
+              <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
+            </div>
+          </template>
+          <template #column_sequence="{ entity }">
+            <p class="text-base text-neutral-50 text-center">
+              {{ entity.sequence?.name || '-' }}
+            </p>
+          </template>
+        </Table>
+      </div>
+    </div>
 
     <FormInspectionType v-model="open_form" :selected-value="selected_item" @success="handleSuccess"
-      @error="handleError" />
+      @error="handleError" :data-form="dataForm" />
   </div>
 </template>

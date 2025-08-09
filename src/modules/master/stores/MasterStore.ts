@@ -31,6 +31,8 @@ import type { HseCreateInterface } from "../types/HseTypes";
 import type { SequenceCreateInterface } from "../types/SequenceTypes";
 import type { ActivityCreateInterface } from "../types/AcitivityType";
 import type { EquipmentCreateInterface } from "../types/EquipmentType";
+import type { PartStdCreateInterface } from "../types/PartStdType";
+import type { ManpowerStdCreateInterface } from "../types/ManpowerStdType";
 
 export const useMasterStore = defineStore(
   "master",
@@ -1037,6 +1039,102 @@ export const useMasterStore = defineStore(
     };
     // END
 
+    // PART STD
+    const getPartStd = async (payload: IParams) => {
+      return await api
+        .get(`/part-std`, {
+          params: payload,
+        })
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    const createPartStd = async (payload: PartStdCreateInterface) => {
+      return await api
+        .post(`/part-std`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    const updatePartStd = async (
+      id: string,
+      payload: PartStdCreateInterface
+    ) => {
+      return await api
+        .put(`/part-std/${id}`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    const deletePartStd = async (id: string) => {
+      return await api
+        .delete(`/part-std/${id}`)
+        .then((res) => {
+          return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    // END
+
+    // MANPOWER STD
+    const getManpowerStd = async (payload: IParams) => {
+      return await api
+        .get(`/manpower-std`, {
+          params: payload,
+        })
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    const createManpowerStd = async (payload: ManpowerStdCreateInterface) => {
+      return await api
+        .post(`/manpower-std`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    const updateManpowerStd = async (
+      id: string,
+      payload: ManpowerStdCreateInterface
+    ) => {
+      return await api
+        .put(`/manpower-std/${id}`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    const deleteManpowerStd = async (id: string) => {
+      return await api
+        .delete(`/manpower-std/${id}`)
+        .then((res) => {
+          return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    // END
+
     return {
       getLocation,
       createLocation,
@@ -1119,6 +1217,14 @@ export const useMasterStore = defineStore(
       createEquipment,
       updateEquipment,
       deleteEquipment,
+      getPartStd,
+      createPartStd,
+      updatePartStd,
+      deletePartStd,
+      getManpowerStd,
+      createManpowerStd,
+      updateManpowerStd,
+      deleteManpowerStd,
     };
   },
   {
