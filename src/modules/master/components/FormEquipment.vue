@@ -13,7 +13,6 @@ import type {
   EquipmentInterface,
 } from "../types/EquipmentType";
 import { useMasterStore } from "../stores/MasterStore";
-import type { ScopeInterface } from "../types/ScopeType";
 
 type OptionType = {
   value: string;
@@ -23,6 +22,9 @@ type OptionType = {
 const props = defineProps({
   selectedValue: {
     type: Object as PropType<EquipmentInterface | null>,
+  },
+  dataForm: {
+    type: Object as PropType<EquipmentCreateInterface | null>,
   },
 });
 
@@ -36,7 +38,7 @@ const options_scope = ref<OptionType[]>([]);
 
 const model = ref<EquipmentCreateInterface>({
   name: "",
-  scope_standart_uuid: "",
+  scope_standart_uuid: props.dataForm?.scope_standart_uuid || "",
 });
 const v$_form = reactive(useVuelidate());
 const rules = computed(() => {
@@ -47,9 +49,18 @@ const rules = computed(() => {
   };
 });
 
+watch(
+  () => props.dataForm,
+  (value) => {
+    console.log("HAHAHA", value);
+  },
+  { deep: true, immediate: true }
+);
+
 //--- CREATE EQUIPMENT
 const { mutate: createEquipment, isPending: isLoadingCreate } = useMutation({
   mutationFn: async (payload: EquipmentCreateInterface) => {
+    console.log("MODEL", model.value);
     return await masterStore.createEquipment(payload);
   },
   onSuccess: () => {
@@ -110,10 +121,9 @@ const setValue = () => {
 const resetValue = () => {
   model.value = {
     name: "",
-    scope_standart_uuid: "",
+    scope_standart_uuid: props.dataForm?.scope_standart_uuid || "",
   };
 };
-
 
 watch(modelValue, (value) => {
   if (!value) {
@@ -128,20 +138,43 @@ watch(modelValue, (value) => {
     }
   }
 });
-
 </script>
 
 <template>
-  <Modal width="440" height="200" :showButtonClose="false" title="Tambah Equipment" v-model="modelValue">
-    <form class="flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-y-auto mx-[-20px] px-5"
-      @submit.prevent="handleSubmit">
-      <Input v-model="model.name" :rules="rules.name" :custom_symbols="all_characters" label="Nama" />
+  <Modal
+    width="440"
+    height="200"
+    :showButtonClose="false"
+    title="Tambah Equipment"
+    v-model="modelValue"
+  >
+    <form
+      class="flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-y-auto mx-[-20px] px-5"
+      @submit.prevent="handleSubmit"
+    >
+      <Input
+        v-model="model.name"
+        :rules="rules.name"
+        :custom_symbols="all_characters"
+        label="Nama"
+      />
 
       <div class="w-full flex items-center gap-4 mt-4">
-        <Button text="Batal" class="w-full" variant="secondary" :disabled="isLoadingCreate || isLoadingUpdate"
-          @click="modelValue = false" />
-        <Button type="submit" text="Simpan" class="w-full" color="blue" :disabled="isLoadingCreate || isLoadingUpdate"
-          :loading="isLoadingCreate || isLoadingUpdate" />
+        <Button
+          text="Batal"
+          class="w-full"
+          variant="secondary"
+          :disabled="isLoadingCreate || isLoadingUpdate"
+          @click="modelValue = false"
+        />
+        <Button
+          type="submit"
+          text="Simpan"
+          class="w-full"
+          color="blue"
+          :disabled="isLoadingCreate || isLoadingUpdate"
+          :loading="isLoadingCreate || isLoadingUpdate"
+        />
       </div>
     </form>
   </Modal>

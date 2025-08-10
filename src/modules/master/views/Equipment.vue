@@ -8,11 +8,14 @@ import type { IPagination } from "@/types/GlobalType";
 
 import { ColumnsEquipment } from "../constants/EquipmentConstant";
 import { useMasterStore } from "../stores/MasterStore";
-import type { EquipmentCreateInterface, EquipmentInterface } from "../types/EquipmentType";
+import type {
+  EquipmentCreateInterface,
+  EquipmentInterface,
+} from "../types/EquipmentType";
 import FormEquipment from "../components/FormEquipment.vue";
-import FilterScope from "../components/FilterScope.vue";
+import FilterEquipment from "../components/FilterEquipment.vue";
 
-const dataForm = ref<EquipmentCreateInterface | null>(null)
+const dataForm = ref<EquipmentCreateInterface | null>(null);
 const masterStore = useMasterStore();
 const total_item = ref(0);
 const params = reactive({
@@ -24,7 +27,7 @@ const params = reactive({
       operator: "NOT_NULL",
       column: "scopeStandart.inspection_type_uuid",
       value: "",
-    }
+    },
   ],
   currentPage: 1,
   perPage: 10,
@@ -163,7 +166,7 @@ const setFilter = () => {
       value: String(dataForm.value?.scope_standart_uuid),
     },
   ];
-}
+};
 
 const resetFilter = () => {
   dataForm.value = null;
@@ -173,43 +176,79 @@ const resetFilter = () => {
       operator: "NOT_NULL",
       column: "inspection_type_uuid",
       value: "",
-    }
+    },
   ];
-}
+};
 
 const handleOnFilter = (data: EquipmentCreateInterface) => {
   dataForm.value = data;
-  setFilter()
+  setFilter();
   refetchEquipment();
-}
+};
 
 const handleResetFilter = () => {
-  resetFilter()
+  resetFilter();
   refetchEquipment();
-}
+};
 
+const handleRemoveSuccess = () => {
+  refetchEquipment();
+};
 </script>
 
 <template>
   <Toast ref="toastRef" />
-  <ModalDelete v-model="open_delete" :title="selected_item?.name" :loading="isLoadingDelete" @delete="onDelete" />
+  <ModalDelete
+    v-model="open_delete"
+    :title="selected_item?.name"
+    :loading="isLoadingDelete"
+    @delete="onDelete"
+  />
 
   <div class="relative w-full">
-    <Button icon_only="plus" class="absolute right-0" size="sm" rounded="full" color="blue" @click="handleCreate"
-      v-if="dataForm?.scope_standart_uuid" />
+    <Button
+      icon_only="plus"
+      class="absolute right-0"
+      size="sm"
+      rounded="full"
+      color="blue"
+      @click="handleCreate"
+      v-if="dataForm?.scope_standart_uuid"
+    />
 
     <div class="flex gap-8">
       <div class="w-[330px]">
-        <FilterScope @filter="handleOnFilter" @reset-filter="handleResetFilter" :loading="isLoadingEquipment" />
+        <FilterEquipment
+          @filter="handleOnFilter"
+          @reset-filter="handleResetFilter"
+          :loading="isLoadingEquipment"
+        />
       </div>
       <div class="w-full">
-        <Table label-create="Sub Bidang" :columns="ColumnsEquipment" :entities="dataEquipment?.data || []"
-          :loading="isLoadingEquipment" :pagination="pagination" :is-create="false" v-model:model-search="params.search"
-          @change-page="changePage" @change-limit="changeLimit" @search="searchTable">
+        <Table
+          label-create="Sub Bidang"
+          :columns="ColumnsEquipment"
+          :entities="dataEquipment?.data || []"
+          :loading="isLoadingEquipment"
+          :pagination="pagination"
+          :is-create="false"
+          v-model:model-search="params.search"
+          @change-page="changePage"
+          @change-limit="changeLimit"
+          @search="searchTable"
+        >
           <template #column_action="{ entity }">
             <div class="flex items-center justify-center gap-4">
-              <Icon name="pencil" class="icon-action-table" @click="handleUpdate(entity)" />
-              <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
+              <Icon
+                name="pencil"
+                class="icon-action-table"
+                @click="handleUpdate(entity)"
+              />
+              <Icon
+                name="trash"
+                class="icon-action-table"
+                @click="handleDelete(entity)"
+              />
             </div>
           </template>
           <template #column_scope_standart="{ entity }">
@@ -221,7 +260,14 @@ const handleResetFilter = () => {
       </div>
     </div>
 
-    <FormEquipment v-model="open_form" :selected-value="selected_item" @success="handleSuccess" @error="handleError" />
+    <FormEquipment
+      :data-form="dataForm"
+      v-model="open_form"
+      :selected-value="selected_item"
+      @success="handleSuccess"
+      @error="handleError"
+      @removeSucess="handleRemoveSuccess"
+    />
   </div>
 </template>
 

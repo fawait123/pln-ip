@@ -1,47 +1,48 @@
 <script setup lang="ts">
 import { reactive, ref, computed, type PropType, watch } from "vue";
 
-import { Button, Input, Modal, Select } from "@/components";
+import { Button, Input, Modal } from "@/components";
 import useVuelidate from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
-import { useInfiniteQuery, useMutation } from "@tanstack/vue-query";
-import {
-  all_characters,
-  mergeArrays,
-  numbers_positive_negative,
-} from "@/helpers/global";
-import type { IPagination, IParams } from "@/types/GlobalType";
+import { useMutation } from "@tanstack/vue-query";
+import { all_characters } from "@/helpers/global";
 
+import { useMasterStore } from "../stores/MasterStore";
 import type {
   ActivityCreateInterface,
+  ActivityModelCreateInterface,
   ActivityInterface,
 } from "../types/AcitivityType";
-import { useMasterStore } from "../stores/MasterStore";
-import type { EquipmentInterface } from "../types/EquipmentType";
-
-type OptionType = {
-  value: string;
-  label: string;
-};
+import UploadStream from "@/components/fields/UploadStream.vue";
+import type {
+  CreateDocumentInterface,
+  ResponseDocumentInterface,
+} from "@/types/GlobalType";
+import { useGlobalStore } from "@/stores/GlobalStore";
 
 const props = defineProps({
   selectedValue: {
     type: Object as PropType<ActivityInterface | null>,
   },
+  dataForm: {
+    type: Object as PropType<ActivityModelCreateInterface | null>,
+  },
 });
 
-const emit = defineEmits(["success", "error"]);
+const uploadProgress = ref<number>(0);
+const modelUpload = ref<File | null>(null);
+const documentValues = ref<ResponseDocumentInterface | null>(null);
+const emit = defineEmits(["success", "error", "removeSucess"]);
 
 const masterStore = useMasterStore();
-
+const globalStore = useGlobalStore();
 const modelValue = defineModel<boolean>({ default: false });
-const is_loading_equipment = ref(false);
-const options_equipment = ref<OptionType[]>([]);
 
 const model = ref<ActivityCreateInterface>({
   name: "",
   duration: "",
-  equipment_uuid: "",
+  link_ik1: "",
+  equipment_uuid: props.dataForm?.equipment_uuid || "",
 });
 const v$_form = reactive(useVuelidate());
 const rules = computed(() => {
@@ -52,69 +53,45 @@ const rules = computed(() => {
     duration: {
       required: helpers.withMessage(`This field is required`, required),
     },
-    equipment_uuid: {
+    link_ik1: {
       required: helpers.withMessage(`This field is required`, required),
     },
   };
 });
 
-//--- GET EQUIPMENT
-const params_equipment = reactive<IParams>({
-  search: "",
-  filter: "",
-  filters: [
-    {
-      group: "AND",
-      operator: "NOT_NULL",
-      column: "scopeStandart.inspection_type_uuid",
-      value: null,
-    }
-  ],
-  currentPage: 1,
-  perPage: 10,
-});
-const {
-  data: dataEquipment,
-  refetch: refetchEquipment,
-  fetchNextPage: fetchNextPageEquipment,
-  hasNextPage: hasNextPageEquipment,
-  isFetchingNextPage: isFetchingNextPageEquipment,
-} = useInfiniteQuery({
-  queryKey: ["getEquipmentActivity"],
-  enabled: !props.selectedValue && !is_loading_equipment.value,
-  queryFn: async ({ pageParam = 1 }) => {
-    try {
-      const { data } = await masterStore.getEquipment({
-        ...params_equipment,
-        currentPage: pageParam,
-      });
-
-      const response = data.data as IPagination<EquipmentInterface[]>;
-
-      return response;
-    } catch (error: any) {
-      throw error.response;
-    } finally {
-      is_loading_equipment.value = false;
-    }
+// create documnet
+const { mutate: createDocument, isPending: isLoadingDocument } = useMutation({
+  mutationFn: async (payload: CreateDocumentInterface) => {
+    return globalStore.createStreamDocument(payload, (percent) => {
+      uploadProgress.value = percent;
+    });
   },
-  refetchOnWindowFocus: false,
-  getNextPageParam: (lastPage) => {
-    if (!lastPage?.data?.length) return undefined;
-    return lastPage.current_page + 1;
+  onSuccess: (data) => {
+    modelValue.value = false;
+    emit("success");
   },
-  initialPageParam: 1,
+  onError: (error) => {
+    console.log(error);
+    emit("error", error);
+  },
 });
-//--- END
 
 //--- CREATE ACTIVITY
 const { mutate: createActivity, isPending: isLoadingCreate } = useMutation({
   mutationFn: async (payload: ActivityCreateInterface) => {
     return await masterStore.createActivity(payload);
   },
-  onSuccess: () => {
-    modelValue.value = false;
-    emit("success");
+  onSuccess: (data) => {
+    if (modelUpload.value) {
+      createDocument({
+        document: modelUpload.value as File,
+        document_type: "App\\Models\\ScopeStandart",
+        document_uuid: data.data.uuid,
+      });
+    } else {
+      modelValue.value = false;
+      emit("success");
+    }
   },
   onError: (error) => {
     console.log(error);
@@ -135,8 +112,16 @@ const { mutate: updateActivity, isPending: isLoadingUpdate } = useMutation({
     return await masterStore.updateActivity(id, payload);
   },
   onSuccess: async () => {
-    modelValue.value = false;
-    emit("success");
+    if (modelUpload.value) {
+      createDocument({
+        document: modelUpload.value as File,
+        document_type: "App\\Models\\ScopeStandart",
+        document_uuid: props.selectedValue?.uuid as string,
+      });
+    } else {
+      modelValue.value = false;
+      emit("success");
+    }
   },
   onError: (error) => {
     console.log(error);
@@ -153,47 +138,38 @@ const handleSubmit = async () => {
   if (props.selectedValue) {
     updateActivity({
       id: props.selectedValue?.uuid,
-      payload: model.value,
+      payload: {
+        name: model.value.name,
+        duration: model.value.duration,
+        link_ik1: model.value.link_ik1,
+        equipment_uuid: model.value.equipment_uuid,
+      },
     });
   } else {
-    createActivity(model.value);
+    createActivity({
+      name: model.value.name,
+      duration: model.value.duration,
+      link_ik1: model.value.link_ik1,
+      equipment_uuid: model.value.equipment_uuid,
+    });
   }
 };
 
 const setValue = () => {
-  model.value = {
-    name: props.selectedValue?.name || "",
-    duration: (props.selectedValue?.duration || "").toString(),
-    equipment_uuid: props.selectedValue?.equipment_uuid || "",
-  };
+  model.value.name = props.selectedValue?.name || "";
+  model.value.duration = (props.selectedValue?.duration || 0).toString() || "";
+  model.value.link_ik1 = props.selectedValue?.link_ik1 || "";
+  model.value.equipment_uuid = props.selectedValue?.equipment_uuid || "";
 };
 
 const resetValue = () => {
   model.value = {
     name: "",
-    duration: "",
-    equipment_uuid: "",
+    duration: "-",
+    link_ik1: "",
+    equipment_uuid: props.dataForm?.equipment_uuid || "",
   };
-};
-
-const timeout_equipment = ref(0);
-const searchEquipment = () => {
-  clearTimeout(timeout_equipment.value);
-  timeout_equipment.value = window.setTimeout(() => {
-    is_loading_equipment.value = true;
-    params_equipment.currentPage = 1;
-    refetchEquipment();
-  }, 1000);
-};
-const scrollEquipment = (e: Event) => {
-  const { scrollTop, scrollHeight, clientHeight } = e.target as HTMLElement;
-  if (
-    scrollTop + clientHeight >= scrollHeight - 1 &&
-    hasNextPageEquipment.value &&
-    !isFetchingNextPageEquipment.value
-  ) {
-    fetchNextPageEquipment();
-  }
+  uploadProgress.value = 0;
 };
 
 watch(modelValue, (value) => {
@@ -211,58 +187,76 @@ watch(modelValue, (value) => {
 });
 
 watch(
-  [modelValue, dataEquipment],
-  ([newModel, newEquipment]) => {
-    if (props.selectedValue) {
-      const new_data: OptionType[] =
-        newEquipment?.pages
-          .flatMap((page) => page?.data)
-          ?.map((item) => {
-            return { value: item.uuid, label: item.name };
-          }) || [];
-
-      options_equipment.value = mergeArrays(
-        [
-          {
-            value: props.selectedValue.equipment_uuid,
-            label: props.selectedValue.equipment?.name,
-          },
-        ],
-        new_data.filter(
-          (item) => item.value !== props.selectedValue?.equipment_uuid
-        )
-      );
-    } else {
-      const new_data: OptionType[] =
-        newEquipment?.pages
-          .flatMap((page) => page?.data)
-          ?.map((item) => {
-            return { value: item.uuid, label: item.name };
-          }) || [];
-
-      options_equipment.value = new_data;
+  () => props.selectedValue,
+  (newValue) => {
+    if (newValue) {
+      documentValues.value = newValue.document as ResponseDocumentInterface;
     }
-  },
-  { deep: true, immediate: true }
+  }
 );
+
+const handleChangeFile = (e: File) => {
+  modelUpload.value = e;
+};
+
+const removeSuccess = () => {
+  documentValues.value = null;
+  emit("removeSucess");
+};
 </script>
 
 <template>
-  <Modal width="440" height="200" :showButtonClose="false" title="Tambah Activity" v-model="modelValue">
-    <form class="flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-y-auto mx-[-20px] px-5"
-      @submit.prevent="handleSubmit">
-      <Input v-model="model.name" :rules="rules.name" :custom_symbols="all_characters" label="Nama" />
-      <Input v-model="model.duration" :rules="rules.duration" :custom_symbols="all_characters" label="Duration" />
-      <Select v-model="model.equipment_uuid" label="Equipment" options_label="label" options_value="value"
-        v-model:model-search="params_equipment.search" :search="true" :loading="is_loading_equipment"
-        :loading-next-page="isFetchingNextPageEquipment" :rules="rules.equipment_uuid" :options="options_equipment"
-        @scroll="scrollEquipment" @search="searchEquipment" />
+  <Modal
+    width="440"
+    height="200"
+    :showButtonClose="false"
+    :title="props.selectedValue ? 'Ubah Activity' : 'Tambah Activity'"
+    v-model="modelValue"
+  >
+    <form
+      class="flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-y-auto mx-[-20px] px-5"
+      @submit.prevent="handleSubmit"
+    >
+      <Input
+        v-model="model.name"
+        label="Nama"
+        :rules="rules.name"
+        :custom_symbols="all_characters"
+      />
+      <Input
+        v-model="model.duration"
+        label="Durasi"
+        :rules="rules.duration"
+        :custom_symbols="all_characters"
+      />
+      <Input
+        v-model="model.link_ik1"
+        label="Link Online ex. (http://google.com)"
+        :custom_symbols="all_characters"
+      />
+      <UploadStream
+        @changes="handleChangeFile"
+        :progress="uploadProgress"
+        :selectedValues="documentValues"
+        @removeSuccess="removeSuccess"
+      />
 
       <div class="w-full flex items-center gap-4 mt-4">
-        <Button text="Batal" class="w-full" variant="secondary" :disabled="isLoadingCreate || isLoadingUpdate"
-          @click="modelValue = false" />
-        <Button type="submit" text="Simpan" class="w-full" color="blue" :disabled="isLoadingCreate || isLoadingUpdate"
-          :loading="isLoadingCreate || isLoadingUpdate" />
+        <Button
+          text="Batal"
+          class="w-full"
+          variant="secondary"
+          :disabled="isLoadingCreate || isLoadingUpdate || isLoadingDocument"
+          @click="modelValue = false"
+        />
+        <Button
+          type="submit"
+          text="Simpan"
+          class="w-full"
+          color="blue"
+          :disabled="isLoadingCreate || isLoadingUpdate || isLoadingDocument"
+          :loading="isLoadingCreate || isLoadingUpdate || isLoadingDocument"
+        />
       </div>
     </form>
   </Modal>
