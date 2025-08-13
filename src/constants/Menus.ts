@@ -231,30 +231,6 @@ export const MenusMaster: MenuInterface[] = [
     icon: "arrow",
     children: [
       {
-        id: 11,
-        name: "User",
-        url: "/user",
-        icon: "users",
-      },
-      {
-        id: 14,
-        name: "Bidang",
-        url: "/bidang",
-        icon: "bidang",
-      },
-      {
-        id: 15,
-        name: "Sub Bidang",
-        url: "/sub-bidang",
-        icon: "sub-bidang",
-      },
-      {
-        id: 15,
-        name: "HSE DOC",
-        url: "/hse-doc",
-        icon: "hse-doc",
-      },
-      {
         id: 1,
         name: "Location",
         url: "/location",
@@ -287,7 +263,7 @@ export const MenusMaster: MenuInterface[] = [
       {
         id: 7,
         name: "Consumable Material",
-        url: "/consumable-material",
+        url: "/consumable-materials",
         icon: "box",
       },
       {
@@ -301,6 +277,30 @@ export const MenusMaster: MenuInterface[] = [
         name: "Part",
         url: "/part",
         icon: "trolley-items",
+      },
+      {
+        id: 11,
+        name: "User",
+        url: "/user",
+        icon: "users",
+      },
+      {
+        id: 14,
+        name: "Bidang",
+        url: "/bidang",
+        icon: "bidang",
+      },
+      {
+        id: 15,
+        name: "Sub Bidang",
+        url: "/sub-bidang",
+        icon: "sub-bidang",
+      },
+      {
+        id: 15,
+        name: "HSE DOC",
+        url: "/hse-doc",
+        icon: "hse-doc",
       },
     ],
   },
@@ -346,6 +346,12 @@ export const MenusMaster: MenuInterface[] = [
     url: "/manpower-std",
     icon: "manpower-std",
   },
+  {
+    id: 11,
+    name: "Consumable Material Std",
+    url: "/consumable-material-std",
+    icon: "consumable-material-std",
+  },
   // {
   //   id: 10,
   //   name: "Tools",
@@ -381,32 +387,32 @@ export const MenuAdditional: MenuInterface[] = [
   },
   {
     id: 7,
-    name: "Consumable Material",
+    name: "Consumable Material Std",
     url: "/master/additional-scope/:id/:name/consumable-material",
-    icon: "box",
+    icon: "consumable-material-std",
   },
   {
     id: 8,
-    name: "Manpower",
+    name: "Manpower Std",
     url: "/master/additional-scope/:id/:name/manpower",
-    icon: "male",
+    icon: "manpower-std",
   },
   {
     id: 9,
-    name: "Part",
+    name: "Part Std",
     url: "/master/additional-scope/:id/:name/part",
-    icon: "trolley-items",
+    icon: "part-std",
   },
-  {
-    id: 9,
-    name: "Tools",
-    url: "/master/additional-scope/:id/:name/tools",
-    icon: "tools",
-  },
-  {
-    id: 9,
-    name: "Sequence",
-    url: "/master/additional-scope/:id/:name/sequence",
-    icon: "sequence",
-  },
+  // {
+  //   id: 9,
+  //   name: "Tools",
+  //   url: "/master/additional-scope/:id/:name/tools",
+  //   icon: "tools",
+  // },
+  // {
+  //   id: 9,
+  //   name: "Sequence",
+  //   url: "/master/additional-scope/:id/:name/sequence",
+  //   icon: "sequence",
+  // },
 ];

@@ -33,6 +33,7 @@ import type { ActivityCreateInterface } from "../types/AcitivityType";
 import type { EquipmentCreateInterface } from "../types/EquipmentType";
 import type { PartStdCreateInterface } from "../types/PartStdType";
 import type { ManpowerStdCreateInterface } from "../types/ManpowerStdType";
+import type { ConsumableMaterialStdCreateInterface } from "../types/ConsumableMaterialStdType";
 
 export const useMasterStore = defineStore(
   "master",
@@ -1135,6 +1136,54 @@ export const useMasterStore = defineStore(
     };
     // END
 
+    // CONSUMABLE MATERIAL STD
+    const getConsumableMaterialStd = async (payload: IParams) => {
+      return await api
+        .get(`/cons-mat-std`, {
+          params: payload,
+        })
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    const createConsumableMaterialStd = async (payload: ConsumableMaterialStdCreateInterface) => {
+      return await api
+        .post(`/cons-mat-std`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    const updateConsumableMaterialStd = async (
+      id: string,
+      payload: ConsumableMaterialStdCreateInterface
+    ) => {
+      return await api
+        .put(`/cons-mat-std/${id}`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    const deleteConsumableMaterialStd = async (id: string) => {
+      return await api
+        .delete(`/manpower-std/${id}`)
+        .then((res) => {
+          return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    // END
+
     return {
       getLocation,
       createLocation,
@@ -1225,6 +1274,10 @@ export const useMasterStore = defineStore(
       createManpowerStd,
       updateManpowerStd,
       deleteManpowerStd,
+      getConsumableMaterialStd,
+      createConsumableMaterialStd,
+      updateConsumableMaterialStd,
+      deleteConsumableMaterialStd,
     };
   },
   {

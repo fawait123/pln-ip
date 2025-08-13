@@ -4,17 +4,18 @@ import type { AxiosError } from "axios";
 
 import { Button, Icon, ModalDelete, Table, Toast } from "@/components";
 import { useMutation, useQuery } from "@tanstack/vue-query";
-import type { IPagination } from "@/types/GlobalType";
+import type { IPagination, ResponseDocumentInterface } from "@/types/GlobalType";
 
-import { ColumnsManpower } from "../../constants/ManpowerConstant";
-import type { ManpowerInterface } from "../../types/ManpowerType";
 import { useMasterStore } from "../../stores/MasterStore";
-import FormManpower from "../../components/FormManpower.vue";
+import FormManpowerStd from "../../components/FormManpowerStd.vue";
+import FilterManpowerStd from "../../components/additional/FilterManpowerStd.vue";
+import type { ManpowerStdCreateModelInterface, ManpowerStdInterface } from "../../types/ManpowerStdType";
+import { ColumnsManpowerStd } from "../../constants/ManpowerStdConstant";
 import { useRoute } from "vue-router";
-import FormAdManpower from "../../components/FormAdManpower.vue";
 
-const masterStore = useMasterStore();
 const route = useRoute();
+const dataForm = ref<ManpowerStdCreateModelInterface | null>(null)
+const masterStore = useMasterStore();
 const total_item = ref(0);
 const params = reactive({
     search: "",
@@ -32,22 +33,21 @@ const params = reactive({
 });
 const open_form = ref(false);
 const open_delete = ref(false);
-const selected_item = ref<ManpowerInterface | null>(null);
+const selected_item = ref<ManpowerStdInterface | null>(null);
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
 const timeout = ref(0);
 
-//--- GET MANPOWER
+//--- GET SCOPE
 const {
-    data: dataManpower,
-    isFetching: isLoadingManpower,
-    refetch: refetchManpower,
+    data: dataScope,
+    isFetching: isLoadingScope,
+    refetch: refetchScope,
 } = useQuery({
-    queryKey: ["getManpowerMaster"],
+    queryKey: ["getManpowerStd"],
     queryFn: async () => {
         try {
-            const { data } = await masterStore.getManpower(params);
-            const response = data.data as IPagination<ManpowerInterface[]>;
-
+            const { data } = await masterStore.getManpowerStd(params);
+            const response = data.data as IPagination<ManpowerStdInterface[]>;
             total_item.value = response.total;
 
             return response;
@@ -60,10 +60,10 @@ const {
 });
 //--- END
 
-//--- DELETE MANPOWER
-const { mutate: deleteManpower, isPending: isLoadingDelete } = useMutation({
+//--- DELETE SCOPE
+const { mutate: deleteScope, isPending: isLoadingDelete } = useMutation({
     mutationFn: async (id: string) => {
-        return await masterStore.deleteManpower(id);
+        return await masterStore.deleteManpowerStd(id);
     },
     onSuccess: () => {
         toastRef.value?.showToast({
@@ -72,10 +72,9 @@ const { mutate: deleteManpower, isPending: isLoadingDelete } = useMutation({
             type: "success",
         });
         open_delete.value = false;
-        refetchManpower();
+        refetchScope();
     },
     onError: (error: any) => {
-        console.log(error);
         toastRef.value?.showToast({
             title: "Error",
             description: error?.response?.data?.message || "Something went wrong",
@@ -95,20 +94,20 @@ const pagination = computed(() => {
 
 const changePage = (e: number) => {
     params.currentPage = e;
-    refetchManpower();
+    refetchScope();
 };
 
 const changeLimit = (e: string) => {
     params.perPage = parseInt(e);
     params.currentPage = 1;
-    refetchManpower();
+    refetchScope();
 };
 
 const searchTable = () => {
     clearTimeout(timeout.value);
     timeout.value = window.setTimeout(() => {
         params.currentPage = 1;
-        refetchManpower();
+        refetchScope();
     }, 1000);
 };
 
@@ -119,7 +118,7 @@ const handleSuccess = () => {
         type: "success",
     });
     params.currentPage = 1;
-    refetchManpower();
+    refetchScope();
 };
 
 const handleError = (error: any) => {
@@ -135,46 +134,96 @@ const handleCreate = () => {
     open_form.value = true;
 };
 
-const handleUpdate = (item: ManpowerInterface) => {
+const handleUpdate = (item: ManpowerStdInterface) => {
     selected_item.value = item;
     open_form.value = true;
 };
 
-const handleDelete = (item: ManpowerInterface) => {
+const handleDelete = (item: ManpowerStdInterface) => {
     selected_item.value = item;
     open_delete.value = true;
 };
 
 const onDelete = () => {
-    deleteManpower(selected_item.value?.uuid as string);
+    deleteScope(selected_item.value?.uuid as string);
 };
+
+const setFilter = () => {
+    params.filters = [
+        {
+            group: "AND",
+            operator: "EQ",
+            column: "activity_uuid",
+            value: String(dataForm.value?.activity_uuid),
+        }
+    ];
+}
+
+const resetFilter = () => {
+    dataForm.value = null;
+    params.filters = [
+        {
+            group: "AND",
+            operator: "EQ",
+            column: "activity.equipment.scopeStandart.additional_scope_uuid",
+            value: route.params?.id,
+        }
+    ];
+}
+
+const handleOnFilter = (data: ManpowerStdCreateModelInterface) => {
+    dataForm.value = data;
+    setFilter()
+    refetchScope();
+}
+
+const handleResetFilter = () => {
+    resetFilter()
+    refetchScope();
+}
+
+const previewDocument = (document: ResponseDocumentInterface) => {
+    window.open(import.meta.env.VITE_API_BASE_URL.replace("api", "") + document.document_link, '_blank')
+}
+
+const handleRemoveSuccess = () => {
+    refetchScope();
+}
 </script>
 
 <template>
     <Toast ref="toastRef" />
-    <ModalDelete v-model="open_delete" :title="selected_item?.name" :loading="isLoadingDelete" @delete="onDelete" />
-
+    <ModalDelete v-model="open_delete" :title="selected_item?.uuid" :loading="isLoadingDelete" @delete="onDelete" />
     <div class="relative w-full">
-        <Button icon_only="plus" class="absolute right-0" size="sm" rounded="full" color="blue" @click="handleCreate" />
+        <Button v-if="dataForm?.activity_uuid" icon_only="plus" class="absolute right-0" size="sm" rounded="full"
+            color="blue" @click="handleCreate" />
 
-        <Table label-create="Manpower" :columns="ColumnsManpower" :entities="dataManpower?.data || []"
-            :loading="isLoadingManpower" :pagination="pagination" :is-create="false"
-            v-model:model-search="params.search" @change-page="changePage" @change-limit="changeLimit"
-            @search="searchTable">
-            <template #column_action="{ entity }">
-                <div class="flex items-center justify-center gap-4">
-                    <Icon name="pencil" class="icon-action-table" @click="handleUpdate(entity)" />
-                    <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
-                </div>
-            </template>
-            <template #column_activity="{ entity }">
-                <p class="text-base text-neutral-50 text-center">
-                    {{ entity.activity?.name ?? '-' }}
-                </p>
-            </template>
-        </Table>
+        <div class="flex gap-8">
+            <div class="w-[330px]">
+                <FilterManpowerStd @filter="handleOnFilter" @reset-filter="handleResetFilter"
+                    :loading="isLoadingScope" />
+            </div>
+            <div class="w-full">
+                <Table label-create="User" :columns="ColumnsManpowerStd" :entities="dataScope?.data || []"
+                    :loading="isLoadingScope" :pagination="pagination" :is-create="false"
+                    v-model:model-search="params.search" @change-page="changePage" @change-limit="changeLimit"
+                    @search="searchTable">
+                    <template #column_action="{ entity }">
+                        <div class="flex items-center justify-center gap-4">
+                            <Icon name="pencil" class="icon-action-table" @click="handleUpdate(entity)" />
+                            <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
+                        </div>
+                    </template>
+                    <template #column_manpower="{ entity }">
+                        <p class="text-base text-neutral-50 text-left underline cursor-pointer">
+                            {{ entity.manpower?.name ?? "-" }}
+                        </p>
+                    </template>
+                </Table>
+            </div>
+        </div>
 
-        <FormAdManpower v-model="open_form" :selected-value="selected_item" @success="handleSuccess"
-            @error="handleError" />
+        <FormManpowerStd :data-form="dataForm" v-model="open_form" :selected-value="selected_item"
+            @success="handleSuccess" @error="handleError" @removeSucess="handleRemoveSuccess" />
     </div>
 </template>

@@ -25,7 +25,7 @@ const params = reactive({
       operator: "NOT_NULL",
       column: "inspection_type_uuid",
       value: "",
-    }
+    },
   ],
   currentPage: 1,
   perPage: 10,

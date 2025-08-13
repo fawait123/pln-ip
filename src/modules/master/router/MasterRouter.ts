@@ -112,7 +112,7 @@ export const routeMaster = [
     meta: { layout: MasterAdditionalLayout, requireAuth: true, role: "superuser" },
   },
   {
-    path: "/master/consumable-material",
+    path: "/master/consumable-materials",
     name: "master consumable material",
     component: () => import("@/modules/master/views/ConsumableMaterial.vue"),
     meta: { layout: MasterLayout, requireAuth: true, role: "superuser" },
@@ -199,6 +199,12 @@ export const routeMaster = [
     path: "/master/manpower-std",
     name: "master manpower std",
     component: () => import("@/modules/master/views/ManpowerStd.vue"),
+    meta: { layout: MasterLayout, requireAuth: true, role: "superuser" },
+  },
+  {
+    path: "/master/consumable-material-std",
+    name: "master consumable material std",
+    component: () => import("@/modules/master/views/ConsumableMaterialStd.vue"),
     meta: { layout: MasterLayout, requireAuth: true, role: "superuser" },
   },
 ];

@@ -4,16 +4,18 @@ import type { AxiosError } from "axios";
 
 import { Button, Icon, ModalDelete, Table, Toast } from "@/components";
 import { useMutation, useQuery } from "@tanstack/vue-query";
-import type { IPagination } from "@/types/GlobalType";
+import type { IPagination, ResponseDocumentInterface } from "@/types/GlobalType";
 
-import { ColumnsConsMat } from "../../constants/ConsumableMaterialConstant";
 import { useMasterStore } from "../../stores/MasterStore";
-import type { ConsMatInterface } from "../../types/ConsumableMaterialType";
-import FormAdConsumableMaterial from "../../components/FormAdConsumableMaterial.vue";
+import FilterConsumableMaterialStd from "../../components/additional/FilterConsumableMaterialStd.vue";
+import type { ConsumableMaterialStdCreateModelInterface, ConsumableMaterialStdInterface } from "../../types/ConsumableMaterialStdType";
+import { ColumnConsumableMaterialStd } from "../../constants/ConsumableMaterialStdConstant";
+import FormConsumableMaterialStd from "../../components/FormConsumableMaterialStd.vue";
 import { useRoute } from "vue-router";
 
+const dataForm = ref<ConsumableMaterialStdCreateModelInterface | null>(null)
+const route = useRoute()
 const masterStore = useMasterStore();
-const route = useRoute();
 const total_item = ref(0);
 const params = reactive({
   search: "",
@@ -24,29 +26,28 @@ const params = reactive({
       operator: "EQ",
       column: "activity.equipment.scopeStandart.additional_scope_uuid",
       value: route.params?.id,
-    },
+    }
   ],
   currentPage: 1,
   perPage: 10,
 });
 const open_form = ref(false);
 const open_delete = ref(false);
-const selected_item = ref<ConsMatInterface | null>(null);
+const selected_item = ref<ConsumableMaterialStdInterface | null>(null);
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
 const timeout = ref(0);
 
-//--- GET CONSUMABLE MATERIAL
+//--- GET SCOPE
 const {
-  data: dataConsMat,
-  isFetching: isLoadingConsMat,
-  refetch: refetchConsMat,
+  data: dataScope,
+  isFetching: isLoadingScope,
+  refetch: refetchScope,
 } = useQuery({
-  queryKey: ["getConsMatMaster"],
+  queryKey: ["getConsumableMaterialStdAdditional"],
   queryFn: async () => {
     try {
-      const { data } = await masterStore.getConsMat(params);
-      const response = data.data as IPagination<ConsMatInterface[]>;
-
+      const { data } = await masterStore.getConsumableMaterialStd(params);
+      const response = data.data as IPagination<ConsumableMaterialStdInterface[]>;
       total_item.value = response.total;
 
       return response;
@@ -59,10 +60,10 @@ const {
 });
 //--- END
 
-//--- DELETE CONSUMABLE MATERIAL
-const { mutate: deleteConsMat, isPending: isLoadingDelete } = useMutation({
+//--- DELETE SCOPE
+const { mutate: deleteScope, isPending: isLoadingDelete } = useMutation({
   mutationFn: async (id: string) => {
-    return await masterStore.deleteConsMat(id);
+    return await masterStore.deleteManpowerStd(id);
   },
   onSuccess: () => {
     toastRef.value?.showToast({
@@ -71,10 +72,9 @@ const { mutate: deleteConsMat, isPending: isLoadingDelete } = useMutation({
       type: "success",
     });
     open_delete.value = false;
-    refetchConsMat();
+    refetchScope();
   },
   onError: (error: any) => {
-    console.log(error);
     toastRef.value?.showToast({
       title: "Error",
       description: error?.response?.data?.message || "Something went wrong",
@@ -94,20 +94,20 @@ const pagination = computed(() => {
 
 const changePage = (e: number) => {
   params.currentPage = e;
-  refetchConsMat();
+  refetchScope();
 };
 
 const changeLimit = (e: string) => {
   params.perPage = parseInt(e);
   params.currentPage = 1;
-  refetchConsMat();
+  refetchScope();
 };
 
 const searchTable = () => {
   clearTimeout(timeout.value);
   timeout.value = window.setTimeout(() => {
     params.currentPage = 1;
-    refetchConsMat();
+    refetchScope();
   }, 1000);
 };
 
@@ -118,7 +118,7 @@ const handleSuccess = () => {
     type: "success",
   });
   params.currentPage = 1;
-  refetchConsMat();
+  refetchScope();
 };
 
 const handleError = (error: any) => {
@@ -134,78 +134,91 @@ const handleCreate = () => {
   open_form.value = true;
 };
 
-const handleUpdate = (item: ConsMatInterface) => {
+const handleUpdate = (item: ConsumableMaterialStdInterface) => {
   selected_item.value = item;
   open_form.value = true;
 };
 
-const handleDelete = (item: ConsMatInterface) => {
+const handleDelete = (item: ConsumableMaterialStdInterface) => {
   selected_item.value = item;
   open_delete.value = true;
 };
 
 const onDelete = () => {
-  deleteConsMat(selected_item.value?.uuid as string);
+  deleteScope(selected_item.value?.uuid as string);
 };
+
+const setFilter = () => {
+  params.filters = [
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "activity_uuid",
+      value: String(dataForm.value?.activity_uuid),
+    }
+  ];
+}
+
+const resetFilter = () => {
+  dataForm.value = null;
+  params.filters = [
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "activity.equipment.scopeStandart.additional_scope_uuid",
+      value: route.params?.id,
+    }
+  ];
+}
+
+const handleOnFilter = (data: ConsumableMaterialStdCreateModelInterface) => {
+  dataForm.value = data;
+  setFilter()
+  refetchScope();
+}
+
+const handleResetFilter = () => {
+  resetFilter()
+  refetchScope();
+}
+
+const handleRemoveSuccess = () => {
+  refetchScope();
+}
 </script>
 
 <template>
   <Toast ref="toastRef" />
-  <ModalDelete
-    v-model="open_delete"
-    :title="selected_item?.name"
-    :loading="isLoadingDelete"
-    @delete="onDelete"
-  />
-
+  <ModalDelete v-model="open_delete" :title="selected_item?.uuid" :loading="isLoadingDelete" @delete="onDelete" />
   <div class="relative w-full">
-    <Button
-      icon_only="plus"
-      class="absolute right-0"
-      size="sm"
-      rounded="full"
-      color="blue"
-      @click="handleCreate"
-    />
+    <Button v-if="dataForm?.activity_uuid" icon_only="plus" class="absolute right-0" size="sm" rounded="full"
+      color="blue" @click="handleCreate" />
 
-    <Table
-      label-create="ConsMat"
-      :columns="ColumnsConsMat"
-      :entities="dataConsMat?.data || []"
-      :loading="isLoadingConsMat"
-      :pagination="pagination"
-      :is-create="false"
-      v-model:model-search="params.search"
-      @change-page="changePage"
-      @change-limit="changeLimit"
-      @search="searchTable"
-    >
-      <template #column_action="{ entity }">
-        <div class="flex items-center justify-center gap-4">
-          <Icon
-            name="pencil"
-            class="icon-action-table"
-            @click="handleUpdate(entity)"
-          />
-          <Icon
-            name="trash"
-            class="icon-action-table"
-            @click="handleDelete(entity)"
-          />
-        </div>
-      </template>
-      <template #column_activity="{ entity }">
-        <p class="text-base text-neutral-50 text-center">
-          {{ entity.activity?.name || "-" }}
-        </p>
-      </template>
-    </Table>
+    <div class="flex gap-8">
+      <div class="w-[330px]">
+        <FilterConsumableMaterialStd @filter="handleOnFilter" @reset-filter="handleResetFilter"
+          :loading="isLoadingScope" />
+      </div>
+      <div class="w-full">
+        <Table label-create="User" :columns="ColumnConsumableMaterialStd" :entities="dataScope?.data || []"
+          :loading="isLoadingScope" :pagination="pagination" :is-create="false" v-model:model-search="params.search"
+          @change-page="changePage" @change-limit="changeLimit" @search="searchTable">
+          <template #column_action="{ entity }">
+            <div class="flex items-center justify-center gap-4">
+              <Icon name="pencil" class="icon-action-table" @click="handleUpdate(entity)" />
+              <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
+            </div>
+          </template>
+          <template #column_cons_mat="{ entity }">
+            <p class="text-base text-neutral-50 text-left underline cursor-pointer">
+              {{ entity.consmat?.name ?? "-" }}
+            </p>
+          </template>
+        </Table>
+      </div>
+    </div>
 
-    <FormAdConsumableMaterial
-      v-model="open_form"
-      :selected-value="selected_item"
-      @success="handleSuccess"
-      @error="handleError"
-    />
+    <FormConsumableMaterialStd :data-form="dataForm" v-model="open_form" :selected-value="selected_item"
+      @success="handleSuccess" @error="handleError" @removeSucess="handleRemoveSuccess" />
   </div>
 </template>

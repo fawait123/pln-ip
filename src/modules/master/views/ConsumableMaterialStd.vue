@@ -7,12 +7,12 @@ import { useMutation, useQuery } from "@tanstack/vue-query";
 import type { IPagination, ResponseDocumentInterface } from "@/types/GlobalType";
 
 import { useMasterStore } from "../stores/MasterStore";
-import FormManpowerStd from "../components/FormManpowerStd.vue";
-import FilterManpowerStd from "../components/FilterManpowerStd.vue";
-import type { ManpowerStdCreateModelInterface, ManpowerStdInterface } from "../types/ManpowerStdType";
-import { ColumnsManpowerStd } from "../constants/ManpowerStdConstant";
+import FilterConsumableMaterialStd from "../components/FilterConsumableMaterialStd.vue";
+import type { ConsumableMaterialStdCreateModelInterface, ConsumableMaterialStdInterface } from "../types/ConsumableMaterialStdType";
+import { ColumnConsumableMaterialStd } from "../constants/ConsumableMaterialStdConstant";
+import FormConsumableMaterialStd from "../components/FormConsumableMaterialStd.vue";
 
-const dataForm = ref<ManpowerStdCreateModelInterface | null>(null)
+const dataForm = ref<ConsumableMaterialStdCreateModelInterface | null>(null)
 const masterStore = useMasterStore();
 const total_item = ref(0);
 const params = reactive({
@@ -31,7 +31,7 @@ const params = reactive({
 });
 const open_form = ref(false);
 const open_delete = ref(false);
-const selected_item = ref<ManpowerStdInterface | null>(null);
+const selected_item = ref<ConsumableMaterialStdInterface | null>(null);
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
 const timeout = ref(0);
 
@@ -41,11 +41,11 @@ const {
     isFetching: isLoadingScope,
     refetch: refetchScope,
 } = useQuery({
-    queryKey: ["getManpowerStd"],
+    queryKey: ["getConsumableMaterialStd"],
     queryFn: async () => {
         try {
-            const { data } = await masterStore.getManpowerStd(params);
-            const response = data.data as IPagination<ManpowerStdInterface[]>;
+            const { data } = await masterStore.getConsumableMaterialStd(params);
+            const response = data.data as IPagination<ConsumableMaterialStdInterface[]>;
             total_item.value = response.total;
 
             return response;
@@ -132,12 +132,12 @@ const handleCreate = () => {
     open_form.value = true;
 };
 
-const handleUpdate = (item: ManpowerStdInterface) => {
+const handleUpdate = (item: ConsumableMaterialStdInterface) => {
     selected_item.value = item;
     open_form.value = true;
 };
 
-const handleDelete = (item: ManpowerStdInterface) => {
+const handleDelete = (item: ConsumableMaterialStdInterface) => {
     selected_item.value = item;
     open_delete.value = true;
 };
@@ -169,7 +169,7 @@ const resetFilter = () => {
     ];
 }
 
-const handleOnFilter = (data: ManpowerStdCreateModelInterface) => {
+const handleOnFilter = (data: ConsumableMaterialStdCreateModelInterface) => {
     dataForm.value = data;
     setFilter()
     refetchScope();
@@ -178,10 +178,6 @@ const handleOnFilter = (data: ManpowerStdCreateModelInterface) => {
 const handleResetFilter = () => {
     resetFilter()
     refetchScope();
-}
-
-const previewDocument = (document: ResponseDocumentInterface) => {
-    window.open(import.meta.env.VITE_API_BASE_URL.replace("api", "") + document.document_link, '_blank')
 }
 
 const handleRemoveSuccess = () => {
@@ -198,11 +194,11 @@ const handleRemoveSuccess = () => {
 
         <div class="flex gap-8">
             <div class="w-[330px]">
-                <FilterManpowerStd @filter="handleOnFilter" @reset-filter="handleResetFilter"
+                <FilterConsumableMaterialStd @filter="handleOnFilter" @reset-filter="handleResetFilter"
                     :loading="isLoadingScope" />
             </div>
             <div class="w-full">
-                <Table label-create="User" :columns="ColumnsManpowerStd" :entities="dataScope?.data || []"
+                <Table label-create="User" :columns="ColumnConsumableMaterialStd" :entities="dataScope?.data || []"
                     :loading="isLoadingScope" :pagination="pagination" :is-create="false"
                     v-model:model-search="params.search" @change-page="changePage" @change-limit="changeLimit"
                     @search="searchTable">
@@ -212,16 +208,16 @@ const handleRemoveSuccess = () => {
                             <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
                         </div>
                     </template>
-                    <template #column_manpower="{ entity }">
+                    <template #column_cons_mat="{ entity }">
                         <p class="text-base text-neutral-50 text-left underline cursor-pointer">
-                            {{ entity.manpower?.name ?? "-" }}
+                            {{ entity.consmat?.name ?? "-" }}
                         </p>
                     </template>
                 </Table>
             </div>
         </div>
 
-        <FormManpowerStd :data-form="dataForm" v-model="open_form" :selected-value="selected_item"
+        <FormConsumableMaterialStd :data-form="dataForm" v-model="open_form" :selected-value="selected_item"
             @success="handleSuccess" @error="handleError" @removeSucess="handleRemoveSuccess" />
     </div>
 </template>

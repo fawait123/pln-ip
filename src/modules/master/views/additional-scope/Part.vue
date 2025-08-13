@@ -4,16 +4,19 @@ import type { AxiosError } from "axios";
 
 import { Button, Icon, ModalDelete, Table, Toast } from "@/components";
 import { useMutation, useQuery } from "@tanstack/vue-query";
-import type { IPagination } from "@/types/GlobalType";
+import type { IPagination, ResponseDocumentInterface } from "@/types/GlobalType";
 
-import { ColumnsPart } from "../../constants/PartConstant";
 import { useMasterStore } from "../../stores/MasterStore";
-import type { PartInterface } from "../../types/PartType";
-import FormPart from "../../components/FormPart.vue";
+import type { SequenceInterface } from "../../types/SequenceTypes";
+import type { PartStdCreateModelInterface, PartStdInterface } from "../../types/PartStdType";
+import { ColumnsPartStd } from "../../constants/PartStdConstant";
+import FilterPartStd from "../../components/additional/FilterPartStd.vue";
+import FormPartStd from "../../components/FormPartStd.vue";
 import { useRoute } from "vue-router";
 
-const masterStore = useMasterStore();
 const route = useRoute();
+const dataForm = ref<PartStdCreateModelInterface | null>(null)
+const masterStore = useMasterStore();
 const total_item = ref(0);
 const params = reactive({
     search: "",
@@ -31,22 +34,21 @@ const params = reactive({
 });
 const open_form = ref(false);
 const open_delete = ref(false);
-const selected_item = ref<PartInterface | null>(null);
+const selected_item = ref<PartStdInterface | null>(null);
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
 const timeout = ref(0);
 
-//--- GET PART
+//--- GET SCOPE
 const {
-    data: dataPart,
-    isFetching: isLoadingPart,
-    refetch: refetchPart,
+    data: dataScope,
+    isFetching: isLoadingScope,
+    refetch: refetchScope,
 } = useQuery({
-    queryKey: ["getPartMaster"],
+    queryKey: ["getPartStd"],
     queryFn: async () => {
         try {
-            const { data } = await masterStore.getPart(params);
-            const response = data.data as IPagination<PartInterface[]>;
-
+            const { data } = await masterStore.getPartStd(params);
+            const response = data.data as IPagination<PartStdInterface[]>;
             total_item.value = response.total;
 
             return response;
@@ -59,10 +61,10 @@ const {
 });
 //--- END
 
-//--- DELETE PART
-const { mutate: deletePart, isPending: isLoadingDelete } = useMutation({
+//--- DELETE SCOPE
+const { mutate: deleteScope, isPending: isLoadingDelete } = useMutation({
     mutationFn: async (id: string) => {
-        return await masterStore.deletePart(id);
+        return await masterStore.deletePartStd(id);
     },
     onSuccess: () => {
         toastRef.value?.showToast({
@@ -71,10 +73,9 @@ const { mutate: deletePart, isPending: isLoadingDelete } = useMutation({
             type: "success",
         });
         open_delete.value = false;
-        refetchPart();
+        refetchScope();
     },
     onError: (error: any) => {
-        console.log(error);
         toastRef.value?.showToast({
             title: "Error",
             description: error?.response?.data?.message || "Something went wrong",
@@ -94,20 +95,20 @@ const pagination = computed(() => {
 
 const changePage = (e: number) => {
     params.currentPage = e;
-    refetchPart();
+    refetchScope();
 };
 
 const changeLimit = (e: string) => {
     params.perPage = parseInt(e);
     params.currentPage = 1;
-    refetchPart();
+    refetchScope();
 };
 
 const searchTable = () => {
     clearTimeout(timeout.value);
     timeout.value = window.setTimeout(() => {
         params.currentPage = 1;
-        refetchPart();
+        refetchScope();
     }, 1000);
 };
 
@@ -118,7 +119,7 @@ const handleSuccess = () => {
         type: "success",
     });
     params.currentPage = 1;
-    refetchPart();
+    refetchScope();
 };
 
 const handleError = (error: any) => {
@@ -134,44 +135,95 @@ const handleCreate = () => {
     open_form.value = true;
 };
 
-const handleUpdate = (item: PartInterface) => {
+const handleUpdate = (item: PartStdInterface) => {
     selected_item.value = item;
     open_form.value = true;
 };
 
-const handleDelete = (item: PartInterface) => {
+const handleDelete = (item: PartStdInterface) => {
     selected_item.value = item;
     open_delete.value = true;
 };
 
 const onDelete = () => {
-    deletePart(selected_item.value?.uuid as string);
+    deleteScope(selected_item.value?.uuid as string);
 };
+
+const setFilter = () => {
+    params.filters = [
+        {
+            group: "AND",
+            operator: "EQ",
+            column: "activity_uuid",
+            value: String(dataForm.value?.activity_uuid),
+        }
+    ];
+}
+
+const resetFilter = () => {
+    dataForm.value = null;
+    params.filters = [
+        {
+            group: "AND",
+            operator: "EQ",
+            column: "activity.equipment.scopeStandart.additional_scope_uuid",
+            value: route.params?.id,
+        }
+    ];
+}
+
+const handleOnFilter = (data: PartStdCreateModelInterface) => {
+    dataForm.value = data;
+    setFilter()
+    refetchScope();
+}
+
+const handleResetFilter = () => {
+    resetFilter()
+    refetchScope();
+}
+
+const previewDocument = (document: ResponseDocumentInterface) => {
+    window.open(import.meta.env.VITE_API_BASE_URL.replace("api", "") + document.document_link, '_blank')
+}
+
+const handleRemoveSuccess = () => {
+    refetchScope();
+}
 </script>
 
 <template>
     <Toast ref="toastRef" />
-    <ModalDelete v-model="open_delete" :title="selected_item?.name" :loading="isLoadingDelete" @delete="onDelete" />
-
+    <ModalDelete v-model="open_delete" :title="selected_item?.uuid" :loading="isLoadingDelete" @delete="onDelete" />
     <div class="relative w-full">
-        <Button icon_only="plus" class="absolute right-0" size="sm" rounded="full" color="blue" @click="handleCreate" />
+        <Button v-if="dataForm?.activity_uuid" icon_only="plus" class="absolute right-0" size="sm" rounded="full"
+            color="blue" @click="handleCreate" />
 
-        <Table label-create="Part" :columns="ColumnsPart" :entities="dataPart?.data || []" :loading="isLoadingPart"
-            :pagination="pagination" :is-create="false" v-model:model-search="params.search" @change-page="changePage"
-            @change-limit="changeLimit" @search="searchTable">
-            <template #column_action="{ entity }">
-                <div class="flex items-center justify-center gap-4">
-                    <Icon name="pencil" class="icon-action-table" @click="handleUpdate(entity)" />
-                    <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
-                </div>
-            </template>
-            <template #column_activity="{ entity }">
-                <p class="text-base text-neutral-50 text-center">
-                    {{ entity.activity?.name ?? '-' }}
-                </p>
-            </template>
-        </Table>
+        <div class="flex gap-8">
+            <div class="w-[330px]">
+                <FilterPartStd @filter="handleOnFilter" @reset-filter="handleResetFilter" :loading="isLoadingScope" />
+            </div>
+            <div class="w-full">
+                <Table label-create="User" :columns="ColumnsPartStd" :entities="dataScope?.data || []"
+                    :loading="isLoadingScope" :pagination="pagination" :is-create="false"
+                    v-model:model-search="params.search" @change-page="changePage" @change-limit="changeLimit"
+                    @search="searchTable">
+                    <template #column_action="{ entity }">
+                        <div class="flex items-center justify-center gap-4">
+                            <Icon name="pencil" class="icon-action-table" @click="handleUpdate(entity)" />
+                            <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
+                        </div>
+                    </template>
+                    <template #column_part="{ entity }">
+                        <p class="text-base text-neutral-50 text-left underline cursor-pointer">
+                            {{ entity.part?.name ?? "-" }}
+                        </p>
+                    </template>
+                </Table>
+            </div>
+        </div>
 
-        <FormPart v-model="open_form" :selected-value="selected_item" @success="handleSuccess" @error="handleError" />
+        <FormPartStd :data-form="dataForm" v-model="open_form" :selected-value="selected_item" @success="handleSuccess"
+            @error="handleError" @removeSucess="handleRemoveSuccess" />
     </div>
 </template>
