@@ -1,24 +1,29 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from "vue";
 import type { AxiosError } from "axios";
+import { useRouter } from "vue-router";
 
 import { Button, Icon, ModalDelete, Table, Toast } from "@/components";
 import { useMutation, useQuery } from "@tanstack/vue-query";
-import type { IPagination } from "@/types/GlobalType";
+import type { IPagination, IParams } from "@/types/GlobalType";
 
 import { ColumnsAdditionalScope } from "../constants/AdditionalScopeConstant";
-import type { AdditionalScopeInterface } from "../types/AdditionalScopeType";
+import type {
+  AdditionalScopeFilterInterface,
+  AdditionalScopeInterface,
+} from "../types/AdditionalScopeType";
 import { useMasterStore } from "../stores/MasterStore";
 import FormAdditionalScope from "../components/FormAdditionalScope.vue";
-import { useRouter } from "vue-router";
+import FilterAdditionalScope from "../components/FilterAdditionalScope.vue";
 
 const masterStore = useMasterStore();
 const total_item = ref(0);
-const params = reactive({
+const params = reactive<IParams>({
   search: "",
   filter: "",
   currentPage: 1,
   perPage: 10,
+  filters: [],
 });
 const open_form = ref(false);
 const open_delete = ref(false);
@@ -26,6 +31,7 @@ const selected_item = ref<AdditionalScopeInterface | null>(null);
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
 const timeout = ref(0);
 const router = useRouter();
+const dataForm = ref<AdditionalScopeFilterInterface | null>(null);
 
 //--- GET ADDITIONAL SCOPE
 const {
@@ -80,8 +86,8 @@ const { mutate: deleteAdditionalScope, isPending: isLoadingDelete } =
 const pagination = computed(() => {
   return {
     totalItems: total_item.value,
-    itemsPerPage: params.perPage,
-    currentPage: params.currentPage,
+    itemsPerPage: params.perPage || 0,
+    currentPage: params.currentPage || 1,
   };
 });
 
@@ -142,29 +148,115 @@ const onDelete = () => {
 };
 
 const handleShow = (item: AdditionalScopeInterface) => {
-  router.push({ name: 'master additional scope standart', params: { id: item.uuid, name: item.name } });
-}
+  router.push({
+    name: "master additional scope standart",
+    params: { id: item.uuid, name: item.name },
+  });
+};
+
+const setFilter = () => {
+  params.filters = [
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "inspection_type_uuid",
+      value: String(dataForm.value?.inspection_type_uuid),
+    },
+  ];
+};
+
+const resetFilter = () => {
+  dataForm.value = null;
+  params.filters = [];
+};
+
+const handleOnFilter = (data: AdditionalScopeFilterInterface) => {
+  dataForm.value = data;
+  setFilter();
+  refetchAdditionalScope();
+};
+
+const handleResetFilter = () => {
+  resetFilter();
+  refetchAdditionalScope();
+};
+
+const handleRemoveSuccess = () => {
+  refetchAdditionalScope();
+};
 </script>
 
 <template>
   <Toast ref="toastRef" />
-  <ModalDelete v-model="open_delete" :title="selected_item?.name" :loading="isLoadingDelete" @delete="onDelete" />
+  <ModalDelete
+    v-model="open_delete"
+    :title="selected_item?.name"
+    :loading="isLoadingDelete"
+    @delete="onDelete"
+  />
+
   <div class="relative w-full">
-    <Button icon_only="plus" class="absolute right-0" size="sm" rounded="full" color="blue" @click="handleCreate" />
+    <Button
+      v-if="dataForm?.inspection_type_uuid"
+      icon_only="plus"
+      class="absolute right-0"
+      size="sm"
+      rounded="full"
+      color="blue"
+      @click="handleCreate"
+    />
 
-    <Table label-create="additional-scope" :columns="ColumnsAdditionalScope" :entities="dataAdditionalScope?.data || []"
-      :loading="isLoadingAdditionalScope" :pagination="pagination" :is-create="false"
-      v-model:model-search="params.search" @change-page="changePage" @change-limit="changeLimit" @search="searchTable">
-      <template #column_action="{ entity }">
-        <div class="flex items-center justify-center gap-4">
-          <Icon name="eye" class="icon-action-table" @click="handleShow(entity)" />
-          <Icon name="pencil" class="icon-action-table" @click="handleUpdate(entity)" />
-          <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
-        </div>
-      </template>
-    </Table>
+    <div class="flex gap-8">
+      <div class="w-[330px]">
+        <FilterAdditionalScope
+          @filter="handleOnFilter"
+          @reset-filter="handleResetFilter"
+          :loading="isLoadingAdditionalScope"
+        />
+      </div>
+      <div class="w-full">
+        <Table
+          label-create="additional-scope"
+          :columns="ColumnsAdditionalScope"
+          :entities="dataAdditionalScope?.data || []"
+          :loading="isLoadingAdditionalScope"
+          :pagination="pagination"
+          :is-create="false"
+          v-model:model-search="params.search"
+          @change-page="changePage"
+          @change-limit="changeLimit"
+          @search="searchTable"
+        >
+          <template #column_action="{ entity }">
+            <div class="flex items-center justify-center gap-4">
+              <Icon
+                name="eye"
+                class="icon-action-table"
+                @click="handleShow(entity)"
+              />
+              <Icon
+                name="pencil"
+                class="icon-action-table"
+                @click="handleUpdate(entity)"
+              />
+              <Icon
+                name="trash"
+                class="icon-action-table"
+                @click="handleDelete(entity)"
+              />
+            </div>
+          </template>
+        </Table>
+      </div>
+    </div>
 
-    <FormAdditionalScope v-model="open_form" :selected-value="selected_item" @success="handleSuccess"
-      @error="handleError" />
+    <FormAdditionalScope
+      v-model="open_form"
+      :data-form="dataForm"
+      :selected-value="selected_item"
+      @success="handleSuccess"
+      @error="handleError"
+      @removeSucess="handleRemoveSuccess"
+    />
   </div>
 </template>

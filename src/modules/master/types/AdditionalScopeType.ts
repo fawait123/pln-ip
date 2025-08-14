@@ -1,18 +1,15 @@
 import type { InspectionTypeInterface } from "./InspectionType";
+import type { SequenceInterface } from "./SequenceTypes";
 
 export interface AdditionalScopeInterface {
   uuid: string;
-  name: string;
-  category: string;
-  link: string;
-  details: AdditionalScopeDetailInterface[];
   inspection_type_uuid: string;
   inspection_type: InspectionTypeInterface;
-  additional_scope_uuid: string | null;
   created_at: string;
   updated_at: string;
-  day: number;
-  animation: string;
+  name: string;
+  sequence_uuid: string;
+  sequence: SequenceInterface;
 }
 
 export interface AdditionalScopeDetailInterface {
@@ -31,35 +28,19 @@ export interface AdditionalScopeDetailInterface {
 
 export interface AdditionalScopeCreateInterface {
   name: string;
+  sequence_uuid: string;
   inspection_type_uuid: string;
-  additional_scope_uuid: string | null;
-  link: string;
-  category: string;
-  day: number;
-  animation: string | null;
-  details: { name: string }[];
-}
-
-export interface AdditionalScopeUpdateInterface {
-  name: string;
-  inspection_type_uuid: string;
-  additional_scope_uuid: string | null;
-  link: string;
-  category: string;
-  day: number;
-  animation: string | null;
-  details: { name: string; uuid: string | null }[];
 }
 
 export interface AdditionalScopeCreateModelInterface {
   name: string;
+  sequence_uuid?: string;
+  inspection_type_uuid?: string;
+}
+
+export interface AdditionalScopeFilterInterface {
   location_uuid: string;
   unit_uuid: string;
   machine_uuid: string;
   inspection_type_uuid: string;
-  link: string;
-  category: string;
-  day: string;
-  details: { name: string }[];
-  animation: string;
 }

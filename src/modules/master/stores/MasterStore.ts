@@ -20,10 +20,7 @@ import type {
   ScopeCreateInterface,
   ScopeUpdateInterface,
 } from "../types/ScopeType";
-import type {
-  AdditionalScopeCreateInterface,
-  AdditionalScopeUpdateInterface,
-} from "../types/AdditionalScopeType";
+import type { AdditionalScopeCreateInterface } from "../types/AdditionalScopeType";
 import type { BidangCreateInterface } from "../types/BidangType";
 import type { SubBidangCreateInterface } from "../types/SubBidangType";
 import type { HseDocCreateInterface } from "../types/HseDocTypes";
@@ -369,7 +366,7 @@ export const useMasterStore = defineStore(
 
     const updateAdditionalScope = async (
       id: string,
-      payload: AdditionalScopeUpdateInterface
+      payload: AdditionalScopeCreateInterface
     ) => {
       return await api
         .put(`/additional-scope/${id}`, payload)

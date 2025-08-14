@@ -24,9 +24,10 @@ import { useMasterStore } from "../stores/MasterStore";
 import type {
   AdditionalScopeCreateInterface,
   AdditionalScopeCreateModelInterface,
+  AdditionalScopeFilterInterface,
   AdditionalScopeInterface,
-  AdditionalScopeUpdateInterface,
 } from "../types/AdditionalScopeType";
+import type { SequenceInterface } from "../types/SequenceTypes";
 
 type OptionType = {
   value: string;
@@ -37,6 +38,9 @@ const props = defineProps({
   selectedValue: {
     type: Object as PropType<AdditionalScopeInterface | null>,
   },
+  dataForm: {
+    type: Object as PropType<AdditionalScopeFilterInterface | null>,
+  },
 });
 
 const emit = defineEmits(["success", "error"]);
@@ -45,42 +49,13 @@ const masterStore = useMasterStore();
 
 const queryClient = useQueryClient();
 const modelValue = defineModel<boolean>({ default: false });
-const options_category = ref([
-  { value: "mekanik", label: "Mekanik" },
-  { value: "listrik", label: "Listrik" },
-  { value: "instrument", label: "Instrument" },
-]);
-const options_animation = ref([
-  { value: "exhaust-section", label: "Exhaust Section" },
-  { value: "turbine-section", label: "Turbine Section" },
-  { value: "combustion-section", label: "Combustion Section" },
-  { value: "compressor-section", label: "Compressor Section" },
-  { value: "inlet-section", label: "Inlet Section" },
-  { value: "generator-section", label: "Generator Section" },
-]);
-const is_loading_location = ref(false);
-const options_location = ref<OptionType[]>([]);
-const is_loading_unit = ref(false);
-const options_unit = ref<OptionType[]>([]);
-const is_loading_machine = ref(false);
-const options_machine = ref<OptionType[]>([]);
-const is_loading_inspection = ref(false);
-const options_inspection = ref<OptionType[]>([]);
-const model_details = ref<{ name: string; id: string }[]>([
-  { id: "1", name: "" },
-]);
+const is_loading_sequence = ref(false);
+const options_sequence = ref<OptionType[]>([]);
 
 const model = ref<AdditionalScopeCreateModelInterface>({
   name: "",
-  location_uuid: "",
-  unit_uuid: "",
-  machine_uuid: "",
-  inspection_type_uuid: "",
-  category: "",
-  link: "",
-  details: [],
-  day: "",
-  animation: "",
+  sequence_uuid: "",
+  inspection_type_uuid: props.dataForm?.inspection_type_uuid || "",
 });
 const v$_form = reactive(useVuelidate());
 const rules = computed(() => {
@@ -88,183 +63,43 @@ const rules = computed(() => {
     name: {
       required: helpers.withMessage(`This field is required`, required),
     },
-    location_uuid: {
-      required: helpers.withMessage(`This field is required`, required),
-    },
-    unit_uuid: {
-      required: helpers.withMessage(`This field is required`, required),
-    },
-    machine_uuid: {
-      required: helpers.withMessage(`This field is required`, required),
-    },
-    inspection_type_uuid: {
-      required: helpers.withMessage(`This field is required`, required),
-    },
-    category: {
-      required: helpers.withMessage(`This field is required`, required),
-    },
-    day: {
-      required: helpers.withMessage(`This field is required`, required),
-    },
-    animation: {
+    sequence_uuid: {
       required: helpers.withMessage(`This field is required`, required),
     },
   };
 });
 
-//--- GET LOCATION
-const params_location = reactive<IParams>({
+//--- GET SEQUENCE
+const params_sequence = reactive<IParams>({
   search: "",
-  filters: "",
+  filter: "",
+  filters: [],
   currentPage: 1,
   perPage: 10,
 });
 const {
-  data: dataLocation,
-  refetch: refetchLocation,
-  fetchNextPage: fetchNextPageLocation,
-  hasNextPage: hasNextPageLocation,
-  isFetchingNextPage: isFetchingNextPageLocation,
+  data: dataSequence,
+  refetch: refetchSequence,
+  fetchNextPage: fetchNextPageSequence,
+  hasNextPage: hasNextPageSequence,
+  isFetchingNextPage: isFetchingNextPageSequence,
 } = useInfiniteQuery({
-  queryKey: ["getLocationManpower"],
-  enabled: !props.selectedValue && !is_loading_location.value,
+  queryKey: ["getSequenceInspection"],
+  enabled: !props.selectedValue && !is_loading_sequence.value,
   queryFn: async ({ pageParam = 1 }) => {
     try {
-      const { data } = await masterStore.getLocation({
-        ...params_location,
+      const { data } = await masterStore.getSequence({
+        ...params_sequence,
         currentPage: pageParam,
       });
 
-      const response = data.data as IPagination<LocationInterface[]>;
+      const response = data.data as IPagination<SequenceInterface[]>;
 
       return response;
     } catch (error: any) {
       throw error.response;
     } finally {
-      is_loading_location.value = false;
-    }
-  },
-  refetchOnWindowFocus: false,
-  getNextPageParam: (lastPage) => {
-    if (!lastPage?.data?.length) return undefined;
-    return lastPage.current_page + 1;
-  },
-  initialPageParam: 1,
-});
-//--- END
-
-//--- GET UNIT
-const params_unit = reactive<IParams>({
-  search: "",
-  filters: "",
-  currentPage: 1,
-  perPage: 10,
-});
-const {
-  data: dataUnit,
-  refetch: refetchUnit,
-  fetchNextPage: fetchNextPageUnit,
-  hasNextPage: hasNextPageUnit,
-  isFetchingNextPage: isFetchingNextPageUnit,
-} = useInfiniteQuery({
-  queryKey: ["getUnitManpower"],
-  enabled: false,
-  queryFn: async ({ pageParam = 1 }) => {
-    try {
-      const { data } = await masterStore.getUnit({
-        ...params_unit,
-        currentPage: pageParam,
-      });
-
-      const response = data.data as IPagination<UnitInterface[]>;
-
-      return response;
-    } catch (error: any) {
-      throw error.response;
-    } finally {
-      is_loading_unit.value = false;
-    }
-  },
-  refetchOnWindowFocus: false,
-  getNextPageParam: (lastPage) => {
-    if (!lastPage?.data?.length) return undefined;
-    return lastPage.current_page + 1;
-  },
-  initialPageParam: 1,
-});
-//--- END
-
-//--- GET MACHINE
-const params_machine = reactive<IParams>({
-  search: "",
-  filters: "",
-  currentPage: 1,
-  perPage: 10,
-});
-const {
-  data: dataMachine,
-  refetch: refetchMachine,
-  fetchNextPage: fetchNextPageMachine,
-  hasNextPage: hasNextPageMachine,
-  isFetchingNextPage: isFetchingNextPageMachine,
-} = useInfiniteQuery({
-  queryKey: ["getMachineManpower"],
-  enabled: false,
-  queryFn: async ({ pageParam = 1 }) => {
-    try {
-      const { data } = await masterStore.getMachine({
-        ...params_machine,
-        currentPage: pageParam,
-      });
-
-      const response = data.data as IPagination<MachineInterface[]>;
-
-      return response;
-    } catch (error: any) {
-      throw error.response;
-    } finally {
-      is_loading_machine.value = false;
-    }
-  },
-  refetchOnWindowFocus: false,
-  getNextPageParam: (lastPage) => {
-    if (!lastPage?.data?.length) return undefined;
-    return lastPage.current_page + 1;
-  },
-  initialPageParam: 1,
-});
-//--- END
-
-//--- GET INSPECTION
-const params_inspection = reactive<IParams>({
-  search: "",
-  filters: "",
-  currentPage: 1,
-  perPage: 10,
-});
-const {
-  data: dataInspection,
-  refetch: refetchInspection,
-  fetchNextPage: fetchNextPageInspection,
-  hasNextPage: hasNextPageInspection,
-  isFetchingNextPage: isFetchingNextPageInspection,
-} = useInfiniteQuery({
-  queryKey: ["getInspectionManpower"],
-  enabled: false,
-  queryFn: async ({ pageParam = 1 }) => {
-    try {
-      const { data } = await masterStore.getInspectionType({
-        ...params_inspection,
-        currentPage: pageParam,
-      });
-
-      const response = data.data as IPagination<InspectionTypeInterface[]>;
-
-      return response;
-    } catch (error: any) {
-      throw error.response;
-    } finally {
-      is_loading_inspection.value = false;
+      is_loading_sequence.value = false;
     }
   },
   refetchOnWindowFocus: false,
@@ -301,7 +136,7 @@ const { mutate: updateAdditionalScope, isPending: isLoadingUpdate } =
       payload,
     }: {
       id: string;
-      payload: AdditionalScopeUpdateInterface;
+      payload: AdditionalScopeCreateInterface;
     }) => {
       return await masterStore.updateAdditionalScope(id, payload);
     },
@@ -322,191 +157,56 @@ const handleSubmit = async () => {
   if (!isValid) return;
 
   if (props.selectedValue) {
-    const details =
-      model_details.value.length === 1 && model_details.value?.[0]?.name === ""
-        ? []
-        : model_details.value.map((item) => {
-            const find_item = props.selectedValue?.details?.find(
-              (el) => el.uuid === item.id
-            );
-
-            if (find_item) {
-              return {
-                name: item.name,
-                uuid: find_item.uuid,
-              };
-            } else {
-              return {
-                name: item.name,
-                uuid: null,
-              };
-            }
-          });
-
     updateAdditionalScope({
       id: props.selectedValue?.uuid,
       payload: {
         name: model.value.name,
-        additional_scope_uuid: null,
-        inspection_type_uuid: model.value.inspection_type_uuid,
-        category: model.value.category,
-        link: model.value.link,
-        day: parseFloat(model.value.day),
-        animation: model.value.animation,
-        details,
+        sequence_uuid: model.value.sequence_uuid || "",
+        inspection_type_uuid: model.value.inspection_type_uuid || "",
       },
     });
   } else {
     createAdditionalScope({
       name: model.value.name,
-      additional_scope_uuid: null,
-      inspection_type_uuid: model.value.inspection_type_uuid,
-      category: model.value.category,
-      link: model.value.link,
-      day: parseFloat(model.value.day),
-      animation: model.value.animation,
-      details:
-        model_details.value.length === 1 &&
-        model_details.value?.[0]?.name === ""
-          ? []
-          : model_details.value
-              .map((item) => ({ name: item.name }))
-              .filter((item) => item.name !== ""),
+      sequence_uuid: model.value.sequence_uuid || "",
+      inspection_type_uuid: model.value.inspection_type_uuid || "",
     });
   }
 };
 
 const setValue = () => {
   model.value.name = props.selectedValue?.name || "";
-  model.value.category = props.selectedValue?.category || "";
-  model.value.link = props.selectedValue?.link || "";
-  model.value.day = props.selectedValue?.day.toString() || "";
-  model.value.animation = props.selectedValue?.animation || "";
 
-  model.value.location_uuid =
-    props.selectedValue?.inspection_type?.machine?.unit?.location_uuid || "";
-  model.value.unit_uuid =
-    props.selectedValue?.inspection_type?.machine?.unit_uuid || "";
-  model.value.machine_uuid =
-    props.selectedValue?.inspection_type?.machine_uuid || "";
+  model.value.sequence_uuid = props.selectedValue?.sequence?.uuid || "";
   model.value.inspection_type_uuid =
     props.selectedValue?.inspection_type_uuid || "";
-  model_details.value =
-    props.selectedValue?.details?.length === 0
-      ? [{ name: "", id: "0" }]
-      : props.selectedValue?.details?.map((item) => ({
-          name: item.name,
-          id: item.uuid,
-        })) || [{ name: "", id: "0" }];
 };
 
 const resetValue = () => {
   model.value = {
     name: "",
-    location_uuid: "",
-    unit_uuid: "",
-    machine_uuid: "",
-    inspection_type_uuid: "",
-    category: "",
-    link: "",
-    day: "",
-    animation: "",
-    details: [],
+    sequence_uuid: "",
+    inspection_type_uuid: props.dataForm?.inspection_type_uuid || "",
   };
-  model_details.value = [{ name: "", id: "0" }];
-  refetchLocation();
 };
 
-const addDetails = () => {
-  model_details.value = [
-    ...model_details.value,
-    { id: (model_details.value?.length + 1).toString(), name: "" },
-  ];
-};
-
-const removeDetails = (id: string) => {
-  if (model_details.value.length > 1) {
-    model_details.value = model_details.value.filter((item) => item.id !== id);
-  }
-};
-
-const timeout_location = ref(0);
-const searchLocation = () => {
-  clearTimeout(timeout_location.value);
-  timeout_location.value = window.setTimeout(() => {
-    is_loading_location.value = true;
-    params_location.currentPage = 1;
-    refetchLocation();
+const timeout_sequence = ref(0);
+const searchSequence = () => {
+  clearTimeout(timeout_sequence.value);
+  timeout_sequence.value = window.setTimeout(() => {
+    is_loading_sequence.value = true;
+    params_sequence.currentPage = 1;
+    refetchSequence();
   }, 1000);
 };
-const scrollLocation = (e: Event) => {
+const scrollSequence = (e: Event) => {
   const { scrollTop, scrollHeight, clientHeight } = e.target as HTMLElement;
   if (
     scrollTop + clientHeight >= scrollHeight - 1 &&
-    hasNextPageLocation.value &&
-    !isFetchingNextPageLocation.value
+    hasNextPageSequence.value &&
+    !isFetchingNextPageSequence.value
   ) {
-    fetchNextPageLocation();
-  }
-};
-
-const timeout_unit = ref(0);
-const searchUnit = () => {
-  clearTimeout(timeout_unit.value);
-  timeout_unit.value = window.setTimeout(() => {
-    is_loading_unit.value = true;
-    params_unit.currentPage = 1;
-    refetchUnit();
-  }, 1000);
-};
-const scrollUnit = (e: Event) => {
-  const { scrollTop, scrollHeight, clientHeight } = e.target as HTMLElement;
-  if (
-    scrollTop + clientHeight >= scrollHeight - 1 &&
-    hasNextPageUnit.value &&
-    !isFetchingNextPageUnit.value
-  ) {
-    fetchNextPageUnit();
-  }
-};
-
-const timeout_machine = ref(0);
-const searchMachine = () => {
-  clearTimeout(timeout_machine.value);
-  timeout_machine.value = window.setTimeout(() => {
-    is_loading_machine.value = true;
-    params_machine.currentPage = 1;
-    refetchMachine();
-  }, 1000);
-};
-const scrollMachine = (e: Event) => {
-  const { scrollTop, scrollHeight, clientHeight } = e.target as HTMLElement;
-  if (
-    scrollTop + clientHeight >= scrollHeight - 1 &&
-    hasNextPageMachine.value &&
-    !isFetchingNextPageMachine.value
-  ) {
-    fetchNextPageMachine();
-  }
-};
-
-const timeout_inspection = ref(0);
-const searchInspection = () => {
-  clearTimeout(timeout_inspection.value);
-  timeout_inspection.value = window.setTimeout(() => {
-    is_loading_inspection.value = true;
-    params_inspection.currentPage = 1;
-    refetchInspection();
-  }, 1000);
-};
-const scrollInspection = (e: Event) => {
-  const { scrollTop, scrollHeight, clientHeight } = e.target as HTMLElement;
-  if (
-    scrollTop + clientHeight >= scrollHeight - 1 &&
-    hasNextPageInspection.value &&
-    !isFetchingNextPageInspection.value
-  ) {
-    fetchNextPageInspection();
+    fetchNextPageSequence();
   }
 };
 
@@ -524,203 +224,40 @@ watch(modelValue, (value) => {
   }
 });
 
-const selectLocation = (e: OptionType) => {
-  queryClient.removeQueries({ queryKey: ["getMachineManpower"] });
-  queryClient.removeQueries({ queryKey: ["getInspectionManpower"] });
-  model.value.unit_uuid = "";
-  model.value.machine_uuid = "";
-  model.value.inspection_type_uuid = "";
-  params_unit.filters = `location_uuid,${e.value}`;
-  refetchUnit();
-};
-
-const selectUnit = (e: OptionType) => {
-  queryClient.removeQueries({ queryKey: ["getInspectionManpower"] });
-  model.value.machine_uuid = "";
-  model.value.inspection_type_uuid = "";
-  params_machine.filters = `unit_uuid,${e.value}`;
-  refetchMachine();
-};
-
-const selectMachine = (e: OptionType) => {
-  model.value.inspection_type_uuid = "";
-  params_inspection.filters = `machine_uuid,${e.value}`;
-  refetchInspection();
-};
-
 watch(
-  [modelValue, dataLocation],
-  ([_, newLocation]) => {
+  [modelValue, dataSequence],
+  ([newModel, newSequence]) => {
     if (props.selectedValue) {
       const new_data: OptionType[] =
-        newLocation?.pages
+        newSequence?.pages
           .flatMap((page) => page?.data)
           ?.map((item) => {
             return { value: item.uuid, label: item.name };
           }) || [];
-      options_location.value = mergeArrays(
+
+      options_sequence.value = mergeArrays(
         [
           {
-            value:
-              props.selectedValue?.inspection_type?.machine?.unit
-                ?.location_uuid,
-            label:
-              props.selectedValue?.inspection_type?.machine?.unit?.location
-                ?.name,
+            value: props.selectedValue?.sequence_uuid,
+            label: props.selectedValue?.sequence?.name,
           },
         ],
         new_data.filter(
-          (item) =>
-            item.value !==
-            props.selectedValue?.inspection_type?.machine?.unit?.location_uuid
+          (item) => item.value !== props.selectedValue?.sequence_uuid
         )
       );
     } else {
       const new_data: OptionType[] =
-        newLocation?.pages
+        newSequence?.pages
           .flatMap((page) => page?.data)
           ?.map((item) => {
             return { value: item.uuid, label: item.name };
           }) || [];
 
-      options_location.value = new_data;
+      options_sequence.value = new_data;
     }
   },
   { deep: true, immediate: true }
-);
-
-watch(
-  dataUnit,
-  (newUnit) => {
-    if (props.selectedValue) {
-      const new_data: OptionType[] =
-        newUnit?.pages
-          .flatMap((page) => page?.data)
-          ?.map((item) => {
-            return { value: item.uuid, label: item.name };
-          }) || [];
-      options_unit.value = mergeArrays(
-        [
-          {
-            value: props.selectedValue?.inspection_type?.machine?.unit_uuid,
-            label: props.selectedValue?.inspection_type?.machine?.unit?.name,
-          },
-        ],
-        new_data.filter(
-          (item) =>
-            item.value !==
-            props.selectedValue?.inspection_type?.machine?.unit_uuid
-        )
-      );
-    } else {
-      const new_data: OptionType[] =
-        newUnit?.pages
-          .flatMap((page) => page?.data)
-          ?.map((item) => {
-            return { value: item.uuid, label: item.name };
-          }) || [];
-
-      options_unit.value = new_data;
-    }
-  },
-  { deep: true, immediate: true }
-);
-
-watch(
-  dataMachine,
-  (newMachine) => {
-    if (props.selectedValue) {
-      const new_data: OptionType[] =
-        newMachine?.pages
-          .flatMap((page) => page?.data)
-          ?.map((item) => {
-            return { value: item.uuid, label: item.name };
-          }) || [];
-      options_machine.value = mergeArrays(
-        [
-          {
-            value: props.selectedValue?.inspection_type?.machine_uuid,
-            label: props.selectedValue?.inspection_type?.machine?.name,
-          },
-        ],
-        new_data.filter(
-          (item) =>
-            item.value !== props.selectedValue?.inspection_type?.machine_uuid
-        )
-      );
-    } else {
-      const new_data: OptionType[] =
-        newMachine?.pages
-          .flatMap((page) => page?.data)
-          ?.map((item) => {
-            return { value: item.uuid, label: item.name };
-          }) || [];
-
-      options_machine.value = new_data;
-    }
-  },
-  { deep: true, immediate: true }
-);
-
-watch(
-  dataInspection,
-  (newInspection) => {
-    if (props.selectedValue) {
-      const new_data: OptionType[] =
-        newInspection?.pages
-          .flatMap((page) => page?.data)
-          ?.map((item) => {
-            return { value: item.uuid, label: item.name };
-          }) || [];
-      options_inspection.value = mergeArrays(
-        [
-          {
-            value: props.selectedValue?.inspection_type_uuid,
-            label: props.selectedValue?.inspection_type?.name,
-          },
-        ],
-        new_data.filter(
-          (item) => item.value !== props.selectedValue?.inspection_type?.uuid
-        )
-      );
-    } else {
-      const new_data: OptionType[] =
-        newInspection?.pages
-          .flatMap((page) => page?.data)
-          ?.map((item) => {
-            return { value: item.uuid, label: item.name };
-          }) || [];
-
-      options_inspection.value = new_data;
-    }
-  },
-  { deep: true, immediate: true }
-);
-
-watch(
-  () => props.selectedValue,
-  (value) => {
-    if (value) {
-      if (value.inspection_type?.machine?.unit?.location) {
-        refetchLocation();
-      }
-
-      if (value.inspection_type?.machine?.unit) {
-        params_unit.filters = `location_uuid,${value?.inspection_type?.machine?.unit?.location_uuid}`;
-        refetchUnit();
-      }
-
-      if (value.inspection_type?.machine) {
-        params_machine.filters = `unit_uuid,${value?.inspection_type?.machine?.unit_uuid}`;
-        refetchMachine();
-      }
-
-      if (value.inspection_type) {
-        params_inspection.filters = `machine_uuid,${value?.inspection_type?.machine_uuid}`;
-        refetchInspection();
-      }
-    }
-  }
 );
 </script>
 
@@ -743,121 +280,19 @@ watch(
         :custom_symbols="all_characters"
       />
       <Select
-        v-model="model.category"
-        label="Kategori"
-        options_label="label"
-        options_value="value"
-        :rules="rules.category"
-        :options="options_category"
-      />
-      <Input
-        v-model="model.link"
-        label="Link"
-        :custom_symbols="all_characters"
-      />
-      <Input
-        v-model="model.day"
-        label="Day"
-        :custom_symbols="numbers_positive_negative"
-        :rules="rules.day"
-      />
-      <Select
-        v-model="model.animation"
+        v-model="model.sequence_uuid"
         label="Sequence"
         options_label="label"
         options_value="value"
-        :rules="rules.animation"
-        :options="options_animation"
-      />
-      <Select
-        v-model="model.location_uuid"
-        label="Lokasi"
-        options_label="label"
-        options_value="value"
-        v-model:model-search="params_location.search"
+        v-model:model-search="params_sequence.search"
         :search="true"
-        :loading="is_loading_location"
-        :loading-next-page="isFetchingNextPageLocation"
-        :rules="rules.location_uuid"
-        :options="options_location"
-        @scroll="scrollLocation"
-        @search="searchLocation"
-        @select="selectLocation"
+        :loading="is_loading_sequence"
+        :loading-next-page="isFetchingNextPageSequence"
+        :rules="rules.sequence_uuid"
+        :options="options_sequence"
+        @scroll="scrollSequence"
+        @search="searchSequence"
       />
-      <Select
-        v-model="model.unit_uuid"
-        label="Unit"
-        options_label="label"
-        options_value="value"
-        v-model:model-search="params_unit.search"
-        :search="true"
-        :loading="is_loading_unit"
-        :loading-next-page="isFetchingNextPageUnit"
-        :rules="rules.unit_uuid"
-        :options="options_unit"
-        @scroll="scrollUnit"
-        @search="searchUnit"
-        @select="selectUnit"
-      />
-      <Select
-        v-model="model.machine_uuid"
-        label="Mesin"
-        options_label="label"
-        options_value="value"
-        v-model:model-search="params_machine.search"
-        :search="true"
-        :loading="is_loading_machine"
-        :loading-next-page="isFetchingNextPageMachine"
-        :rules="rules.machine_uuid"
-        :options="options_machine"
-        @scroll="scrollMachine"
-        @search="searchMachine"
-        @select="selectMachine"
-      />
-      <Select
-        v-model="model.inspection_type_uuid"
-        label="Tipe Inspeksi"
-        options_label="label"
-        options_value="value"
-        v-model:model-search="params_inspection.search"
-        :search="true"
-        :loading="is_loading_inspection"
-        :loading-next-page="isFetchingNextPageInspection"
-        :rules="rules.inspection_type_uuid"
-        :options="options_inspection"
-        @scroll="scrollInspection"
-        @search="searchInspection"
-      />
-      <div>
-        <div class="w-full flex justify-between items-center">
-          <p class="text-sm font-bold text-neutral-950">Details</p>
-          <button
-            class="text-sm text-cyan-500 hover:text-cyan-600 font-bold"
-            type="button"
-            @click="addDetails"
-          >
-            Tambah
-          </button>
-        </div>
-        <div class="flex flex-col gap-1">
-          <div
-            v-for="(item, key) in model_details"
-            :key="key"
-            class="w-full flex items-center gap-4 mt-2"
-          >
-            <Input
-              v-model="model_details[key].name"
-              :custom_symbols="all_characters"
-            />
-            <Icon
-              v-if="model_details.length > 1"
-              name="trash"
-              class="text-red-500 cursor-pointer text-base hover:text-red-600"
-              @click="removeDetails(item.id)"
-            />
-          </div>
-        </div>
-      </div>
 
       <div class="w-full flex items-center gap-4 mt-4">
         <Button

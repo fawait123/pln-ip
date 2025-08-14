@@ -7,4 +7,10 @@ export const ColumnsAdditionalScope: TableColumnType[] = [
     align: "left",
     sort: false,
   },
+  {
+    key: "sequence.name",
+    label: "Sequence",
+    align: "left",
+    sort: false,
+  },
 ];
