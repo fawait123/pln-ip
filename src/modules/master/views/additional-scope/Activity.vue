@@ -8,10 +8,15 @@ import type { IPagination } from "@/types/GlobalType";
 
 import { ColumnsActivity } from "../../constants/ActivityConstant";
 import { useMasterStore } from "../../stores/MasterStore";
-import type { ActivityInterface } from "../../types/AcitivityType";
+import type {
+  ActivityFilterInterface,
+  ActivityInterface,
+} from "../../types/AcitivityType";
 import FormAdActivity from "../../components/FormAdActivity.vue";
+import FilterAdActivity from "../../components/FilterAdActivity.vue";
 import { useRoute } from "vue-router";
 
+const dataForm = ref<ActivityFilterInterface | null>(null);
 const masterStore = useMasterStore();
 const route = useRoute();
 const total_item = ref(0);
@@ -147,6 +152,50 @@ const handleDelete = (item: ActivityInterface) => {
 const onDelete = () => {
   deleteActivity(selected_item.value?.uuid as string);
 };
+
+const setFilter = () => {
+  params.filters = [
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "equipment.scopeStandart.additional_scope_uuid",
+      value: route.params?.id,
+    },
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "equipment_uuid",
+      value: String(dataForm.value?.equipment_uuid),
+    },
+  ];
+};
+
+const resetFilter = () => {
+  dataForm.value = null;
+  params.filters = [
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "equipment.scopeStandart.additional_scope_uuid",
+      value: route.params?.id,
+    },
+  ];
+};
+
+const handleOnFilter = (data: ActivityFilterInterface) => {
+  dataForm.value = data;
+  setFilter();
+  refetchActivity();
+};
+
+const handleResetFilter = () => {
+  resetFilter();
+  refetchActivity();
+};
+
+const handleRemoveSuccess = () => {
+  refetchActivity();
+};
 </script>
 
 <template>
@@ -160,6 +209,7 @@ const onDelete = () => {
 
   <div class="relative w-full">
     <Button
+      v-if="dataForm?.equipment_uuid"
       icon_only="plus"
       class="absolute right-0"
       size="sm"
@@ -168,44 +218,57 @@ const onDelete = () => {
       @click="handleCreate"
     />
 
-    <Table
-      label-create="Sub Bidang"
-      :columns="ColumnsActivity"
-      :entities="dataActivity?.data || []"
-      :loading="isLoadingActivity"
-      :pagination="pagination"
-      :is-create="false"
-      v-model:model-search="params.search"
-      @change-page="changePage"
-      @change-limit="changeLimit"
-      @search="searchTable"
-    >
-      <template #column_action="{ entity }">
-        <div class="flex items-center justify-center gap-4">
-          <Icon
-            name="pencil"
-            class="icon-action-table"
-            @click="handleUpdate(entity)"
-          />
-          <Icon
-            name="trash"
-            class="icon-action-table"
-            @click="handleDelete(entity)"
-          />
-        </div>
-      </template>
-      <template #column_equipment="{ entity }">
-        <p class="text-base text-neutral-50 text-left">
-          {{ entity.equipment?.name }}
-        </p>
-      </template>
-    </Table>
+    <div class="flex gap-8">
+      <div class="w-[330px]">
+        <FilterAdActivity
+          @filter="handleOnFilter"
+          @reset-filter="handleResetFilter"
+          :loading="isLoadingActivity"
+        />
+      </div>
+      <div class="w-full">
+        <Table
+          label-create="Sub Bidang"
+          :columns="ColumnsActivity"
+          :entities="dataActivity?.data || []"
+          :loading="isLoadingActivity"
+          :pagination="pagination"
+          :is-create="false"
+          v-model:model-search="params.search"
+          @change-page="changePage"
+          @change-limit="changeLimit"
+          @search="searchTable"
+        >
+          <template #column_action="{ entity }">
+            <div class="flex items-center justify-center gap-4">
+              <Icon
+                name="pencil"
+                class="icon-action-table"
+                @click="handleUpdate(entity)"
+              />
+              <Icon
+                name="trash"
+                class="icon-action-table"
+                @click="handleDelete(entity)"
+              />
+            </div>
+          </template>
+          <template #column_equipment="{ entity }">
+            <p class="text-base text-neutral-50 text-left">
+              {{ entity.equipment?.name }}
+            </p>
+          </template>
+        </Table>
+      </div>
+    </div>
 
     <FormAdActivity
       v-model="open_form"
+      :data-form="dataForm"
       :selected-value="selected_item"
       @success="handleSuccess"
       @error="handleError"
+      @removeSucess="handleRemoveSuccess"
     />
   </div>
 </template>

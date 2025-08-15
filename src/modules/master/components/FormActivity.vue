@@ -6,6 +6,12 @@ import useVuelidate from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
 import { useMutation } from "@tanstack/vue-query";
 import { all_characters } from "@/helpers/global";
+import type {
+  CreateDocumentInterface,
+  ResponseDocumentInterface,
+} from "@/types/GlobalType";
+import { useGlobalStore } from "@/stores/GlobalStore";
+import UploadStream from "@/components/fields/UploadStream.vue";
 
 import { useMasterStore } from "../stores/MasterStore";
 import type {
@@ -13,12 +19,6 @@ import type {
   ActivityModelCreateInterface,
   ActivityInterface,
 } from "../types/AcitivityType";
-import UploadStream from "@/components/fields/UploadStream.vue";
-import type {
-  CreateDocumentInterface,
-  ResponseDocumentInterface,
-} from "@/types/GlobalType";
-import { useGlobalStore } from "@/stores/GlobalStore";
 
 const props = defineProps({
   selectedValue: {
@@ -86,7 +86,7 @@ const { mutate: createActivity, isPending: isLoadingCreate } = useMutation({
       createDocument({
         document: modelUpload.value as File,
         document_type: "App\\Models\\ScopeStandart",
-        document_uuid: data.data.uuid,
+        document_uuid: data.data.data.uuid,
       });
     } else {
       modelValue.value = false;

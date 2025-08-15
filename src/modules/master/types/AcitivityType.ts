@@ -32,3 +32,14 @@ export interface ActivityModelCreateInterface {
   scope_standart_uuid: string;
   equipment_uuid: string;
 }
+
+export interface ActivityFilterInterface {
+  location_uuid?: string;
+  unit_uuid?: string;
+  machine_uuid?: string;
+  inspection_type_uuid?: string;
+  bidang_uuid: string;
+  sub_bidang_uuid: string;
+  scope_standart_uuid: string;
+  equipment_uuid: string;
+}

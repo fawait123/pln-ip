@@ -156,7 +156,7 @@ const setFilter = () => {
     {
       group: "AND",
       operator: "NOT_NULL",
-      column: "scopeStandart.inspection_type_uuid",
+      column: "equipment.scopeStandart.inspection_type_uuid",
       value: "",
     },
     {
@@ -174,7 +174,7 @@ const resetFilter = () => {
     {
       group: "AND",
       operator: "NOT_NULL",
-      column: "inspection_type_uuid",
+      column: "equipment.scopeStandart.inspection_type_uuid",
       value: "",
     },
   ];
