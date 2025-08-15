@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from "vue";
 import type { AxiosError } from "axios";
+import { useRoute } from "vue-router";
 
 import { Button, Icon, ModalDelete, Table, Toast } from "@/components";
 import { useMutation, useQuery } from "@tanstack/vue-query";
@@ -8,10 +9,14 @@ import type { IPagination } from "@/types/GlobalType";
 
 import { ColumnsEquipment } from "../../constants/EquipmentConstant";
 import { useMasterStore } from "../../stores/MasterStore";
-import type { EquipmentInterface } from "../../types/EquipmentType";
+import type {
+  EquipmentFilterInterface,
+  EquipmentInterface,
+} from "../../types/EquipmentType";
 import FormAdEquipment from "../../components/FormAdEquipment.vue";
-import { useRoute } from "vue-router";
+import FilterAdEquipment from "../../components/FilterAdEquipment.vue";
 
+const dataForm = ref<EquipmentFilterInterface | null>(null);
 const masterStore = useMasterStore();
 const route = useRoute();
 const total_item = ref(0);
@@ -147,6 +152,50 @@ const handleDelete = (item: EquipmentInterface) => {
 const onDelete = () => {
   deleteEquipment(selected_item.value?.uuid as string);
 };
+
+const setFilter = () => {
+  params.filters = [
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "scopeStandart.additional_scope_uuid",
+      value: route.params?.id,
+    },
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "scope_standart_uuid",
+      value: String(dataForm.value?.scope_standart_uuid),
+    },
+  ];
+};
+
+const resetFilter = () => {
+  dataForm.value = null;
+  params.filters = [
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "scopeStandart.additional_scope_uuid",
+      value: route.params?.id,
+    },
+  ];
+};
+
+const handleOnFilter = (data: EquipmentFilterInterface) => {
+  dataForm.value = data;
+  setFilter();
+  refetchEquipment();
+};
+
+const handleResetFilter = () => {
+  resetFilter();
+  refetchEquipment();
+};
+
+const handleRemoveSuccess = () => {
+  refetchEquipment();
+};
 </script>
 
 <template>
@@ -160,6 +209,7 @@ const onDelete = () => {
 
   <div class="relative w-full">
     <Button
+      v-if="dataForm?.scope_standart_uuid"
       icon_only="plus"
       class="absolute right-0"
       size="sm"
@@ -168,44 +218,57 @@ const onDelete = () => {
       @click="handleCreate"
     />
 
-    <Table
-      label-create="Sub Bidang"
-      :columns="ColumnsEquipment"
-      :entities="dataEquipment?.data || []"
-      :loading="isLoadingEquipment"
-      :pagination="pagination"
-      :is-create="false"
-      v-model:model-search="params.search"
-      @change-page="changePage"
-      @change-limit="changeLimit"
-      @search="searchTable"
-    >
-      <template #column_action="{ entity }">
-        <div class="flex items-center justify-center gap-4">
-          <Icon
-            name="pencil"
-            class="icon-action-table"
-            @click="handleUpdate(entity)"
-          />
-          <Icon
-            name="trash"
-            class="icon-action-table"
-            @click="handleDelete(entity)"
-          />
-        </div>
-      </template>
-      <template #column_scope_standart="{ entity }">
-        <p class="text-base text-neutral-50 text-left">
-          {{ entity.scope_standart?.name }}
-        </p>
-      </template>
-    </Table>
+    <div class="flex gap-8">
+      <div class="w-[330px]">
+        <FilterAdEquipment
+          @filter="handleOnFilter"
+          @reset-filter="handleResetFilter"
+          :loading="isLoadingEquipment"
+        />
+      </div>
+      <div class="w-full">
+        <Table
+          label-create="Sub Bidang"
+          :columns="ColumnsEquipment"
+          :entities="dataEquipment?.data || []"
+          :loading="isLoadingEquipment"
+          :pagination="pagination"
+          :is-create="false"
+          v-model:model-search="params.search"
+          @change-page="changePage"
+          @change-limit="changeLimit"
+          @search="searchTable"
+        >
+          <template #column_action="{ entity }">
+            <div class="flex items-center justify-center gap-4">
+              <Icon
+                name="pencil"
+                class="icon-action-table"
+                @click="handleUpdate(entity)"
+              />
+              <Icon
+                name="trash"
+                class="icon-action-table"
+                @click="handleDelete(entity)"
+              />
+            </div>
+          </template>
+          <template #column_scope_standart="{ entity }">
+            <p class="text-base text-neutral-50 text-left">
+              {{ entity.scope_standart?.name }}
+            </p>
+          </template>
+        </Table>
+      </div>
+    </div>
 
     <FormAdEquipment
       v-model="open_form"
       :selected-value="selected_item"
+      :data-form="dataForm"
       @success="handleSuccess"
       @error="handleError"
+      @removeSucess="handleRemoveSuccess"
     />
   </div>
 </template>

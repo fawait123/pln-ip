@@ -49,18 +49,9 @@ const rules = computed(() => {
   };
 });
 
-watch(
-  () => props.dataForm,
-  (value) => {
-    console.log("HAHAHA", value);
-  },
-  { deep: true, immediate: true }
-);
-
 //--- CREATE EQUIPMENT
 const { mutate: createEquipment, isPending: isLoadingCreate } = useMutation({
   mutationFn: async (payload: EquipmentCreateInterface) => {
-    console.log("MODEL", model.value);
     return await masterStore.createEquipment(payload);
   },
   onSuccess: () => {

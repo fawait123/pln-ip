@@ -222,7 +222,7 @@ const handleRemoveSuccess = () => {
 
   <div class="relative w-full">
     <Button
-      v-if="dataForm?.bidang_uuid && dataForm.sub_bidang_uuid"
+      v-if="dataForm?.sub_bidang_uuid"
       icon_only="plus"
       class="absolute right-0"
       size="sm"
