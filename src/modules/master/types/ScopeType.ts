@@ -36,7 +36,7 @@ export interface ScopeDetailInterface {
 
 export interface ScopeCreateInterface {
   name: string;
-  inspection_type_uuid?: string;
+  inspection_type_uuid?: string | null;
   additional_scope_uuid?: string | null;
   link: string;
   category: string;
@@ -46,7 +46,7 @@ export interface ScopeCreateInterface {
 
 export interface ScopeUpdateInterface {
   name: string;
-  inspection_type_uuid?: string;
+  inspection_type_uuid?: string | null;
   additional_scope_uuid?: string | null;
   link: string;
   category: string;
@@ -63,6 +63,11 @@ export interface ScopeCreateModelInterface {
   additional_scope_uuid?: string;
   link: string;
   category: string;
+  sub_bidang_uuid: string;
+  bidang_uuid: string;
+}
+
+export interface ScopeAdditionalFilterInterface {
   sub_bidang_uuid: string;
   bidang_uuid: string;
 }

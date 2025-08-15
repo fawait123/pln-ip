@@ -4,18 +4,27 @@ import type { AxiosError } from "axios";
 
 import { Button, Icon, ModalDelete, Table, Toast } from "@/components";
 import { useMutation, useQuery } from "@tanstack/vue-query";
-import type { IPagination } from "@/types/GlobalType";
+import type {
+  IPagination,
+  IParams,
+  ResponseDocumentInterface,
+} from "@/types/GlobalType";
 
 import { ColumnsScope } from "../../constants/ScopeConstant";
-import type { ScopeInterface } from "../../types/ScopeType";
+import type {
+  ScopeAdditionalFilterInterface,
+  ScopeCreateModelInterface,
+  ScopeInterface,
+} from "../../types/ScopeType";
 import { useMasterStore } from "../../stores/MasterStore";
 import { useRoute } from "vue-router";
 import FormAdScope from "../../components/FormAdScope.vue";
+import FilterAdScope from "../../components/FilterAdScope.vue";
 
 const masterStore = useMasterStore();
 const route = useRoute();
 const total_item = ref(0);
-const params = reactive({
+const params = reactive<IParams>({
   search: "",
   filter: "",
   filters: [
@@ -34,6 +43,7 @@ const open_delete = ref(false);
 const selected_item = ref<ScopeInterface | null>(null);
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
 const timeout = ref(0);
+const dataForm = ref<ScopeAdditionalFilterInterface | null>(null);
 
 //--- GET SCOPE
 const {
@@ -87,8 +97,8 @@ const { mutate: deleteScope, isPending: isLoadingDelete } = useMutation({
 const pagination = computed(() => {
   return {
     totalItems: total_item.value,
-    itemsPerPage: params.perPage,
-    currentPage: params.currentPage,
+    itemsPerPage: params.perPage || 0,
+    currentPage: params.currentPage || 1,
   };
 });
 
@@ -147,6 +157,58 @@ const handleDelete = (item: ScopeInterface) => {
 const onDelete = () => {
   deleteScope(selected_item.value?.uuid as string);
 };
+
+const setFilter = () => {
+  params.filters = [
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "additional_scope_uuid",
+      value: route.params?.id,
+    },
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "sub_bidang_uuid",
+      value: String(dataForm.value?.sub_bidang_uuid),
+    },
+  ];
+};
+
+const resetFilter = () => {
+  dataForm.value = null;
+  params.filters = [
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "additional_scope_uuid",
+      value: route.params?.id,
+    },
+  ];
+};
+
+const handleOnFilter = (data: ScopeCreateModelInterface) => {
+  dataForm.value = data;
+  setFilter();
+  refetchScope();
+};
+
+const handleResetFilter = () => {
+  resetFilter();
+  refetchScope();
+};
+
+const previewDocument = (document: ResponseDocumentInterface) => {
+  window.open(
+    import.meta.env.VITE_API_BASE_URL.replace("api", "") +
+      document.document_link,
+    "_blank"
+  );
+};
+
+const handleRemoveSuccess = () => {
+  refetchScope();
+};
 </script>
 
 <template>
@@ -157,8 +219,10 @@ const onDelete = () => {
     :loading="isLoadingDelete"
     @delete="onDelete"
   />
+
   <div class="relative w-full">
     <Button
+      v-if="dataForm?.bidang_uuid && dataForm.sub_bidang_uuid"
       icon_only="plus"
       class="absolute right-0"
       size="sm"
@@ -167,64 +231,73 @@ const onDelete = () => {
       @click="handleCreate"
     />
 
-    <Table
-      label-create="User"
-      :columns="ColumnsScope"
-      :entities="dataScope?.data || []"
-      :loading="isLoadingScope"
-      :pagination="pagination"
-      :is-create="false"
-      v-model:model-search="params.search"
-      @change-page="changePage"
-      @change-limit="changeLimit"
-      @search="searchTable"
-    >
-      <template #column_action="{ entity }">
-        <div class="flex items-center justify-center gap-4">
-          <Icon
-            name="pencil"
-            class="icon-action-table"
-            @click="handleUpdate(entity)"
-          />
-          <Icon
-            name="trash"
-            class="icon-action-table"
-            @click="handleDelete(entity)"
-          />
-        </div>
-      </template>
-      <template #column_sub_bidang="{ entity }">
-        <p class="text-base text-neutral-50 text-center">
-          {{ entity.sub_bidang?.name ?? "-" }}
-        </p>
-      </template>
-      <template #column_inspection_type="{ entity }">
-        <p class="text-base text-neutral-50 text-center">
-          {{ entity.inspection_type?.name ?? "-" }}
-        </p>
-      </template>
-      <template #column_machine="{ entity }">
-        <p class="text-base text-neutral-50 text-center">
-          {{ entity.inspection_type?.machine?.name ?? "-" }}
-        </p>
-      </template>
-      <template #column_unit="{ entity }">
-        <p class="text-base text-neutral-50 text-center">
-          {{ entity.inspection_type?.machine?.unit?.name ?? "-" }}
-        </p>
-      </template>
-      <template #column_location="{ entity }">
-        <p class="text-base text-neutral-50 text-center">
-          {{ entity.inspection_type?.machine?.unit?.location?.name ?? "-" }}
-        </p>
-      </template>
-    </Table>
+    <div class="flex gap-8">
+      <div class="w-[330px]">
+        <FilterAdScope
+          @filter="handleOnFilter"
+          @reset-filter="handleResetFilter"
+          :loading="isLoadingScope"
+        />
+      </div>
+      <div class="w-full">
+        <Table
+          label-create="User"
+          :columns="ColumnsScope"
+          :entities="dataScope?.data || []"
+          :loading="isLoadingScope"
+          :pagination="pagination"
+          :is-create="false"
+          v-model:model-search="params.search"
+          @change-page="changePage"
+          @change-limit="changeLimit"
+          @search="searchTable"
+        >
+          <template #column_action="{ entity }">
+            <div class="flex items-center justify-center gap-4">
+              <Icon
+                name="pencil"
+                class="icon-action-table"
+                @click="handleUpdate(entity)"
+              />
+              <Icon
+                name="trash"
+                class="icon-action-table"
+                @click="handleDelete(entity)"
+              />
+            </div>
+          </template>
+          <template #column_document="{ entity }">
+            <p
+              class="text-base text-neutral-50 text-left underline cursor-pointer"
+              v-if="entity.document"
+              @click="previewDocument(entity.document)"
+            >
+              {{ entity.document?.document_name ?? "-" }}
+            </p>
+            <p v-else>-</p>
+          </template>
+          <template #column_link="{ entity }">
+            <a
+              :href="entity.link"
+              target="_blank"
+              class="text-base text-neutral-50 text-left underline cursor-pointer"
+              v-if="entity.link"
+            >
+              {{ entity.link ?? "-" }}
+            </a>
+            <p v-else>-</p>
+          </template>
+        </Table>
+      </div>
+    </div>
 
     <FormAdScope
       v-model="open_form"
       :selected-value="selected_item"
+      :data-form="dataForm"
       @success="handleSuccess"
       @error="handleError"
+      @removeSucess="handleRemoveSuccess"
     />
   </div>
 </template>
