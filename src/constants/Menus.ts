@@ -19,123 +19,165 @@ export const Menus: MenuInterface[] = [
     icon: "home",
   },
   {
-    id: 2,
-    name: "Sequences",
-    url: "/squences",
-    icon: "forward-message",
-  },
-  {
-    id: 3,
+    id: 5,
     name: "Scope",
     url: "/scope",
     icon: "document",
-    children: [
-      {
-        id: 301,
-        name: "Mekanik",
-        url: "/scope-mekanik",
-      },
-      {
-        id: 302,
-        name: "Listrik",
-        url: "/scope-listrik",
-      },
-      {
-        id: 303,
-        name: "Instrument",
-        url: "/scope-instrument",
-      },
-    ],
-  },
-  {
-    id: 4,
-    name: "Instruksi Kerja",
-    url: "/work-instruction",
-    icon: "checklist",
-    children: [
-      {
-        id: 301,
-        name: "Mekanik",
-        url: "/work-instruction-mekanik",
-      },
-      {
-        id: 302,
-        name: "Listrik",
-        url: "/work-instruction-listrik",
-      },
-      {
-        id: 303,
-        name: "Instrument",
-        url: "/work-instruction-instrument",
-      },
-    ],
-  },
-  {
-    id: 5,
-    name: "Consumable Material",
-    url: "/consumable-material",
-    icon: "box",
-  },
-  {
-    id: 6,
-    name: "Manpower",
-    url: "/manpower",
-    icon: "male",
-  },
-  {
-    id: 7,
-    name: "Part",
-    url: "/part",
-    icon: "trolley-items",
-  },
-  {
-    id: 8,
-    name: "Tools",
-    url: "/tools",
-    icon: "tools",
-  },
-  {
-    id: 9,
-    name: "HSE",
-    url: "/hse",
-    icon: "construction-worker",
-  },
-  {
-    id: 10,
-    name: "QC Plan",
-    url: "/qc-plan",
-    icon: "mind-gear",
   },
   {
     id: 11,
-    name: "Add Scope",
-    url: "/add-scope",
-    icon: "login",
-    children: [
-      {
-        id: 111,
-        name: "Detail",
-        url: "/add-scope-table",
-      },
-      {
-        id: 112,
-        name: "Sequences",
-        url: "/add-scope-squences",
-      },
-    ],
+    name: "Equipment",
+    url: "/equipment",
+    icon: "wrench",
   },
+  {
+    id: 11,
+    name: "Activity",
+    url: "/activity",
+    icon: "pulse-line",
+  },
+  {
+    id: 11,
+    name: "Part Std",
+    url: "/part-std",
+    icon: "part-std",
+  },
+  {
+    id: 11,
+    name: "Manpower Std",
+    url: "/manpower-std",
+    icon: "manpower-std",
+  },
+  {
+    id: 11,
+    name: "Consumable Material Std",
+    url: "/consumable-material-std",
+    icon: "consumable-material-std",
+  },
+  {
+    id: 13,
+    name: "Additional Scope",
+    url: "/additional-scope",
+    icon: "login",
+  },
+  // {
+  //   id: 2,
+  //   name: "Sequences",
+  //   url: "/squences",
+  //   icon: "forward-message",
+  // },
+  // {
+  //   id: 3,
+  //   name: "Scope",
+  //   url: "/scope",
+  //   icon: "document",
+  //   children: [
+  //     {
+  //       id: 301,
+  //       name: "Mekanik",
+  //       url: "/scope-mekanik",
+  //     },
+  //     {
+  //       id: 302,
+  //       name: "Listrik",
+  //       url: "/scope-listrik",
+  //     },
+  //     {
+  //       id: 303,
+  //       name: "Instrument",
+  //       url: "/scope-instrument",
+  //     },
+  //   ],
+  // },
+  // {
+  //   id: 4,
+  //   name: "Instruksi Kerja",
+  //   url: "/work-instruction",
+  //   icon: "checklist",
+  //   children: [
+  //     {
+  //       id: 301,
+  //       name: "Mekanik",
+  //       url: "/work-instruction-mekanik",
+  //     },
+  //     {
+  //       id: 302,
+  //       name: "Listrik",
+  //       url: "/work-instruction-listrik",
+  //     },
+  //     {
+  //       id: 303,
+  //       name: "Instrument",
+  //       url: "/work-instruction-instrument",
+  //     },
+  //   ],
+  // },
+  // {
+  //   id: 5,
+  //   name: "Consumable Material",
+  //   url: "/consumable-material",
+  //   icon: "box",
+  // },
+  // {
+  //   id: 6,
+  //   name: "Manpower",
+  //   url: "/manpower",
+  //   icon: "male",
+  // },
+  // {
+  //   id: 7,
+  //   name: "Part",
+  //   url: "/part",
+  //   icon: "trolley-items",
+  // },
+  // {
+  //   id: 8,
+  //   name: "Tools",
+  //   url: "/tools",
+  //   icon: "tools",
+  // },
+  // {
+  //   id: 9,
+  //   name: "HSE",
+  //   url: "/hse",
+  //   icon: "construction-worker",
+  // },
+  // {
+  //   id: 10,
+  //   name: "QC Plan",
+  //   url: "/qc-plan",
+  //   icon: "mind-gear",
+  // },
+  // {
+  //   id: 11,
+  //   name: "Add Scope",
+  //   url: "/add-scope",
+  //   icon: "login",
+  //   children: [
+  //     {
+  //       id: 111,
+  //       name: "Detail",
+  //       url: "/add-scope-table",
+  //     },
+  //     {
+  //       id: 112,
+  //       name: "Sequences",
+  //       url: "/add-scope-squences",
+  //     },
+  //   ],
+  // },
   // {
   //   id: 11,
   //   name: "Preview",
   //   url: "/preview",
   //   icon: "magnifying-glass",
   // },
-  {
-    id: 12,
-    name: "Results",
-    url: "/results",
-    icon: "document-clean",
-  },
+  // {
+  //   id: 12,
+  //   name: "Results",
+  //   url: "/results",
+  //   icon: "document-clean",
+  // },
 ];
 
 export const MenusAddScope: MenuInterface[] = [

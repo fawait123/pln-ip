@@ -244,6 +244,7 @@ const {
     enabled: !props.selectedValue && !is_loading_location.value,
     queryFn: async ({ pageParam = 1 }) => {
         try {
+            is_loading_location.value = true;
             const { data } = await masterStore.getLocation({
                 ...params_location,
                 currentPage: pageParam,
@@ -285,6 +286,7 @@ const {
     enabled: false,
     queryFn: async ({ pageParam = 1 }) => {
         try {
+            is_loading_unit.value = true;
             const { data } = await masterStore.getUnit({
                 ...params_unit,
                 currentPage: pageParam,
@@ -326,6 +328,7 @@ const {
     enabled: false,
     queryFn: async ({ pageParam = 1 }) => {
         try {
+            is_loading_machine.value = true;
             const { data } = await masterStore.getMachine({
                 ...params_machine,
                 currentPage: pageParam,
@@ -367,6 +370,7 @@ const {
     enabled: false,
     queryFn: async ({ pageParam = 1 }) => {
         try {
+            is_loading_inspection.value = true;
             const { data } = await masterStore.getInspectionType({
                 ...params_inspection,
                 currentPage: pageParam,

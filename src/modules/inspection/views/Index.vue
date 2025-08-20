@@ -24,6 +24,7 @@ import type {
   TCreateGenerate,
   TInspection,
 } from "../types/InspectionType";
+import { useAuthStore } from "@/modules/auth/stores/AuthStore";
 
 const videos = [Home0, Home1, Home2];
 // const scope = [
@@ -33,9 +34,9 @@ const videos = [Home0, Home1, Home2];
 // ];
 
 const masterStore = useMasterStore();
+const authStore = useAuthStore();
 const scopeStore = useInspectionStore();
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
-
 const router = useRouter();
 const route = useRoute();
 const globalStore = useGlobalStore();
@@ -295,6 +296,15 @@ const handleMouseLeave = () => {
   }
 };
 
+const selectInspection = (item: TInspection) => {
+  if (authStore.users && authStore.users.role == "planner") {
+    toScope(item)
+  } else {
+    // TODO handle not planner
+    console.log('role not planner')
+  }
+}
+
 const toScope = (url: TInspection) => {
   router.replace({
     path: route.path,
@@ -358,8 +368,8 @@ const searchScope = () => {
       ? "ci"
       : inspection === "turbine inspection" ||
         inspection === "turbin inspection"
-      ? "ti"
-      : "mi";
+        ? "ti"
+        : "mi";
   refetchProject();
 };
 
@@ -374,8 +384,8 @@ const generateScope = () => {
       ? "ci"
       : inspection === "turbine inspection" ||
         inspection === "turbin inspection"
-      ? "ti"
-      : "mi";
+        ? "ti"
+        : "mi";
 
   const payload: TCreateGenerate = {
     name: model.value,
@@ -390,7 +400,7 @@ const generateScope = () => {
 
 const toTransaction = (uuid: string) => {
   router.push(
-    `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route.params?.id_machine}/${inspection_selected.value}/${uuid}/${scopeSelected.value}/scope-mekanik`
+    `/${route.params?.id}/create/unit/${route.params?.id_unit}/${route.params?.id_machine}/${inspection_selected.value}/${uuid}/${scopeSelected.value}/scope`
   );
 };
 
@@ -437,72 +447,35 @@ onUnmounted(() => {
       <Breadcrumb :items="breadcrumb" />
     </div>
     <div class="scope-video-container">
-      <video
-        ref="videoRef"
-        :src="videos[currentVideoIndex === null ? 0 : currentVideoIndex]"
-        class="scope-video"
-        @loadedmetadata="handleFirstVideoLoad"
-        @ended="handleVideoEnd"
-        autoplay
-        muted
-        playsinline
-      ></video>
+      <video ref="videoRef" :src="videos[currentVideoIndex === null ? 0 : currentVideoIndex]" class="scope-video"
+        @loadedmetadata="handleFirstVideoLoad" @ended="handleVideoEnd" autoplay muted playsinline></video>
       <div class="scope-button-home">
-        <button
-          v-for="(item, key) in dataInspectionType?.data"
-          :id="`button-home-${key}`"
-          :key="key"
-          :class="{ 'scope-button-home--active': scopeSelected === item.uuid }"
-          @mouseover="handleMouseOver(key)"
-          @mouseleave="handleMouseLeave"
-          @click="toScope(item)"
-        >
+        <button v-for="(item, key) in dataInspectionType?.data" :id="`button-home-${key}`" :key="key"
+          :class="{ 'scope-button-home--active': scopeSelected === item.uuid }" @mouseover="handleMouseOver(key)"
+          @mouseleave="handleMouseLeave" @click="selectInspection(item)">
           {{ item.name }}
         </button>
       </div>
       <div v-show="scopeSelected" id="scope-menu" class="scope-button-menus">
         <div class="w-[450px] relative">
           <Input rounded="full" v-model="model" />
-          <div
-            v-if="open_search"
-            class="absolute top-11 right-0 left-0 bg-neutral-950 bg-opacity-50 rounded-xl py-3 text-sm text-neutral-50"
-          >
+          <div v-if="open_search"
+            class="absolute top-11 right-0 left-0 bg-neutral-950 bg-opacity-50 rounded-xl py-3 text-sm text-neutral-50">
             <p v-if="isLoadingProject" class="w-full text-center">Loading...</p>
-            <p
-              v-if="!isLoadingProject && (dataProject || []).length === 0"
-              class="w-full text-center"
-            >
+            <p v-if="!isLoadingProject && (dataProject || []).length === 0" class="w-full text-center">
               Not Found Data
             </p>
-            <p
-              v-else-if="!isLoadingProject && (dataProject || []).length > 0"
-              v-for="(item, key) in dataProject"
-              :key="key"
-              class="px-4 hover:text-neutral-200 cursor-pointer py-1"
-              @click="toTransaction(item.uuid)"
-            >
+            <p v-else-if="!isLoadingProject && (dataProject || []).length > 0" v-for="(item, key) in dataProject"
+              :key="key" class="px-4 hover:text-neutral-200 cursor-pointer py-1" @click="toTransaction(item.uuid)">
               {{ item.name }}
             </p>
           </div>
         </div>
         <div class="flex items-center gap-2">
-          <Button
-            text="Search"
-            color="blue"
-            rounded="full"
-            class="!px-6"
-            :disabled="isLoadingGenerate"
-            @click="searchScope"
-          />
-          <Button
-            text="Generate"
-            color="blue"
-            rounded="full"
-            class="!px-6"
-            :disabled="isLoadingGenerate"
-            :loading="isLoadingGenerate"
-            @click="generateScope"
-          />
+          <Button text="Search" color="blue" rounded="full" class="!px-6" :disabled="isLoadingGenerate"
+            @click="searchScope" />
+          <Button text="Generate" color="blue" rounded="full" class="!px-6" :disabled="isLoadingGenerate"
+            :loading="isLoadingGenerate" @click="generateScope" />
         </div>
       </div>
     </div>

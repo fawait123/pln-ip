@@ -16,6 +16,19 @@ import type { CreateHseInterface } from "../types/HseType";
 export const useTransactionStore = defineStore(
   "transaction",
   () => {
+    const getTotalDurationScope = async (payload: Record<string, any>) => {
+      return await api
+        .get(`/transaction/scope-standart/resource/duration`, {
+          params: payload,
+        })
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
     const getScopeStandar = async (payload: IParams) => {
       return await api
         .get(`/transaction/scope-standart/resource/pagination`, {
@@ -505,6 +518,7 @@ export const useTransactionStore = defineStore(
       getDownloadResultTools,
       getDownloadResultHse,
       getDownloadResultQcPlan,
+      getTotalDurationScope
     };
   },
   {

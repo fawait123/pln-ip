@@ -21,11 +21,11 @@ export interface ScopeInterface {
   history: WithFileInterface | null;
   rla: WithFileInterface | null;
   ncr: WithFileInterface | null;
-  children: {
-    id: string;
-    name: string;
-    document: ResponseDocumentInterface | null;
-  }[];
+  // children: {
+  //   id: string;
+  //   name: string;
+  //   document: ResponseDocumentInterface | null;
+  // }[];
   document: ResponseDocumentInterface | null;
 }
 

@@ -19,6 +19,10 @@ const logout = () => {
   router.push("/login");
 };
 
+const login = () => {
+  router.push({ name: 'login' });
+}
+
 const getMenuActive = computed(() => {
   if (route.params.menu === "ci") {
     return "Combustion Inspection";
@@ -35,12 +39,13 @@ const getMenuActive = computed(() => {
     <img :src="imgUrl" @click="toHome" />
     <div class="menu-bar">
       <div class="menu-wrapper">
-        <div class="user-info">
-          <p>User : superadmin@gmail.com</p>
+        <div class="user-info" v-if="authStore.users">
+          <p>User : {{ authStore.users?.email }}</p>
         </div>
         <button class="menu-button" @click="router.push('/')">Location</button>
         <button class="menu-button active">{{ getMenuActive }}</button>
-        <button class="sign-out-button" @click="logout">Sign Out</button>
+        <button class="sign-out-button" @click="logout" v-if="authStore.users">Sign Out</button>
+        <button class="sign-out-button" @click="login" v-else>Login</button>
       </div>
     </div>
   </div>

@@ -15,6 +15,10 @@ const logout = () => {
   authStore.logout();
   router.push("/login");
 };
+
+const login = () => {
+  router.push({ name: 'login' });
+}
 </script>
 
 <template>
@@ -22,16 +26,17 @@ const logout = () => {
     <img :src="imgUrl" @click="toHome" />
     <div class="menu-bar">
       <div class="menu-wrapper">
-        <div class="user-info">
-          <p>User : superadmin@gmail.com</p>
+        <div class="user-info" v-if="authStore.users">
+          <p>User : {{ authStore.users?.email }}</p>
         </div>
-        <button class="menu-button">UBH</button>
+        <!-- <button class="menu-button">UBH</button> -->
         <button class="menu-button active">Location</button>
-        <button class="menu-button" @click="router.push('/user-history')">
+        <!-- <button class="menu-button" @click="router.push('/user-history')">
           User History
-        </button>
-        <button class="menu-button">Report</button>
-        <button class="sign-out-button" @click="logout">Sign Out</button>
+        </button> -->
+        <!-- <button class="menu-button">Report</button> -->
+        <button class="sign-out-button" @click="logout" v-if="authStore.users">Sign Out</button>
+        <button class="sign-out-button" @click="login" v-else>Login</button>
       </div>
     </div>
   </div>

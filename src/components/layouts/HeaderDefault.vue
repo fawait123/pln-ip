@@ -54,6 +54,10 @@ const logout = () => {
   router.push("/login");
 };
 
+const login = () => {
+  router.push({ name: 'login' })
+}
+
 const toCreate = () => {
   router.push(`/${locationId}/create/unit`);
 };
@@ -79,21 +83,18 @@ const toReport = () => {
     <img :src="imgUrl" @click="toHome" />
     <div class="menu-bar">
       <div class="menu-wrapper">
-        <div class="user-info">
-          <p>User : superadmin@gmail.com</p>
+        <div class="user-info" v-if="authStore.users">
+          <p>User : {{ authStore.users?.email }}</p>
         </div>
         <button class="menu-button" @click="router.push('/')">Location</button>
-        <button
-          class="menu-button"
-          :class="{ active: route.path.includes('create') }"
-          @click="toCreate"
-        >
+        <button class="menu-button" :class="{ active: route.path.includes('create') }" @click="toCreate">
           Planner
         </button>
-        <button class="menu-button">Preview</button>
-        <button class="menu-button">Expert</button>
+        <!-- <button class="menu-button">Preview</button>
+        <button class="menu-button">Expert</button> -->
         <!-- <button class="menu-button" @click="toReport">Report</button> -->
-        <button class="sign-out-button" @click="logout">Sign Out</button>
+        <button class="sign-out-button" @click="logout" v-if="authStore.users">Sign Out</button>
+        <button class="sign-out-button" @click="login" v-else>Login</button>
       </div>
       <div class="navigation">
         <div class="page-info">
@@ -103,37 +104,22 @@ const toReport = () => {
           <Icon name="home" class="text-white text-xl" />
         </div> -->
         <div class="arrow-buttons">
-          <button
-            class="arrow-button back"
-            :disabled="disabledBack"
-            @click="handleBack"
-          >
+          <button class="arrow-button back" :disabled="disabledBack" @click="handleBack">
             Back
           </button>
-          <button
-            v-if="!isFinish && !isRemoveNext"
-            class="arrow-button next"
-            :disabled="disabledNext"
-            @click="handleNext"
-          >
+          <button v-if="!isFinish && !isRemoveNext" class="arrow-button next" :disabled="disabledNext"
+            @click="handleNext">
             Next
           </button>
-          <button
-            v-if="isFinish && !isRemoveNext"
-            class="arrow-button next"
-            :disabled="disabledNext"
-            @click="handleSave"
-          >
+          <button v-if="isFinish && !isRemoveNext" class="arrow-button next" :disabled="disabledNext"
+            @click="handleSave">
             Save
           </button>
         </div>
       </div>
       <div v-if="isStepNavigation" class="step-navigation">
-        <Icon
-          name="double-arrow-left"
-          class="text-[24px] text-buttonGray cursor-pointer hover:text-cyan-500"
-          @click="handleStepNavigation"
-        />
+        <Icon name="double-arrow-left" class="text-[24px] text-buttonGray cursor-pointer hover:text-cyan-500"
+          @click="handleStepNavigation" />
       </div>
       <div v-if="isAddScope" class="add-scope">
         <button :disabled="disabledNext" @click="handleAddScope">
