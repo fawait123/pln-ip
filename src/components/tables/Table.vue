@@ -186,7 +186,7 @@ defineSlots<{
     </div>
     <div class="v-table--body">
       <div class="v-table-wrapper">
-        <table>
+        <table class="mt-4">
           <thead>
             <tr>
               <th

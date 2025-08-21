@@ -1,10 +1,18 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import type { AxiosError } from "axios";
 
-import { Button, Icon, ModalDelete, Table, Toast } from "@/components";
+import {
+  Breadcrumb,
+  Button,
+  Icon,
+  ModalDelete,
+  Table,
+  Toast,
+} from "@/components";
 import { useMutation, useQuery } from "@tanstack/vue-query";
 import type { IPagination } from "@/types/GlobalType";
+import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 
 import { ColumnsEquipment } from "../constants/EquipmentConstant";
 import { useMasterStore } from "../stores/MasterStore";
@@ -37,6 +45,7 @@ const open_delete = ref(false);
 const selected_item = ref<EquipmentInterface | null>(null);
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
 const timeout = ref(0);
+const breadcrumb = ref<BreadcrumbType[]>([]);
 
 //--- GET EQUIPMENT
 const {
@@ -194,17 +203,19 @@ const handleResetFilter = () => {
 const handleRemoveSuccess = () => {
   refetchEquipment();
 };
+
+onMounted(() => {
+  breadcrumb.value = [
+    {
+      name: "Equipment",
+      as_link: false,
+      url: "",
+    },
+  ];
+});
 </script>
 
 <template>
-  <Toast ref="toastRef" />
-  <ModalDelete
-    v-model="open_delete"
-    :title="selected_item?.name"
-    :loading="isLoadingDelete"
-    @delete="onDelete"
-  />
-
   <div class="relative w-full">
     <Button
       icon_only="plus"
@@ -225,6 +236,7 @@ const handleRemoveSuccess = () => {
         />
       </div>
       <div class="w-full">
+        <Breadcrumb :items="breadcrumb" />
         <Table
           label-create="Sub Bidang"
           :columns="ColumnsEquipment"
@@ -233,6 +245,7 @@ const handleRemoveSuccess = () => {
           :pagination="pagination"
           :is-create="false"
           v-model:model-search="params.search"
+          class="mt-6"
           @change-page="changePage"
           @change-limit="changeLimit"
           @search="searchTable"
@@ -269,6 +282,14 @@ const handleRemoveSuccess = () => {
       @removeSucess="handleRemoveSuccess"
     />
   </div>
+
+  <Toast ref="toastRef" />
+  <ModalDelete
+    v-model="open_delete"
+    :title="selected_item?.name"
+    :loading="isLoadingDelete"
+    @delete="onDelete"
+  />
 </template>
 
 <style lang="sass"></style>

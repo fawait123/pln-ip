@@ -1,19 +1,33 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import type { AxiosError } from "axios";
 
-import { Button, Icon, ModalDelete, Table, Toast } from "@/components";
+import {
+  Breadcrumb,
+  Button,
+  Icon,
+  ModalDelete,
+  Table,
+  Toast,
+} from "@/components";
 import { useMutation, useQuery } from "@tanstack/vue-query";
-import type { IPagination, ResponseDocumentInterface } from "@/types/GlobalType";
+import type {
+  IPagination,
+  ResponseDocumentInterface,
+} from "@/types/GlobalType";
+import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 
 import { ColumnsScope } from "../constants/ScopeConstant";
-import type { ScopeCreateModelInterface, ScopeInterface } from "../types/ScopeType";
+import type {
+  ScopeCreateModelInterface,
+  ScopeInterface,
+} from "../types/ScopeType";
 import { useMasterStore } from "../stores/MasterStore";
 import FormScope from "../components/FormScope.vue";
 import type { SequenceInterface } from "../types/SequenceTypes";
 import FilterScope from "../components/FilterScope.vue";
 
-const dataForm = ref<ScopeCreateModelInterface | null>(null)
+const dataForm = ref<ScopeCreateModelInterface | null>(null);
 const masterStore = useMasterStore();
 const total_item = ref(0);
 const params = reactive({
@@ -35,6 +49,7 @@ const open_delete = ref(false);
 const selected_item = ref<ScopeInterface | null>(null);
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
 const timeout = ref(0);
+const breadcrumb = ref<BreadcrumbType[]>([]);
 
 //--- GET SCOPE
 const {
@@ -150,8 +165,8 @@ const onDelete = () => {
 };
 
 const handleSequence = (e: SequenceInterface) => {
-  console.log(e)
-}
+  console.log(e);
+};
 
 const setFilter = () => {
   params.filters = [
@@ -172,9 +187,9 @@ const setFilter = () => {
       operator: "EQ",
       column: "sub_bidang_uuid",
       value: String(dataForm.value?.sub_bidang_uuid),
-    }
+    },
   ];
-}
+};
 
 const resetFilter = () => {
   dataForm.value = null;
@@ -184,70 +199,133 @@ const resetFilter = () => {
       operator: "NOT_NULL",
       column: "inspection_type_uuid",
       value: "",
-    }
+    },
   ];
-}
+};
 
 const handleOnFilter = (data: ScopeCreateModelInterface) => {
   dataForm.value = data;
-  setFilter()
+  setFilter();
   refetchScope();
-}
+};
 
 const handleResetFilter = () => {
-  resetFilter()
+  resetFilter();
   refetchScope();
-}
+};
 
 const previewDocument = (document: ResponseDocumentInterface) => {
-  window.open(import.meta.env.VITE_API_BASE_URL.replace("api", "") + document.document_link, '_blank')
-}
+  window.open(
+    import.meta.env.VITE_API_BASE_URL.replace("api", "") +
+      document.document_link,
+    "_blank"
+  );
+};
 
 const handleRemoveSuccess = () => {
   refetchScope();
-}
+};
+
+onMounted(() => {
+  breadcrumb.value = [
+    {
+      name: "Scope",
+      as_link: false,
+      url: "",
+    },
+  ];
+});
 </script>
 
 <template>
-  <Toast ref="toastRef" />
-  <ModalDelete v-model="open_delete" :title="selected_item?.name" :loading="isLoadingDelete" @delete="onDelete" />
   <div class="relative w-full">
-    <Button v-if="dataForm?.inspection_type_uuid && dataForm.sub_bidang_uuid" icon_only="plus" class="absolute right-0"
-      size="sm" rounded="full" color="blue" @click="handleCreate" />
+    <Button
+      v-if="dataForm?.inspection_type_uuid && dataForm.sub_bidang_uuid"
+      icon_only="plus"
+      class="absolute right-0"
+      size="sm"
+      rounded="full"
+      color="blue"
+      @click="handleCreate"
+    />
 
     <div class="flex gap-8">
       <div class="w-[330px]">
-        <FilterScope @filter="handleOnFilter" @reset-filter="handleResetFilter" :loading="isLoadingScope" />
+        <FilterScope
+          @filter="handleOnFilter"
+          @reset-filter="handleResetFilter"
+          :loading="isLoadingScope"
+        />
       </div>
       <div class="w-full">
-        <Table label-create="User" :columns="ColumnsScope" :entities="dataScope?.data || []" :loading="isLoadingScope"
-          :pagination="pagination" :is-create="false" v-model:model-search="params.search" @change-page="changePage"
-          @change-limit="changeLimit" @search="searchTable">
+        <Breadcrumb :items="breadcrumb" />
+        <Table
+          label-create="User"
+          :columns="ColumnsScope"
+          :entities="dataScope?.data || []"
+          :loading="isLoadingScope"
+          :pagination="pagination"
+          :is-create="false"
+          v-model:model-search="params.search"
+          class="mt-6"
+          @change-page="changePage"
+          @change-limit="changeLimit"
+          @search="searchTable"
+        >
           <template #column_action="{ entity }">
             <div class="flex items-center justify-center gap-4">
-              <Icon name="pencil" class="icon-action-table" @click="handleUpdate(entity)" />
-              <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
+              <Icon
+                name="pencil"
+                class="icon-action-table"
+                @click="handleUpdate(entity)"
+              />
+              <Icon
+                name="trash"
+                class="icon-action-table"
+                @click="handleDelete(entity)"
+              />
             </div>
           </template>
           <template #column_document="{ entity }">
-            <p class="text-base text-neutral-50 text-left underline cursor-pointer" v-if="entity.document"
-              @click="previewDocument(entity.document)">
+            <p
+              class="text-base text-neutral-50 text-left underline cursor-pointer"
+              v-if="entity.document"
+              @click="previewDocument(entity.document)"
+            >
               {{ entity.document?.document_name ?? "-" }}
             </p>
-            <p v-else> - </p>
+            <p v-else>-</p>
           </template>
           <template #column_link="{ entity }">
-            <a :href="entity.link" target="_blank" class="text-base text-neutral-50 text-left underline cursor-pointer"
-              v-if="entity.link">
+            <a
+              :href="entity.link"
+              target="_blank"
+              class="text-base text-neutral-50 text-left underline cursor-pointer"
+              v-if="entity.link"
+            >
               {{ entity.link ?? "-" }}
             </a>
-            <p v-else> - </p>
+            <p v-else>-</p>
           </template>
         </Table>
       </div>
     </div>
 
-    <FormScope :data-form="dataForm" v-model="open_form" :selected-value="selected_item" @success="handleSuccess"
-      @error="handleError" @removeSucess="handleRemoveSuccess" />
+    <FormScope
+      :data-form="dataForm"
+      v-model="open_form"
+      :selected-value="selected_item"
+      @success="handleSuccess"
+      @error="handleError"
+      @removeSucess="handleRemoveSuccess"
+    />
   </div>
+
+  <Toast ref="toastRef" />
+  <ModalDelete
+    v-model="open_delete"
+    :title="selected_item?.name"
+    :loading="isLoadingDelete"
+    @delete="onDelete"
+  />
 </template>

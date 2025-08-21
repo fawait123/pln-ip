@@ -1,10 +1,18 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import type { AxiosError } from "axios";
 
-import { Button, Icon, ModalDelete, Table, Toast } from "@/components";
+import {
+  Breadcrumb,
+  Button,
+  Icon,
+  ModalDelete,
+  Table,
+  Toast,
+} from "@/components";
 import { useMutation, useQuery } from "@tanstack/vue-query";
 import type { IPagination } from "@/types/GlobalType";
+import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 
 import { ColumnsUser } from "../constants/UserConstant";
 import type { UserInterface } from "../types/UserType";
@@ -24,6 +32,7 @@ const open_delete = ref(false);
 const selected_item = ref<UserInterface | null>(null);
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
 const timeout = ref(0);
+const breadcrumb = ref<BreadcrumbType[]>([]);
 
 //--- GET USER
 const {
@@ -137,31 +146,92 @@ const handleDelete = (item: UserInterface) => {
 const onDelete = () => {
   deleteUser(selected_item.value?.id as number);
 };
+
+onMounted(() => {
+  breadcrumb.value = [
+    {
+      name: "Master Data",
+      as_link: false,
+      url: "",
+    },
+    {
+      name: "User",
+      as_link: false,
+      url: "",
+    },
+  ];
+});
 </script>
 
 <template>
-  <Toast ref="toastRef" />
-  <ModalDelete v-model="open_delete" :title="selected_item?.name" :loading="isLoadingDelete" @delete="onDelete" />
-  <div class="relative w-full">
-    <Button icon_only="plus" class="absolute right-0" size="sm" rounded="full" color="blue" @click="handleCreate" />
+  <Breadcrumb :items="breadcrumb" />
+  <div class="relative w-full mt-6">
+    <div class="flex items-center gap-2 absolute right-0">
+      <Button text="Import" rounded="full" color="blue" />
+      <Button text="Download" rounded="full" color="blue" />
+      <Button text="Export Template" rounded="full" color="blue" />
+      <Button
+        icon_only="plus"
+        size="sm"
+        rounded="full"
+        color="blue"
+        @click="handleCreate"
+      />
+    </div>
 
-    <Table label-create="User" :columns="ColumnsUser" :entities="dataUser?.data || []" :loading="isLoadingUser"
-      :pagination="pagination" :is-create="false" v-model:model-search="params.search" @change-page="changePage"
-      @change-limit="changeLimit" @search="searchTable">
+    <Table
+      label-create="User"
+      :columns="ColumnsUser"
+      :entities="dataUser?.data || []"
+      :loading="isLoadingUser"
+      :pagination="pagination"
+      :is-create="false"
+      v-model:model-search="params.search"
+      @change-page="changePage"
+      @change-limit="changeLimit"
+      @search="searchTable"
+    >
       <template #column_action="{ entity }">
-        <div v-if="entity.roles?.[0]?.name !== 'superuser'" class="flex items-center justify-center gap-4">
-          <Icon name="pencil" class="icon-action-table" @click="handleUpdate(entity)" />
-          <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
+        <div
+          v-if="entity.roles?.[0]?.name !== 'superuser'"
+          class="flex items-center justify-center gap-4"
+        >
+          <Icon
+            name="pencil"
+            class="icon-action-table"
+            @click="handleUpdate(entity)"
+          />
+          <Icon
+            name="trash"
+            class="icon-action-table"
+            @click="handleDelete(entity)"
+          />
         </div>
         <div v-else />
       </template>
       <template #column_role="{ entity }">
-        <p class="text-base text-neutral-50 text-center" v-for="role in entity.roles">
+        <p
+          class="text-base text-neutral-50 text-center"
+          v-for="role in entity.roles"
+        >
           {{ role?.display_name }}
         </p>
       </template>
     </Table>
 
-    <FormUser v-model="open_form" :selected-value="selected_item" @success="handleSuccess" @error="handleError" />
+    <FormUser
+      v-model="open_form"
+      :selected-value="selected_item"
+      @success="handleSuccess"
+      @error="handleError"
+    />
   </div>
+
+  <Toast ref="toastRef" />
+  <ModalDelete
+    v-model="open_delete"
+    :title="selected_item?.name"
+    :loading="isLoadingDelete"
+    @delete="onDelete"
+  />
 </template>

@@ -1,16 +1,24 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import type { AxiosError } from "axios";
 
-import { Button, Icon, ModalDelete, Table, Toast } from "@/components";
+import {
+  Breadcrumb,
+  Button,
+  Icon,
+  ModalDelete,
+  Table,
+  Toast,
+} from "@/components";
 import { useMutation, useQuery } from "@tanstack/vue-query";
+import { numberFormat } from "@/helpers/global";
 import type { IPagination } from "@/types/GlobalType";
+import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 
 import { ColumnsManpower } from "../constants/ManpowerConstant";
 import type { ManpowerInterface } from "../types/ManpowerType";
 import { useMasterStore } from "../stores/MasterStore";
 import FormManpower from "../components/FormManpower.vue";
-import { numberFormat } from "@/helpers/global";
 
 const masterStore = useMasterStore();
 const total_item = ref(0);
@@ -26,6 +34,7 @@ const open_delete = ref(false);
 const selected_item = ref<ManpowerInterface | null>(null);
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
 const timeout = ref(0);
+const breadcrumb = ref<BreadcrumbType[]>([]);
 
 //--- GET MANPOWER
 const {
@@ -139,22 +148,63 @@ const handleDelete = (item: ManpowerInterface) => {
 const onDelete = () => {
   deleteManpower(selected_item.value?.uuid as string);
 };
+
+onMounted(() => {
+  breadcrumb.value = [
+    {
+      name: "Master Data",
+      as_link: false,
+      url: "",
+    },
+    {
+      name: "Manpower",
+      as_link: false,
+      url: "",
+    },
+  ];
+});
 </script>
 
 <template>
-  <Toast ref="toastRef" />
-  <ModalDelete v-model="open_delete" :title="selected_item?.name" :loading="isLoadingDelete" @delete="onDelete" />
+  <Breadcrumb :items="breadcrumb" />
+  <div class="relative w-full mt-6">
+    <div class="flex items-center gap-2 absolute right-0">
+      <Button text="Import" rounded="full" color="blue" />
+      <Button text="Download" rounded="full" color="blue" />
+      <Button text="Export Template" rounded="full" color="blue" />
+      <Button
+        icon_only="plus"
+        size="sm"
+        rounded="full"
+        color="blue"
+        @click="handleCreate"
+      />
+    </div>
 
-  <div class="relative w-full">
-    <Button icon_only="plus" class="absolute right-0" size="sm" rounded="full" color="blue" @click="handleCreate" />
-
-    <Table label-create="Manpower" :columns="ColumnsManpower" :entities="dataManpower?.data || []"
-      :loading="isLoadingManpower" :pagination="pagination" :is-create="false" v-model:model-search="params.search"
-      @change-page="changePage" @change-limit="changeLimit" @search="searchTable">
+    <Table
+      label-create="Manpower"
+      :columns="ColumnsManpower"
+      :entities="dataManpower?.data || []"
+      :loading="isLoadingManpower"
+      :pagination="pagination"
+      :is-create="false"
+      v-model:model-search="params.search"
+      @change-page="changePage"
+      @change-limit="changeLimit"
+      @search="searchTable"
+    >
       <template #column_action="{ entity }">
         <div class="flex items-center justify-center gap-4">
-          <Icon name="pencil" class="icon-action-table" @click="handleUpdate(entity)" />
-          <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
+          <Icon
+            name="pencil"
+            class="icon-action-table"
+            @click="handleUpdate(entity)"
+          />
+          <Icon
+            name="trash"
+            class="icon-action-table"
+            @click="handleDelete(entity)"
+          />
         </div>
       </template>
       <template #column_price="{ entity }">
@@ -164,6 +214,19 @@ const onDelete = () => {
       </template>
     </Table>
 
-    <FormManpower v-model="open_form" :selected-value="selected_item" @success="handleSuccess" @error="handleError" />
+    <FormManpower
+      v-model="open_form"
+      :selected-value="selected_item"
+      @success="handleSuccess"
+      @error="handleError"
+    />
   </div>
+
+  <Toast ref="toastRef" />
+  <ModalDelete
+    v-model="open_delete"
+    :title="selected_item?.name"
+    :loading="isLoadingDelete"
+    @delete="onDelete"
+  />
 </template>

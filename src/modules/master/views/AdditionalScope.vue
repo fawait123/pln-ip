@@ -1,11 +1,19 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import type { AxiosError } from "axios";
 import { useRouter } from "vue-router";
 
-import { Button, Icon, ModalDelete, Table, Toast } from "@/components";
+import {
+  Breadcrumb,
+  Button,
+  Icon,
+  ModalDelete,
+  Table,
+  Toast,
+} from "@/components";
 import { useMutation, useQuery } from "@tanstack/vue-query";
 import type { IPagination, IParams } from "@/types/GlobalType";
+import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 
 import { ColumnsAdditionalScope } from "../constants/AdditionalScopeConstant";
 import type {
@@ -32,6 +40,7 @@ const toastRef = ref<InstanceType<typeof Toast> | null>(null);
 const timeout = ref(0);
 const router = useRouter();
 const dataForm = ref<AdditionalScopeFilterInterface | null>(null);
+const breadcrumb = ref<BreadcrumbType[]>([]);
 
 //--- GET ADDITIONAL SCOPE
 const {
@@ -184,17 +193,19 @@ const handleResetFilter = () => {
 const handleRemoveSuccess = () => {
   refetchAdditionalScope();
 };
+
+onMounted(() => {
+  breadcrumb.value = [
+    {
+      name: "Additional Scope",
+      as_link: false,
+      url: "",
+    },
+  ];
+});
 </script>
 
 <template>
-  <Toast ref="toastRef" />
-  <ModalDelete
-    v-model="open_delete"
-    :title="selected_item?.name"
-    :loading="isLoadingDelete"
-    @delete="onDelete"
-  />
-
   <div class="relative w-full">
     <Button
       v-if="dataForm?.inspection_type_uuid"
@@ -215,6 +226,7 @@ const handleRemoveSuccess = () => {
         />
       </div>
       <div class="w-full">
+        <Breadcrumb :items="breadcrumb" />
         <Table
           label-create="additional-scope"
           :columns="ColumnsAdditionalScope"
@@ -223,6 +235,7 @@ const handleRemoveSuccess = () => {
           :pagination="pagination"
           :is-create="false"
           v-model:model-search="params.search"
+          class="mt-6"
           @change-page="changePage"
           @change-limit="changeLimit"
           @search="searchTable"
@@ -259,4 +272,12 @@ const handleRemoveSuccess = () => {
       @removeSucess="handleRemoveSuccess"
     />
   </div>
+
+  <Toast ref="toastRef" />
+  <ModalDelete
+    v-model="open_delete"
+    :title="selected_item?.name"
+    :loading="isLoadingDelete"
+    @delete="onDelete"
+  />
 </template>
