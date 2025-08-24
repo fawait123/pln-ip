@@ -1,19 +1,29 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import type { AxiosError } from "axios";
 
-import { Button, Icon, ModalDelete, Table, Toast } from "@/components";
+import {
+  Breadcrumb,
+  Button,
+  Icon,
+  ModalDelete,
+  Table,
+  Toast,
+} from "@/components";
 import { useMutation, useQuery } from "@tanstack/vue-query";
 import type { IPagination } from "@/types/GlobalType";
+import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 
 import { ColumnsInspectionType } from "../constants/InspectionTypeConstant";
-import type { InspectionTypeInterface, InspectionTypeModelCreateInterface } from "../types/InspectionType";
+import type {
+  InspectionTypeInterface,
+  InspectionTypeModelCreateInterface,
+} from "../types/InspectionType";
 import { useMasterStore } from "../stores/MasterStore";
 import FormInspectionType from "../components/FormInspectionType.vue";
 import FilterInspectionType from "../components/FilterInspectionType.vue";
 
-const Entities: InspectionTypeInterface[] = [];
-const dataForm = ref<InspectionTypeModelCreateInterface | null>(null)
+const dataForm = ref<InspectionTypeModelCreateInterface | null>(null);
 const masterStore = useMasterStore();
 const total_item = ref(0);
 const params = reactive({
@@ -28,6 +38,7 @@ const open_delete = ref(false);
 const selected_item = ref<InspectionTypeInterface | null>(null);
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
 const timeout = ref(0);
+const breadcrumb = ref<BreadcrumbType[]>([]);
 
 //--- GET INSPECTION TYPE
 const {
@@ -152,59 +163,107 @@ const setFilter = () => {
       value: String(dataForm.value?.machine_uuid),
     },
   ] as any;
-}
+};
 
 const resetFilter = () => {
   dataForm.value = null;
   params.filters = [];
-}
+};
 
 const handleOnFilter = (data: InspectionTypeModelCreateInterface) => {
   dataForm.value = data;
-  setFilter()
+  setFilter();
   refetchInspectionType();
-}
+};
 
 const handleResetFilter = () => {
-  resetFilter()
+  resetFilter();
   refetchInspectionType();
-}
+};
+
+onMounted(() => {
+  breadcrumb.value = [
+    {
+      name: "Inspection Type",
+      as_link: false,
+      url: "",
+    },
+  ];
+});
 </script>
 
 <template>
-  <Toast ref="toastRef" />
-  <ModalDelete v-model="open_delete" :title="selected_item?.name" :loading="isLoadingDelete" @delete="onDelete" />
-
   <div class="relative w-full">
-    <Button icon_only="plus" class="absolute right-0" size="sm" rounded="full" color="blue" @click="handleCreate"
-      v-if="dataForm?.machine_uuid" />
+    <Button
+      icon_only="plus"
+      class="absolute right-0"
+      size="sm"
+      rounded="full"
+      color="blue"
+      @click="handleCreate"
+      v-if="dataForm?.machine_uuid"
+    />
 
     <div class="flex gap-8">
       <div class="w-[330px]">
-        <FilterInspectionType @filter="handleOnFilter" @reset-filter="handleResetFilter"
-          :loading="isLoadingInspectionType" />
+        <FilterInspectionType
+          @filter="handleOnFilter"
+          @reset-filter="handleResetFilter"
+          :loading="isLoadingInspectionType"
+        />
       </div>
       <div class="w-full">
-        <Table label-create="Inspection Type" :columns="ColumnsInspectionType"
-          :entities="dataInspectionType?.data || []" :loading="isLoadingInspectionType" :pagination="pagination"
-          :is-create="false" v-model:model-search="params.search" @change-page="changePage" @change-limit="changeLimit"
-          @search="searchTable">
+        <Breadcrumb :items="breadcrumb" />
+        <Table
+          label-create="Inspection Type"
+          :columns="ColumnsInspectionType"
+          :entities="dataInspectionType?.data || []"
+          :loading="isLoadingInspectionType"
+          :pagination="pagination"
+          :is-create="false"
+          v-model:model-search="params.search"
+          class="mt-6"
+          @change-page="changePage"
+          @change-limit="changeLimit"
+          @search="searchTable"
+        >
           <template #column_action="{ entity }">
             <div class="flex items-center justify-center gap-4">
-              <Icon name="pencil" class="icon-action-table" @click="handleUpdate(entity)" />
-              <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
+              <Icon
+                name="pencil"
+                class="icon-action-table"
+                @click="handleUpdate(entity)"
+              />
+              <Icon
+                name="trash"
+                class="icon-action-table"
+                @click="handleDelete(entity)"
+              />
             </div>
           </template>
           <template #column_sequence="{ entity }">
             <p class="text-base text-neutral-50 text-center">
-              {{ entity.sequence?.name || '-' }}
+              {{ entity.sequence?.name || "-" }}
             </p>
           </template>
         </Table>
       </div>
     </div>
 
-    <FormInspectionType v-model="open_form" :selected-value="selected_item" @success="handleSuccess"
-      @error="handleError" :data-form="dataForm" />
+    <FormInspectionType
+      v-model="open_form"
+      :selected-value="selected_item"
+      @success="handleSuccess"
+      @error="handleError"
+      :data-form="dataForm"
+    />
   </div>
+
+  <Toast ref="toastRef" />
+  <ModalDelete
+    v-model="open_delete"
+    :title="selected_item?.name"
+    :loading="isLoadingDelete"
+    @delete="onDelete"
+  />
 </template>

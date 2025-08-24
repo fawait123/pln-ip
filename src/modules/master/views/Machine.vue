@@ -1,17 +1,24 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import type { AxiosError } from "axios";
 
-import { Button, Icon, ModalDelete, Table, Toast } from "@/components";
+import {
+  Breadcrumb,
+  Button,
+  Icon,
+  ModalDelete,
+  Table,
+  Toast,
+} from "@/components";
 import { useMutation, useQuery } from "@tanstack/vue-query";
 import type { IPagination } from "@/types/GlobalType";
+import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 
 import { ColumnsMachine } from "../constants/MachineConstant";
 import type { MachineInterface } from "../types/MachineType";
 import { useMasterStore } from "../stores/MasterStore";
 import FormMachine from "../components/FormMachine.vue";
 
-const Entities: MachineInterface[] = [];
 const masterStore = useMasterStore();
 const total_item = ref(0);
 const params = reactive({
@@ -25,6 +32,7 @@ const open_delete = ref(false);
 const selected_item = ref<MachineInterface | null>(null);
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
 const timeout = ref(0);
+const breadcrumb = ref<BreadcrumbType[]>([]);
 
 //--- GET MACHINE
 const {
@@ -138,22 +146,63 @@ const handleDelete = (item: MachineInterface) => {
 const onDelete = () => {
   deleteMachine(selected_item.value?.uuid as string);
 };
+
+onMounted(() => {
+  breadcrumb.value = [
+    {
+      name: "Master Data",
+      as_link: false,
+      url: "",
+    },
+    {
+      name: "Machine",
+      as_link: false,
+      url: "",
+    },
+  ];
+});
 </script>
 
 <template>
-  <Toast ref="toastRef" />
-  <ModalDelete v-model="open_delete" :title="selected_item?.name" :loading="isLoadingDelete" @delete="onDelete" />
+  <Breadcrumb :items="breadcrumb" />
+  <div class="relative w-full mt-6">
+    <div class="flex items-center gap-2 absolute right-0">
+      <Button text="Import" rounded="full" color="blue" />
+      <Button text="Download" rounded="full" color="blue" />
+      <Button text="Export Template" rounded="full" color="blue" />
+      <Button
+        icon_only="plus"
+        size="sm"
+        rounded="full"
+        color="blue"
+        @click="handleCreate"
+      />
+    </div>
 
-  <div class="relative w-full">
-    <Button icon_only="plus" class="absolute right-0" size="sm" rounded="full" color="blue" @click="handleCreate" />
-
-    <Table label-create="Machine" :columns="ColumnsMachine" :entities="dataMachine?.data || []"
-      :loading="isLoadingMachine" :pagination="pagination" :is-create="false" v-model:model-search="params.search"
-      @change-page="changePage" @change-limit="changeLimit" @search="searchTable">
+    <Table
+      label-create="Machine"
+      :columns="ColumnsMachine"
+      :entities="dataMachine?.data || []"
+      :loading="isLoadingMachine"
+      :pagination="pagination"
+      :is-create="false"
+      v-model:model-search="params.search"
+      @change-page="changePage"
+      @change-limit="changeLimit"
+      @search="searchTable"
+    >
       <template #column_action="{ entity }">
         <div class="flex items-center justify-center gap-4">
-          <Icon name="pencil" class="icon-action-table" @click="handleUpdate(entity)" />
-          <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
+          <Icon
+            name="pencil"
+            class="icon-action-table"
+            @click="handleUpdate(entity)"
+          />
+          <Icon
+            name="trash"
+            class="icon-action-table"
+            @click="handleDelete(entity)"
+          />
         </div>
       </template>
       <template #column_unit="{ entity }">
@@ -163,11 +212,24 @@ const onDelete = () => {
       </template>
       <template #column_location="{ entity }">
         <p class="text-base text-neutral-50 text-center">
-          {{ entity.unit?.location?.name ?? '-' }}
+          {{ entity.unit?.location?.name ?? "-" }}
         </p>
       </template>
     </Table>
 
-    <FormMachine v-model="open_form" :selected-value="selected_item" @success="handleSuccess" @error="handleError" />
+    <FormMachine
+      v-model="open_form"
+      :selected-value="selected_item"
+      @success="handleSuccess"
+      @error="handleError"
+    />
   </div>
+
+  <Toast ref="toastRef" />
+  <ModalDelete
+    v-model="open_delete"
+    :title="selected_item?.name"
+    :loading="isLoadingDelete"
+    @delete="onDelete"
+  />
 </template>

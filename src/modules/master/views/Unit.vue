@@ -1,10 +1,18 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import type { AxiosError } from "axios";
 
-import { Button, Icon, ModalDelete, Table, Toast } from "@/components";
+import {
+  Breadcrumb,
+  Button,
+  Icon,
+  ModalDelete,
+  Table,
+  Toast,
+} from "@/components";
 import { useMutation, useQuery } from "@tanstack/vue-query";
 import type { IPagination } from "@/types/GlobalType";
+import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 
 import { ColumnsUnit } from "../constants/UnitConstant";
 import type { UnitInterface } from "../types/UnitType";
@@ -24,6 +32,7 @@ const open_delete = ref(false);
 const selected_item = ref<UnitInterface | null>(null);
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
 const timeout = ref(0);
+const breadcrumb = ref<BreadcrumbType[]>([]);
 
 //--- GET UNIT
 const {
@@ -137,25 +146,38 @@ const handleDelete = (item: UnitInterface) => {
 const onDelete = () => {
   deleteUnit(selected_item.value?.uuid as string);
 };
+
+onMounted(() => {
+  breadcrumb.value = [
+    {
+      name: "Master Data",
+      as_link: false,
+      url: "",
+    },
+    {
+      name: "Unit",
+      as_link: false,
+      url: "",
+    },
+  ];
+});
 </script>
 
 <template>
-  <Toast ref="toastRef" />
-  <ModalDelete
-    v-model="open_delete"
-    :title="selected_item?.name"
-    :loading="isLoadingDelete"
-    @delete="onDelete"
-  />
-  <div class="relative w-full">
-    <Button
-      icon_only="plus"
-      class="absolute right-0"
-      size="sm"
-      rounded="full"
-      color="blue"
-      @click="handleCreate"
-    />
+  <Breadcrumb :items="breadcrumb" />
+  <div class="relative w-full mt-6">
+    <div class="flex items-center gap-2 absolute right-0">
+      <Button text="Import" rounded="full" color="blue" />
+      <Button text="Download" rounded="full" color="blue" />
+      <Button text="Export Template" rounded="full" color="blue" />
+      <Button
+        icon_only="plus"
+        size="sm"
+        rounded="full"
+        color="blue"
+        @click="handleCreate"
+      />
+    </div>
 
     <Table
       label-create="Location"
@@ -197,4 +219,12 @@ const onDelete = () => {
       @error="handleError"
     />
   </div>
+
+  <Toast ref="toastRef" />
+  <ModalDelete
+    v-model="open_delete"
+    :title="selected_item?.name"
+    :loading="isLoadingDelete"
+    @delete="onDelete"
+  />
 </template>
