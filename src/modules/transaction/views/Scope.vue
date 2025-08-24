@@ -480,6 +480,7 @@ const handleOnFilter = (data: FilterScopeInterface) => {
         <div class="w-[330px]">
             <FilterScope @filter="handleOnFilter" @reset-filter="handleResetFilter" :loading="isLoadingScope" />
         </div>
+
         <div class="w-full">
             <Table label-create="Asset" :columns="ColumnsScope" :entities="entitiesScope" :loading="isLoadingScope"
                 :pagination="pagination" :is-create="false" v-model:model-search="params.search" @delete="handleDelete"
