@@ -1,4 +1,5 @@
 import type { ValueUploadType } from "@/components/fields/Upload.vue";
+import type { SubBidangInterface } from "@/modules/master/types/SubBidangType";
 import type { ResponseDocumentInterface } from "@/types/GlobalType";
 
 interface WithFileInterface {
@@ -46,6 +47,8 @@ export interface ResponseScopeInterface {
   link: string | null;
   global_unit_uuid: string;
   project_uuid: string;
+  sub_bidang_uuid: string;
+  sub_bidang?: SubBidangInterface;
   created_at: string;
   updated_at: string;
   details: {
@@ -71,4 +74,13 @@ export interface CreateScopeInterface {
   note: string;
   category: string;
   color: string | null;
+}
+
+export interface FilterScopeInterface {
+  bidang_uuid: string;
+  sub_bidang_uuid: string;
+}
+
+export interface FormScopeInterface {
+  scope_standart_uuid: string;
 }

@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref, watch } from "vue";
+import { computed, reactive, ref } from "vue";
 import { useRoute } from "vue-router";
 import type { AxiosError } from "axios";
-import { storeToRefs } from "pinia";
 
 import type { CreateDocumentInterface, IPagination } from "@/types/GlobalType";
 import { ModalDelete, Table, Toast } from "@/components";
@@ -15,18 +14,19 @@ import FormWithUploadFile from "../components/FormWithUploadFile.vue";
 import { ColumnsScope } from "../constants/ScopeConstant";
 import type {
     CreateScopeInterface,
+    FilterScopeInterface,
     ResponseScopeInterface,
     ScopeInterface,
     TColor,
 } from "../types/ScopeType";
 import { useTransactionStore } from "../stores/TransactionStore";
+import FilterScope from "../components/FilterScope.vue";
 
 const entitiesScope = ref<ScopeInterface[]>([]);
 const selected_item = ref<ScopeInterface>();
-
+const dataForm = ref<FilterScopeInterface | null>(null)
 const transactionStore = useTransactionStore();
 const globalStore = useGlobalStore();
-const { InspectionType } = storeToRefs(globalStore);
 const route = useRoute();
 const params = reactive({
     search: "",
@@ -175,7 +175,6 @@ const {
                     };
                 }) || [];
             entitiesScope.value = new_arr;
-            console.log('en', entitiesScope)
             return response;
         } catch (error: any) {
             const err = error as AxiosError;
@@ -427,6 +426,47 @@ function searchTable() {
         refetchScope();
     }, 1000);
 }
+
+
+const setFilter = () => {
+    params.filters = [
+        {
+            group: "AND",
+            operator: "EQ",
+            column: "project_uuid",
+            value: route.params.id_project,
+        },
+        {
+            group: "AND",
+            operator: "EQ",
+            column: "sub_bidang_uuid",
+            value: String(dataForm.value?.sub_bidang_uuid),
+        },
+    ];
+}
+
+const resetFilter = () => {
+    dataForm.value = null;
+    params.filters = [
+        {
+            group: "AND",
+            operator: "NOT_NULL",
+            column: "inspection_type_uuid",
+            value: "",
+        }
+    ];
+}
+
+const handleResetFilter = () => {
+    resetFilter()
+    refetchScope();
+}
+
+const handleOnFilter = (data: FilterScopeInterface) => {
+    dataForm.value = data;
+    setFilter()
+    refetchScope();
+}
 </script>
 
 <template>
@@ -436,64 +476,52 @@ function searchTable() {
         <span v-if="isLoadingDuration">Loading...</span>
         <span v-else>{{ dataDuration }} Days</span>
     </div>
-    <Table label-create="Asset" :columns="ColumnsScope" :entities="entitiesScope" :loading="isLoadingScope"
-        :pagination="pagination" :is-create="false" v-model:model-search="params.search" @delete="handleDelete"
-        @change-page="changePage" @change-limit="changeLimit" @search="searchTable">
-        <template #column_asset_welness="{ entity }">
-            <div class="w-full flex justify-center">
-                <FormAssetWelness ref="asset_welness" :value="entity.asset_welness" :label="entity.asset"
-                    :loading="is_loading_create" @save="(e) => saveAssetWelness(e, entity)" />
-            </div>
-        </template>
-        <template #column_oh_recom="{ entity }">
-            <div class="w-full flex justify-center">
-                <FormWithUploadFile ref="oh_recom" :value="entity.oh_recom" :label="entity.asset"
-                    :loading="is_loading_create" @save="(e) => saveFieldWithFile(e, entity, 'oh-recom')" />
-            </div>
-        </template>
-        <template #column_wo_priority="{ entity }">
-            <div class="w-full flex justify-center">
-                <FormWithUploadFile ref="wo_priority" :value="entity.wo_priority" :label="entity.asset"
-                    :loading="is_loading_create" @save="(e) => saveFieldWithFile(e, entity, 'wo-priority')" />
-            </div>
-        </template>
-        <template #column_history="{ entity }">
-            <div class="w-full flex justify-center">
-                <FormWithUploadFile ref="history" :value="entity.history" :label="entity.asset"
-                    :loading="is_loading_create" @save="(e) => saveFieldWithFile(e, entity, 'history')" />
-            </div>
-        </template>
-        <template #column_rla="{ entity }">
-            <div class="w-full flex justify-center">
-                <FormWithUploadFile ref="rla" :value="entity.rla" :label="entity.asset" :loading="is_loading_create"
-                    @save="(e) => saveFieldWithFile(e, entity, 'rla')" />
-            </div>
-        </template>
-        <template #column_ncr="{ entity }">
-            <div class="w-full flex justify-center">
-                <FormWithUploadFile ref="ncr" :value="entity.ncr" :label="entity.asset" :loading="is_loading_create"
-                    @save="(e) => saveFieldWithFile(e, entity, 'ncr')" />
-            </div>
-        </template>
-        <!-- <template #children="{ entity, index, parentActive }">
-            <tr v-if="parentActive === index && entity.children.length === 0">
-                <td :colspan="ColumnsScope.length + 1" class="td-child">
-                    <div class="v-table-body">
-                        <p class="v-table-body-text pl-11 text-center">Not Found Data</p>
+    <div class="flex gap-8">
+        <div class="w-[330px]">
+            <FilterScope @filter="handleOnFilter" @reset-filter="handleResetFilter" :loading="isLoadingScope" />
+        </div>
+        <div class="w-full">
+            <Table label-create="Asset" :columns="ColumnsScope" :entities="entitiesScope" :loading="isLoadingScope"
+                :pagination="pagination" :is-create="false" v-model:model-search="params.search" @delete="handleDelete"
+                @change-page="changePage" @change-limit="changeLimit" @search="searchTable">
+                <template #column_asset_welness="{ entity }">
+                    <div class="w-full flex justify-center">
+                        <FormAssetWelness ref="asset_welness" :value="entity.asset_welness" :label="entity.asset"
+                            :loading="is_loading_create" @save="(e) => saveAssetWelness(e, entity)" />
                     </div>
-                </td>
-            </tr>
-            <tr v-if="parentActive === index && entity.children.length > 0"
-                v-for="(child, childIndex) in entity.children" :key="childIndex">
-                <td :colspan="ColumnsScope.length + 1" class="td-child">
-                    <div class="v-table-body">
-                        <p class="v-table-body-text pl-11">
-                            {{ child.name }}
-                        </p>
+                </template>
+                <template #column_oh_recom="{ entity }">
+                    <div class="w-full flex justify-center">
+                        <FormWithUploadFile ref="oh_recom" :value="entity.oh_recom" :label="entity.asset"
+                            :loading="is_loading_create" @save="(e) => saveFieldWithFile(e, entity, 'oh-recom')" />
                     </div>
-                </td>
-            </tr>
-        </template> -->
-    </Table>
-    <!-- <p class="font-bold text-black text-2xl">TEST</p> -->
+                </template>
+                <template #column_wo_priority="{ entity }">
+                    <div class="w-full flex justify-center">
+                        <FormWithUploadFile ref="wo_priority" :value="entity.wo_priority" :label="entity.asset"
+                            :loading="is_loading_create" @save="(e) => saveFieldWithFile(e, entity, 'wo-priority')" />
+                    </div>
+                </template>
+                <template #column_history="{ entity }">
+                    <div class="w-full flex justify-center">
+                        <FormWithUploadFile ref="history" :value="entity.history" :label="entity.asset"
+                            :loading="is_loading_create" @save="(e) => saveFieldWithFile(e, entity, 'history')" />
+                    </div>
+                </template>
+                <template #column_rla="{ entity }">
+                    <div class="w-full flex justify-center">
+                        <FormWithUploadFile ref="rla" :value="entity.rla" :label="entity.asset"
+                            :loading="is_loading_create" @save="(e) => saveFieldWithFile(e, entity, 'rla')" />
+                    </div>
+                </template>
+                <template #column_ncr="{ entity }">
+                    <div class="w-full flex justify-center">
+                        <FormWithUploadFile ref="ncr" :value="entity.ncr" :label="entity.asset"
+                            :loading="is_loading_create" @save="(e) => saveFieldWithFile(e, entity, 'ncr')" />
+                    </div>
+                </template>
+            </Table>
+        </div>
+    </div>
+
 </template>
