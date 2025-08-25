@@ -22,6 +22,7 @@ import type {
 } from "../types/AcitivityType";
 import FormActivity from "../components/FormActivity.vue";
 import FilterActivity from "../components/FilterActivity.vue";
+import ButtonGroup from "../components/ButtonGroup.vue";
 
 const dataForm = ref<ActivityModelCreateInterface | null>(null);
 const masterStore = useMasterStore();
@@ -92,6 +93,44 @@ const { mutate: deleteActivity, isPending: isLoadingDelete } = useMutation({
       description: error?.response?.data?.message || "Something went wrong",
       type: "error",
     });
+  },
+});
+//--- END
+
+//--- DOWNLOAD
+const { mutate: downloadActivity, isPending: isLoadingDownload } = useMutation({
+  mutationFn: async () => {
+    return await masterStore.downloadActivity();
+  },
+  onSuccess: () => {},
+  onError: (error) => {
+    console.log(error);
+  },
+});
+//--- END
+
+//--- DOWNLOAD TEMPLATE
+const { mutate: templateActivity, isPending: isLoadingTemplate } = useMutation({
+  mutationFn: async () => {
+    return await masterStore.templateActivity();
+  },
+  onSuccess: () => {},
+  onError: (error) => {
+    console.log(error);
+  },
+});
+//--- END
+
+//--- IMPORT
+const { mutate: importActivity, isPending: isLoadingImport } = useMutation({
+  mutationFn: async (payload: File) => {
+    return await masterStore.importActivity(payload);
+  },
+  onSuccess: () => {
+    refetchActivity();
+  },
+  onError: (error) => {
+    console.log(error);
   },
 });
 //--- END
@@ -204,8 +243,25 @@ const handleRemoveSuccess = () => {
   refetchActivity();
 };
 
+const handleDownload = () => {
+  downloadActivity();
+};
+
+const handleExportTemplate = () => {
+  templateActivity();
+};
+
+const handleImport = (file: File) => {
+  importActivity(file);
+};
+
 onMounted(() => {
   breadcrumb.value = [
+    {
+      name: "Main Menu",
+      as_link: false,
+      url: "",
+    },
     {
       name: "Activity",
       as_link: false,
@@ -217,15 +273,24 @@ onMounted(() => {
 
 <template>
   <div class="relative w-full">
-    <Button
-      icon_only="plus"
-      class="absolute right-0"
-      size="sm"
-      rounded="full"
-      color="blue"
-      @click="handleCreate"
-      v-if="dataForm?.equipment_uuid"
-    />
+    <div class="flex items-center gap-2 absolute right-0 top-10">
+      <ButtonGroup
+        :loading-import="isLoadingImport"
+        :loading-download="isLoadingDownload"
+        :loading-template="isLoadingTemplate"
+        @download="handleDownload"
+        @template="handleExportTemplate"
+        @import="handleImport"
+      />
+      <Button
+        icon_only="plus"
+        size="sm"
+        rounded="full"
+        color="blue"
+        @click="handleCreate"
+        v-if="dataForm?.equipment_uuid"
+      />
+    </div>
 
     <div class="flex gap-8">
       <div class="w-[330px]">

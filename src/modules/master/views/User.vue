@@ -18,6 +18,7 @@ import { ColumnsUser } from "../constants/UserConstant";
 import type { UserInterface } from "../types/UserType";
 import { useMasterStore } from "../stores/MasterStore";
 import FormUser from "../components/FormUser.vue";
+import ButtonGroup from "../components/ButtonGroup.vue";
 
 const masterStore = useMasterStore();
 const total_item = ref(0);
@@ -79,6 +80,44 @@ const { mutate: deleteUser, isPending: isLoadingDelete } = useMutation({
       description: error?.response?.data?.message || "Something went wrong",
       type: "error",
     });
+  },
+});
+//--- END
+
+//--- DOWNLOAD
+const { mutate: downloadUser, isPending: isLoadingDownload } = useMutation({
+  mutationFn: async () => {
+    return await masterStore.downloadUser();
+  },
+  onSuccess: () => {},
+  onError: (error) => {
+    console.log(error);
+  },
+});
+//--- END
+
+//--- DOWNLOAD TEMPLATE
+const { mutate: templateUser, isPending: isLoadingTemplate } = useMutation({
+  mutationFn: async () => {
+    return await masterStore.templateUser();
+  },
+  onSuccess: () => {},
+  onError: (error) => {
+    console.log(error);
+  },
+});
+//--- END
+
+//--- IMPORT
+const { mutate: importUser, isPending: isLoadingImport } = useMutation({
+  mutationFn: async (payload: File) => {
+    return await masterStore.importUser(payload);
+  },
+  onSuccess: () => {
+    refetchUser();
+  },
+  onError: (error) => {
+    console.log(error);
   },
 });
 //--- END
@@ -147,8 +186,25 @@ const onDelete = () => {
   deleteUser(selected_item.value?.id as number);
 };
 
+const handleDownload = () => {
+  downloadUser();
+};
+
+const handleExportTemplate = () => {
+  templateUser();
+};
+
+const handleImport = (file: File) => {
+  importUser(file);
+};
+
 onMounted(() => {
   breadcrumb.value = [
+    {
+      name: "Main Menu",
+      as_link: false,
+      url: "",
+    },
     {
       name: "Master Data",
       as_link: false,
@@ -167,9 +223,17 @@ onMounted(() => {
   <Breadcrumb :items="breadcrumb" />
   <div class="relative w-full mt-6">
     <div class="flex items-center gap-2 absolute right-0">
-      <Button text="Import" rounded="full" color="blue" />
+      <!-- <Button text="Import" rounded="full" color="blue" />
       <Button text="Download" rounded="full" color="blue" />
-      <Button text="Export Template" rounded="full" color="blue" />
+      <Button text="Export Template" rounded="full" color="blue" /> -->
+      <ButtonGroup
+        :loading-import="isLoadingImport"
+        :loading-download="isLoadingDownload"
+        :loading-template="isLoadingTemplate"
+        @download="handleDownload"
+        @template="handleExportTemplate"
+        @import="handleImport"
+      />
       <Button
         icon_only="plus"
         size="sm"

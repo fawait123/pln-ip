@@ -18,6 +18,7 @@ import { useMasterStore } from "../stores/MasterStore";
 import type { HseDocInterface } from "../types/HseDocTypes";
 import FormHseDoc from "../components/FormHseDoc.vue";
 import { ColumnHseDoc } from "../constants/HseDocConstant";
+import ButtonGroup from "../components/ButtonGroup.vue";
 
 const masterStore = useMasterStore();
 const total_item = ref(0);
@@ -81,6 +82,44 @@ const { mutate: deleteBidang, isPending: isLoadingDelete } = useMutation({
       description: error?.response?.data?.message || "Something went wrong",
       type: "error",
     });
+  },
+});
+//--- END
+
+//--- DOWNLOAD
+const { mutate: downloadHseDoc, isPending: isLoadingDownload } = useMutation({
+  mutationFn: async () => {
+    return await masterStore.downloadHseDoc();
+  },
+  onSuccess: () => {},
+  onError: (error) => {
+    console.log(error);
+  },
+});
+//--- END
+
+//--- DOWNLOAD TEMPLATE
+const { mutate: templateHseDoc, isPending: isLoadingTemplate } = useMutation({
+  mutationFn: async () => {
+    return await masterStore.templateHseDoc();
+  },
+  onSuccess: () => {},
+  onError: (error) => {
+    console.log(error);
+  },
+});
+//--- END
+
+//--- IMPORT
+const { mutate: importHseDoc, isPending: isLoadingImport } = useMutation({
+  mutationFn: async (payload: File) => {
+    return await masterStore.importHseDoc(payload);
+  },
+  onSuccess: () => {
+    refetchHseDoc();
+  },
+  onError: (error) => {
+    console.log(error);
   },
 });
 //--- END
@@ -149,8 +188,25 @@ const onDelete = () => {
   deleteBidang(selected_item.value?.uuid as string);
 };
 
+const handleDownload = () => {
+  downloadHseDoc();
+};
+
+const handleExportTemplate = () => {
+  templateHseDoc();
+};
+
+const handleImport = (file: File) => {
+  importHseDoc(file);
+};
+
 onMounted(() => {
   breadcrumb.value = [
+    {
+      name: "Main Menu",
+      as_link: false,
+      url: "",
+    },
     {
       name: "Master Data",
       as_link: false,
@@ -169,9 +225,17 @@ onMounted(() => {
   <Breadcrumb :items="breadcrumb" />
   <div class="relative w-full mt-6">
     <div class="flex items-center gap-2 absolute right-0">
-      <Button text="Import" rounded="full" color="blue" />
+      <!-- <Button text="Import" rounded="full" color="blue" />
       <Button text="Download" rounded="full" color="blue" />
-      <Button text="Export Template" rounded="full" color="blue" />
+      <Button text="Export Template" rounded="full" color="blue" /> -->
+      <ButtonGroup
+        :loading-import="isLoadingImport"
+        :loading-download="isLoadingDownload"
+        :loading-template="isLoadingTemplate"
+        @download="handleDownload"
+        @template="handleExportTemplate"
+        @import="handleImport"
+      />
       <Button
         icon_only="plus"
         size="sm"

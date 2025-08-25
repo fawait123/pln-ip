@@ -18,6 +18,7 @@ import { ColumnsGlobalUnit } from "../constants/GlobalUnitConstant";
 import type { GlobalUnitInterface } from "../types/GlobalUnitType";
 import { useMasterStore } from "../stores/MasterStore";
 import FormGlobalUnit from "../components/FormGlobalUnit.vue";
+import ButtonGroup from "../components/ButtonGroup.vue";
 
 const masterStore = useMasterStore();
 const total_item = ref(0);
@@ -79,6 +80,46 @@ const { mutate: deleteGlobalUnit, isPending: isLoadingDelete } = useMutation({
       description: error?.response?.data?.message || "Something went wrong",
       type: "error",
     });
+  },
+});
+//--- END
+
+//--- DOWNLOAD
+const { mutate: downloadGlobalUnit, isPending: isLoadingDownload } =
+  useMutation({
+    mutationFn: async () => {
+      return await masterStore.downloadGlobalUnit();
+    },
+    onSuccess: () => {},
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+//--- END
+
+//--- DOWNLOAD TEMPLATE
+const { mutate: templateGlobalUnit, isPending: isLoadingTemplate } =
+  useMutation({
+    mutationFn: async () => {
+      return await masterStore.templateGlobalUnit();
+    },
+    onSuccess: () => {},
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+//--- END
+
+//--- IMPORT
+const { mutate: importGlobalUnit, isPending: isLoadingImport } = useMutation({
+  mutationFn: async (payload: File) => {
+    return await masterStore.importGlobalUnit(payload);
+  },
+  onSuccess: () => {
+    refetchGlobalUnit();
+  },
+  onError: (error) => {
+    console.log(error);
   },
 });
 //--- END
@@ -147,8 +188,25 @@ const onDelete = () => {
   deleteGlobalUnit(selected_item.value?.uuid as string);
 };
 
+const handleDownload = () => {
+  downloadGlobalUnit();
+};
+
+const handleExportTemplate = () => {
+  templateGlobalUnit();
+};
+
+const handleImport = (file: File) => {
+  importGlobalUnit(file);
+};
+
 onMounted(() => {
   breadcrumb.value = [
+    {
+      name: "Main Menu",
+      as_link: false,
+      url: "",
+    },
     {
       name: "Master Data",
       as_link: false,
@@ -167,9 +225,17 @@ onMounted(() => {
   <Breadcrumb :items="breadcrumb" />
   <div class="relative w-full mt-6">
     <div class="flex items-center gap-2 absolute right-0">
-      <Button text="Import" rounded="full" color="blue" />
+      <!-- <Button text="Import" rounded="full" color="blue" />
       <Button text="Download" rounded="full" color="blue" />
-      <Button text="Export Template" rounded="full" color="blue" />
+      <Button text="Export Template" rounded="full" color="blue" /> -->
+      <ButtonGroup
+        :loading-import="isLoadingImport"
+        :loading-download="isLoadingDownload"
+        :loading-template="isLoadingTemplate"
+        @download="handleDownload"
+        @template="handleExportTemplate"
+        @import="handleImport"
+      />
       <Button
         icon_only="plus"
         size="sm"

@@ -25,6 +25,7 @@ import type {
 import { ColumnsPartStd } from "../constants/PartStdConstant";
 import FilterPartStd from "../components/FilterPartStd.vue";
 import FormPartStd from "../components/FormPartStd.vue";
+import ButtonGroup from "../components/ButtonGroup.vue";
 
 const dataForm = ref<PartStdCreateModelInterface | null>(null);
 const masterStore = useMasterStore();
@@ -52,9 +53,9 @@ const breadcrumb = ref<BreadcrumbType[]>([]);
 
 //--- GET SCOPE
 const {
-  data: dataScope,
-  isFetching: isLoadingScope,
-  refetch: refetchScope,
+  data: dataPartStd,
+  isFetching: isLoadingPartStd,
+  refetch: refetchpartStd,
 } = useQuery({
   queryKey: ["getPartStd"],
   queryFn: async () => {
@@ -74,7 +75,7 @@ const {
 //--- END
 
 //--- DELETE SCOPE
-const { mutate: deleteScope, isPending: isLoadingDelete } = useMutation({
+const { mutate: deletePartStd, isPending: isLoadingDelete } = useMutation({
   mutationFn: async (id: string) => {
     return await masterStore.deletePartStd(id);
   },
@@ -85,7 +86,7 @@ const { mutate: deleteScope, isPending: isLoadingDelete } = useMutation({
       type: "success",
     });
     open_delete.value = false;
-    refetchScope();
+    refetchpartStd();
   },
   onError: (error: any) => {
     toastRef.value?.showToast({
@@ -93,6 +94,44 @@ const { mutate: deleteScope, isPending: isLoadingDelete } = useMutation({
       description: error?.response?.data?.message || "Something went wrong",
       type: "error",
     });
+  },
+});
+//--- END
+
+//--- DOWNLOAD
+const { mutate: downloadPartStd, isPending: isLoadingDownload } = useMutation({
+  mutationFn: async () => {
+    return await masterStore.downloadPartStd();
+  },
+  onSuccess: () => {},
+  onError: (error) => {
+    console.log(error);
+  },
+});
+//--- END
+
+//--- DOWNLOAD TEMPLATE
+const { mutate: templatePartStd, isPending: isLoadingTemplate } = useMutation({
+  mutationFn: async () => {
+    return await masterStore.templatePartStd();
+  },
+  onSuccess: () => {},
+  onError: (error) => {
+    console.log(error);
+  },
+});
+//--- END
+
+//--- IMPORT
+const { mutate: importPartStd, isPending: isLoadingImport } = useMutation({
+  mutationFn: async (payload: File) => {
+    return await masterStore.importPartStd(payload);
+  },
+  onSuccess: () => {
+    refetchpartStd();
+  },
+  onError: (error) => {
+    console.log(error);
   },
 });
 //--- END
@@ -107,20 +146,20 @@ const pagination = computed(() => {
 
 const changePage = (e: number) => {
   params.currentPage = e;
-  refetchScope();
+  refetchpartStd();
 };
 
 const changeLimit = (e: string) => {
   params.perPage = parseInt(e);
   params.currentPage = 1;
-  refetchScope();
+  refetchpartStd();
 };
 
 const searchTable = () => {
   clearTimeout(timeout.value);
   timeout.value = window.setTimeout(() => {
     params.currentPage = 1;
-    refetchScope();
+    refetchpartStd();
   }, 1000);
 };
 
@@ -131,7 +170,7 @@ const handleSuccess = () => {
     type: "success",
   });
   params.currentPage = 1;
-  refetchScope();
+  refetchpartStd();
 };
 
 const handleError = (error: any) => {
@@ -158,7 +197,7 @@ const handleDelete = (item: PartStdInterface) => {
 };
 
 const onDelete = () => {
-  deleteScope(selected_item.value?.uuid as string);
+  deletePartStd(selected_item.value?.uuid as string);
 };
 
 const setFilter = () => {
@@ -199,12 +238,12 @@ const resetFilter = () => {
 const handleOnFilter = (data: PartStdCreateModelInterface) => {
   dataForm.value = data;
   setFilter();
-  refetchScope();
+  refetchpartStd();
 };
 
 const handleResetFilter = () => {
   resetFilter();
-  refetchScope();
+  refetchpartStd();
 };
 
 const previewDocument = (document: ResponseDocumentInterface) => {
@@ -216,11 +255,28 @@ const previewDocument = (document: ResponseDocumentInterface) => {
 };
 
 const handleRemoveSuccess = () => {
-  refetchScope();
+  refetchpartStd();
+};
+
+const handleDownload = () => {
+  downloadPartStd();
+};
+
+const handleExportTemplate = () => {
+  templatePartStd();
+};
+
+const handleImport = (file: File) => {
+  importPartStd(file);
 };
 
 onMounted(() => {
   breadcrumb.value = [
+    {
+      name: "Main Menu",
+      as_link: false,
+      url: "",
+    },
     {
       name: "Part Std",
       as_link: false,
@@ -232,22 +288,31 @@ onMounted(() => {
 
 <template>
   <div class="relative w-full">
-    <Button
-      v-if="dataForm?.activity_uuid"
-      icon_only="plus"
-      class="absolute right-0"
-      size="sm"
-      rounded="full"
-      color="blue"
-      @click="handleCreate"
-    />
+    <div class="flex items-center gap-2 absolute right-0 top-10">
+      <ButtonGroup
+        :loading-import="isLoadingImport"
+        :loading-download="isLoadingDownload"
+        :loading-template="isLoadingTemplate"
+        @download="handleDownload"
+        @template="handleExportTemplate"
+        @import="handleImport"
+      />
+      <Button
+        v-if="dataForm?.activity_uuid"
+        icon_only="plus"
+        size="sm"
+        rounded="full"
+        color="blue"
+        @click="handleCreate"
+      />
+    </div>
 
     <div class="flex gap-8">
       <div class="w-[330px]">
         <FilterPartStd
           @filter="handleOnFilter"
           @reset-filter="handleResetFilter"
-          :loading="isLoadingScope"
+          :loading="isLoadingPartStd"
         />
       </div>
       <div class="w-full">
@@ -255,8 +320,8 @@ onMounted(() => {
         <Table
           label-create="User"
           :columns="ColumnsPartStd"
-          :entities="dataScope?.data || []"
-          :loading="isLoadingScope"
+          :entities="dataPartStd?.data || []"
+          :loading="isLoadingPartStd"
           :pagination="pagination"
           :is-create="false"
           v-model:model-search="params.search"

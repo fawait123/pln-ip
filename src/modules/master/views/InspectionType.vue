@@ -22,6 +22,7 @@ import type {
 import { useMasterStore } from "../stores/MasterStore";
 import FormInspectionType from "../components/FormInspectionType.vue";
 import FilterInspectionType from "../components/FilterInspectionType.vue";
+import ButtonGroup from "../components/ButtonGroup.vue";
 
 const dataForm = ref<InspectionTypeModelCreateInterface | null>(null);
 const masterStore = useMasterStore();
@@ -86,6 +87,47 @@ const { mutate: deleteInspectionType, isPending: isLoadingDelete } =
         description: error?.response?.data?.message || "Something went wrong",
         type: "error",
       });
+    },
+  });
+//--- END
+
+//--- DOWNLOAD
+const { mutate: downloadInspectionType, isPending: isLoadingDownload } =
+  useMutation({
+    mutationFn: async () => {
+      return await masterStore.downloadInspectionType();
+    },
+    onSuccess: () => {},
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+//--- END
+
+//--- DOWNLOAD TEMPLATE
+const { mutate: templateInspectionType, isPending: isLoadingTemplate } =
+  useMutation({
+    mutationFn: async () => {
+      return await masterStore.templateInspectionType();
+    },
+    onSuccess: () => {},
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+//--- END
+
+//--- IMPORT
+const { mutate: importInspectionType, isPending: isLoadingImport } =
+  useMutation({
+    mutationFn: async (payload: File) => {
+      return await masterStore.importInspectionType(payload);
+    },
+    onSuccess: () => {
+      refetchInspectionType();
+    },
+    onError: (error) => {
+      console.log(error);
     },
   });
 //--- END
@@ -181,8 +223,25 @@ const handleResetFilter = () => {
   refetchInspectionType();
 };
 
+const handleDownload = () => {
+  downloadInspectionType();
+};
+
+const handleExportTemplate = () => {
+  templateInspectionType();
+};
+
+const handleImport = (file: File) => {
+  importInspectionType(file);
+};
+
 onMounted(() => {
   breadcrumb.value = [
+    {
+      name: "Main Menu",
+      as_link: false,
+      url: "",
+    },
     {
       name: "Inspection Type",
       as_link: false,
@@ -194,15 +253,24 @@ onMounted(() => {
 
 <template>
   <div class="relative w-full">
-    <Button
-      icon_only="plus"
-      class="absolute right-0"
-      size="sm"
-      rounded="full"
-      color="blue"
-      @click="handleCreate"
-      v-if="dataForm?.machine_uuid"
-    />
+    <div class="flex items-center gap-2 absolute right-0 top-10">
+      <ButtonGroup
+        :loading-import="isLoadingImport"
+        :loading-download="isLoadingDownload"
+        :loading-template="isLoadingTemplate"
+        @download="handleDownload"
+        @template="handleExportTemplate"
+        @import="handleImport"
+      />
+      <Button
+        icon_only="plus"
+        size="sm"
+        rounded="full"
+        color="blue"
+        @click="handleCreate"
+        v-if="dataForm?.machine_uuid"
+      />
+    </div>
 
     <div class="flex gap-8">
       <div class="w-[330px]">

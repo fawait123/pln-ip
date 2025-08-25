@@ -22,6 +22,7 @@ import type {
 } from "../types/ConsumableMaterialStdType";
 import { ColumnConsumableMaterialStd } from "../constants/ConsumableMaterialStdConstant";
 import FormConsumableMaterialStd from "../components/FormConsumableMaterialStd.vue";
+import ButtonGroup from "../components/ButtonGroup.vue";
 
 const dataForm = ref<ConsumableMaterialStdCreateModelInterface | null>(null);
 const masterStore = useMasterStore();
@@ -49,9 +50,9 @@ const breadcrumb = ref<BreadcrumbType[]>([]);
 
 //--- GET SCOPE
 const {
-  data: dataScope,
-  isFetching: isLoadingScope,
-  refetch: refetchScope,
+  data: dataConsMatStd,
+  isFetching: isLoadingConsMatStd,
+  refetch: refetchConsMatStd,
 } = useQuery({
   queryKey: ["getConsumableMaterialStd"],
   queryFn: async () => {
@@ -72,8 +73,8 @@ const {
 });
 //--- END
 
-//--- DELETE SCOPE
-const { mutate: deleteScope, isPending: isLoadingDelete } = useMutation({
+//--- DELETE CONSUMABLE MATERIAL STD
+const { mutate: deleteConsMatStd, isPending: isLoadingDelete } = useMutation({
   mutationFn: async (id: string) => {
     return await masterStore.deleteManpowerStd(id);
   },
@@ -84,7 +85,7 @@ const { mutate: deleteScope, isPending: isLoadingDelete } = useMutation({
       type: "success",
     });
     open_delete.value = false;
-    refetchScope();
+    refetchConsMatStd();
   },
   onError: (error: any) => {
     toastRef.value?.showToast({
@@ -92,6 +93,46 @@ const { mutate: deleteScope, isPending: isLoadingDelete } = useMutation({
       description: error?.response?.data?.message || "Something went wrong",
       type: "error",
     });
+  },
+});
+//--- END
+
+//--- DOWNLOAD
+const { mutate: downloadConsMatStd, isPending: isLoadingDownload } =
+  useMutation({
+    mutationFn: async () => {
+      return await masterStore.downloadConsumableMaterialStd();
+    },
+    onSuccess: () => {},
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+//--- END
+
+//--- DOWNLOAD TEMPLATE
+const { mutate: templateConsMatStd, isPending: isLoadingTemplate } =
+  useMutation({
+    mutationFn: async () => {
+      return await masterStore.templateConsumableMaterialStd();
+    },
+    onSuccess: () => {},
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+//--- END
+
+//--- IMPORT
+const { mutate: importConsMatStd, isPending: isLoadingImport } = useMutation({
+  mutationFn: async (payload: File) => {
+    return await masterStore.importConsumableMaterialStd(payload);
+  },
+  onSuccess: () => {
+    refetchConsMatStd();
+  },
+  onError: (error) => {
+    console.log(error);
   },
 });
 //--- END
@@ -106,20 +147,20 @@ const pagination = computed(() => {
 
 const changePage = (e: number) => {
   params.currentPage = e;
-  refetchScope();
+  refetchConsMatStd();
 };
 
 const changeLimit = (e: string) => {
   params.perPage = parseInt(e);
   params.currentPage = 1;
-  refetchScope();
+  refetchConsMatStd();
 };
 
 const searchTable = () => {
   clearTimeout(timeout.value);
   timeout.value = window.setTimeout(() => {
     params.currentPage = 1;
-    refetchScope();
+    refetchConsMatStd();
   }, 1000);
 };
 
@@ -130,7 +171,7 @@ const handleSuccess = () => {
     type: "success",
   });
   params.currentPage = 1;
-  refetchScope();
+  refetchConsMatStd();
 };
 
 const handleError = (error: any) => {
@@ -157,7 +198,7 @@ const handleDelete = (item: ConsumableMaterialStdInterface) => {
 };
 
 const onDelete = () => {
-  deleteScope(selected_item.value?.uuid as string);
+  deleteConsMatStd(selected_item.value?.uuid as string);
 };
 
 const setFilter = () => {
@@ -186,20 +227,37 @@ const resetFilter = () => {
 const handleOnFilter = (data: ConsumableMaterialStdCreateModelInterface) => {
   dataForm.value = data;
   setFilter();
-  refetchScope();
+  refetchConsMatStd();
 };
 
 const handleResetFilter = () => {
   resetFilter();
-  refetchScope();
+  refetchConsMatStd();
 };
 
 const handleRemoveSuccess = () => {
-  refetchScope();
+  refetchConsMatStd();
+};
+
+const handleDownload = () => {
+  downloadConsMatStd();
+};
+
+const handleExportTemplate = () => {
+  templateConsMatStd();
+};
+
+const handleImport = (file: File) => {
+  importConsMatStd(file);
 };
 
 onMounted(() => {
   breadcrumb.value = [
+    {
+      name: "Main Menu",
+      as_link: false,
+      url: "",
+    },
     {
       name: "Consumable Material Std",
       as_link: false,
@@ -211,22 +269,31 @@ onMounted(() => {
 
 <template>
   <div class="relative w-full">
-    <Button
-      v-if="dataForm?.activity_uuid"
-      icon_only="plus"
-      class="absolute right-0"
-      size="sm"
-      rounded="full"
-      color="blue"
-      @click="handleCreate"
-    />
+    <div class="flex items-center gap-2 absolute right-0 top-10">
+      <ButtonGroup
+        :loading-import="isLoadingImport"
+        :loading-download="isLoadingDownload"
+        :loading-template="isLoadingTemplate"
+        @download="handleDownload"
+        @template="handleExportTemplate"
+        @import="handleImport"
+      />
+      <Button
+        v-if="dataForm?.activity_uuid"
+        icon_only="plus"
+        size="sm"
+        rounded="full"
+        color="blue"
+        @click="handleCreate"
+      />
+    </div>
 
     <div class="flex gap-8">
       <div class="w-[330px]">
         <FilterConsumableMaterialStd
           @filter="handleOnFilter"
           @reset-filter="handleResetFilter"
-          :loading="isLoadingScope"
+          :loading="isLoadingConsMatStd"
         />
       </div>
       <div class="w-full">
@@ -234,8 +301,8 @@ onMounted(() => {
         <Table
           label-create="User"
           :columns="ColumnConsumableMaterialStd"
-          :entities="dataScope?.data || []"
-          :loading="isLoadingScope"
+          :entities="dataConsMatStd?.data || []"
+          :loading="isLoadingConsMatStd"
           :pagination="pagination"
           :is-create="false"
           v-model:model-search="params.search"

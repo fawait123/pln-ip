@@ -18,6 +18,7 @@ import { ColumnsLocation } from "../constants/LocationConstant";
 import type { LocationInterface } from "../types/LocationType";
 import { useMasterStore } from "../stores/MasterStore";
 import FormLocation from "../components/FormLocation.vue";
+import ButtonGroup from "../components/ButtonGroup.vue";
 
 const masterStore = useMasterStore();
 const total_item = ref(0);
@@ -79,6 +80,44 @@ const { mutate: deleteLocation, isPending: isLoadingDelete } = useMutation({
       description: error?.response?.data?.message || "Something went wrong",
       type: "error",
     });
+  },
+});
+//--- END
+
+//--- DOWNLOAD
+const { mutate: downloadLocation, isPending: isLoadingDownload } = useMutation({
+  mutationFn: async () => {
+    return await masterStore.downloadLocation();
+  },
+  onSuccess: () => {},
+  onError: (error) => {
+    console.log(error);
+  },
+});
+//--- END
+
+//--- DOWNLOAD TEMPLATE
+const { mutate: templateLocation, isPending: isLoadingTemplate } = useMutation({
+  mutationFn: async () => {
+    return await masterStore.templateLocation();
+  },
+  onSuccess: () => {},
+  onError: (error) => {
+    console.log(error);
+  },
+});
+//--- END
+
+//--- IMPORT
+const { mutate: importLocation, isPending: isLoadingImport } = useMutation({
+  mutationFn: async (payload: File) => {
+    return await masterStore.importLocation(payload);
+  },
+  onSuccess: () => {
+    refetchLocation();
+  },
+  onError: (error) => {
+    console.log(error);
   },
 });
 //--- END
@@ -147,8 +186,25 @@ const onDelete = () => {
   deleteLocation(selected_item.value?.uuid as string);
 };
 
+const handleDownload = () => {
+  downloadLocation();
+};
+
+const handleExportTemplate = () => {
+  templateLocation();
+};
+
+const handleImport = (file: File) => {
+  importLocation(file);
+};
+
 onMounted(() => {
   breadcrumb.value = [
+    {
+      name: "Main Menu",
+      as_link: false,
+      url: "",
+    },
     {
       name: "Master Data",
       as_link: false,
@@ -167,9 +223,17 @@ onMounted(() => {
   <Breadcrumb :items="breadcrumb" />
   <div class="relative w-full mt-6">
     <div class="flex items-center gap-2 absolute right-0">
-      <Button text="Import" rounded="full" color="blue" />
+      <!-- <Button text="Import" rounded="full" color="blue" />
       <Button text="Download" rounded="full" color="blue" />
-      <Button text="Export Template" rounded="full" color="blue" />
+      <Button text="Export Template" rounded="full" color="blue" /> -->
+      <ButtonGroup
+        :loading-import="isLoadingImport"
+        :loading-download="isLoadingDownload"
+        :loading-template="isLoadingTemplate"
+        @download="handleDownload"
+        @template="handleExportTemplate"
+        @import="handleImport"
+      />
       <Button
         icon_only="plus"
         size="sm"

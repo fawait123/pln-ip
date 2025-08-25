@@ -84,6 +84,88 @@ export const useMasterStore = defineStore(
           return Promise.reject(err);
         });
     };
+
+    const downloadLocation = async () => {
+      return await api
+        .post(
+          `/location/export`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Location.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const templateLocation = async () => {
+      return await api
+        .post(
+          `/location/template`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Location Template.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const importLocation = async (payload: File) => {
+      const formData = new FormData();
+      formData.append("file", payload);
+
+      return await api
+        .post(`/location/import`, formData)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
     // --- END
 
     // --- UNIT
@@ -127,6 +209,88 @@ export const useMasterStore = defineStore(
         .delete(`/unit/${id}`)
         .then((res) => {
           return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const downloadUnit = async () => {
+      return await api
+        .post(
+          `/unit/export`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Unit.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const templateUnit = async () => {
+      return await api
+        .post(
+          `/unit/template`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Unit Template.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const importUnit = async (payload: File) => {
+      const formData = new FormData();
+      formData.append("file", payload);
+
+      return await api
+        .post(`/unit/import`, formData)
+        .then((resp) => {
+          return Promise.resolve(resp);
         })
         .catch((err) => {
           return Promise.reject(err);
@@ -178,6 +342,88 @@ export const useMasterStore = defineStore(
         .delete(`/machine/${id}`)
         .then((res) => {
           return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const downloadMachine = async () => {
+      return await api
+        .post(
+          `/machine/export`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Machine.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const templateMachine = async () => {
+      return await api
+        .post(
+          `/machine/template`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Machine Template.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const importMachine = async (payload: File) => {
+      const formData = new FormData();
+      formData.append("file", payload);
+
+      return await api
+        .post(`/machine/import`, formData)
+        .then((resp) => {
+          return Promise.resolve(resp);
         })
         .catch((err) => {
           return Promise.reject(err);
@@ -236,6 +482,88 @@ export const useMasterStore = defineStore(
           return Promise.reject(err);
         });
     };
+
+    const downloadInspectionType = async () => {
+      return await api
+        .post(
+          `/inspection-type/export`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Inspection Type.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const templateInspectionType = async () => {
+      return await api
+        .post(
+          `/inspection-type/template`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Inspection Type Template.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const importInspectionType = async (payload: File) => {
+      const formData = new FormData();
+      formData.append("file", payload);
+
+      return await api
+        .post(`/isnpection-type/import`, formData)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
     // --- END
 
     // --- GLOBAL UNIT
@@ -287,6 +615,88 @@ export const useMasterStore = defineStore(
           return Promise.reject(err);
         });
     };
+
+    const downloadGlobalUnit = async () => {
+      return await api
+        .post(
+          `/global-unit/export`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Global Unit.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const templateGlobalUnit = async () => {
+      return await api
+        .post(
+          `/global-unit/template`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Global Unit Template.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const importGlobalUnit = async (payload: File) => {
+      const formData = new FormData();
+      formData.append("file", payload);
+
+      return await api
+        .post(`/global-unit/import`, formData)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
     // --- END
 
     // --- SCOPE
@@ -330,6 +740,88 @@ export const useMasterStore = defineStore(
         .delete(`/scope-standart/${id}`)
         .then((res) => {
           return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const downloadScope = async () => {
+      return await api
+        .post(
+          `/scope-standart/export`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Scope Standart.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const templateScope = async () => {
+      return await api
+        .post(
+          `/scope-standart/template`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Scope Standart Template.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const importScope = async (payload: File) => {
+      const formData = new FormData();
+      formData.append("file", payload);
+
+      return await api
+        .post(`/scope-standart/import`, formData)
+        .then((resp) => {
+          return Promise.resolve(resp);
         })
         .catch((err) => {
           return Promise.reject(err);
@@ -388,6 +880,88 @@ export const useMasterStore = defineStore(
           return Promise.reject(err);
         });
     };
+
+    const downloadAdditionalScope = async () => {
+      return await api
+        .post(
+          `/additional-scope/export`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Additional Scope.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const templateAdditionalScope = async () => {
+      return await api
+        .post(
+          `/additional-scope/template`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Additional Scope Template.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const importAdditionalScope = async (payload: File) => {
+      const formData = new FormData();
+      formData.append("file", payload);
+
+      return await api
+        .post(`/additional-scope/import`, formData)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
     // --- END
 
     // --- CONSUMABLE MATERIAL
@@ -439,6 +1013,88 @@ export const useMasterStore = defineStore(
           return Promise.reject(err);
         });
     };
+
+    const downloadConsMat = async () => {
+      return await api
+        .post(
+          `/consumble-material/export`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Consumable Material.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const templateConsMat = async () => {
+      return await api
+        .post(
+          `/consumble-material/template`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Consumable Material Template.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const importConsMat = async (payload: File) => {
+      const formData = new FormData();
+      formData.append("file", payload);
+
+      return await api
+        .post(`/consumble-material/import`, formData)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
     // --- END
 
     // --- PART
@@ -482,6 +1138,88 @@ export const useMasterStore = defineStore(
         .delete(`/part/${id}`)
         .then((res) => {
           return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const downloadPart = async () => {
+      return await api
+        .post(
+          `/part/export`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Part.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const templatePart = async () => {
+      return await api
+        .post(
+          `/part/template`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Part Template.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const importPart = async (payload: File) => {
+      const formData = new FormData();
+      formData.append("file", payload);
+
+      return await api
+        .post(`/part/import`, formData)
+        .then((resp) => {
+          return Promise.resolve(resp);
         })
         .catch((err) => {
           return Promise.reject(err);
@@ -586,6 +1324,88 @@ export const useMasterStore = defineStore(
           return Promise.reject(err);
         });
     };
+
+    const downloadManpower = async () => {
+      return await api
+        .post(
+          `/manpower/export`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Manpower.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const templateManpower = async () => {
+      return await api
+        .post(
+          `/manpower/template`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Manpower Template.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const importManpower = async (payload: File) => {
+      const formData = new FormData();
+      formData.append("file", payload);
+
+      return await api
+        .post(`/manpower/import`, formData)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
     // --- END
 
     // --- USER
@@ -629,6 +1449,88 @@ export const useMasterStore = defineStore(
         .delete(`/user/${id}`)
         .then((res) => {
           return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const downloadUser = async () => {
+      return await api
+        .post(
+          `/user/export`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `User.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const templateUser = async () => {
+      return await api
+        .post(
+          `/user/template`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `User Template.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const importUser = async (payload: File) => {
+      const formData = new FormData();
+      formData.append("file", payload);
+
+      return await api
+        .post(`/user/import`, formData)
+        .then((resp) => {
+          return Promise.resolve(resp);
         })
         .catch((err) => {
           return Promise.reject(err);
@@ -741,6 +1643,88 @@ export const useMasterStore = defineStore(
           return Promise.reject(err);
         });
     };
+
+    const downloadBidang = async () => {
+      return await api
+        .post(
+          `/bidang/export`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Bidang.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const templateBidang = async () => {
+      return await api
+        .post(
+          `/bidang/template`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Bidang Template.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const importBidang = async (payload: File) => {
+      const formData = new FormData();
+      formData.append("file", payload);
+
+      return await api
+        .post(`/bidang/import`, formData)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
     // --- END
 
     // --- SUBBIDANG
@@ -792,6 +1776,88 @@ export const useMasterStore = defineStore(
           return Promise.reject(err);
         });
     };
+
+    const downloadSubBidang = async () => {
+      return await api
+        .post(
+          `/sub-bidang/export`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Sub Bidang.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const templateSubBidang = async () => {
+      return await api
+        .post(
+          `/sub-bidang/template`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Sub Bidang Template.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const importSubBidang = async (payload: File) => {
+      const formData = new FormData();
+      formData.append("file", payload);
+
+      return await api
+        .post(`/sub-bidang/import`, formData)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
     // --- END
 
     // --- HSE DOC
@@ -835,6 +1901,88 @@ export const useMasterStore = defineStore(
         .delete(`/hse-doc/${id}`)
         .then((res) => {
           return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const downloadHseDoc = async () => {
+      return await api
+        .post(
+          `/hse-doc/export`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `HSE Doc.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const templateHseDoc = async () => {
+      return await api
+        .post(
+          `/hse-doc/template`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `HSE Doc Template.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const importHseDoc = async (payload: File) => {
+      const formData = new FormData();
+      formData.append("file", payload);
+
+      return await api
+        .post(`/hse-doc/import`, formData)
+        .then((resp) => {
+          return Promise.resolve(resp);
         })
         .catch((err) => {
           return Promise.reject(err);
@@ -939,7 +2087,89 @@ export const useMasterStore = defineStore(
           return Promise.reject(err);
         });
     };
-    // --- END\
+
+    const downloadSequence = async () => {
+      return await api
+        .post(
+          `/sequence/export`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Sequence.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const templateSequence = async () => {
+      return await api
+        .post(
+          `/sequence/template`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Sequence Template.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const importSequence = async (payload: File) => {
+      const formData = new FormData();
+      formData.append("file", payload);
+
+      return await api
+        .post(`/sequence/import`, formData)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    // --- END
 
     // ACTIVITY
     const getActivity = async (payload: IParams) => {
@@ -954,6 +2184,7 @@ export const useMasterStore = defineStore(
           return Promise.reject(err);
         });
     };
+
     const createActivity = async (payload: ActivityCreateInterface) => {
       return await api
         .post(`/activity`, payload)
@@ -964,6 +2195,7 @@ export const useMasterStore = defineStore(
           return Promise.reject(err);
         });
     };
+
     const updateActivity = async (
       id: string,
       payload: ActivityCreateInterface
@@ -977,11 +2209,94 @@ export const useMasterStore = defineStore(
           return Promise.reject(err);
         });
     };
+
     const deleteActivity = async (id: string) => {
       return await api
         .delete(`/activity/${id}`)
         .then((res) => {
           return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const downloadActivity = async () => {
+      return await api
+        .post(
+          `/activity/export`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Activity.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const templateActivity = async () => {
+      return await api
+        .post(
+          `/activity/template`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Activity Template.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const importActivity = async (payload: File) => {
+      const formData = new FormData();
+      formData.append("file", payload);
+
+      return await api
+        .post(`/activity/import`, formData)
+        .then((resp) => {
+          return Promise.resolve(resp);
         })
         .catch((err) => {
           return Promise.reject(err);
@@ -1002,6 +2317,7 @@ export const useMasterStore = defineStore(
           return Promise.reject(err);
         });
     };
+
     const createEquipment = async (payload: EquipmentCreateInterface) => {
       return await api
         .post(`/equipment`, payload)
@@ -1012,6 +2328,7 @@ export const useMasterStore = defineStore(
           return Promise.reject(err);
         });
     };
+
     const updateEquipment = async (
       id: string,
       payload: EquipmentCreateInterface
@@ -1025,11 +2342,94 @@ export const useMasterStore = defineStore(
           return Promise.reject(err);
         });
     };
+
     const deleteEquipment = async (id: string) => {
       return await api
         .delete(`/equipment/${id}`)
         .then((res) => {
           return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const downloadEquipment = async () => {
+      return await api
+        .post(
+          `/equipment/export`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Equipment.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const templateEquipment = async () => {
+      return await api
+        .post(
+          `/equipment/template`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Equipment Template.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const importEquipment = async (payload: File) => {
+      const formData = new FormData();
+      formData.append("file", payload);
+
+      return await api
+        .post(`/equipment/import`, formData)
+        .then((resp) => {
+          return Promise.resolve(resp);
         })
         .catch((err) => {
           return Promise.reject(err);
@@ -1050,6 +2450,7 @@ export const useMasterStore = defineStore(
           return Promise.reject(err);
         });
     };
+
     const createPartStd = async (payload: PartStdCreateInterface) => {
       return await api
         .post(`/part-std`, payload)
@@ -1060,6 +2461,7 @@ export const useMasterStore = defineStore(
           return Promise.reject(err);
         });
     };
+
     const updatePartStd = async (
       id: string,
       payload: PartStdCreateInterface
@@ -1073,11 +2475,94 @@ export const useMasterStore = defineStore(
           return Promise.reject(err);
         });
     };
+
     const deletePartStd = async (id: string) => {
       return await api
         .delete(`/part-std/${id}`)
         .then((res) => {
           return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const downloadPartStd = async () => {
+      return await api
+        .post(
+          `/part-std/export`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Part Standart.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const templatePartStd = async () => {
+      return await api
+        .post(
+          `/part-std/template`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Part Standart Template.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const importPartStd = async (payload: File) => {
+      const formData = new FormData();
+      formData.append("file", payload);
+
+      return await api
+        .post(`/part-std/import`, formData)
+        .then((resp) => {
+          return Promise.resolve(resp);
         })
         .catch((err) => {
           return Promise.reject(err);
@@ -1098,6 +2583,7 @@ export const useMasterStore = defineStore(
           return Promise.reject(err);
         });
     };
+
     const createManpowerStd = async (payload: ManpowerStdCreateInterface) => {
       return await api
         .post(`/manpower-std`, payload)
@@ -1108,6 +2594,7 @@ export const useMasterStore = defineStore(
           return Promise.reject(err);
         });
     };
+
     const updateManpowerStd = async (
       id: string,
       payload: ManpowerStdCreateInterface
@@ -1121,11 +2608,94 @@ export const useMasterStore = defineStore(
           return Promise.reject(err);
         });
     };
+
     const deleteManpowerStd = async (id: string) => {
       return await api
         .delete(`/manpower-std/${id}`)
         .then((res) => {
           return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const downloadManpowerStd = async () => {
+      return await api
+        .post(
+          `/manpower-std/export`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Manpower Standart.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const templateManpowerStd = async () => {
+      return await api
+        .post(
+          `/manpower-std/template`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Manpower Standart Template.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const importManpowerStd = async (payload: File) => {
+      const formData = new FormData();
+      formData.append("file", payload);
+
+      return await api
+        .post(`/manpower-std/import`, formData)
+        .then((resp) => {
+          return Promise.resolve(resp);
         })
         .catch((err) => {
           return Promise.reject(err);
@@ -1146,7 +2716,10 @@ export const useMasterStore = defineStore(
           return Promise.reject(err);
         });
     };
-    const createConsumableMaterialStd = async (payload: ConsumableMaterialStdCreateInterface) => {
+
+    const createConsumableMaterialStd = async (
+      payload: ConsumableMaterialStdCreateInterface
+    ) => {
       return await api
         .post(`/cons-mat-std`, payload)
         .then((resp) => {
@@ -1156,6 +2729,7 @@ export const useMasterStore = defineStore(
           return Promise.reject(err);
         });
     };
+
     const updateConsumableMaterialStd = async (
       id: string,
       payload: ConsumableMaterialStdCreateInterface
@@ -1169,11 +2743,94 @@ export const useMasterStore = defineStore(
           return Promise.reject(err);
         });
     };
+
     const deleteConsumableMaterialStd = async (id: string) => {
       return await api
-        .delete(`/manpower-std/${id}`)
+        .delete(`/cons-mat-std/${id}`)
         .then((res) => {
           return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const downloadConsumableMaterialStd = async () => {
+      return await api
+        .post(
+          `/cons-mat-std/export`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Consumable Material Standart.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const templateConsumableMaterialStd = async () => {
+      return await api
+        .post(
+          `/cons-mat-std/template`,
+          {},
+          {
+            responseType: "blob",
+          }
+        )
+        .then((resp) => {
+          const url = window.URL.createObjectURL(
+            new Blob([resp.data], {
+              type: resp.headers["content-type"],
+            })
+          );
+
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `Consumable Material Standart Template.xlsx`;
+
+          document.body.appendChild(a);
+          a.click();
+
+          document.body.removeChild(a);
+
+          URL.revokeObjectURL(url);
+
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const importConsumableMaterialStd = async (payload: File) => {
+      const formData = new FormData();
+      formData.append("file", payload);
+
+      return await api
+        .post(`/cons-mat-std/import`, formData)
+        .then((resp) => {
+          return Promise.resolve(resp);
         })
         .catch((err) => {
           return Promise.reject(err);
@@ -1186,38 +2843,65 @@ export const useMasterStore = defineStore(
       createLocation,
       updateLocation,
       deleteLocation,
+      downloadLocation,
+      templateLocation,
+      importLocation,
       getUnit,
       createUnit,
       updateUnit,
       deleteUnit,
+      downloadUnit,
+      templateUnit,
+      importUnit,
       getMachine,
       createMachine,
       updateMachine,
       deleteMachine,
+      downloadMachine,
+      templateMachine,
+      importMachine,
       getInspectionType,
       createInspectionType,
       updateInspectionType,
       deleteInspectionType,
+      downloadInspectionType,
+      templateInspectionType,
+      importInspectionType,
       getGlobalUnit,
       createGlobalUnit,
       updateGlobalUnit,
       deleteGlobalUnit,
+      downloadGlobalUnit,
+      templateGlobalUnit,
+      importGlobalUnit,
       getScope,
       createScope,
       updateScope,
       deleteScope,
+      downloadScope,
+      templateScope,
+      importScope,
       getAdditionalScope,
       createAdditionalScope,
       updateAdditionalScope,
       deleteAdditionalScope,
+      downloadAdditionalScope,
+      templateAdditionalScope,
+      importAdditionalScope,
       getConsMat,
       createConsMat,
       updateConsMat,
       deleteConsMat,
+      downloadConsMat,
+      templateConsMat,
+      importConsMat,
       getPart,
       createPart,
       updatePart,
       deletePart,
+      downloadPart,
+      templatePart,
+      importPart,
       getTools,
       createTools,
       updateTools,
@@ -1226,10 +2910,16 @@ export const useMasterStore = defineStore(
       createManpower,
       updateManpower,
       deleteManpower,
+      downloadManpower,
+      templateManpower,
+      importManpower,
       getUser,
       createUser,
       updateUser,
       deleteUser,
+      downloadUser,
+      templateUser,
+      importUser,
       getRole,
       getPermission,
       createRole,
@@ -1239,14 +2929,23 @@ export const useMasterStore = defineStore(
       createBidang,
       updateBidang,
       deleteBidang,
+      downloadBidang,
+      templateBidang,
+      importBidang,
       getSubBidang,
       createSubBidang,
       updateSubBidang,
       deleteSubBidang,
+      downloadSubBidang,
+      templateSubBidang,
+      importSubBidang,
       getHseDoc,
       updateHseDoc,
       createHseDoc,
       deleteHseDoc,
+      downloadHseDoc,
+      templateHseDoc,
+      importHseDoc,
       getHse,
       createHse,
       updateHse,
@@ -1255,26 +2954,44 @@ export const useMasterStore = defineStore(
       createSequence,
       updateSequence,
       deleteSequence,
+      downloadSequence,
+      templateSequence,
+      importSequence,
       getActivity,
       createActivity,
       updateActivity,
       deleteActivity,
+      downloadActivity,
+      templateActivity,
+      importActivity,
       getEquipment,
       createEquipment,
       updateEquipment,
       deleteEquipment,
+      downloadEquipment,
+      templateEquipment,
+      importEquipment,
       getPartStd,
       createPartStd,
       updatePartStd,
       deletePartStd,
+      downloadPartStd,
+      templatePartStd,
+      importPartStd,
       getManpowerStd,
       createManpowerStd,
       updateManpowerStd,
       deleteManpowerStd,
+      downloadManpowerStd,
+      templateManpowerStd,
+      importManpowerStd,
       getConsumableMaterialStd,
       createConsumableMaterialStd,
       updateConsumableMaterialStd,
       deleteConsumableMaterialStd,
+      downloadConsumableMaterialStd,
+      templateConsumableMaterialStd,
+      importConsumableMaterialStd,
     };
   },
   {

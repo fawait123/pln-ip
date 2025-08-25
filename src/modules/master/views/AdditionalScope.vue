@@ -23,6 +23,7 @@ import type {
 import { useMasterStore } from "../stores/MasterStore";
 import FormAdditionalScope from "../components/FormAdditionalScope.vue";
 import FilterAdditionalScope from "../components/FilterAdditionalScope.vue";
+import ButtonGroup from "../components/ButtonGroup.vue";
 
 const masterStore = useMasterStore();
 const total_item = ref(0);
@@ -88,6 +89,47 @@ const { mutate: deleteAdditionalScope, isPending: isLoadingDelete } =
         description: error?.response?.data?.message || "Something went wrong",
         type: "error",
       });
+    },
+  });
+//--- END
+
+//--- DOWNLOAD
+const { mutate: downloadAdditionalScope, isPending: isLoadingDownload } =
+  useMutation({
+    mutationFn: async () => {
+      return await masterStore.downloadAdditionalScope();
+    },
+    onSuccess: () => {},
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+//--- END
+
+//--- DOWNLOAD TEMPLATE
+const { mutate: templateAdditionalScope, isPending: isLoadingTemplate } =
+  useMutation({
+    mutationFn: async () => {
+      return await masterStore.templateAdditionalScope();
+    },
+    onSuccess: () => {},
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+//--- END
+
+//--- IMPORT
+const { mutate: importAdditionalScope, isPending: isLoadingImport } =
+  useMutation({
+    mutationFn: async (payload: File) => {
+      return await masterStore.importAdditionalScope(payload);
+    },
+    onSuccess: () => {
+      refetchAdditionalScope();
+    },
+    onError: (error) => {
+      console.log(error);
     },
   });
 //--- END
@@ -194,8 +236,25 @@ const handleRemoveSuccess = () => {
   refetchAdditionalScope();
 };
 
+const handleDownload = () => {
+  downloadAdditionalScope();
+};
+
+const handleExportTemplate = () => {
+  templateAdditionalScope();
+};
+
+const handleImport = (file: File) => {
+  importAdditionalScope(file);
+};
+
 onMounted(() => {
   breadcrumb.value = [
+    {
+      name: "Main Menu",
+      as_link: false,
+      url: "",
+    },
     {
       name: "Additional Scope",
       as_link: false,
@@ -207,15 +266,24 @@ onMounted(() => {
 
 <template>
   <div class="relative w-full">
-    <Button
-      v-if="dataForm?.inspection_type_uuid"
-      icon_only="plus"
-      class="absolute right-0"
-      size="sm"
-      rounded="full"
-      color="blue"
-      @click="handleCreate"
-    />
+    <div class="flex items-center gap-2 absolute right-0 top-10">
+      <ButtonGroup
+        :loading-import="isLoadingImport"
+        :loading-download="isLoadingDownload"
+        :loading-template="isLoadingTemplate"
+        @download="handleDownload"
+        @template="handleExportTemplate"
+        @import="handleImport"
+      />
+      <Button
+        v-if="dataForm?.inspection_type_uuid"
+        icon_only="plus"
+        size="sm"
+        rounded="full"
+        color="blue"
+        @click="handleCreate"
+      />
+    </div>
 
     <div class="flex gap-8">
       <div class="w-[330px]">

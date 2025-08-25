@@ -25,6 +25,7 @@ import type {
   ManpowerStdInterface,
 } from "../types/ManpowerStdType";
 import { ColumnsManpowerStd } from "../constants/ManpowerStdConstant";
+import ButtonGroup from "../components/ButtonGroup.vue";
 
 const dataForm = ref<ManpowerStdCreateModelInterface | null>(null);
 const masterStore = useMasterStore();
@@ -52,9 +53,9 @@ const breadcrumb = ref<BreadcrumbType[]>([]);
 
 //--- GET SCOPE
 const {
-  data: dataScope,
-  isFetching: isLoadingScope,
-  refetch: refetchScope,
+  data: dataManpowerStd,
+  isFetching: isLoadingManpowerStd,
+  refetch: refetchManpowerStd,
 } = useQuery({
   queryKey: ["getManpowerStd"],
   queryFn: async () => {
@@ -73,8 +74,8 @@ const {
 });
 //--- END
 
-//--- DELETE SCOPE
-const { mutate: deleteScope, isPending: isLoadingDelete } = useMutation({
+//--- DELETE MANPOWER STD
+const { mutate: deleteManpowerStd, isPending: isLoadingDelete } = useMutation({
   mutationFn: async (id: string) => {
     return await masterStore.deleteManpowerStd(id);
   },
@@ -85,7 +86,7 @@ const { mutate: deleteScope, isPending: isLoadingDelete } = useMutation({
       type: "success",
     });
     open_delete.value = false;
-    refetchScope();
+    refetchManpowerStd();
   },
   onError: (error: any) => {
     toastRef.value?.showToast({
@@ -93,6 +94,46 @@ const { mutate: deleteScope, isPending: isLoadingDelete } = useMutation({
       description: error?.response?.data?.message || "Something went wrong",
       type: "error",
     });
+  },
+});
+//--- END
+
+//--- DOWNLOAD
+const { mutate: downloadManpowerStd, isPending: isLoadingDownload } =
+  useMutation({
+    mutationFn: async () => {
+      return await masterStore.downloadManpowerStd();
+    },
+    onSuccess: () => {},
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+//--- END
+
+//--- DOWNLOAD TEMPLATE
+const { mutate: templateManpowerStd, isPending: isLoadingTemplate } =
+  useMutation({
+    mutationFn: async () => {
+      return await masterStore.templateManpowerStd();
+    },
+    onSuccess: () => {},
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+//--- END
+
+//--- IMPORT
+const { mutate: importManpowerStd, isPending: isLoadingImport } = useMutation({
+  mutationFn: async (payload: File) => {
+    return await masterStore.importManpowerStd(payload);
+  },
+  onSuccess: () => {
+    refetchManpowerStd();
+  },
+  onError: (error) => {
+    console.log(error);
   },
 });
 //--- END
@@ -107,20 +148,20 @@ const pagination = computed(() => {
 
 const changePage = (e: number) => {
   params.currentPage = e;
-  refetchScope();
+  refetchManpowerStd();
 };
 
 const changeLimit = (e: string) => {
   params.perPage = parseInt(e);
   params.currentPage = 1;
-  refetchScope();
+  refetchManpowerStd();
 };
 
 const searchTable = () => {
   clearTimeout(timeout.value);
   timeout.value = window.setTimeout(() => {
     params.currentPage = 1;
-    refetchScope();
+    refetchManpowerStd();
   }, 1000);
 };
 
@@ -131,7 +172,7 @@ const handleSuccess = () => {
     type: "success",
   });
   params.currentPage = 1;
-  refetchScope();
+  refetchManpowerStd();
 };
 
 const handleError = (error: any) => {
@@ -158,7 +199,7 @@ const handleDelete = (item: ManpowerStdInterface) => {
 };
 
 const onDelete = () => {
-  deleteScope(selected_item.value?.uuid as string);
+  deleteManpowerStd(selected_item.value?.uuid as string);
 };
 
 const setFilter = () => {
@@ -187,12 +228,12 @@ const resetFilter = () => {
 const handleOnFilter = (data: ManpowerStdCreateModelInterface) => {
   dataForm.value = data;
   setFilter();
-  refetchScope();
+  refetchManpowerStd();
 };
 
 const handleResetFilter = () => {
   resetFilter();
-  refetchScope();
+  refetchManpowerStd();
 };
 
 const previewDocument = (document: ResponseDocumentInterface) => {
@@ -204,11 +245,28 @@ const previewDocument = (document: ResponseDocumentInterface) => {
 };
 
 const handleRemoveSuccess = () => {
-  refetchScope();
+  refetchManpowerStd();
+};
+
+const handleDownload = () => {
+  downloadManpowerStd();
+};
+
+const handleExportTemplate = () => {
+  templateManpowerStd();
+};
+
+const handleImport = (file: File) => {
+  importManpowerStd(file);
 };
 
 onMounted(() => {
   breadcrumb.value = [
+    {
+      name: "Main Menu",
+      as_link: false,
+      url: "",
+    },
     {
       name: "Manpower Std",
       as_link: false,
@@ -220,22 +278,31 @@ onMounted(() => {
 
 <template>
   <div class="relative w-full">
-    <Button
-      v-if="dataForm?.activity_uuid"
-      icon_only="plus"
-      class="absolute right-0"
-      size="sm"
-      rounded="full"
-      color="blue"
-      @click="handleCreate"
-    />
+    <div class="flex items-center gap-2 absolute right-0 top-10">
+      <ButtonGroup
+        :loading-import="isLoadingImport"
+        :loading-download="isLoadingDownload"
+        :loading-template="isLoadingTemplate"
+        @download="handleDownload"
+        @template="handleExportTemplate"
+        @import="handleImport"
+      />
+      <Button
+        v-if="dataForm?.activity_uuid"
+        icon_only="plus"
+        size="sm"
+        rounded="full"
+        color="blue"
+        @click="handleCreate"
+      />
+    </div>
 
     <div class="flex gap-8">
       <div class="w-[330px]">
         <FilterManpowerStd
           @filter="handleOnFilter"
           @reset-filter="handleResetFilter"
-          :loading="isLoadingScope"
+          :loading="isLoadingManpowerStd"
         />
       </div>
       <div class="w-full">
@@ -243,8 +310,8 @@ onMounted(() => {
         <Table
           label-create="User"
           :columns="ColumnsManpowerStd"
-          :entities="dataScope?.data || []"
-          :loading="isLoadingScope"
+          :entities="dataManpowerStd?.data || []"
+          :loading="isLoadingManpowerStd"
           :pagination="pagination"
           :is-create="false"
           v-model:model-search="params.search"

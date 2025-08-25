@@ -22,6 +22,7 @@ import type {
 } from "../types/EquipmentType";
 import FormEquipment from "../components/FormEquipment.vue";
 import FilterEquipment from "../components/FilterEquipment.vue";
+import ButtonGroup from "../components/ButtonGroup.vue";
 
 const dataForm = ref<EquipmentCreateInterface | null>(null);
 const masterStore = useMasterStore();
@@ -92,6 +93,48 @@ const { mutate: deleteEquipment, isPending: isLoadingDelete } = useMutation({
       description: error?.response?.data?.message || "Something went wrong",
       type: "error",
     });
+  },
+});
+//--- END
+
+//--- DOWNLOAD
+const { mutate: downloadEquipment, isPending: isLoadingDownload } = useMutation(
+  {
+    mutationFn: async () => {
+      return await masterStore.downloadEquipment();
+    },
+    onSuccess: () => {},
+    onError: (error) => {
+      console.log(error);
+    },
+  }
+);
+//--- END
+
+//--- DOWNLOAD TEMPLATE
+const { mutate: templateEquipment, isPending: isLoadingTemplate } = useMutation(
+  {
+    mutationFn: async () => {
+      return await masterStore.templateEquipment();
+    },
+    onSuccess: () => {},
+    onError: (error) => {
+      console.log(error);
+    },
+  }
+);
+//--- END
+
+//--- IMPORT
+const { mutate: importEquipment, isPending: isLoadingImport } = useMutation({
+  mutationFn: async (payload: File) => {
+    return await masterStore.importEquipment(payload);
+  },
+  onSuccess: () => {
+    refetchEquipment();
+  },
+  onError: (error) => {
+    console.log(error);
   },
 });
 //--- END
@@ -204,8 +247,25 @@ const handleRemoveSuccess = () => {
   refetchEquipment();
 };
 
+const handleDownload = () => {
+  downloadEquipment();
+};
+
+const handleExportTemplate = () => {
+  templateEquipment();
+};
+
+const handleImport = (file: File) => {
+  importEquipment(file);
+};
+
 onMounted(() => {
   breadcrumb.value = [
+    {
+      name: "Main Menu",
+      as_link: false,
+      url: "",
+    },
     {
       name: "Equipment",
       as_link: false,
@@ -217,15 +277,24 @@ onMounted(() => {
 
 <template>
   <div class="relative w-full">
-    <Button
-      icon_only="plus"
-      class="absolute right-0"
-      size="sm"
-      rounded="full"
-      color="blue"
-      @click="handleCreate"
-      v-if="dataForm?.scope_standart_uuid"
-    />
+    <div class="flex items-center gap-2 absolute right-0 top-10">
+      <ButtonGroup
+        :loading-import="isLoadingImport"
+        :loading-download="isLoadingDownload"
+        :loading-template="isLoadingTemplate"
+        @download="handleDownload"
+        @template="handleExportTemplate"
+        @import="handleImport"
+      />
+      <Button
+        icon_only="plus"
+        size="sm"
+        rounded="full"
+        color="blue"
+        @click="handleCreate"
+        v-if="dataForm?.scope_standart_uuid"
+      />
+    </div>
 
     <div class="flex gap-8">
       <div class="w-[330px]">
