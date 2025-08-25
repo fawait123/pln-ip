@@ -15,6 +15,7 @@ import type {
     EquipmentInterface,
     EquipmentModelCreateInterface,
 } from "@/modules/master/types/EquipmentType";
+import { useRoute } from "vue-router";
 
 type OptionType = {
     value: string;
@@ -31,7 +32,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["success", "error", "filter", "resetFilter"]);
-
+const route = useRoute();
 const masterStore = useMasterStore();
 
 const queryClient = useQueryClient();
@@ -86,9 +87,9 @@ const params_scope = reactive<IParams>({
     filters: [
         {
             group: "AND",
-            operator: "NOT_NULL",
+            operator: "EQ",
             column: "inspection_type_uuid",
-            value: "",
+            value: route.params.id_inspection,
         },
     ],
     currentPage: 1,
@@ -338,7 +339,6 @@ watch(modelValue, (value) => {
 });
 
 const selectBidang = (e: OptionType) => {
-    queryClient.removeQueries({ queryKey: ["getSubBidangScope"] });
     model.value.sub_bidang_uuid = "";
     params_sub_bidang.filters = [
         {
@@ -350,6 +350,25 @@ const selectBidang = (e: OptionType) => {
     ];
     refetchSubBidang();
 };
+
+const selectSubBidang = (e: OptionType) => {
+    params_scope.filters = [
+        {
+            group: "AND",
+            operator: "EQ",
+            column: "inspection_type_uuid",
+            value: route.params.id_inspection,
+        },
+        {
+            group: "AND",
+            operator: "EQ",
+            column: "sub_bidang_uuid",
+            value: e.value,
+        },
+    ];
+
+    refetchScope();
+}
 // bidang
 watch(
     dataBidang,
@@ -474,7 +493,8 @@ watch(
             <Select v-model="model.sub_bidang_uuid" label="Sub Bidang" options_label="label" options_value="value"
                 v-model:model-search="params_sub_bidang.search" :search="true" :loading="is_loading_sub_bidang"
                 :loading-next-page="isFetchingNextPageSubBidang" :rules="rules.sub_bidang_uuid"
-                :options="options_sub_bidang" @scroll="scrollSubBidang" @search="searchSubBidang" />
+                :options="options_sub_bidang" @scroll="scrollSubBidang" @search="searchSubBidang"
+                @select="selectSubBidang" />
             <Select v-model="model.scope_standart_uuid" label="Scope" options_label="label" options_value="value"
                 v-model:model-search="params_scope.search" :search="true" :loading="is_loading_scope"
                 :loading-next-page="isFetchingNextPageScope" :rules="rules.scope_standart_uuid" :options="options_scope"

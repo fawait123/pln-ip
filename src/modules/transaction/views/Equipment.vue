@@ -19,7 +19,6 @@ import type {
     EquipmentCreateInterface,
 } from "@/modules/master/types/EquipmentType";
 import type { EquipmentInterface } from "@/modules/transaction/types/EquipmentType";
-import FormEquipment from "@/modules/master/components/FormEquipment.vue";
 import FilterEquipment from "@/modules/transaction/components/FilterEquipment.vue";
 import { useTransactionStore } from "../stores/TransactionStore";
 import { useRoute } from "vue-router";
@@ -167,8 +166,8 @@ const setFilter = () => {
         {
             group: "AND",
             operator: "NOT_NULL",
-            column: "scopeStandart.inspection_type_uuid",
-            value: "",
+            column: "scopeStandart.project_uuid",
+            value: route.params.id_project,
         },
         {
             group: "AND",
