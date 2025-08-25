@@ -1,63 +1,67 @@
 <script setup lang="ts">
+import { computed, onMounted, reactive, ref } from "vue";
 import type { AxiosError } from "axios";
-import { computed, reactive, ref } from "vue";
-import { useRoute } from "vue-router";
 
-import { Table, Toast } from "@/components";
+import {
+    Breadcrumb,
+    Button,
+    Icon,
+    ModalDelete,
+    Table,
+    Toast,
+} from "@/components";
 import { useMutation, useQuery } from "@tanstack/vue-query";
 import type { IPagination } from "@/types/GlobalType";
+import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 
-import { ColumnsManpower } from "../constants/ManpowerConstant";
+import { ColumnsActivity } from "@/modules/master/constants/ActivityConstant";
 import type {
-    ManPowerInterface,
-    ResponseManPowerInterface,
-    UpdateManPowerInterface,
-} from "../types/ManpowerType";
-import FormQuantity from "../components/FormQuantity.vue";
+    ActivityInterface,
+    ActivityModelCreateInterface,
+} from "@/modules/master/types/AcitivityType";
+import FormActivity from "@/modules/master/components/FormActivity.vue";
+import FilterActivity from "@/modules/transaction/components/FilterActivity.vue";
+import { useRoute } from "vue-router";
 import { useTransactionStore } from "../stores/TransactionStore";
 
-const entitiesManPower = ref<ManPowerInterface[]>([]);
-
-const transactionStore = useTransactionStore();
 const route = useRoute();
+const dataForm = ref<ActivityModelCreateInterface | null>(null);
+const transactionStore = useTransactionStore();
+const total_item = ref(0);
 const params = reactive({
     search: "",
-    filter: `project_uuid,${route.params.id_project}`,
+    filter: "",
+    filters: [
+        {
+            group: "AND",
+            operator: "NOT_NULL",
+            column: "equipment.scopeStandart.project_uuid",
+            value: route.params.id_project,
+        },
+    ],
     currentPage: 1,
     perPage: 10,
 });
-const total_item = ref(0);
+const open_form = ref(false);
+const open_delete = ref(false);
+const selected_item = ref<ActivityInterface | null>(null);
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
-const quantity = ref<any>(null);
 const timeout = ref(0);
+const breadcrumb = ref<BreadcrumbType[]>([]);
 
-//--- GET MANPOWER
+//--- GET ACTIVITY
 const {
-    data: dataManPower,
-    isFetching: isLoadingManPower,
-    refetch: refetchManPower,
+    data: dataActivity,
+    isFetching: isLoadingActivity,
+    refetch: refetchActivity,
 } = useQuery({
-    queryKey: ["getManPower"],
+    queryKey: ["getActivityTransaction"],
     queryFn: async () => {
         try {
-            const { data } = await transactionStore.getManPower(params);
-            const response = data as IPagination<ResponseManPowerInterface[]>;
+            const { data } = await transactionStore.getActivity(params);
+            const response = data.data as IPagination<ActivityInterface[]>;
 
             total_item.value = response.total;
-
-            const new_arr: ManPowerInterface[] =
-                response.data?.map((item) => {
-                    return {
-                        id: item.uuid,
-                        manpower: item.name,
-                        quantity: item.qty.toString(),
-                        type: item.type,
-                        additional_scope_uuid: item.additional_scope_uuid,
-                        project_uuid: item.project_uuid,
-                        note: item.note,
-                    };
-                }) || [];
-            entitiesManPower.value = new_arr;
 
             return response;
         } catch (error: any) {
@@ -69,25 +73,19 @@ const {
 });
 //--- END
 
-//--- UPDATE MANPOWER
-const { mutate: updateCManPower, isPending: isLoadingUpdate } = useMutation({
-    mutationFn: async ({
-        payload,
-        id,
-    }: {
-        payload: UpdateManPowerInterface;
-        id: string;
-    }) => {
-        return await transactionStore.updateManPower(payload, id);
+//--- DELETE ACTIVITY
+const { mutate: deleteActivity, isPending: isLoadingDelete } = useMutation({
+    mutationFn: async (id: string) => {
+        return await transactionStore.deleteActivity(id);
     },
-    onSuccess: async () => {
-        refetchManPower();
-        quantity.value.modelOpenInputData = false;
+    onSuccess: () => {
         toastRef.value?.showToast({
             title: "Success",
-            description: "Saved successfully",
+            description: "Deleted successfully",
             type: "success",
         });
+        open_delete.value = false;
+        refetchActivity();
     },
     onError: (error: any) => {
         console.log(error);
@@ -110,56 +108,152 @@ const pagination = computed(() => {
 
 const changePage = (e: number) => {
     params.currentPage = e;
-    refetchManPower();
+    refetchActivity();
 };
 
 const changeLimit = (e: string) => {
     params.perPage = parseInt(e);
     params.currentPage = 1;
-    refetchManPower();
+    refetchActivity();
 };
 
-const saveQuantity = (e: { quantity: string }, entity: ManPowerInterface) => {
-    updateCManPower({
-        id: entity.id,
-        payload: {
-            name: entity.manpower,
-            qty: parseFloat(e.quantity),
-            additional_scope_uuid: entity.additional_scope_uuid,
-            project_uuid: entity.project_uuid,
-            type: entity.type,
-            note: entity.note,
-        },
-    });
-};
-
-function searchTable() {
+const searchTable = () => {
     clearTimeout(timeout.value);
     timeout.value = window.setTimeout(() => {
         params.currentPage = 1;
-        refetchManPower();
+        refetchActivity();
     }, 1000);
-}
+};
+
+const handleSuccess = () => {
+    toastRef.value?.showToast({
+        title: "Success",
+        description: "Saved successfully",
+        type: "success",
+    });
+    params.currentPage = 1;
+    refetchActivity();
+};
+
+const handleError = (error: any) => {
+    toastRef.value?.showToast({
+        title: "Error",
+        description: error?.response?.data?.message || "Something went wrong",
+        type: "error",
+    });
+};
+
+const handleCreate = () => {
+    selected_item.value = null;
+    open_form.value = true;
+};
+
+const handleUpdate = (item: ActivityInterface) => {
+    selected_item.value = item;
+    open_form.value = true;
+};
+
+const handleDelete = (item: ActivityInterface) => {
+    selected_item.value = item;
+    open_delete.value = true;
+};
+
+const onDelete = () => {
+    deleteActivity(selected_item.value?.uuid as string);
+};
+
+const setFilter = () => {
+    params.filters = [
+        {
+            group: "AND",
+            operator: "NOT_NULL",
+            column: "equipment.scopeStandart.inspection_type_uuid",
+            value: "",
+        },
+        {
+            group: "AND",
+            operator: "EQ",
+            column: "equipment_uuid",
+            value: String(dataForm.value?.equipment_uuid),
+        },
+    ];
+};
+
+const resetFilter = () => {
+    dataForm.value = null;
+    params.filters = [
+        {
+            group: "AND",
+            operator: "NOT_NULL",
+            column: "equipment.scopeStandart.inspection_type_uuid",
+            value: "",
+        },
+    ];
+};
+
+const handleOnFilter = (data: ActivityModelCreateInterface) => {
+    dataForm.value = data;
+    setFilter();
+    refetchActivity();
+};
+
+const handleResetFilter = () => {
+    resetFilter();
+    refetchActivity();
+};
+
+const handleRemoveSuccess = () => {
+    refetchActivity();
+};
+
+onMounted(() => {
+    breadcrumb.value = [
+        {
+            name: "Activity",
+            as_link: false,
+            url: "",
+        },
+    ];
+});
 </script>
 
 <template>
+    <div class="relative w-full">
+        <Button icon_only="plus" class="absolute right-0" size="sm" rounded="full" color="blue" @click="handleCreate"
+            v-if="dataForm?.equipment_uuid" />
+
+        <div class="flex gap-8">
+            <div class="w-[330px]">
+                <FilterActivity @filter="handleOnFilter" @reset-filter="handleResetFilter"
+                    :loading="isLoadingActivity" />
+            </div>
+            <div class="w-full">
+                <Breadcrumb :items="breadcrumb" />
+                <Table label-create="Sub Bidang" :columns="ColumnsActivity" :entities="dataActivity?.data || []"
+                    :loading="isLoadingActivity" :pagination="pagination" :is-create="false"
+                    v-model:model-search="params.search" class="mt-6" @change-page="changePage"
+                    @change-limit="changeLimit" @search="searchTable">
+                    <template #column_action="{ entity }">
+                        <div class="flex items-center justify-center gap-4">
+                            <Icon name="pencil" class="icon-action-table" @click="handleUpdate(entity)" />
+                            <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
+                        </div>
+                    </template>
+                    <template #column_equipment="{ entity }">
+                        <p class="text-base text-neutral-50 text-left">
+                            {{ entity.equipment?.name }}
+                        </p>
+                    </template>
+                </Table>
+            </div>
+        </div>
+
+        <FormActivity v-model="open_form" :data-form="dataForm" :selected-value="selected_item" @success="handleSuccess"
+            @error="handleError" @removeSucess="handleRemoveSuccess" />
+    </div>
+
     <Toast ref="toastRef" />
-    <Table label-create="Manpower" :columns="ColumnsManpower" :entities="entitiesManPower" :loading="isLoadingManPower"
-        :pagination="pagination" :is-create="false" :is-action="false" v-model:model-search="params.search"
-        @change-page="changePage" @change-limit="changeLimit" @search="searchTable">
-        <template #column_quantity="{ entity }">
-            <div class="w-full flex justify-center">
-                <FormQuantity ref="quantity" :value="entity.quantity || ''" :label="entity.manpower"
-                    :loading="isLoadingUpdate" @save="(e) => saveQuantity(e, entity)" />
-            </div>
-        </template>
-        <template #column_unit="{ entity }">
-            <div class="w-full flex justify-center">
-                <div
-                    class="border border-neutral-50 rounded-lg px-2 min-w-[100px] text-base text-neutral-50 text-center">
-                    {{ entity.type }}
-                </div>
-            </div>
-        </template>
-    </Table>
+    <ModalDelete v-model="open_delete" :title="selected_item?.name" :loading="isLoadingDelete" @delete="onDelete" />
 </template>
+
+<style lang="sass"></style>

@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { reactive, ref, computed, type PropType, watch } from "vue";
 
-import { Button, Input, Modal } from "@/components";
+import { Button, Modal } from "@/components";
 import useVuelidate from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
 import {
     useInfiniteQuery,
-    useMutation,
 } from "@tanstack/vue-query";
-import type { CreateDocumentInterface, IPagination, IParams, ResponseDocumentInterface } from "@/types/GlobalType";
-import { useGlobalStore } from "@/stores/GlobalStore";
+import type { IPagination, IParams, ResponseDocumentInterface } from "@/types/GlobalType";
 import type { FilterScopeInterface, FormScopeInterface } from "../types/ScopeType";
 import { useMasterStore } from "@/modules/master/stores/MasterStore";
 import type { ScopeInterface } from "@/modules/master/types/ScopeType";
+import Select from "@/components/fields/Select.vue";
+import { useRoute } from "vue-router";
 
 const props = defineProps({
     dataForm: {
@@ -24,12 +24,11 @@ type OptionType = {
     value: string;
     label: string;
 };
-
-
+const localForm = ref<FilterScopeInterface | null | undefined>(props.dataForm)
 const uploadProgress = ref<number>(0);
 const modelUpload = ref<File | null>(null);
 const documentValues = ref<ResponseDocumentInterface | null>(null);
-const emit = defineEmits(["success", "error", "removeSucess"]);
+const emit = defineEmits(["success", "error", "removeSucess", "refetchScope"]);
 const is_loading_scope = ref(false);
 const options_scope = ref<OptionType[]>([]);
 const masterStore = useMasterStore();
@@ -41,6 +40,7 @@ const model_details = ref<{ name: string; id: string }[]>([
 const model = ref<FormScopeInterface>({
     scope_standart_uuid: "",
 });
+const route = useRoute();
 const v$_form = reactive(useVuelidate());
 const rules = computed(() => {
     return {
@@ -93,9 +93,15 @@ const params_scope = reactive<IParams>({
     filters: [
         {
             group: "AND",
-            operator: "NOT_NULL",
+            operator: "EQ",
             column: "inspection_type_uuid",
-            value: "",
+            value: route.params.id_inspection,
+        },
+        {
+            group: "AND",
+            operator: "EQ",
+            column: "sub_bidang_uuid",
+            value: localForm.value?.bidang_uuid,
         },
     ],
     currentPage: 1,
@@ -108,7 +114,7 @@ const {
     hasNextPage: hasNextPageScope,
     isFetchingNextPage: isFetchingNextPageScope,
 } = useInfiniteQuery({
-    queryKey: ["getScopeTransaction"],
+    queryKey: ["getScopeTransactionForm"],
     enabled: !is_loading_scope.value,
     queryFn: async ({ pageParam = 1 }) => {
         try {
@@ -156,6 +162,43 @@ const scrollScope = (e: Event) => {
         fetchNextPageScope();
     }
 };
+
+watch(
+    [modelValue, dataScope],
+    ([newModel, newScope]) => {
+        const new_data: OptionType[] =
+            newScope?.pages
+                .flatMap((page) => page?.data)
+                ?.map((item) => {
+                    return { value: item?.uuid, label: item?.name };
+                }) || [];
+        options_scope.value = new_data;
+    },
+    { deep: true, immediate: true }
+);
+
+watch(
+    () => props.dataForm,
+    (val) => {
+        params_scope.filters = [
+            {
+                group: "AND",
+                operator: "EQ",
+                column: "inspection_type_uuid",
+                value: route.params.id_inspection,
+            },
+            {
+                group: "AND",
+                operator: "EQ",
+                column: "sub_bidang_uuid",
+                value: val?.bidang_uuid,
+            },
+        ]
+
+        refetchScope();
+    },
+    { deep: true, immediate: true }
+)
 </script>
 
 <template>

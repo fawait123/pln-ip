@@ -4,7 +4,7 @@ import { useRoute } from "vue-router";
 import type { AxiosError } from "axios";
 
 import type { CreateDocumentInterface, IPagination } from "@/types/GlobalType";
-import { ModalDelete, Table, Toast } from "@/components";
+import { Button, ModalDelete, Table, Toast } from "@/components";
 import type { ValueUploadType } from "@/components/fields/Upload.vue";
 import { useQuery, useMutation } from "@tanstack/vue-query";
 import { useGlobalStore } from "@/stores/GlobalStore";
@@ -21,7 +21,9 @@ import type {
 } from "../types/ScopeType";
 import { useTransactionStore } from "../stores/TransactionStore";
 import FilterScope from "../components/FilterScope.vue";
+import FormScope from "../components/FormScope.vue";
 
+const open_form = ref(false);
 const entitiesScope = ref<ScopeInterface[]>([]);
 const selected_item = ref<ScopeInterface>();
 const dataForm = ref<FilterScopeInterface | null>(null)
@@ -467,62 +469,95 @@ const handleOnFilter = (data: FilterScopeInterface) => {
     setFilter()
     refetchScope();
 }
+
+const handleCreate = () => {
+    console.log(dataForm);
+    open_form.value = true;
+}
+
+const handleSuccess = () => {
+    toastRef.value?.showToast({
+        title: "Success",
+        description: "Saved successfully",
+        type: "success",
+    });
+    params.currentPage = 1;
+    refetchScope();
+};
+
+const handleError = (error: any) => {
+    toastRef.value?.showToast({
+        title: "Error",
+        description: error?.response?.data?.message || "Something went wrong",
+        type: "error",
+    });
+};
+
+
 </script>
 
 <template>
     <Toast ref="toastRef" />
     <ModalDelete v-model="open_delete" :title="selected_item?.asset" :loading="isLoadingDelete" @delete="onDelete" />
-    <div class="absolute right-5 rounded-full bg-cyan-500 text-neutral-50 text-center w-fit px-4 py-1">
+    <div class="absolute right-12 rounded-full bg-cyan-500 text-neutral-50 text-center w-fit px-4 py-1">
         <span v-if="isLoadingDuration">Loading...</span>
         <span v-else>{{ dataDuration }} Days</span>
     </div>
+    <Button v-if="dataForm?.sub_bidang_uuid" icon_only="plus" class="absolute right-[9rem] top-[6.5rem]" size="sm"
+        rounded="full" color="blue" @click="handleCreate" />
     <div class="flex gap-8">
-        <div class="w-[330px]">
+        <div class="basis-1/5">
             <FilterScope @filter="handleOnFilter" @reset-filter="handleResetFilter" :loading="isLoadingScope" />
         </div>
-
-        <div class="w-full">
-            <Table label-create="Asset" :columns="ColumnsScope" :entities="entitiesScope" :loading="isLoadingScope"
-                :pagination="pagination" :is-create="false" v-model:model-search="params.search" @delete="handleDelete"
-                @change-page="changePage" @change-limit="changeLimit" @search="searchTable">
-                <template #column_asset_welness="{ entity }">
-                    <div class="w-full flex justify-center">
-                        <FormAssetWelness ref="asset_welness" :value="entity.asset_welness" :label="entity.asset"
-                            :loading="is_loading_create" @save="(e) => saveAssetWelness(e, entity)" />
-                    </div>
-                </template>
-                <template #column_oh_recom="{ entity }">
-                    <div class="w-full flex justify-center">
-                        <FormWithUploadFile ref="oh_recom" :value="entity.oh_recom" :label="entity.asset"
-                            :loading="is_loading_create" @save="(e) => saveFieldWithFile(e, entity, 'oh-recom')" />
-                    </div>
-                </template>
-                <template #column_wo_priority="{ entity }">
-                    <div class="w-full flex justify-center">
-                        <FormWithUploadFile ref="wo_priority" :value="entity.wo_priority" :label="entity.asset"
-                            :loading="is_loading_create" @save="(e) => saveFieldWithFile(e, entity, 'wo-priority')" />
-                    </div>
-                </template>
-                <template #column_history="{ entity }">
-                    <div class="w-full flex justify-center">
-                        <FormWithUploadFile ref="history" :value="entity.history" :label="entity.asset"
-                            :loading="is_loading_create" @save="(e) => saveFieldWithFile(e, entity, 'history')" />
-                    </div>
-                </template>
-                <template #column_rla="{ entity }">
-                    <div class="w-full flex justify-center">
-                        <FormWithUploadFile ref="rla" :value="entity.rla" :label="entity.asset"
-                            :loading="is_loading_create" @save="(e) => saveFieldWithFile(e, entity, 'rla')" />
-                    </div>
-                </template>
-                <template #column_ncr="{ entity }">
-                    <div class="w-full flex justify-center">
-                        <FormWithUploadFile ref="ncr" :value="entity.ncr" :label="entity.asset"
-                            :loading="is_loading_create" @save="(e) => saveFieldWithFile(e, entity, 'ncr')" />
-                    </div>
-                </template>
-            </Table>
+        <div class="flex-1 overflow-auto">
+            <div class="max-w-full min-w-full">
+                <Table label-create="Asset" :columns="ColumnsScope" :entities="entitiesScope" :loading="isLoadingScope"
+                    :pagination="pagination" :is-create="false" v-model:model-search="params.search"
+                    @delete="handleDelete" @change-page="changePage" @change-limit="changeLimit" @search="searchTable">
+                    <template #column_asset_welness="{ entity }">
+                        <div class="w-full flex justify-center">
+                            <FormAssetWelness ref="asset_welness" :value="entity.asset_welness" :label="entity.asset"
+                                :loading="is_loading_create" @save="(e) => saveAssetWelness(e, entity)" />
+                        </div>
+                    </template>
+                    <template #column_oh_recom="{ entity }">
+                        <div class="w-full flex justify-center">
+                            <FormWithUploadFile ref="oh_recom" :value="entity.oh_recom" :label="entity.asset"
+                                :loading="is_loading_create" @save="(e) => saveFieldWithFile(e, entity, 'oh-recom')" />
+                        </div>
+                    </template>
+                    <template #column_wo_priority="{ entity }">
+                        <div class="w-full flex justify-center">
+                            <FormWithUploadFile ref="wo_priority" :value="entity.wo_priority" :label="entity.asset"
+                                :loading="is_loading_create"
+                                @save="(e) => saveFieldWithFile(e, entity, 'wo-priority')" />
+                        </div>
+                    </template>
+                    <template #column_history="{ entity }">
+                        <div class="w-full flex justify-center">
+                            <FormWithUploadFile ref="history" :value="entity.history" :label="entity.asset"
+                                :loading="is_loading_create" @save="(e) => saveFieldWithFile(e, entity, 'history')" />
+                        </div>
+                    </template>
+                    <template #column_rla="{ entity }">
+                        <div class="w-full flex justify-center">
+                            <FormWithUploadFile ref="rla" :value="entity.rla" :label="entity.asset"
+                                :loading="is_loading_create" @save="(e) => saveFieldWithFile(e, entity, 'rla')" />
+                        </div>
+                    </template>
+                    <template #column_ncr="{ entity }">
+                        <div class="w-full flex justify-center">
+                            <FormWithUploadFile ref="ncr" :value="entity.ncr" :label="entity.asset"
+                                :loading="is_loading_create" @save="(e) => saveFieldWithFile(e, entity, 'ncr')" />
+                        </div>
+                    </template>
+                </Table>
+            </div>
         </div>
+
+
+        <FormScope v-model="open_form" :dataForm="dataForm" :selected-value="selected_item" @success="handleSuccess"
+            @error="handleError" />
     </div>
 
 </template>

@@ -64,6 +64,76 @@ export const useTransactionStore = defineStore(
         });
     };
 
+    const getActivity = async (payload: IParams) => {
+      return await api
+        .get(`/transaction/activity/resource/pagination`, {
+          params: payload,
+        })
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const createActivity = async (payload: CreateScopeInterface) => {
+      return await api
+        .post(`/transaction/activity/resource/asset`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const deleteActivity = async (id: string) => {
+      return await api
+        .delete(`/transaction/activity/${id}`)
+        .then((res) => {
+          return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const getEquipment = async (payload: IParams) => {
+      return await api
+        .get(`/transaction/equipment/resource/pagination`, {
+          params: payload,
+        })
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const createEquipment = async (payload: CreateScopeInterface) => {
+      return await api
+        .post(`/transaction/equipment/resource/asset`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const deleteEquipment = async (id: string) => {
+      return await api
+        .delete(`/transaction/equipment/${id}`)
+        .then((res) => {
+          return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
     const getConsMat = async (payload: IParams) => {
       return await api
         .get(`/transaction/consumable-material/resource/pagination`, {
@@ -518,7 +588,13 @@ export const useTransactionStore = defineStore(
       getDownloadResultTools,
       getDownloadResultHse,
       getDownloadResultQcPlan,
-      getTotalDurationScope
+      getTotalDurationScope,
+      getEquipment,
+      createEquipment,
+      deleteEquipment,
+      getActivity,
+      createActivity,
+      deleteActivity,
     };
   },
   {
