@@ -255,7 +255,7 @@ const { mutate: createScope } = useMutation({
                 createDocument({
                     document: file.value as File,
                     document_type: "App\\Models\\Transaction\\ScopeStandartAsset",
-                    document_uuid: data.data.uuid,
+                    document_uuid: data.data.data.uuid,
                 });
             }
         }
