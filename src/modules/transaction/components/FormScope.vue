@@ -6,6 +6,7 @@ import useVuelidate from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
 import {
     useInfiniteQuery,
+    useMutation,
 } from "@tanstack/vue-query";
 import type { IPagination, IParams, ResponseDocumentInterface } from "@/types/GlobalType";
 import type { FilterScopeInterface, FormScopeInterface } from "../types/ScopeType";
@@ -13,6 +14,7 @@ import { useMasterStore } from "@/modules/master/stores/MasterStore";
 import type { ScopeInterface } from "@/modules/master/types/ScopeType";
 import Select from "@/components/fields/Select.vue";
 import { useRoute } from "vue-router";
+import { useTransactionStore } from "../stores/TransactionStore";
 
 const props = defineProps({
     dataForm: {
@@ -24,6 +26,7 @@ type OptionType = {
     value: string;
     label: string;
 };
+const transactionStore = useTransactionStore();
 const localForm = ref<FilterScopeInterface | null | undefined>(props.dataForm)
 const uploadProgress = ref<number>(0);
 const modelUpload = ref<File | null>(null);
@@ -39,6 +42,7 @@ const model_details = ref<{ name: string; id: string }[]>([
 
 const model = ref<FormScopeInterface>({
     scope_standart_uuid: "",
+    project_uuid: ""
 });
 const route = useRoute();
 const v$_form = reactive(useVuelidate());
@@ -54,6 +58,11 @@ const handleSubmit = async () => {
     const isValid = await v$_form.value.$validate();
 
     if (!isValid) return;
+
+    createScope({
+        scope_standart_uuid: model.value.scope_standart_uuid,
+        project_uuid: route.params.id_project as string,
+    });
 };
 
 const setValue = () => {
@@ -65,6 +74,22 @@ const resetValue = () => {
     model_details.value = [{ name: "", id: "0" }];
     uploadProgress.value = 0;
 };
+
+
+// create documnet
+const { mutate: createScope, isPending: isLoadingScope } = useMutation({
+    mutationFn: async (payload: FormScopeInterface) => {
+        return transactionStore.cloneScopeStandar(payload);
+    },
+    onSuccess: (data) => {
+        modelValue.value = false;
+        emit("success");
+    },
+    onError: (error) => {
+        console.log(error);
+        emit("error", error);
+    },
+});
 
 
 watch(modelValue, (value) => {
@@ -191,7 +216,7 @@ watch(
                 group: "AND",
                 operator: "EQ",
                 column: "sub_bidang_uuid",
-                value: val?.bidang_uuid,
+                value: val?.sub_bidang_uuid,
             },
         ]
 
@@ -211,8 +236,10 @@ watch(
                 @scroll="scrollScope" @search="searchScope" />
 
             <div class="w-full flex items-center gap-4 mt-4">
-                <Button text="Batal" class="w-full" variant="secondary" :disabled="false" @click="modelValue = false" />
-                <Button type="submit" text="Simpan" class="w-full" color="blue" :disabled="false" :loading="false" />
+                <Button text="Batal" class="w-full" variant="secondary" :disabled="isLoadingScope"
+                    @click="modelValue = isLoadingScope" />
+                <Button type="submit" text="Simpan" class="w-full" color="blue" :disabled="isLoadingScope"
+                    :loading="isLoadingScope" />
             </div>
         </form>
     </Modal>

@@ -5,7 +5,7 @@ import { encryptStorage } from "@/utils/storage";
 import type { StorageLike } from "pinia-plugin-persistedstate";
 import type { IParams } from "@/types/GlobalType";
 
-import type { CreateScopeInterface } from "../types/ScopeType";
+import type { CreateScopeInterface, FormScopeInterface } from "../types/ScopeType";
 import type { UpdateConsMatInterface } from "../types/ConsumableMaterialType";
 import type { UpdateManPowerInterface } from "../types/ManpowerType";
 import type { UpdatePartInterface } from "../types/PartType";
@@ -34,6 +34,17 @@ export const useTransactionStore = defineStore(
         .get(`/transaction/scope-standart/resource/pagination`, {
           params: payload,
         })
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const cloneScopeStandar = async (payload: FormScopeInterface) => {
+      return await api
+        .post(`/transaction/scope-standart/resource/clone`, payload)
         .then((resp) => {
           return Promise.resolve(resp);
         })
@@ -595,6 +606,7 @@ export const useTransactionStore = defineStore(
       getActivity,
       createActivity,
       deleteActivity,
+      cloneScopeStandar
     };
   },
   {

@@ -83,4 +83,5 @@ export interface FilterScopeInterface {
 
 export interface FormScopeInterface {
   scope_standart_uuid: string;
+  project_uuid: string
 }
