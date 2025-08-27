@@ -74,7 +74,7 @@ export interface ResponseAddScopeInterface {
 }
 
 export interface CreateAddScopeInterface {
-  scope_standart_uuid: string;
+  additional_scope_uuid: string;
   note: string;
   category: string;
   color: string | null;
