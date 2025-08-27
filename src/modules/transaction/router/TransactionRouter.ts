@@ -39,6 +39,12 @@ export const routeTransaction = [
     component: () => import("@/modules/transaction/views/ConsumableMaterial.vue"),
     meta: { layout: MainLayout, requireAuth: false, role: "planner" },
   },
+  {
+    path: "/:id/create/unit/:id_unit/:id_machine/:menu/:id_project/:id_inspection/additional-scope",
+    name: "transaction additional-scope",
+    component: () => import("@/modules/transaction/views/AddScopeTable.vue"),
+    meta: { layout: MainLayout, requireAuth: false, role: "planner" },
+  },
   // {
   //   path: "/:id/create/unit/:id_unit/:id_machine/:menu/:id_project/:id_inspection/squences",
   //   name: "transaction squences",
