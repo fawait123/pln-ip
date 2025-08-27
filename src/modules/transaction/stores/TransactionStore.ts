@@ -16,6 +16,7 @@ import type { CreateAddScopeInterface } from "../types/AddScopeTableType";
 import type { UpdateToolsInterface } from "../types/ToolsType";
 import type { CreateHseInterface } from "../types/HseType";
 import type { FormEquipmentCloneInterface } from "../types/EquipmentType";
+import type { FormActivityInterfaceClone } from "../types/ActivityType";
 
 export const useTransactionStore = defineStore(
   "transaction",
@@ -95,6 +96,16 @@ export const useTransactionStore = defineStore(
     const createActivity = async (payload: CreateScopeInterface) => {
       return await api
         .post(`/transaction/activity/resource/asset`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+    const createActivityClone = async (payload: FormActivityInterfaceClone) => {
+      return await api
+        .post(`/transaction/activity/resource/clone`, payload)
         .then((resp) => {
           return Promise.resolve(resp);
         })
@@ -620,6 +631,7 @@ export const useTransactionStore = defineStore(
       deleteEquipment,
       getActivity,
       createActivity,
+      createActivityClone,
       deleteActivity,
       cloneScopeStandar,
       cloneEquipment,

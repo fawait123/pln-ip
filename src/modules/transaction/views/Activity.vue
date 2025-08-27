@@ -19,7 +19,7 @@ import type {
   ActivityInterface,
   ActivityModelCreateInterface,
 } from "@/modules/master/types/AcitivityType";
-import FormActivity from "@/modules/master/components/FormActivity.vue";
+import FormActivity from "../components/FormActivity.vue";
 import FilterActivity from "@/modules/transaction/components/FilterActivity.vue";
 import { useRoute } from "vue-router";
 import { useTransactionStore } from "../stores/TransactionStore";
@@ -32,11 +32,17 @@ const params = reactive({
   search: "",
   filter: "",
   filters: [
+    // {
+    //   group: "AND",
+    //   operator: "NOT_NULL",
+    //   column: "equipment.scopeStandart.project_uuid",
+    //   value: route.params.id_project,
+    // },
     {
       group: "AND",
-      operator: "NOT_NULL",
-      column: "equipment.scopeStandart.project_uuid",
-      value: route.params.id_project,
+      operator: "EQ",
+      column: "equipment_uuid",
+      value: "",
     },
   ],
   currentPage: 1,
@@ -165,12 +171,12 @@ const onDelete = () => {
 const setFilter = () => {
   console.log(dataForm, "test");
   params.filters = [
-    {
-      group: "AND",
-      operator: "NOT_NULL",
-      column: "equipment.scopeStandart.inspection_type_uuid",
-      value: String(dataForm.value?.inspection_type_uuid),
-    },
+    // {
+    //   group: "AND",
+    //   operator: "NOT_NULL",
+    //   column: "equipment.scopeStandart.inspection_type_uuid",
+    //   value: String(dataForm.value?.inspection_type_uuid),
+    // },
     {
       group: "AND",
       operator: "EQ",
@@ -183,10 +189,16 @@ const setFilter = () => {
 const resetFilter = () => {
   dataForm.value = null;
   params.filters = [
+    // {
+    //   group: "AND",
+    //   operator: "NOT_NULL",
+    //   column: "equipment.scopeStandart.inspection_type_uuid",
+    //   value: "",
+    // },
     {
       group: "AND",
-      operator: "NOT_NULL",
-      column: "equipment.scopeStandart.inspection_type_uuid",
+      operator: "EQ",
+      column: "equipment_uuid",
       value: "",
     },
   ];
@@ -255,11 +267,11 @@ onMounted(() => {
         >
           <template #column_action="{ entity }">
             <div class="flex items-center justify-center gap-4">
-              <Icon
+              <!-- <Icon
                 name="pencil"
                 class="icon-action-table"
                 @click="handleUpdate(entity)"
-              />
+              /> -->
               <Icon
                 name="trash"
                 class="icon-action-table"

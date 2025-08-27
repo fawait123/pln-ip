@@ -252,11 +252,11 @@ onMounted(() => {
         >
           <template #column_action="{ entity }">
             <div class="flex items-center justify-center gap-4">
-              <Icon
+              <!-- <Icon
                 name="pencil"
                 class="icon-action-table"
                 @click="handleUpdate(entity)"
-              />
+              /> -->
               <Icon
                 name="trash"
                 class="icon-action-table"
