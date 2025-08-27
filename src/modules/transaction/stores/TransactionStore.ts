@@ -5,13 +5,17 @@ import { encryptStorage } from "@/utils/storage";
 import type { StorageLike } from "pinia-plugin-persistedstate";
 import type { IParams } from "@/types/GlobalType";
 
-import type { CreateScopeInterface, FormScopeInterface } from "../types/ScopeType";
+import type {
+  CreateScopeInterface,
+  FormScopeInterface,
+} from "../types/ScopeType";
 import type { UpdateConsMatInterface } from "../types/ConsumableMaterialType";
 import type { UpdateManPowerInterface } from "../types/ManpowerType";
 import type { UpdatePartInterface } from "../types/PartType";
 import type { CreateAddScopeInterface } from "../types/AddScopeTableType";
 import type { UpdateToolsInterface } from "../types/ToolsType";
 import type { CreateHseInterface } from "../types/HseType";
+import type { FormEquipmentCloneInterface } from "../types/EquipmentType";
 
 export const useTransactionStore = defineStore(
   "transaction",
@@ -126,6 +130,17 @@ export const useTransactionStore = defineStore(
     const createEquipment = async (payload: CreateScopeInterface) => {
       return await api
         .post(`/transaction/equipment/resource/asset`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const cloneEquipment = async (payload: FormEquipmentCloneInterface) => {
+      return await api
+        .post(`/transaction/equipment/resource/clone`, payload)
         .then((resp) => {
           return Promise.resolve(resp);
         })
@@ -606,7 +621,8 @@ export const useTransactionStore = defineStore(
       getActivity,
       createActivity,
       deleteActivity,
-      cloneScopeStandar
+      cloneScopeStandar,
+      cloneEquipment,
     };
   },
   {
