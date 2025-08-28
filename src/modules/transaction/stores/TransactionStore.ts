@@ -7,6 +7,7 @@ import type { IParams } from "@/types/GlobalType";
 
 import type {
   CreateScopeInterface,
+  FormAdScopeInterface,
   FormScopeInterface,
 } from "../types/ScopeType";
 import type { UpdateConsMatInterface } from "../types/ConsumableMaterialType";
@@ -47,6 +48,17 @@ export const useTransactionStore = defineStore(
     };
 
     const cloneScopeStandar = async (payload: FormScopeInterface) => {
+      return await api
+        .post(`/transaction/scope-standart/resource/clone`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const cloneAdScopeStandar = async (payload: FormAdScopeInterface) => {
       return await api
         .post(`/transaction/scope-standart/resource/clone`, payload)
         .then((resp) => {
@@ -623,6 +635,7 @@ export const useTransactionStore = defineStore(
       deleteActivity,
       cloneScopeStandar,
       cloneEquipment,
+      cloneAdScopeStandar
     };
   },
   {

@@ -45,6 +45,13 @@ export const routeTransaction = [
     component: () => import("@/modules/transaction/views/AddScopeTable.vue"),
     meta: { layout: MainLayout, requireAuth: false, role: "planner" },
   },
+  {
+    path: "/:id/create/unit/:id_unit/:id_machine/:menu/:id_project/:id_inspection/add-scope/:id_scope/scope",
+    name: "add scope detail scope mekanik",
+    component: () =>
+      import("@/modules/transaction/views/add-scope-detail/Scope.vue"),
+    meta: { layout: AddScopeLayout, requireAuth: false, role: "planner" },
+  },
   // {
   //   path: "/:id/create/unit/:id_unit/:id_machine/:menu/:id_project/:id_inspection/squences",
   //   name: "transaction squences",

@@ -192,23 +192,6 @@ export const MenusAddScope: MenuInterface[] = [
     name: "Scope",
     url: "/scope",
     icon: "document",
-    children: [
-      {
-        id: 201,
-        name: "Mekanik",
-        url: "/scope-mekanik",
-      },
-      {
-        id: 202,
-        name: "Listrik",
-        url: "/scope-listrik",
-      },
-      {
-        id: 203,
-        name: "Instrument",
-        url: "/scope-instrument",
-      },
-    ],
   },
   {
     id: 3,
