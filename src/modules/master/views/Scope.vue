@@ -104,7 +104,7 @@ const { mutate: deleteScope, isPending: isLoadingDelete } = useMutation({
 //--- DOWNLOAD
 const { mutate: downloadScope, isPending: isLoadingDownload } = useMutation({
   mutationFn: async () => {
-    return await masterStore.downloadScope();
+    return await masterStore.downloadScope(params);
   },
   onSuccess: () => {},
   onError: (error) => {

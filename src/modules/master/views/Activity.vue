@@ -100,7 +100,7 @@ const { mutate: deleteActivity, isPending: isLoadingDelete } = useMutation({
 //--- DOWNLOAD
 const { mutate: downloadActivity, isPending: isLoadingDownload } = useMutation({
   mutationFn: async () => {
-    return await masterStore.downloadActivity();
+    return await masterStore.downloadActivity(params);
   },
   onSuccess: () => {},
   onError: (error) => {

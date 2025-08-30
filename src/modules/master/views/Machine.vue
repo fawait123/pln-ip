@@ -15,16 +15,23 @@ import type { IPagination } from "@/types/GlobalType";
 import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 
 import { ColumnsMachine } from "../constants/MachineConstant";
-import type { MachineInterface } from "../types/MachineType";
+import type {
+  MachineInterface,
+  MachineTypeModelCreateInterface,
+} from "../types/MachineType";
 import { useMasterStore } from "../stores/MasterStore";
 import FormMachine from "../components/FormMachine.vue";
 import ButtonGroup from "../components/ButtonGroup.vue";
+import FilterMechine from "../components/FilterMechine.vue";
 
 const masterStore = useMasterStore();
 const total_item = ref(0);
+const dataForm = ref<MachineTypeModelCreateInterface | null>(null);
+
 const params = reactive({
   search: "",
   filter: "",
+  filters: [],
   currentPage: 1,
   perPage: 10,
 });
@@ -87,7 +94,7 @@ const { mutate: deleteMachine, isPending: isLoadingDelete } = useMutation({
 //--- DOWNLOAD
 const { mutate: downloadMachine, isPending: isLoadingDownload } = useMutation({
   mutationFn: async () => {
-    return await masterStore.downloadMachine();
+    return await masterStore.downloadMachine(params);
   },
   onSuccess: () => {},
   onError: (error) => {
@@ -198,6 +205,39 @@ const handleImport = (file: File) => {
   importMachine(file);
 };
 
+const setFilter = () => {
+  params.filters = [
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "location_uuid",
+      value: String(dataForm.value?.location_uuid),
+    },
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "unit_uuid",
+      value: String(dataForm.value?.unit_uuid),
+    },
+  ] as any;
+};
+
+const handleOnFilter = (data: MachineTypeModelCreateInterface) => {
+  dataForm.value = data;
+  setFilter();
+  refetchMachine();
+};
+
+const resetFilter = () => {
+  dataForm.value = null;
+  params.filters = [];
+};
+
+const handleResetFilter = () => {
+  resetFilter();
+  refetchMachine();
+};
+
 onMounted(() => {
   breadcrumb.value = [
     {
@@ -243,43 +283,53 @@ onMounted(() => {
       />
     </div>
 
-    <Table
-      label-create="Machine"
-      :columns="ColumnsMachine"
-      :entities="dataMachine?.data || []"
-      :loading="isLoadingMachine"
-      :pagination="pagination"
-      :is-create="false"
-      v-model:model-search="params.search"
-      @change-page="changePage"
-      @change-limit="changeLimit"
-      @search="searchTable"
-    >
-      <template #column_action="{ entity }">
-        <div class="flex items-center justify-center gap-4">
-          <Icon
-            name="pencil"
-            class="icon-action-table"
-            @click="handleUpdate(entity)"
-          />
-          <Icon
-            name="trash"
-            class="icon-action-table"
-            @click="handleDelete(entity)"
-          />
-        </div>
-      </template>
-      <template #column_unit="{ entity }">
-        <p class="text-base text-neutral-50 text-center">
-          {{ entity.unit?.name }}
-        </p>
-      </template>
-      <template #column_location="{ entity }">
-        <p class="text-base text-neutral-50 text-center">
-          {{ entity.unit?.location?.name ?? "-" }}
-        </p>
-      </template>
-    </Table>
+    <div class="flex gap-8">
+      <div class="w-[330px]">
+        <FilterMechine
+          @filter="handleOnFilter"
+          @reset-filter="handleResetFilter"
+        />
+      </div>
+      <div class="w-full">
+        <Table
+          label-create="Machine"
+          :columns="ColumnsMachine"
+          :entities="dataMachine?.data || []"
+          :loading="isLoadingMachine"
+          :pagination="pagination"
+          :is-create="false"
+          v-model:model-search="params.search"
+          @change-page="changePage"
+          @change-limit="changeLimit"
+          @search="searchTable"
+        >
+          <template #column_action="{ entity }">
+            <div class="flex items-center justify-center gap-4">
+              <Icon
+                name="pencil"
+                class="icon-action-table"
+                @click="handleUpdate(entity)"
+              />
+              <Icon
+                name="trash"
+                class="icon-action-table"
+                @click="handleDelete(entity)"
+              />
+            </div>
+          </template>
+          <template #column_unit="{ entity }">
+            <p class="text-base text-neutral-50 text-center">
+              {{ entity.unit?.name }}
+            </p>
+          </template>
+          <template #column_location="{ entity }">
+            <p class="text-base text-neutral-50 text-center">
+              {{ entity.unit?.location?.name ?? "-" }}
+            </p>
+          </template>
+        </Table>
+      </div>
+    </div>
 
     <FormMachine
       v-model="open_form"

@@ -31,6 +31,11 @@ import type { EquipmentCreateInterface } from "../types/EquipmentType";
 import type { PartStdCreateInterface } from "../types/PartStdType";
 import type { ManpowerStdCreateInterface } from "../types/ManpowerStdType";
 import type { ConsumableMaterialStdCreateInterface } from "../types/ConsumableMaterialStdType";
+import type {
+  AxiosHeaderValue,
+  AxiosInstance,
+  AxiosRequestConfig,
+} from "axios";
 
 export const useMasterStore = defineStore(
   "master",
@@ -215,13 +220,14 @@ export const useMasterStore = defineStore(
         });
     };
 
-    const downloadUnit = async () => {
+    const downloadUnit = async (params?: AxiosRequestConfig["params"]) => {
       return await api
         .post(
           `/unit/export`,
           {},
           {
             responseType: "blob",
+            params,
           }
         )
         .then((resp) => {
@@ -348,13 +354,14 @@ export const useMasterStore = defineStore(
         });
     };
 
-    const downloadMachine = async () => {
+    const downloadMachine = async (params?: AxiosRequestConfig["params"]) => {
       return await api
         .post(
           `/machine/export`,
           {},
           {
             responseType: "blob",
+            params,
           }
         )
         .then((resp) => {
@@ -483,13 +490,16 @@ export const useMasterStore = defineStore(
         });
     };
 
-    const downloadInspectionType = async () => {
+    const downloadInspectionType = async (
+      params?: AxiosRequestConfig["params"]
+    ) => {
       return await api
         .post(
           `/inspection-type/export`,
           {},
           {
             responseType: "blob",
+            params,
           }
         )
         .then((resp) => {
@@ -746,13 +756,14 @@ export const useMasterStore = defineStore(
         });
     };
 
-    const downloadScope = async () => {
+    const downloadScope = async (params?: AxiosRequestConfig["params"]) => {
       return await api
         .post(
           `/scope-standart/export`,
           {},
           {
             responseType: "blob",
+            params,
           }
         )
         .then((resp) => {
@@ -881,13 +892,16 @@ export const useMasterStore = defineStore(
         });
     };
 
-    const downloadAdditionalScope = async () => {
+    const downloadAdditionalScope = async (
+      params?: AxiosRequestConfig["params"]
+    ) => {
       return await api
         .post(
           `/additional-scope/export`,
           {},
           {
             responseType: "blob",
+            params,
           }
         )
         .then((resp) => {
@@ -1325,13 +1339,14 @@ export const useMasterStore = defineStore(
         });
     };
 
-    const downloadManpower = async () => {
+    const downloadManpower = async (params?: AxiosRequestConfig["params"]) => {
       return await api
         .post(
           `/manpower/export`,
           {},
           {
             responseType: "blob",
+            params,
           }
         )
         .then((resp) => {
@@ -1777,13 +1792,14 @@ export const useMasterStore = defineStore(
         });
     };
 
-    const downloadSubBidang = async () => {
+    const downloadSubBidang = async (params?: AxiosRequestConfig["params"]) => {
       return await api
         .post(
           `/sub-bidang/export`,
           {},
           {
             responseType: "blob",
+            params,
           }
         )
         .then((resp) => {
@@ -2221,13 +2237,14 @@ export const useMasterStore = defineStore(
         });
     };
 
-    const downloadActivity = async () => {
+    const downloadActivity = async (params?: AxiosRequestConfig["params"]) => {
       return await api
         .post(
           `/activity/export`,
           {},
           {
             responseType: "blob",
+            params,
           }
         )
         .then((resp) => {
@@ -2354,13 +2371,14 @@ export const useMasterStore = defineStore(
         });
     };
 
-    const downloadEquipment = async () => {
+    const downloadEquipment = async (params?: AxiosRequestConfig["params"]) => {
       return await api
         .post(
           `/equipment/export`,
           {},
           {
             responseType: "blob",
+            params,
           }
         )
         .then((resp) => {
@@ -2487,13 +2505,14 @@ export const useMasterStore = defineStore(
         });
     };
 
-    const downloadPartStd = async () => {
+    const downloadPartStd = async (params?: AxiosRequestConfig["params"]) => {
       return await api
         .post(
           `/part-std/export`,
           {},
           {
             responseType: "blob",
+            params,
           }
         )
         .then((resp) => {
@@ -2755,13 +2774,16 @@ export const useMasterStore = defineStore(
         });
     };
 
-    const downloadConsumableMaterialStd = async () => {
+    const downloadConsumableMaterialStd = async (
+      params?: AxiosRequestConfig["params"]
+    ) => {
       return await api
         .post(
           `/cons-mat-std/export`,
           {},
           {
             responseType: "blob",
+            params,
           }
         )
         .then((resp) => {

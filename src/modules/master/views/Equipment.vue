@@ -101,7 +101,7 @@ const { mutate: deleteEquipment, isPending: isLoadingDelete } = useMutation({
 const { mutate: downloadEquipment, isPending: isLoadingDownload } = useMutation(
   {
     mutationFn: async () => {
-      return await masterStore.downloadEquipment();
+      return await masterStore.downloadEquipment(params);
     },
     onSuccess: () => {},
     onError: (error) => {

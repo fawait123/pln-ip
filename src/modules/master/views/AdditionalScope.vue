@@ -97,7 +97,7 @@ const { mutate: deleteAdditionalScope, isPending: isLoadingDelete } =
 const { mutate: downloadAdditionalScope, isPending: isLoadingDownload } =
   useMutation({
     mutationFn: async () => {
-      return await masterStore.downloadAdditionalScope();
+      return await masterStore.downloadAdditionalScope(params);
     },
     onSuccess: () => {},
     onError: (error) => {

@@ -89,7 +89,7 @@ const { mutate: deleteManpower, isPending: isLoadingDelete } = useMutation({
 //--- DOWNLOAD
 const { mutate: downloadManpower, isPending: isLoadingDownload } = useMutation({
   mutationFn: async () => {
-    return await masterStore.downloadManpower();
+    return await masterStore.downloadManpower(params);
   },
   onSuccess: () => {},
   onError: (error) => {
