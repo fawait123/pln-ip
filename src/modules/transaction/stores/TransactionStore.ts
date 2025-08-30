@@ -16,6 +16,9 @@ import type { CreateAddScopeInterface } from "../types/AddScopeTableType";
 import type { UpdateToolsInterface } from "../types/ToolsType";
 import type { CreateHseInterface } from "../types/HseType";
 import type { FormEquipmentCloneInterface } from "../types/EquipmentType";
+import type { FormPartCloneInterface } from "../types/PartStdType";
+import type { FormConsMatCloneInterface } from "../types/ConsumableMaterialStdType";
+import type { FormManpowerCloneInterface } from "../types/ManpowerStdType";
 
 export const useTransactionStore = defineStore(
   "transaction",
@@ -187,6 +190,28 @@ export const useTransactionStore = defineStore(
         });
     };
 
+    const cloneConsMatStd = async (payload: FormConsMatCloneInterface) => {
+      return await api
+        .post(`/transaction/consumable-material/resource/clone`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const deleteConsMatStd = async (id: string) => {
+      return await api
+        .delete(`/transaction/consumable-material/${id}`)
+        .then((res) => {
+          return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
     const getManPower = async (payload: IParams) => {
       return await api
         .get(`/transaction/manpower/resource/pagination`, {
@@ -214,6 +239,28 @@ export const useTransactionStore = defineStore(
         });
     };
 
+    const cloneManPowerStd = async (payload: FormManpowerCloneInterface) => {
+      return await api
+        .post(`/transaction/manpower/resource/clone`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const deleteManPowerStd = async (id: string) => {
+      return await api
+        .delete(`/transaction/manpower/${id}`)
+        .then((res) => {
+          return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
     const getPart = async (payload: IParams) => {
       return await api
         .get(`/transaction/part/resource/pagination`, {
@@ -230,6 +277,28 @@ export const useTransactionStore = defineStore(
     const updatePart = async (payload: UpdatePartInterface, id: string) => {
       return await api
         .put(`/transaction/part/${id}`, payload)
+        .then((res) => {
+          return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const clonePartStd = async (payload: FormPartCloneInterface) => {
+      return await api
+        .post(`/transaction/part/resource/clone`, payload)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const deletePartStd = async (id: string) => {
+      return await api
+        .delete(`/transaction/part/${id}`)
         .then((res) => {
           return Promise.resolve(res);
         })
@@ -593,10 +662,16 @@ export const useTransactionStore = defineStore(
       deleteScopeStandar,
       getConsMat,
       updateConsMat,
+      cloneConsMatStd,
+      deleteConsMatStd,
       getManPower,
       updateManPower,
+      cloneManPowerStd,
+      deleteManPowerStd,
       getPart,
       updatePart,
+      clonePartStd,
+      deletePartStd,
       getTools,
       updateTools,
       getHse,

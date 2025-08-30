@@ -1,25 +1,21 @@
 <script setup lang="ts">
 import { reactive, ref, computed, type PropType, watch } from "vue";
+import { useRoute } from "vue-router";
 
-import { Button, Input, Modal } from "@/components";
+import { Button, Modal, Select } from "@/components";
 import useVuelidate from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
 import { useInfiniteQuery, useMutation } from "@tanstack/vue-query";
-import { mergeArrays, numbers_positive } from "@/helpers/global";
-
-import { useMasterStore } from "../stores/MasterStore";
+import { mergeArrays } from "@/helpers/global";
+import { useMasterStore } from "@/modules/master/stores/MasterStore";
+import type { IPagination, IParams } from "@/types/GlobalType";
 import type {
-  IPagination,
-  IParams,
-  ResponseDocumentInterface,
-} from "@/types/GlobalType";
-import type {
-  PartStdCreateInterface,
   PartStdCreateModelInterface,
   PartStdInterface,
-} from "../types/PartStdType";
-import type { PartInterface } from "../types/PartType";
-import { Select } from "@/components";
+} from "@/modules/master/types/PartStdType";
+
+import type { FormPartCloneInterface } from "../types/PartStdType";
+import { useTransactionStore } from "../stores/TransactionStore";
 
 type OptionType = {
   label: string;
@@ -35,17 +31,14 @@ const props = defineProps({
   },
 });
 
-const modelUpload = ref<File | null>(null);
-const documentValues = ref<ResponseDocumentInterface | null>(null);
-const emit = defineEmits(["success", "error", "removeSucess"]);
+const emit = defineEmits(["success", "error"]);
 
+const route = useRoute();
 const masterStore = useMasterStore();
+const transactionStore = useTransactionStore();
 const is_loading_part = ref(false);
 const options_part = ref<OptionType[]>([]);
 const modelValue = defineModel<boolean>({ default: false });
-const model_details = ref<{ name: string; id: string }[]>([
-  { id: "0", name: "" },
-]);
 
 const model = ref<PartStdCreateModelInterface>({
   location_uuid: "",
@@ -72,10 +65,18 @@ const rules = computed(() => {
   };
 });
 
-//--- GET part
+//--- GET PART
 const params_part = reactive<IParams>({
   search: "",
-  filters: [],
+  filter: "",
+  filters: [
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "inspection_type_uuid",
+      value: route.params.id_inspection,
+    },
+  ],
   currentPage: 1,
   perPage: 10,
 });
@@ -90,12 +91,12 @@ const {
   enabled: !props.selectedValue && !is_loading_part.value,
   queryFn: async ({ pageParam = 1 }) => {
     try {
-      const { data } = await masterStore.getPart({
+      const { data } = await masterStore.getPartStd({
         ...params_part,
         currentPage: pageParam,
       });
 
-      const response = data.data as IPagination<PartInterface[]>;
+      const response = data.data as IPagination<PartStdInterface[]>;
 
       return response;
     } catch (error: any) {
@@ -113,10 +114,10 @@ const {
 });
 //--- END
 
-//--- CREATE SCOPE
+//--- CREATE PART
 const { mutate: createPartStd, isPending: isLoadingCreate } = useMutation({
-  mutationFn: async (payload: PartStdCreateInterface) => {
-    return await masterStore.createPartStd(payload);
+  mutationFn: async (payload: FormPartCloneInterface) => {
+    return await transactionStore.clonePartStd(payload);
   },
   onSuccess: (data) => {
     modelValue.value = false;
@@ -128,28 +129,6 @@ const { mutate: createPartStd, isPending: isLoadingCreate } = useMutation({
 });
 //--- END
 
-//--- UPDATE SCOPE
-const { mutate: updatePartStd, isPending: isLoadingUpdate } = useMutation({
-  mutationFn: async ({
-    id,
-    payload,
-  }: {
-    id: string;
-    payload: PartStdCreateInterface;
-  }) => {
-    return await masterStore.updatePartStd(id, payload);
-  },
-  onSuccess: async () => {
-    modelValue.value = false;
-    emit("success");
-  },
-  onError: (error) => {
-    emit("error", error);
-  },
-});
-//--- END
-
-// part
 const timeout_part = ref(0);
 const searchPart = () => {
   clearTimeout(timeout_part.value);
@@ -169,7 +148,6 @@ const scrollPart = (e: Event) => {
     fetchNextPagePart();
   }
 };
-// end
 
 const handleSubmit = async () => {
   const isValid = await v$_form.value.$validate();
@@ -177,66 +155,27 @@ const handleSubmit = async () => {
   if (!isValid) return;
 
   if (props.selectedValue) {
-    updatePartStd({
-      id: props.selectedValue.uuid,
-      payload: {
-        activity_uuid: model.value.activity_uuid,
-        part_uuid: model.value.part_uuid,
-        qty: parseFloat(model.value.qty),
-      },
-    });
+    // updatePartStd({
+    //   id: props.selectedValue.uuid,
+    //   payload: {
+    //     activity_uuid: model.value.activity_uuid,
+    //     part_uuid: model.value.part_uuid,
+    //   },
+    // });
   } else {
     createPartStd({
-      activity_uuid: model.value.activity_uuid,
+      activity_uuid: props.dataForm?.activity_uuid as string,
       part_uuid: model.value.part_uuid,
-      qty: parseFloat(model.value.qty),
     });
   }
 };
 
 const setValue = () => {
-  model.value = {
-    location_uuid:
-      props.selectedValue?.activity?.equipment?.scope_standart?.inspection_type
-        ?.machine?.unit?.location_uuid || "",
-    unit_uuid:
-      props.selectedValue?.activity?.equipment?.scope_standart?.inspection_type
-        ?.machine?.unit_uuid || "",
-    machine_uuid:
-      props.selectedValue?.activity?.equipment?.scope_standart?.inspection_type
-        ?.machine_uuid || "",
-    inspection_type_uuid:
-      props.selectedValue?.activity?.equipment?.scope_standart
-        ?.inspection_type_uuid || "",
-    sub_bidang_uuid:
-      props.selectedValue?.activity?.equipment?.scope_standart
-        ?.sub_bidang_uuid || "",
-    bidang_uuid:
-      props.selectedValue?.activity?.equipment?.scope_standart?.sub_bidang
-        ?.bidang_uuid || "",
-    scope_standart_uuid:
-      props.selectedValue?.activity?.equipment?.scope_standart_uuid || "",
-    equipment_uuid: props.selectedValue?.activity?.equipment_uuid || "",
-    activity_uuid: props.selectedValue?.activity_uuid || "",
-    part_uuid: props.selectedValue?.part_uuid || "",
-    qty: String(props.selectedValue?.qty) || "",
-  };
+  model.value.part_uuid = "";
 };
 
 const resetValue = () => {
-  model.value = {
-    location_uuid: props.dataForm?.location_uuid || "",
-    unit_uuid: props.dataForm?.unit_uuid || "",
-    machine_uuid: props.dataForm?.machine_uuid || "",
-    inspection_type_uuid: props.dataForm?.inspection_type_uuid || "",
-    sub_bidang_uuid: props.dataForm?.sub_bidang_uuid || "",
-    bidang_uuid: props.dataForm?.bidang_uuid || "",
-    scope_standart_uuid: props.dataForm?.scope_standart_uuid || "",
-    equipment_uuid: props.dataForm?.equipment_uuid || "",
-    activity_uuid: props.dataForm?.activity_uuid || "",
-    part_uuid: "",
-    qty: "",
-  };
+  model.value.part_uuid = "";
 };
 
 watch(modelValue, (value) => {
@@ -253,16 +192,6 @@ watch(modelValue, (value) => {
   }
 });
 
-const handleChangeFile = (e: File) => {
-  modelUpload.value = e;
-};
-
-const removeSuccess = () => {
-  documentValues.value = null;
-  emit("removeSucess");
-};
-
-// scope
 watch(
   [modelValue, dataPart],
   ([_, newPart]) => {
@@ -271,7 +200,7 @@ watch(
         newPart?.pages
           .flatMap((page) => page?.data)
           ?.map((item) => {
-            return { value: item.uuid, label: item.name };
+            return { value: item.uuid, label: item.part.name };
           }) || [];
       options_part.value = mergeArrays(
         [
@@ -287,7 +216,7 @@ watch(
         newPart?.pages
           .flatMap((page) => page?.data)
           ?.map((item) => {
-            return { value: item.uuid, label: item.name };
+            return { value: item.uuid, label: item.part.name };
           }) || [];
       options_part.value = new_data;
     }
@@ -310,10 +239,10 @@ watch(
     >
       <Select
         v-model="model.part_uuid"
+        v-model:model-search="params_part.search"
         label="Part"
         options_label="label"
         options_value="value"
-        v-model:model-search="params_part.search"
         :search="true"
         :loading="is_loading_part"
         :loading-next-page="isFetchingNextPagePart"
@@ -322,19 +251,13 @@ watch(
         @scroll="scrollPart"
         @search="searchPart"
       />
-      <Input
-        v-model="model.qty"
-        label="Qty"
-        :rules="rules.qty"
-        :custom_symbols="numbers_positive"
-      />
 
       <div class="w-full flex items-center gap-4 mt-4">
         <Button
           text="Batal"
           class="w-full"
           variant="secondary"
-          :disabled="isLoadingCreate || isLoadingUpdate"
+          :disabled="isLoadingCreate"
           @click="modelValue = false"
         />
         <Button
@@ -342,8 +265,8 @@ watch(
           text="Simpan"
           class="w-full"
           color="blue"
-          :disabled="isLoadingCreate || isLoadingUpdate"
-          :loading="isLoadingCreate || isLoadingUpdate"
+          :disabled="isLoadingCreate"
+          :loading="isLoadingCreate"
         />
       </div>
     </form>
