@@ -19,7 +19,7 @@ import type {
   ActivityInterface,
   ActivityModelCreateInterface,
 } from "@/modules/master/types/AcitivityType";
-import FormActivity from "@/modules/master/components/FormActivity.vue";
+import FormActivity from "../components/FormActivity.vue";
 import FilterActivity from "@/modules/transaction/components/FilterActivity.vue";
 import { useRoute } from "vue-router";
 import { useTransactionStore } from "../stores/TransactionStore";
@@ -34,7 +34,7 @@ const params = reactive({
   filters: [
     {
       group: "AND",
-      operator: "NOT_NULL",
+      operator: "EQ",
       column: "equipment.scopeStandart.project_uuid",
       value: route.params.id_project,
     },
@@ -148,11 +148,6 @@ const handleCreate = () => {
   open_form.value = true;
 };
 
-const handleUpdate = (item: ActivityInterface) => {
-  selected_item.value = item;
-  open_form.value = true;
-};
-
 const handleDelete = (item: ActivityInterface) => {
   selected_item.value = item;
   open_delete.value = true;
@@ -167,9 +162,9 @@ const setFilter = () => {
   params.filters = [
     {
       group: "AND",
-      operator: "NOT_NULL",
-      column: "equipment.scopeStandart.inspection_type_uuid",
-      value: String(dataForm.value?.inspection_type_uuid),
+      operator: "EQ",
+      column: "equipment.scopeStandart.project_uuid",
+      value: route.params.id_project,
     },
     {
       group: "AND",
@@ -185,9 +180,9 @@ const resetFilter = () => {
   params.filters = [
     {
       group: "AND",
-      operator: "NOT_NULL",
-      column: "equipment.scopeStandart.inspection_type_uuid",
-      value: "",
+      operator: "EQ",
+      column: "equipment.scopeStandart.project_uuid",
+      value: route.params.id_project,
     },
   ];
 };
@@ -220,51 +215,26 @@ onMounted(() => {
 
 <template>
   <div class="relative w-full">
-    <Button
-      icon_only="plus"
-      class="absolute right-0"
-      size="sm"
-      rounded="full"
-      color="blue"
-      @click="handleCreate"
-      v-if="dataForm?.equipment_uuid"
-    />
+    <Button icon_only="plus" class="absolute right-0" size="sm" rounded="full" color="blue" @click="handleCreate"
+      v-if="dataForm?.equipment_uuid" />
 
     <div class="flex gap-8">
       <div class="w-[330px]">
-        <FilterActivity
-          @filter="handleOnFilter"
-          @reset-filter="handleResetFilter"
-          :loading="isLoadingActivity"
-        />
+        <FilterActivity @filter="handleOnFilter" @reset-filter="handleResetFilter" :loading="isLoadingActivity" />
       </div>
       <div class="w-full">
         <Breadcrumb :items="breadcrumb" />
-        <Table
-          label-create="Sub Bidang"
-          :columns="ColumnsActivity"
-          :entities="dataActivity?.data || []"
-          :loading="isLoadingActivity"
-          :pagination="pagination"
-          :is-create="false"
-          v-model:model-search="params.search"
-          class="mt-6"
-          @change-page="changePage"
-          @change-limit="changeLimit"
-          @search="searchTable"
-        >
+        <Table label-create="Sub Bidang" :columns="ColumnsActivity" :entities="dataActivity?.data || []"
+          :loading="isLoadingActivity" :pagination="pagination" :is-create="false" v-model:model-search="params.search"
+          class="mt-6" @change-page="changePage" @change-limit="changeLimit" @search="searchTable">
           <template #column_action="{ entity }">
             <div class="flex items-center justify-center gap-4">
-              <Icon
+              <!-- <Icon
                 name="pencil"
                 class="icon-action-table"
                 @click="handleUpdate(entity)"
-              />
-              <Icon
-                name="trash"
-                class="icon-action-table"
-                @click="handleDelete(entity)"
-              />
+              /> -->
+              <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
             </div>
           </template>
           <template #column_equipment="{ entity }">
@@ -276,23 +246,12 @@ onMounted(() => {
       </div>
     </div>
 
-    <FormActivity
-      v-model="open_form"
-      :data-form="dataForm"
-      :selected-value="selected_item"
-      @success="handleSuccess"
-      @error="handleError"
-      @removeSucess="handleRemoveSuccess"
-    />
+    <FormActivity v-model="open_form" :data-form="dataForm" :selected-value="selected_item" @success="handleSuccess"
+      @error="handleError" @removeSucess="handleRemoveSuccess" />
   </div>
 
   <Toast ref="toastRef" />
-  <ModalDelete
-    v-model="open_delete"
-    :title="selected_item?.name"
-    :loading="isLoadingDelete"
-    @delete="onDelete"
-  />
+  <ModalDelete v-model="open_delete" :title="selected_item?.name" :loading="isLoadingDelete" @delete="onDelete" />
 </template>
 
 <style lang="sass"></style>

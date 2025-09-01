@@ -217,51 +217,26 @@ onMounted(() => {
 
 <template>
   <div class="relative w-full">
-    <Button
-      icon_only="plus"
-      class="absolute right-0"
-      size="sm"
-      rounded="full"
-      color="blue"
-      @click="handleCreate"
-      v-if="dataForm?.scope_standart_uuid"
-    />
+    <Button icon_only="plus" class="absolute right-0" size="sm" rounded="full" color="blue" @click="handleCreate"
+      v-if="dataForm?.scope_standart_uuid" />
 
     <div class="flex gap-8">
       <div class="w-[330px]">
-        <FilterEquipment
-          @filter="handleOnFilter"
-          @reset-filter="handleResetFilter"
-          :loading="isLoadingEquipment"
-        />
+        <FilterEquipment @filter="handleOnFilter" @reset-filter="handleResetFilter" :loading="isLoadingEquipment" />
       </div>
       <div class="w-full">
         <Breadcrumb :items="breadcrumb" />
-        <Table
-          label-create="Sub Bidang"
-          :columns="ColumnsEquipment"
-          :entities="dataEquipment?.data || []"
-          :loading="isLoadingEquipment"
-          :pagination="pagination"
-          :is-create="false"
-          v-model:model-search="params.search"
-          class="mt-6"
-          @change-page="changePage"
-          @change-limit="changeLimit"
-          @search="searchTable"
-        >
+        <Table label-create="Sub Bidang" :columns="ColumnsEquipment" :entities="dataEquipment?.data || []"
+          :loading="isLoadingEquipment" :pagination="pagination" :is-create="false" v-model:model-search="params.search"
+          class="mt-6" @change-page="changePage" @change-limit="changeLimit" @search="searchTable">
           <template #column_action="{ entity }">
             <div class="flex items-center justify-center gap-4">
-              <Icon
+              <!-- <Icon
                 name="pencil"
                 class="icon-action-table"
                 @click="handleUpdate(entity)"
-              />
-              <Icon
-                name="trash"
-                class="icon-action-table"
-                @click="handleDelete(entity)"
-              />
+              /> -->
+              <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
             </div>
           </template>
           <template #column_scope_standart="{ entity }">
@@ -273,23 +248,12 @@ onMounted(() => {
       </div>
     </div>
 
-    <FormEquipment
-      :data-form="dataForm"
-      v-model="open_form"
-      :selected-value="selected_item"
-      @success="handleSuccess"
-      @error="handleError"
-      @removeSucess="handleRemoveSuccess"
-    />
+    <FormEquipment :data-form="dataForm" v-model="open_form" :selected-value="selected_item" @success="handleSuccess"
+      @error="handleError" @removeSucess="handleRemoveSuccess" />
   </div>
 
   <Toast ref="toastRef" />
-  <ModalDelete
-    v-model="open_delete"
-    :title="selected_item?.name"
-    :loading="isLoadingDelete"
-    @delete="onDelete"
-  />
+  <ModalDelete v-model="open_delete" :title="selected_item?.name" :loading="isLoadingDelete" @delete="onDelete" />
 </template>
 
 <style lang="sass"></style>

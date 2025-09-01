@@ -47,9 +47,23 @@ export const routeTransaction = [
   },
   {
     path: "/:id/create/unit/:id_unit/:id_machine/:menu/:id_project/:id_inspection/add-scope/:id_scope/scope",
-    name: "add scope detail scope mekanik",
+    name: "add scope detail scope",
     component: () =>
       import("@/modules/transaction/views/add-scope-detail/Scope.vue"),
+    meta: { layout: AddScopeLayout, requireAuth: false, role: "planner" },
+  },
+  {
+    path: "/:id/create/unit/:id_unit/:id_machine/:menu/:id_project/:id_inspection/add-scope/:id_scope/equipment",
+    name: "add scope detail equipment",
+    component: () =>
+      import("@/modules/transaction/views/add-scope-detail/Equipment.vue"),
+    meta: { layout: AddScopeLayout, requireAuth: false, role: "planner" },
+  },
+  {
+    path: "/:id/create/unit/:id_unit/:id_machine/:menu/:id_project/:id_inspection/add-scope/:id_scope/activity",
+    name: "add scope detail activity",
+    component: () =>
+      import("@/modules/transaction/views/add-scope-detail/Activity.vue"),
     meta: { layout: AddScopeLayout, requireAuth: false, role: "planner" },
   },
   // {

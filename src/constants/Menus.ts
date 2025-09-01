@@ -194,27 +194,16 @@ export const MenusAddScope: MenuInterface[] = [
     icon: "document",
   },
   {
-    id: 3,
-    name: "Instruksi Kerja",
-    url: "/work-instruction",
-    icon: "checklist",
-    children: [
-      {
-        id: 301,
-        name: "Mekanik",
-        url: "/work-instruction-mekanik",
-      },
-      {
-        id: 302,
-        name: "Listrik",
-        url: "/work-instruction-listrik",
-      },
-      {
-        id: 303,
-        name: "Instrument",
-        url: "/work-instruction-instrument",
-      },
-    ],
+    id: 2,
+    name: "Equipment",
+    url: "/equipment",
+    icon: "wrench",
+  },
+  {
+    id: 2,
+    name: "Activity",
+    url: "/activity",
+    icon: "pulse-line",
   },
   {
     id: 4,
@@ -233,18 +222,6 @@ export const MenusAddScope: MenuInterface[] = [
     name: "Part",
     url: "/part",
     icon: "trolley-items",
-  },
-  {
-    id: 7,
-    name: "QC Plan",
-    url: "/qc-plan",
-    icon: "mind-gear",
-  },
-  {
-    id: 8,
-    name: "Tools",
-    url: "/tools",
-    icon: "tools",
   },
 ];
 
