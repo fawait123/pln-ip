@@ -74,7 +74,7 @@ const handleRemove = (item: ResponseDocumentInterface) => {
             <video :src="parsedUrl()" controls></video>
         </div>
         <div v-else>
-            <label class="font-bold text-neutral-950">Video</label>
+            <label class="font-bold text-neutral-950">File</label>
             <div class="w-full border border-blue-900 rounded-md p-4 flex items-center justify-center flex-col gap-3">
                 <input ref="inputFileRef" type="file" class="hidden" @change="handleChange">
                 <button class="bg-blue-900 text-white py-1 px-2 rounded-sm" type="button" @click="handleClick">Choose
