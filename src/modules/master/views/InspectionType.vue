@@ -95,7 +95,7 @@ const { mutate: deleteInspectionType, isPending: isLoadingDelete } =
 const { mutate: downloadInspectionType, isPending: isLoadingDownload } =
   useMutation({
     mutationFn: async () => {
-      return await masterStore.downloadInspectionType();
+      return await masterStore.downloadInspectionType(params);
     },
     onSuccess: () => {},
     onError: (error) => {

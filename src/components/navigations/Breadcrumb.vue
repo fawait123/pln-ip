@@ -32,14 +32,14 @@ const props = defineProps({
             ? 'text-cyan-500'
             : 'text-neutral-950 hover:text-[#668415] cursor-pointer'
         "
-        >{{ item.name }}</RouterLink
+        >{{ item.name?.replace("Std", "Standart") }}</RouterLink
       >
       <p
         v-else
         class="breadcrumb-normal"
         :class="key + 1 === items.length ? 'text-cyan-500' : 'text-neutral-950'"
       >
-        {{ item.name }}
+        {{ item.name?.replace("Std", "Standart") }}
       </p>
       <Icon
         v-if="key + 1 !== items.length"

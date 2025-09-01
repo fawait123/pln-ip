@@ -19,18 +19,22 @@ import { useMasterStore } from "../stores/MasterStore";
 import type { SubBidangInterface } from "../types/SubBidangType";
 import FormSubBidang from "../components/FormSubBidang.vue";
 import ButtonGroup from "../components/ButtonGroup.vue";
+import FilterSubBidang from "../components/FilterSubBidang.vue";
+import type { BidangTypeModelCreateInterface } from "../types/BidangType";
 
 const masterStore = useMasterStore();
 const total_item = ref(0);
 const params = reactive({
   search: "",
   filter: "",
+  filters: [],
   currentPage: 1,
   perPage: 10,
 });
 const open_form = ref(false);
 const open_delete = ref(false);
 const selected_item = ref<SubBidangInterface | null>(null);
+const dataForm = ref<BidangTypeModelCreateInterface | null>(null);
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
 const timeout = ref(0);
 const breadcrumb = ref<BreadcrumbType[]>([]);
@@ -90,7 +94,7 @@ const { mutate: deleteSubBidang, isPending: isLoadingDelete } = useMutation({
 const { mutate: downloadSubBidang, isPending: isLoadingDownload } = useMutation(
   {
     mutationFn: async () => {
-      return await masterStore.downloadSubBidang();
+      return await masterStore.downloadSubBidang(params);
     },
     onSuccess: () => {},
     onError: (error) => {
@@ -204,6 +208,33 @@ const handleImport = (file: File) => {
   importSubBidang(file);
 };
 
+const setFilter = () => {
+  params.filters = [
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "bidang_uuid",
+      value: String(dataForm.value?.uuid),
+    },
+  ] as any;
+};
+
+const handleOnFilter = (data: BidangTypeModelCreateInterface) => {
+  dataForm.value = data;
+  setFilter();
+  refetchSubBidang();
+};
+
+const resetFilter = () => {
+  dataForm.value = null;
+  params.filters = [];
+};
+
+const handleResetFilter = () => {
+  resetFilter();
+  refetchSubBidang();
+};
+
 onMounted(() => {
   breadcrumb.value = [
     {
@@ -249,38 +280,48 @@ onMounted(() => {
       />
     </div>
 
-    <Table
-      label-create="Sub Bidang"
-      :columns="ColumnsSubBidang"
-      :entities="dataSubBidang?.data || []"
-      :loading="isLoadingSubBidang"
-      :pagination="pagination"
-      :is-create="false"
-      v-model:model-search="params.search"
-      @change-page="changePage"
-      @change-limit="changeLimit"
-      @search="searchTable"
-    >
-      <template #column_action="{ entity }">
-        <div class="flex items-center justify-center gap-4">
-          <Icon
-            name="pencil"
-            class="icon-action-table"
-            @click="handleUpdate(entity)"
-          />
-          <Icon
-            name="trash"
-            class="icon-action-table"
-            @click="handleDelete(entity)"
-          />
-        </div>
-      </template>
-      <template #column_bidang="{ entity }">
-        <p class="text-base text-neutral-50 text-center">
-          {{ entity.bidang?.name }}
-        </p>
-      </template>
-    </Table>
+    <div class="flex gap-8">
+      <div class="w-[330px]">
+        <FilterSubBidang
+          @filter="handleOnFilter"
+          @reset-filter="handleResetFilter"
+        />
+      </div>
+      <div class="w-full">
+        <Table
+          label-create="Sub Bidang"
+          :columns="ColumnsSubBidang"
+          :entities="dataSubBidang?.data || []"
+          :loading="isLoadingSubBidang"
+          :pagination="pagination"
+          :is-create="false"
+          v-model:model-search="params.search"
+          @change-page="changePage"
+          @change-limit="changeLimit"
+          @search="searchTable"
+        >
+          <template #column_action="{ entity }">
+            <div class="flex items-center justify-center gap-4">
+              <Icon
+                name="pencil"
+                class="icon-action-table"
+                @click="handleUpdate(entity)"
+              />
+              <Icon
+                name="trash"
+                class="icon-action-table"
+                @click="handleDelete(entity)"
+              />
+            </div>
+          </template>
+          <template #column_bidang="{ entity }">
+            <p class="text-base text-neutral-50 text-center">
+              {{ entity.bidang?.name }}
+            </p>
+          </template>
+        </Table>
+      </div>
+    </div>
 
     <FormSubBidang
       v-model="open_form"

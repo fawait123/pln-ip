@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref, watch } from "vue";
 import type { AxiosError } from "axios";
 
 import {
@@ -15,16 +15,21 @@ import type { IPagination } from "@/types/GlobalType";
 import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 
 import { ColumnsUnit } from "../constants/UnitConstant";
-import type { UnitInterface } from "../types/UnitType";
+import type {
+  UnitInterface,
+  UnitTypeModelCreateInterface,
+} from "../types/UnitType";
 import { useMasterStore } from "../stores/MasterStore";
 import FormUnit from "../components/FormUnit.vue";
 import ButtonGroup from "../components/ButtonGroup.vue";
+import FilterUnit from "../components/FilterUnit.vue";
 
 const masterStore = useMasterStore();
 const total_item = ref(0);
 const params = reactive({
   search: "",
   filter: "",
+  filters: [],
   currentPage: 1,
   perPage: 10,
 });
@@ -34,6 +39,7 @@ const selected_item = ref<UnitInterface | null>(null);
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
 const timeout = ref(0);
 const breadcrumb = ref<BreadcrumbType[]>([]);
+const dataForm = ref<UnitTypeModelCreateInterface | null>(null);
 
 //--- GET UNIT
 const {
@@ -87,7 +93,7 @@ const { mutate: deleteUnit, isPending: isLoadingDelete } = useMutation({
 //--- DOWNLOAD
 const { mutate: downloadUnit, isPending: isLoadingDownload } = useMutation({
   mutationFn: async () => {
-    return await masterStore.downloadUnit();
+    return await masterStore.downloadUnit(params);
   },
   onSuccess: () => {},
   onError: (error) => {
@@ -129,6 +135,22 @@ const pagination = computed(() => {
     currentPage: params.currentPage,
   };
 });
+
+const setFilter = () => {
+  params.filters = [
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "location_uuid",
+      value: String(dataForm.value?.location_uuid),
+    },
+  ] as any;
+};
+
+const resetFilter = () => {
+  dataForm.value = null;
+  params.filters = [];
+};
 
 const changePage = (e: number) => {
   params.currentPage = e;
@@ -198,6 +220,17 @@ const handleImport = (file: File) => {
   importUnit(file);
 };
 
+const handleOnFilter = (data: UnitTypeModelCreateInterface) => {
+  dataForm.value = data;
+  setFilter();
+  refetchUnit();
+};
+
+const handleResetFilter = () => {
+  resetFilter();
+  refetchUnit();
+};
+
 onMounted(() => {
   breadcrumb.value = [
     {
@@ -239,39 +272,49 @@ onMounted(() => {
         @click="handleCreate"
       />
     </div>
-
-    <Table
-      label-create="Unit"
-      :columns="ColumnsUnit"
-      :entities="dataUnit?.data || []"
-      :loading="isLoadingUnit"
-      :pagination="pagination"
-      :is-create="false"
-      v-model:model-search="params.search"
-      @change-page="changePage"
-      @change-limit="changeLimit"
-      @search="searchTable"
-    >
-      <template #column_action="{ entity }">
-        <div class="flex items-center justify-center gap-4">
-          <Icon
-            name="pencil"
-            class="icon-action-table"
-            @click="handleUpdate(entity)"
-          />
-          <Icon
-            name="trash"
-            class="icon-action-table"
-            @click="handleDelete(entity)"
-          />
-        </div>
-      </template>
-      <template #column_location="{ entity }">
-        <p class="text-base text-neutral-50 text-center">
-          {{ entity.location?.name }}
-        </p>
-      </template>
-    </Table>
+    <div class="flex gap-8">
+      <div class="w-[330px]">
+        <FilterUnit
+          @filter="handleOnFilter"
+          @reset-filter="handleResetFilter"
+          :loading="isLoadingUnit"
+        />
+      </div>
+      <div class="w-full">
+        <Table
+          label-create="Unit"
+          :columns="ColumnsUnit"
+          :entities="dataUnit?.data || []"
+          :loading="isLoadingUnit"
+          :pagination="pagination"
+          :is-create="false"
+          v-model:model-search="params.search"
+          @change-page="changePage"
+          @change-limit="changeLimit"
+          @search="searchTable"
+        >
+          <template #column_action="{ entity }">
+            <div class="flex items-center justify-center gap-4">
+              <Icon
+                name="pencil"
+                class="icon-action-table"
+                @click="handleUpdate(entity)"
+              />
+              <Icon
+                name="trash"
+                class="icon-action-table"
+                @click="handleDelete(entity)"
+              />
+            </div>
+          </template>
+          <template #column_location="{ entity }">
+            <p class="text-base text-neutral-50 text-center">
+              {{ entity.location?.name }}
+            </p>
+          </template>
+        </Table>
+      </div>
+    </div>
 
     <FormUnit
       v-model="open_form"

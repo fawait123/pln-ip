@@ -101,7 +101,7 @@ const { mutate: deleteConsMatStd, isPending: isLoadingDelete } = useMutation({
 const { mutate: downloadConsMatStd, isPending: isLoadingDownload } =
   useMutation({
     mutationFn: async () => {
-      return await masterStore.downloadConsumableMaterialStd();
+      return await masterStore.downloadConsumableMaterialStd(params);
     },
     onSuccess: () => {},
     onError: (error) => {
