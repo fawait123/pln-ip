@@ -38,7 +38,7 @@ const toCreate = () => {
         </div>
         <button class="menu-button" @click="router.push('/')">Location</button>
         <button class="menu-button" :class="{ active: route.path.includes('create') }" @click="toCreate">
-          Planner
+          Generate Scope
         </button>
         <!-- <button class="menu-button">Preview</button>
         <button class="menu-button">Expert</button> -->

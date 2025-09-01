@@ -8,7 +8,6 @@ import Sidebar from "@/components/layouts/Sidebar.vue";
 import type { TInspection } from "@/modules/inspection/types/InspectionType";
 import { useGlobalStore } from "@/stores/GlobalStore";
 import { useQuery } from "@tanstack/vue-query";
-import { useInspectionStore } from "@/modules/inspection/stores/InspectionStore";
 import { useTransactionStore } from "@/modules/transaction/stores/TransactionStore";
 
 const imgUrl = new URL("@/assets/images/bg-main-page.jpg", import.meta.url)
@@ -50,14 +49,11 @@ const {
 </script>
 
 <template>
-  <div
-    class="layout-main"
-    :style="{
-      backgroundImage: `url(${imgUrl})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    }"
-  >
+  <div class="layout-main" :style="{
+    backgroundImage: `url(${imgUrl})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  }">
     <header>
       <HeaderMain />
     </header>

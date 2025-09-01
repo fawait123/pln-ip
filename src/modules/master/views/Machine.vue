@@ -31,7 +31,20 @@ const dataForm = ref<MachineTypeModelCreateInterface | null>(null);
 const params = reactive({
   search: "",
   filter: "",
-  filters: [],
+  filters: [
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "location_uuid",
+      value: "",
+    },
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "unit_uuid",
+      value: "",
+    },
+  ],
   currentPage: 1,
   perPage: 10,
 });
@@ -96,7 +109,7 @@ const { mutate: downloadMachine, isPending: isLoadingDownload } = useMutation({
   mutationFn: async () => {
     return await masterStore.downloadMachine(params);
   },
-  onSuccess: () => {},
+  onSuccess: () => { },
   onError: (error) => {
     console.log(error);
   },
@@ -108,7 +121,7 @@ const { mutate: templateMachine, isPending: isLoadingTemplate } = useMutation({
   mutationFn: async () => {
     return await masterStore.templateMachine();
   },
-  onSuccess: () => {},
+  onSuccess: () => { },
   onError: (error) => {
     console.log(error);
   },
@@ -230,7 +243,20 @@ const handleOnFilter = (data: MachineTypeModelCreateInterface) => {
 
 const resetFilter = () => {
   dataForm.value = null;
-  params.filters = [];
+  params.filters = [
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "location_uuid",
+      value: "",
+    },
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "unit_uuid",
+      value: "",
+    },
+  ] as any;
 };
 
 const handleResetFilter = () => {
@@ -263,58 +289,24 @@ onMounted(() => {
   <Breadcrumb :items="breadcrumb" />
   <div class="relative w-full mt-6">
     <div class="flex items-center gap-2 absolute right-0">
-      <!-- <Button text="Import" rounded="full" color="blue" />
-      <Button text="Download" rounded="full" color="blue" />
-      <Button text="Export Template" rounded="full" color="blue" /> -->
-      <ButtonGroup
-        :loading-import="isLoadingImport"
-        :loading-download="isLoadingDownload"
-        :loading-template="isLoadingTemplate"
-        @download="handleDownload"
-        @template="handleExportTemplate"
-        @import="handleImport"
-      />
-      <Button
-        icon_only="plus"
-        size="sm"
-        rounded="full"
-        color="blue"
-        @click="handleCreate"
-      />
+      <ButtonGroup :loading-import="isLoadingImport" :loading-download="isLoadingDownload"
+        :loading-template="isLoadingTemplate" @download="handleDownload" @template="handleExportTemplate"
+        @import="handleImport" />
+      <Button icon_only="plus" size="sm" rounded="full" color="blue" @click="handleCreate" v-if="dataForm?.unit_uuid" />
     </div>
 
     <div class="flex gap-8">
       <div class="w-[330px]">
-        <FilterMechine
-          @filter="handleOnFilter"
-          @reset-filter="handleResetFilter"
-        />
+        <FilterMechine @filter="handleOnFilter" @reset-filter="handleResetFilter" />
       </div>
       <div class="w-full">
-        <Table
-          label-create="Machine"
-          :columns="ColumnsMachine"
-          :entities="dataMachine?.data || []"
-          :loading="isLoadingMachine"
-          :pagination="pagination"
-          :is-create="false"
-          v-model:model-search="params.search"
-          @change-page="changePage"
-          @change-limit="changeLimit"
-          @search="searchTable"
-        >
+        <Table label-create="Machine" :columns="ColumnsMachine" :entities="dataMachine?.data || []"
+          :loading="isLoadingMachine" :pagination="pagination" :is-create="false" v-model:model-search="params.search"
+          @change-page="changePage" @change-limit="changeLimit" @search="searchTable">
           <template #column_action="{ entity }">
             <div class="flex items-center justify-center gap-4">
-              <Icon
-                name="pencil"
-                class="icon-action-table"
-                @click="handleUpdate(entity)"
-              />
-              <Icon
-                name="trash"
-                class="icon-action-table"
-                @click="handleDelete(entity)"
-              />
+              <Icon name="pencil" class="icon-action-table" @click="handleUpdate(entity)" />
+              <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
             </div>
           </template>
           <template #column_unit="{ entity }">
@@ -331,19 +323,10 @@ onMounted(() => {
       </div>
     </div>
 
-    <FormMachine
-      v-model="open_form"
-      :selected-value="selected_item"
-      @success="handleSuccess"
-      @error="handleError"
-    />
+    <FormMachine :data-form="dataForm" v-model="open_form" :selected-value="selected_item" @success="handleSuccess"
+      @error="handleError" />
   </div>
 
   <Toast ref="toastRef" />
-  <ModalDelete
-    v-model="open_delete"
-    :title="selected_item?.name"
-    :loading="isLoadingDelete"
-    @delete="onDelete"
-  />
+  <ModalDelete v-model="open_delete" :title="selected_item?.name" :loading="isLoadingDelete" @delete="onDelete" />
 </template>

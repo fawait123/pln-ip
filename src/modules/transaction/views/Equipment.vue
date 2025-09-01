@@ -32,9 +32,15 @@ const params = reactive({
   filters: [
     {
       group: "AND",
-      operator: "NOT_NULL",
+      operator: "EQ",
       column: "scopeStandart.project_uuid",
       value: route.params.id_project,
+    },
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "scopeStandart.original_uuid",
+      value: "",
     },
   ],
   currentPage: 1,
@@ -164,14 +170,14 @@ const setFilter = () => {
   params.filters = [
     {
       group: "AND",
-      operator: "NOT_NULL",
+      operator: "EQ",
       column: "scopeStandart.project_uuid",
       value: route.params.id_project,
     },
     {
       group: "AND",
       operator: "EQ",
-      column: "scope_standart_uuid",
+      column: "scopeStandart.original_uuid",
       value: String(dataForm.value?.scope_standart_uuid),
     },
   ];
@@ -182,8 +188,14 @@ const resetFilter = () => {
   params.filters = [
     {
       group: "AND",
-      operator: "NOT_NULL",
-      column: "inspection_type_uuid",
+      operator: "EQ",
+      column: "scopeStandart.project_uuid",
+      value: route.params.id_project,
+    },
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "scopeStandart.original_uuid",
       value: "",
     },
   ];

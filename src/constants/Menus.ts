@@ -55,11 +55,29 @@ export const Menus: MenuInterface[] = [
     icon: "consumable-material-std",
   },
   {
+    id: 10,
+    name: "QC Plan",
+    url: "/qc-plan",
+    icon: "mind-gear",
+  },
+  {
+    id: 12,
+    name: "Results",
+    url: "/results",
+    icon: "document-clean",
+  },
+  {
     id: 13,
     name: "Additional Scope",
     url: "/additional-scope",
     icon: "login",
   },
+  // {
+  //   id: 11,
+  //   name: "Preview",
+  //   url: "/preview",
+  //   icon: "magnifying-glass",
+  // },
   // {
   //   id: 2,
   //   name: "Sequences",

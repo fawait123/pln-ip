@@ -38,6 +38,12 @@ const params = reactive({
       column: "equipment.scopeStandart.project_uuid",
       value: route.params.id_project,
     },
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "equipment.original_uuid",
+      value: "",
+    },
   ],
   currentPage: 1,
   perPage: 10,
@@ -169,7 +175,7 @@ const setFilter = () => {
     {
       group: "AND",
       operator: "EQ",
-      column: "equipment_uuid",
+      column: "equipment.original_uuid",
       value: String(dataForm.value?.equipment_uuid),
     },
   ];
@@ -183,6 +189,12 @@ const resetFilter = () => {
       operator: "EQ",
       column: "equipment.scopeStandart.project_uuid",
       value: route.params.id_project,
+    },
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "equipment.original_uuid",
+      value: "",
     },
   ];
 };

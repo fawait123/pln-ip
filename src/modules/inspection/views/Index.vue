@@ -9,7 +9,7 @@ import Home1 from "/videos/home/1-homepage.mp4";
 import Home2 from "/videos/home/2-homepage.mp4";
 
 import { useGlobalStore } from "@/stores/GlobalStore";
-import { Breadcrumb, Input, Button, Toast } from "@/components";
+import { Breadcrumb, Input, Button, Toast, Icon, ModalDelete } from "@/components";
 import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 import eventBus from "@/utils/eventBus";
 import { useMutation, useQuery } from "@tanstack/vue-query";
@@ -27,11 +27,6 @@ import type {
 import { useAuthStore } from "@/modules/auth/stores/AuthStore";
 
 const videos = [Home0, Home1, Home2];
-// const scope = [
-//   { label: "Combustion Inspection", url: "ci" },
-//   { label: "Turbine Inspection", url: "ti" },
-//   { label: "Major Inspection", url: "mi" },
-// ];
 
 const masterStore = useMasterStore();
 const authStore = useAuthStore();
@@ -41,7 +36,6 @@ const router = useRouter();
 const route = useRoute();
 const globalStore = useGlobalStore();
 const {
-  // titleHeader,
   disabledBack,
   disabledNext,
   isAddScope,
@@ -61,6 +55,34 @@ let rewindInterval: ReturnType<typeof setInterval> | null = null;
 const model = ref("");
 const inspection_selected = ref("");
 const open_search = ref(false);
+const open_delete = ref(false);
+const selected_item = ref<ResponseProject | null>(null);
+
+
+//--- DELETE ACTIVITY
+const { mutate: deleteActivity, isPending: isLoadingDelete } = useMutation({
+  mutationFn: async (id: string) => {
+    return await scopeStore.deleteProject(id);
+  },
+  onSuccess: () => {
+    toastRef.value?.showToast({
+      title: "Success",
+      description: "Deleted successfully",
+      type: "success",
+    });
+    open_delete.value = false;
+    refetchProject();
+  },
+  onError: (error: any) => {
+    console.log(error);
+    toastRef.value?.showToast({
+      title: "Error",
+      description: error?.response?.data?.message || "Something went wrong",
+      type: "error",
+    });
+  },
+});
+//--- END
 
 //--- GET MACHINE
 const {
@@ -296,6 +318,10 @@ const handleMouseLeave = () => {
   }
 };
 
+const onDelete = () => {
+  deleteActivity(selected_item.value?.uuid as string);
+};
+
 const selectInspection = (item: TInspection) => {
   if (authStore.users && authStore.users.role == "planner") {
     toScope(item)
@@ -438,6 +464,11 @@ onMounted(() => {
 onUnmounted(() => {
   eventBus.off("back", handleBack);
 });
+
+const toDelete = (item: ResponseProject) => {
+  selected_item.value = item;
+  open_delete.value = true;
+}
 </script>
 
 <template>
@@ -466,8 +497,9 @@ onUnmounted(() => {
               Not Found Data
             </p>
             <p v-else-if="!isLoadingProject && (dataProject || []).length > 0" v-for="(item, key) in dataProject"
-              :key="key" class="px-4 hover:text-neutral-200 cursor-pointer py-1" @click="toTransaction(item.uuid)">
-              {{ item.name }}
+              :key="key" class="px-4 hover:text-neutral-200 py-1 flex justify-between">
+              <span class="cursor-pointer " @click="toTransaction(item.uuid)">{{ item.name }}</span>
+              <Icon name="trash" class="cursor-pointer" @click="toDelete(item)" />
             </p>
           </div>
         </div>
@@ -480,6 +512,8 @@ onUnmounted(() => {
       </div>
     </div>
   </div>
+
+  <ModalDelete v-model="open_delete" :title="selected_item?.name" :loading="isLoadingDelete" @delete="onDelete" />
 </template>
 
 <style lang="sass">

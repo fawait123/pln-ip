@@ -86,6 +86,19 @@ export const routeTransaction = [
       import("@/modules/transaction/views/add-scope-detail/Activity.vue"),
     meta: { layout: AddScopeLayout, requireAuth: false, role: "planner" },
   },
+  {
+    path: "/:id/create/unit/:id_unit/:id_machine/:menu/:id_project/:id_inspection/qc-plan",
+    name: "transaction qc plan",
+    component: () => import("@/modules/transaction/views/QcPlan.vue"),
+    meta: { layout: MainLayout, requireAuth: false, role: "planner" },
+  },
+  //
+  {
+    path: "/:id/create/unit/:id_unit/:id_machine/:menu/:id_project/:id_inspection/results",
+    name: "transaction results",
+    component: () => import("@/modules/transaction/views/Results.vue"),
+    meta: { layout: MainLayout, requireAuth: false, role: "planner" },
+  },
   // {
   //   path: "/:id/create/unit/:id_unit/:id_machine/:menu/:id_project/:id_inspection/squences",
   //   name: "transaction squences",

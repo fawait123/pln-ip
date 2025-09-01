@@ -299,7 +299,8 @@ onMounted(() => {
       </div>
     </div>
 
-    <FormUnit v-model="open_form" :selected-value="selected_item" @success="handleSuccess" @error="handleError" />
+    <FormUnit :data-form="dataForm" v-model="open_form" :selected-value="selected_item" @success="handleSuccess"
+      @error="handleError" />
   </div>
 
   <Toast ref="toastRef" />
