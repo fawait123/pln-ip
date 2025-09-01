@@ -10,6 +10,25 @@ export const routeTransaction = [
     meta: { layout: MainLayout, requireAuth: false, role: "planner" },
   },
   {
+    path: "/:id/create/unit/:id_unit/:id_machine/:menu/:id_project/:id_inspection/part-std",
+    name: "transaction part std",
+    component: () => import("@/modules/transaction/views/PartStd.vue"),
+    meta: { layout: MainLayout, requireAuth: false, role: "planner" },
+  },
+  {
+    path: "/:id/create/unit/:id_unit/:id_machine/:menu/:id_project/:id_inspection/manpower-std",
+    name: "transaction manpower std",
+    component: () => import("@/modules/transaction/views/ManpowerStd.vue"),
+    meta: { layout: MainLayout, requireAuth: false, role: "planner" },
+  },
+  {
+    path: "/:id/create/unit/:id_unit/:id_machine/:menu/:id_project/:id_inspection/consumable-material-std",
+    name: "transaction consumable material std",
+    component: () =>
+      import("@/modules/transaction/views/ConsumableMaterialStd.vue"),
+    meta: { layout: MainLayout, requireAuth: false, role: "planner" },
+  },
+  {
     path: "/:id/create/unit/:id_unit/:id_machine/:menu/:id_project/:id_inspection/equipment",
     name: "transaction equipment",
     component: () => import("@/modules/transaction/views/Equipment.vue"),
@@ -36,7 +55,8 @@ export const routeTransaction = [
   {
     path: "/:id/create/unit/:id_unit/:id_machine/:menu/:id_project/:id_inspection/consumable-material",
     name: "transaction consumable-material",
-    component: () => import("@/modules/transaction/views/ConsumableMaterial.vue"),
+    component: () =>
+      import("@/modules/transaction/views/ConsumableMaterial.vue"),
     meta: { layout: MainLayout, requireAuth: false, role: "planner" },
   },
   {
