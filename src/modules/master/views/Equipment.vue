@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from "vue";
+import { computed, onMounted, onUnmounted, reactive, ref } from "vue";
 import type { AxiosError } from "axios";
 
 import {
@@ -10,7 +10,7 @@ import {
   Table,
   Toast,
 } from "@/components";
-import { useMutation, useQuery } from "@tanstack/vue-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import type { IPagination } from "@/types/GlobalType";
 import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 
@@ -69,6 +69,8 @@ const {
     }
   },
   refetchOnWindowFocus: false,
+  enabled: computed(() => params.filters.some((e) => e.value !== "")),
+  gcTime: 0,
 });
 //--- END
 
