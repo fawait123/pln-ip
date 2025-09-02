@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from "vue";
+import { computed, onMounted, onUnmounted, reactive, ref } from "vue";
 import type { AxiosError } from "axios";
 
 import {
@@ -10,7 +10,7 @@ import {
   Table,
   Toast,
 } from "@/components";
-import { useMutation, useQuery } from "@tanstack/vue-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import type { IPagination } from "@/types/GlobalType";
 import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 
@@ -48,6 +48,7 @@ const {
   refetch: refetchInspectionType,
 } = useQuery({
   queryKey: ["getInspectionTypeMaster"],
+
   queryFn: async () => {
     try {
       const { data } = await masterStore.getInspectionType(params);
@@ -61,7 +62,9 @@ const {
       throw err.response;
     }
   },
+  enabled: computed(() => params.filters.length > 0),
   refetchOnWindowFocus: false,
+  gcTime: 0,
 });
 //--- END
 
