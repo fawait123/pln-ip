@@ -14,11 +14,4 @@ export const ColumnsWorkInstruction: TableColumnType[] = [
     sort: false,
     width: "150",
   },
-  // {
-  //   key: "note",
-  //   label: "Note",
-  //   align: "center",
-  //   sort: false,
-  //   width: "150",
-  // },
 ];

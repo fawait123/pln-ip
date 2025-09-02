@@ -15,8 +15,8 @@ export const ColumnsConsumableMaterial: TableColumnType[] = [
     width: "150",
   },
   {
-    key: "quantity",
-    label: "Quantity",
+    key: "price",
+    label: "Harga",
     align: "center",
     sort: false,
     width: "150",

@@ -1,12 +1,17 @@
 import MainLayout from "@/layouts/MainLayout.vue";
 import AddScopeLayout from "@/layouts/AddScopeLayout.vue";
-import DefaultLayout from "@/layouts/DefaultLayout.vue";
 
 export const routeTransaction = [
   {
     path: "/:id/create/unit/:id_unit/:id_machine/:menu/:id_project/:id_inspection/scope",
     name: "transaction scope",
     component: () => import("@/modules/transaction/views/Scope.vue"),
+    meta: { layout: MainLayout, requireAuth: false, role: "planner" },
+  },
+  {
+    path: "/:id/create/unit/:id_unit/:id_machine/:menu/:id_project/:id_inspection/work-instruction",
+    name: "transaction scope ika",
+    component: () => import("@/modules/transaction/views/work-instruction/Scope.vue"),
     meta: { layout: MainLayout, requireAuth: false, role: "planner" },
   },
   {
@@ -19,7 +24,7 @@ export const routeTransaction = [
     path: "/:id/create/unit/:id_unit/:id_machine/:menu/:id_project/:id_inspection/manpower-std",
     name: "transaction manpower std",
     component: () => import("@/modules/transaction/views/ManpowerStd.vue"),
-    meta: { layout: MainLayout, requireAuth: false, role: "planner" },
+    meta: { layout: MainLayout, requireAuth: false, role: "superuser" },
   },
   {
     path: "/:id/create/unit/:id_unit/:id_machine/:menu/:id_project/:id_inspection/consumable-material-std",
@@ -50,6 +55,12 @@ export const routeTransaction = [
     path: "/:id/create/unit/:id_unit/:id_machine/:menu/:id_project/:id_inspection/manpower",
     name: "transaction manpower",
     component: () => import("@/modules/transaction/views/Manpower.vue"),
+    meta: { layout: MainLayout, requireAuth: false, role: "planner" },
+  },
+  {
+    path: "/:id/create/unit/:id_unit/:id_machine/:menu/:id_project/:id_inspection/approval",
+    name: "transaction approval",
+    component: () => import("@/modules/transaction/views/Approval.vue"),
     meta: { layout: MainLayout, requireAuth: false, role: "planner" },
   },
   {

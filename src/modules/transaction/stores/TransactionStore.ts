@@ -679,6 +679,29 @@ export const useTransactionStore = defineStore(
         });
     };
 
+
+    const getProject = async (uuid: string) => {
+      return await api
+        .get(`/transaction/project/${uuid}/show`)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
+    const approveProject = async (uuid: string) => {
+      return await api
+        .put(`/transaction/project/${uuid}/approve`)
+        .then((resp) => {
+          return Promise.resolve(resp);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
     return {
       getScopeStandar,
       createScopeStandar,
@@ -722,7 +745,9 @@ export const useTransactionStore = defineStore(
       deleteActivity,
       cloneScopeStandar,
       cloneEquipment,
-      cloneAdScopeStandar
+      cloneAdScopeStandar,
+      getProject,
+      approveProject
     };
   },
   {

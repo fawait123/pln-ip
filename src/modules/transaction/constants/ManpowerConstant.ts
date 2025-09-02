@@ -7,32 +7,11 @@ export const ColumnsManpower: TableColumnType[] = [
     align: "left",
     sort: false,
   },
-  // {
-  //   key: "document",
-  //   label: "",
-  //   align: "center",
-  //   sort: false,
-  //   width: "150",
-  // },
   {
-    key: "quantity",
+    key: "qty",
     label: "Quantity",
     align: "center",
     sort: false,
     width: "150",
   },
-  {
-    key: "unit",
-    label: "",
-    align: "center",
-    sort: false,
-    width: "150",
-  },
-  // {
-  //   key: "note",
-  //   label: "Note",
-  //   align: "center",
-  //   sort: false,
-  //   width: "150",
-  // },
 ];

@@ -25,6 +25,12 @@ export const Menus: MenuInterface[] = [
     icon: "document",
   },
   {
+    id: 5,
+    name: "Instruksi Kerja",
+    url: "/work-instruction",
+    icon: "megaphone",
+  },
+  {
     id: 11,
     name: "Equipment",
     url: "/equipment",
@@ -65,6 +71,12 @@ export const Menus: MenuInterface[] = [
     name: "Results",
     url: "/results",
     icon: "document-clean",
+  },
+  {
+    id: 12,
+    name: "Approval",
+    url: "/approval",
+    icon: "check-list",
   },
   {
     id: 13,
