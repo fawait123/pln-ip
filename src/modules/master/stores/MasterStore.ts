@@ -2639,12 +2639,15 @@ export const useMasterStore = defineStore(
         });
     };
 
-    const downloadManpowerStd = async () => {
+    const downloadManpowerStd = async (
+      params?: AxiosRequestConfig["params"]
+    ) => {
       return await api
         .post(
           `/manpower-std/export`,
           {},
           {
+            params,
             responseType: "blob",
           }
         )

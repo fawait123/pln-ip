@@ -15,6 +15,7 @@ import type {
 import FormAdActivity from "../../components/FormAdActivity.vue";
 import FilterAdActivity from "../../components/FilterAdActivity.vue";
 import { useRoute } from "vue-router";
+import ButtonGroup from "../../components/ButtonGroup.vue";
 
 const dataForm = ref<ActivityFilterInterface | null>(null);
 const masterStore = useMasterStore();
@@ -61,6 +62,10 @@ const {
     }
   },
   refetchOnWindowFocus: false,
+  enabled: computed(() =>
+    params.filters.some((e) => e.column === "equipment_uuid" && e.value !== "")
+  ),
+  gcTime: 0,
 });
 //--- END
 
@@ -85,6 +90,44 @@ const { mutate: deleteActivity, isPending: isLoadingDelete } = useMutation({
       description: error?.response?.data?.message || "Something went wrong",
       type: "error",
     });
+  },
+});
+//--- END
+
+//--- DOWNLOAD
+const { mutate: downloadActivity, isPending: isLoadingDownload } = useMutation({
+  mutationFn: async () => {
+    return await masterStore.downloadActivity(params);
+  },
+  onSuccess: () => {},
+  onError: (error) => {
+    console.log(error);
+  },
+});
+//--- END
+
+//--- DOWNLOAD TEMPLATE
+const { mutate: templateActivity, isPending: isLoadingTemplate } = useMutation({
+  mutationFn: async () => {
+    return await masterStore.templateActivity();
+  },
+  onSuccess: () => {},
+  onError: (error) => {
+    console.log(error);
+  },
+});
+//--- END
+
+//--- IMPORT
+const { mutate: importActivity, isPending: isLoadingImport } = useMutation({
+  mutationFn: async (payload: File) => {
+    return await masterStore.importActivity(payload);
+  },
+  onSuccess: () => {
+    refetchActivity();
+  },
+  onError: (error) => {
+    console.log(error);
   },
 });
 //--- END
@@ -196,6 +239,18 @@ const handleResetFilter = () => {
 const handleRemoveSuccess = () => {
   refetchActivity();
 };
+
+const handleDownload = () => {
+  downloadActivity();
+};
+
+const handleExportTemplate = () => {
+  templateActivity();
+};
+
+const handleImport = (file: File) => {
+  importActivity(file);
+};
 </script>
 
 <template>
@@ -208,15 +263,24 @@ const handleRemoveSuccess = () => {
   />
 
   <div class="relative w-full">
-    <Button
-      v-if="dataForm?.equipment_uuid"
-      icon_only="plus"
-      class="absolute right-0"
-      size="sm"
-      rounded="full"
-      color="blue"
-      @click="handleCreate"
-    />
+    <div class="flex items-center gap-2 absolute right-0 top-0">
+      <ButtonGroup
+        :loading-import="isLoadingImport"
+        :loading-download="isLoadingDownload"
+        :loading-template="isLoadingTemplate"
+        @download="handleDownload"
+        @template="handleExportTemplate"
+        @import="handleImport"
+      />
+      <Button
+        v-if="dataForm?.equipment_uuid"
+        icon_only="plus"
+        size="sm"
+        rounded="full"
+        color="blue"
+        @click="handleCreate"
+      />
+    </div>
 
     <div class="flex gap-8">
       <div class="w-[330px]">

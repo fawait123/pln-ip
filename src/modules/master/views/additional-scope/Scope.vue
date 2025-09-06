@@ -20,6 +20,7 @@ import { useMasterStore } from "../../stores/MasterStore";
 import { useRoute } from "vue-router";
 import FormAdScope from "../../components/FormAdScope.vue";
 import FilterAdScope from "../../components/FilterAdScope.vue";
+import ButtonGroup from "../../components/ButtonGroup.vue";
 
 const masterStore = useMasterStore();
 const route = useRoute();
@@ -66,6 +67,10 @@ const {
     }
   },
   refetchOnWindowFocus: false,
+  enabled: computed(() => {
+    return Boolean(params.filters?.[1]);
+  }),
+  gcTime: 0,
 });
 //--- END
 
@@ -90,6 +95,44 @@ const { mutate: deleteScope, isPending: isLoadingDelete } = useMutation({
       description: error?.response?.data?.message || "Something went wrong",
       type: "error",
     });
+  },
+});
+//--- END
+
+//--- DOWNLOAD
+const { mutate: downloadScope, isPending: isLoadingDownload } = useMutation({
+  mutationFn: async () => {
+    return await masterStore.downloadScope(params);
+  },
+  onSuccess: () => {},
+  onError: (error) => {
+    console.log(error);
+  },
+});
+//--- END
+
+//--- DOWNLOAD TEMPLATE
+const { mutate: templateScope, isPending: isLoadingTemplate } = useMutation({
+  mutationFn: async () => {
+    return await masterStore.templateScope();
+  },
+  onSuccess: () => {},
+  onError: (error) => {
+    console.log(error);
+  },
+});
+//--- END
+
+//--- IMPORT
+const { mutate: importScope, isPending: isLoadingImport } = useMutation({
+  mutationFn: async (payload: File) => {
+    return await masterStore.importScope(payload);
+  },
+  onSuccess: () => {
+    refetchScope();
+  },
+  onError: (error) => {
+    console.log(error);
   },
 });
 //--- END
@@ -177,6 +220,7 @@ const setFilter = () => {
 
 const resetFilter = () => {
   dataForm.value = null;
+
   params.filters = [
     {
       group: "AND",
@@ -209,6 +253,18 @@ const previewDocument = (document: ResponseDocumentInterface) => {
 const handleRemoveSuccess = () => {
   refetchScope();
 };
+
+const handleDownload = () => {
+  downloadScope();
+};
+
+const handleExportTemplate = () => {
+  templateScope();
+};
+
+const handleImport = (file: File) => {
+  importScope(file);
+};
 </script>
 
 <template>
@@ -221,15 +277,24 @@ const handleRemoveSuccess = () => {
   />
 
   <div class="relative w-full">
-    <Button
-      v-if="dataForm?.sub_bidang_uuid"
-      icon_only="plus"
-      class="absolute right-0"
-      size="sm"
-      rounded="full"
-      color="blue"
-      @click="handleCreate"
-    />
+    <div class="flex items-center gap-2 absolute right-0 top-0">
+      <ButtonGroup
+        :loading-import="isLoadingImport"
+        :loading-download="isLoadingDownload"
+        :loading-template="isLoadingTemplate"
+        @download="handleDownload"
+        @template="handleExportTemplate"
+        @import="handleImport"
+      />
+      <Button
+        v-if="dataForm?.sub_bidang_uuid"
+        icon_only="plus"
+        size="sm"
+        rounded="full"
+        color="blue"
+        @click="handleCreate"
+      />
+    </div>
 
     <div class="flex gap-8">
       <div class="w-[330px]">

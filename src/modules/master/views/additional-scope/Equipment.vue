@@ -61,6 +61,10 @@ const {
     }
   },
   refetchOnWindowFocus: false,
+  enabled: computed(() => {
+    return Boolean(params.filters?.[1]);
+  }),
+  gcTime: 0,
 });
 //--- END
 
