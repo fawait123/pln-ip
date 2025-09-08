@@ -5,7 +5,7 @@ import { Button, Select, Modal } from "@/components";
 import useVuelidate from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
 import { useInfiniteQuery, useMutation } from "@tanstack/vue-query";
-import { mergeArrays, numbers_positive } from "@/helpers/global";
+import { mergeArrays } from "@/helpers/global";
 
 import { useMasterStore } from "@/modules/master/stores/MasterStore";
 import type {
@@ -14,19 +14,13 @@ import type {
   ResponseDocumentInterface,
 } from "@/types/GlobalType";
 import type {
-  ManpowerStdCreateInterface,
-  ManpowerStdCreateModelInterface,
-  ManpowerStdInterface,
-} from "@/modules/master/types/ManpowerStdType";
-import type { ManpowerInterface } from "@/modules/master/types/ManpowerType";
-import type {
-  ConsumableMaterialStdCreateInterface,
   ConsumableMaterialStdCreateModelInterface,
   ConsumableMaterialStdInterface,
 } from "@/modules/master/types/ConsumableMaterialStdType";
 import type { ConsMatInterface } from "@/modules/master/types/ConsumableMaterialType";
 import { useTransactionStore } from "../stores/TransactionStore";
 import type { FormConsMatCloneInterface } from "../types/ConsumableMaterialStdType";
+import { useRoute } from "vue-router";
 
 type OptionType = {
   label: string;
@@ -45,7 +39,7 @@ const props = defineProps({
 const modelUpload = ref<File | null>(null);
 const documentValues = ref<ResponseDocumentInterface | null>(null);
 const emit = defineEmits(["success", "error", "removeSucess"]);
-
+const route = useRoute();
 const masterStore = useMasterStore();
 const transactionStore = useTransactionStore();
 const is_loading_consumable_material = ref(false);
@@ -78,11 +72,13 @@ const rules = computed(() => {
 });
 
 //--- GET CONSMAT
-const params_consumable_material = reactive<IParams>({
+const params_consumable_material = reactive<IParams & { from_transaction: true, project_uuid: string }>({
   search: "",
   filters: [],
   currentPage: 1,
   perPage: 10,
+  from_transaction: true,
+  project_uuid: route.params.id_project as string,
 });
 const {
   data: dataConsumableMaterial,
@@ -100,7 +96,7 @@ const {
         currentPage: pageParam,
       });
 
-      const response = data.data as IPagination<ConsMatInterface[]>;
+      const response = data.data as IPagination<ConsumableMaterialStdInterface[]>;
 
       return response;
     } catch (error: any) {
@@ -206,7 +202,7 @@ watch(
         newConsumableMaterial?.pages
           .flatMap((page) => page?.data)
           ?.map((item) => {
-            return { value: item.uuid, label: item.name };
+            return { value: item.uuid, label: item.consmat.name };
           }) || [];
       options_consumable_material.value = mergeArrays(
         [
@@ -224,7 +220,7 @@ watch(
         newConsumableMaterial?.pages
           .flatMap((page) => page?.data)
           ?.map((item) => {
-            return { value: item.uuid, label: item.name };
+            return { value: item.uuid, label: item.consmat?.name };
           }) || [];
       options_consumable_material.value = new_data;
     }
@@ -234,52 +230,23 @@ watch(
 </script>
 
 <template>
-  <Modal
-    width="440"
-    height="200"
-    :showButtonClose="false"
-    :title="
-      props.selectedValue
-        ? 'Ubah Consumable Material Std'
-        : 'Tambah Consumable Material Std'
-    "
-    v-model="modelValue"
-  >
-    <form
-      class="flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-y-auto mx-[-20px] px-5"
-      @submit.prevent="handleSubmit"
-    >
-      <Select
-        v-model="model.cons_mat_uuid"
-        label="Consumable Material"
-        options_label="label"
-        options_value="value"
-        v-model:model-search="params_consumable_material.search"
-        :search="true"
-        :loading="is_loading_consumable_material"
-        :loading-next-page="isFetchingNextPageConsumableMaterial"
-        :rules="rules.cons_mat_uuid"
-        :options="options_consumable_material"
-        @scroll="scrollConsumableMaterial"
-        @search="searchConsumableMaterial"
-      />
+  <Modal width="440" height="200" :showButtonClose="false" :title="props.selectedValue
+    ? 'Ubah Consumable Material Std'
+    : 'Tambah Consumable Material Std'
+    " v-model="modelValue">
+    <form class="flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-y-auto mx-[-20px] px-5"
+      @submit.prevent="handleSubmit">
+      <Select v-model="model.cons_mat_uuid" label="Consumable Material" options_label="label" options_value="value"
+        v-model:model-search="params_consumable_material.search" :search="true"
+        :loading="is_loading_consumable_material" :loading-next-page="isFetchingNextPageConsumableMaterial"
+        :rules="rules.cons_mat_uuid" :options="options_consumable_material" @scroll="scrollConsumableMaterial"
+        @search="searchConsumableMaterial" />
 
       <div class="w-full flex items-center gap-4 mt-4">
-        <Button
-          text="Batal"
-          class="w-full"
-          variant="secondary"
-          :disabled="isLoadingCreate"
-          @click="modelValue = false"
-        />
-        <Button
-          type="submit"
-          text="Simpan"
-          class="w-full"
-          color="blue"
-          :disabled="isLoadingCreate"
-          :loading="isLoadingCreate"
-        />
+        <Button text="Batal" class="w-full" variant="secondary" :disabled="isLoadingCreate"
+          @click="modelValue = false" />
+        <Button type="submit" text="Simpan" class="w-full" color="blue" :disabled="isLoadingCreate"
+          :loading="isLoadingCreate" />
       </div>
     </form>
   </Modal>

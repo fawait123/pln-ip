@@ -177,7 +177,7 @@ const setFilter = () => {
     {
       group: "AND",
       operator: "EQ",
-      column: "scopeStandart.original_uuid",
+      column: "scopeStandart.uuid",
       value: String(dataForm.value?.scope_standart_uuid),
     },
   ];

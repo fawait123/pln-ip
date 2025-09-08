@@ -10,12 +10,7 @@ import type {
   IParams,
   ResponseDocumentInterface,
 } from "@/types/GlobalType";
-import type {
-  FilterScopeInterface,
-  FormScopeInterface,
-} from "../types/ScopeType";
 import { useMasterStore } from "@/modules/master/stores/MasterStore";
-import type { ScopeInterface } from "@/modules/master/types/ScopeType";
 import Select from "@/components/fields/Select.vue";
 import { useRoute } from "vue-router";
 import type {
@@ -46,8 +41,8 @@ const uploadProgress = ref<number>(0);
 const modelUpload = ref<File | null>(null);
 const documentValues = ref<ResponseDocumentInterface | null>(null);
 const emit = defineEmits(["success", "error", "removeSucess", "refetchScope"]);
-const is_loading_scope = ref(false);
-const options_scope = ref<OptionType[]>([]);
+const is_loading_Equipment = ref(false);
+const options_equipment = ref<OptionType[]>([]);
 const masterStore = useMasterStore();
 const modelValue = defineModel<boolean>({ default: false });
 const model_details = ref<{ name: string; id: string }[]>([
@@ -133,44 +128,39 @@ const removeSuccess = () => {
 };
 
 //--- GET SCOPE
-const params_scope = reactive<IParams>({
+const params_Equipment = reactive<IParams & { from_transaction: boolean, project_uuid: string }>({
   search: "",
   filter: "",
-  filters: [
-    {
-      group: "AND",
-      operator: "EQ",
-      column: "inspection_type_uuid",
-      value: route.params.id_inspection,
-    },
-  ],
+  filters: [],
   currentPage: 1,
   perPage: 10,
+  from_transaction: true,
+  project_uuid: route.params.id_project as string,
 });
 const {
-  data: dataScope,
-  refetch: refetchScope,
-  fetchNextPage: fetchNextPageScope,
-  hasNextPage: hasNextPageScope,
-  isFetchingNextPage: isFetchingNextPageScope,
+  data: dataEquipment,
+  refetch: refetchEquipment,
+  fetchNextPage: fetchNextPageEquipment,
+  hasNextPage: hasNextPageEquipment,
+  isFetchingNextPage: isFetchingNextPageEquipment,
 } = useInfiniteQuery({
-  queryKey: ["getScopeTransactionForm"],
-  enabled: !is_loading_scope.value,
+  queryKey: ["getEquipmentTransactionForm"],
+  enabled: !is_loading_Equipment.value,
   queryFn: async ({ pageParam = 1 }) => {
     try {
       const { data } = await masterStore.getEquipment({
-        ...params_scope,
+        ...params_Equipment,
         currentPage: pageParam,
       });
 
-      //   const response = data as IPagination<ScopeInterface[]>;
+      //   const response = data as IPagination<EquipmentInterface[]>;
       const response = data.data as IPagination<EquipmentInterface[]>;
 
       return response;
     } catch (error: any) {
       throw error.response;
     } finally {
-      is_loading_scope.value = false;
+      is_loading_Equipment.value = false;
     }
   },
   refetchOnWindowFocus: false,
@@ -182,103 +172,54 @@ const {
 });
 //--- END
 
-// scope
-const timeout_scope = ref(0);
+// Equipment
+const timeout_equipment = ref(0);
 const searchScope = () => {
-  clearTimeout(timeout_scope.value);
-  timeout_scope.value = window.setTimeout(() => {
-    is_loading_scope.value = true;
-    params_scope.currentPage = 1;
-    refetchScope();
+  clearTimeout(timeout_equipment.value);
+  timeout_equipment.value = window.setTimeout(() => {
+    is_loading_Equipment.value = true;
+    params_Equipment.currentPage = 1;
+    refetchEquipment();
   }, 1000);
 };
 const scrollScope = (e: Event) => {
   const { scrollTop, scrollHeight, clientHeight } = e.target as HTMLElement;
   if (
     scrollTop + clientHeight >= scrollHeight - 1 &&
-    hasNextPageScope.value &&
-    !isFetchingNextPageScope.value
+    hasNextPageEquipment.value &&
+    !isFetchingNextPageEquipment.value
   ) {
-    fetchNextPageScope();
+    fetchNextPageEquipment();
   }
 };
 
 watch(
-  [modelValue, dataScope],
-  ([newModel, newScope]) => {
-    console.log(newScope);
+  [modelValue, dataEquipment],
+  ([newModel, newEquipment]) => {
     const new_data: OptionType[] =
-      newScope?.pages
+      newEquipment?.pages
         .flatMap((page) => page?.data)
         ?.map((item) => {
           return { value: item?.uuid, label: item?.name };
         }) || [];
-    options_scope.value = new_data;
-  },
-  { deep: true, immediate: true }
-);
-
-watch(
-  () => props.dataForm,
-  (val) => {
-    params_scope.filters = [
-      {
-        group: "AND",
-        operator: "EQ",
-        column: "inspection_type_uuid",
-        value: route.params.id_inspection,
-      },
-    ];
-
-    refetchScope();
+    options_equipment.value = new_data;
   },
   { deep: true, immediate: true }
 );
 </script>
 
 <template>
-  <Modal
-    width="440"
-    height="200"
-    :showButtonClose="false"
-    title="Tambah Equipment"
-    v-model="modelValue"
-  >
-    <form
-      class="flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-y-auto mx-[-20px] px-5"
-      @submit.prevent="handleSubmit"
-    >
-      <Select
-        v-model="model.equipment_uuid"
-        label="Equipment"
-        options_label="label"
-        options_value="value"
-        v-model:model-search="params_scope.search"
-        :search="true"
-        :loading="is_loading_scope"
-        :loading-next-page="isFetchingNextPageScope"
-        :rules="rules.equipment_uuid"
-        :options="options_scope"
-        @scroll="scrollScope"
-        @search="searchScope"
-      />
+  <Modal width="440" height="200" :showButtonClose="false" title="Tambah Equipment" v-model="modelValue">
+    <form class="flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-y-auto mx-[-20px] px-5"
+      @submit.prevent="handleSubmit">
+      <Select v-model="model.equipment_uuid" label="Equipment" options_label="label" options_value="value"
+        v-model:model-search="params_Equipment.search" :search="true" :loading="is_loading_Equipment"
+        :loading-next-page="isFetchingNextPageEquipment" :rules="rules.equipment_uuid" :options="options_equipment"
+        @scroll="scrollScope" @search="searchScope" />
 
       <div class="w-full flex items-center gap-4 mt-4">
-        <Button
-          text="Batal"
-          class="w-full"
-          variant="secondary"
-          :disabled="false"
-          @click="modelValue = false"
-        />
-        <Button
-          type="submit"
-          text="Simpan"
-          class="w-full"
-          color="blue"
-          :disabled="false"
-          :loading="false"
-        />
+        <Button text="Batal" class="w-full" variant="secondary" :disabled="false" @click="modelValue = false" />
+        <Button type="submit" text="Simpan" class="w-full" color="blue" :disabled="false" :loading="false" />
       </div>
     </form>
   </Modal>

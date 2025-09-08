@@ -3,7 +3,7 @@ import type { AxiosError } from "axios";
 import { computed, onMounted, reactive, ref } from "vue";
 import { useRoute } from "vue-router";
 
-import { Breadcrumb, Button, ModalDelete, Table, Toast } from "@/components";
+import { Breadcrumb, Button, Icon, ModalDelete, Table, Toast } from "@/components";
 import { useMutation, useQuery } from "@tanstack/vue-query";
 import type { IPagination } from "@/types/GlobalType";
 import type {
@@ -173,7 +173,7 @@ const setFilter = () => {
     {
       group: "AND",
       operator: "EQ",
-      column: "activity.original_uuid",
+      column: "activity.uuid",
       value: String(dataForm.value?.activity_uuid),
     },
   ];

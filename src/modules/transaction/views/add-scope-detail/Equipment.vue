@@ -17,7 +17,7 @@ import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 import { ColumnsEquipment } from "@/modules/master/constants/EquipmentConstant";
 import type { EquipmentCreateInterface } from "@/modules/master/types/EquipmentType";
 import type { EquipmentInterface } from "@/modules/transaction/types/EquipmentType";
-import FilterEquipment from "@/modules/transaction/components/FilterEquipment.vue";
+import FilterEquipment from "@/modules/transaction/components/add-scope/FilterEquipment.vue";
 import { useTransactionStore } from "@/modules/transaction/stores/TransactionStore";
 import { useRoute } from "vue-router";
 import FormEquipment from "@/modules/transaction/components/FormEquipment.vue";
@@ -35,6 +35,12 @@ const params = reactive({
             operator: "EQ",
             column: "scopeStandart.additional_scope_uuid",
             value: route.params.id_scope,
+        },
+        {
+            group: "AND",
+            operator: "EQ",
+            column: "scope_standart_uuid",
+            value: "",
         },
     ],
     currentPage: 1,
@@ -157,12 +163,12 @@ const onDelete = () => {
 
 const setFilter = () => {
     params.filters = [
-        // {
-        //     group: "AND",
-        //     operator: "EQ",
-        //     column: "scopeStandart.additional_scope_uuid",
-        //     value: route.params.id_scope,
-        // },
+        {
+            group: "AND",
+            operator: "EQ",
+            column: "scopeStandart.additional_scope_uuid",
+            value: route.params.id_scope,
+        },
         {
             group: "AND",
             operator: "EQ",
@@ -177,10 +183,16 @@ const resetFilter = () => {
     params.filters = [
         {
             group: "AND",
-            operator: "NOT_NULL",
+            operator: "EQ",
             column: "scopeStandart.additional_scope_uuid",
             value: route.params.id_scope,
-        }
+        },
+        {
+            group: "AND",
+            operator: "EQ",
+            column: "scope_standart_uuid",
+            value: "",
+        },
     ];
 };
 
@@ -228,11 +240,6 @@ onMounted(() => {
                     @change-limit="changeLimit" @search="searchTable">
                     <template #column_action="{ entity }">
                         <div class="flex items-center justify-center gap-4">
-                            <!-- <Icon
-                name="pencil"
-                class="icon-action-table"
-                @click="handleUpdate(entity)"
-              /> -->
                             <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
                         </div>
                     </template>

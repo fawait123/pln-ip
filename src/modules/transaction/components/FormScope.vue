@@ -112,25 +112,14 @@ const removeSuccess = () => {
 }
 
 //--- GET SCOPE
-const params_scope = reactive<IParams>({
+const params_scope = reactive<IParams & { from_transaction: boolean, project_uuid: string }>({
     search: "",
     filter: "",
-    filters: [
-        {
-            group: "AND",
-            operator: "EQ",
-            column: "inspection_type_uuid",
-            value: route.params.id_inspection,
-        },
-        {
-            group: "AND",
-            operator: "EQ",
-            column: "sub_bidang_uuid",
-            value: localForm.value?.bidang_uuid,
-        },
-    ],
+    filters: [],
     currentPage: 1,
     perPage: 10,
+    from_transaction: true,
+    project_uuid: route.params.id_project as string
 });
 const {
     data: dataScope,
@@ -201,29 +190,6 @@ watch(
     },
     { deep: true, immediate: true }
 );
-
-watch(
-    () => props.dataForm,
-    (val) => {
-        params_scope.filters = [
-            {
-                group: "AND",
-                operator: "EQ",
-                column: "inspection_type_uuid",
-                value: route.params.id_inspection,
-            },
-            {
-                group: "AND",
-                operator: "EQ",
-                column: "sub_bidang_uuid",
-                value: val?.sub_bidang_uuid,
-            },
-        ]
-
-        refetchScope();
-    },
-    { deep: true, immediate: true }
-)
 </script>
 
 <template>

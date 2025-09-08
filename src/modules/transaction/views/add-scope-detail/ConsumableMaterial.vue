@@ -1,73 +1,67 @@
 <script setup lang="ts">
 import type { AxiosError } from "axios";
-import { computed, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import { useRoute } from "vue-router";
 
-import { Toast, Table } from "@/components";
+import { Breadcrumb, Button, Icon, ModalDelete, Table, Toast } from "@/components";
 import { useMutation, useQuery } from "@tanstack/vue-query";
 import type { IPagination } from "@/types/GlobalType";
-
-import { ColumnsAddScopeDetailConsMat } from "../../constants/AddScope";
 import type {
-  ConsumableMaterialInterface,
-  ResponseConsMatInterface,
-  UpdateConsMatInterface,
-} from "../../types/ConsumableMaterialType";
-import FormQuantity from "../../components/FormQuantity.vue";
-import { useTransactionStore } from "../../stores/TransactionStore";
+  ConsumableMaterialStdCreateModelInterface,
+  ConsumableMaterialStdInterface,
+} from "@/modules/master/types/ConsumableMaterialStdType";
+import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 
-// const Data = ref<ConsumableMaterialInterface[]>([
-//   {
-//     id: 1,
-//     material: "WD-40",
-//     document: null,
-//     quantity: null,
-//     volume: null,
-//     note: null,
-//   },
-// ]);
-const entitiesConsMat = ref<ConsumableMaterialInterface[]>([]);
+import { ColumnsConsumableMaterial } from "@/modules/transaction/constants/ConsumableMaterialConstant";
+import { useTransactionStore } from "@/modules/transaction/stores/TransactionStore";
+import FormConsumableMaterialStd from "@/modules/transaction/components/FormConsumableMaterialStd.vue";
+import FilterConsumableMaterialStd from "@/modules/transaction/components/add-scope/FilterConsumableMaterialStd.vue";
+import { numberFormat } from "@/helpers/global";
 
 const transactionStore = useTransactionStore();
 const route = useRoute();
 const params = reactive({
   search: "",
-  filter: `additional_scope_uuid,${route.params.id_scope}`,
+  filter: "",
+  filters: [
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "activity.equipment.scopeStandart.project_uuid",
+      value: route.params.id_project,
+    },
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "activity.original_uuid",
+      value: "",
+    },
+  ],
   currentPage: 1,
   perPage: 10,
 });
 const total_item = ref(0);
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
-const quantity = ref<any>(null);
+const timeout = ref(0);
+const dataForm = ref<ConsumableMaterialStdCreateModelInterface | null>(null);
+const selected_item = ref<ConsumableMaterialStdInterface | null>(null);
+const breadcrumb = ref<BreadcrumbType[]>([]);
+const open_form = ref(false);
+const open_delete = ref(false);
 
-//--- GET CONSMAT
+//--- GET CONSMAT STD
 const {
   data: dataConsMat,
   isFetching: isLoadingConsMat,
   refetch: refetchConsMat,
 } = useQuery({
-  queryKey: ["getAddScopeConsMat"],
+  queryKey: ["getConsMat"],
   queryFn: async () => {
     try {
       const { data } = await transactionStore.getConsMat(params);
-      const response = data as IPagination<ResponseConsMatInterface[]>;
+      const response = data as IPagination<ConsumableMaterialStdInterface[]>;
 
       total_item.value = response.total;
-
-      const new_arr: ConsumableMaterialInterface[] =
-        response.data?.map((item) => {
-          return {
-            id: item.uuid,
-            material: item.name,
-            merk: item.merk,
-            quantity: item.qty.toString(),
-            unit: item?.global_unit?.name,
-            global_unit_uuid: item.global_unit_uuid,
-            project_uuid: item.project_uuid,
-            additional_scope_uuid: item.additional_scope_uuid,
-          };
-        }) || [];
-      entitiesConsMat.value = new_arr;
 
       return response;
     } catch (error: any) {
@@ -79,25 +73,19 @@ const {
 });
 //--- END
 
-//--- UPDATE CONSUMABLE MATERIAL
-const { mutate: updateConsMat, isPending: isLoadingUpdate } = useMutation({
-  mutationFn: async ({
-    payload,
-    id,
-  }: {
-    payload: UpdateConsMatInterface;
-    id: string;
-  }) => {
-    return await transactionStore.updateConsMat(payload, id);
+//--- DELETE CONSMAT STD
+const { mutate: deleteConsMatStd, isPending: isLoadingDelete } = useMutation({
+  mutationFn: async (id: string) => {
+    return await transactionStore.deleteConsMatStd(id);
   },
-  onSuccess: async () => {
-    refetchConsMat();
-    quantity.value.modelOpenInputData = false;
+  onSuccess: () => {
     toastRef.value?.showToast({
       title: "Success",
-      description: "Saved successfully",
+      description: "Deleted successfully",
       type: "success",
     });
+    open_delete.value = false;
+    refetchConsMat();
   },
   onError: (error: any) => {
     console.log(error);
@@ -129,76 +117,164 @@ const changeLimit = (e: string) => {
   refetchConsMat();
 };
 
-const saveQuantity = (
-  e: { quantity: string },
-  entity: ConsumableMaterialInterface
-) => {
-  // const duplicate_data = [...entitiesConsMat.value];
-  // const find_index = entitiesConsMat.value.findIndex(
-  //   (item) => item.id === entity.id
-  // );
+function searchTable() {
+  clearTimeout(timeout.value);
+  timeout.value = window.setTimeout(() => {
+    params.currentPage = 1;
+    refetchConsMat();
+  }, 1000);
+}
 
-  // if (find_index !== -1) {
-  //   duplicate_data[find_index].quantity = e.quantity;
-  //   entitiesConsMat.value = duplicate_data;
-  // }
-  updateConsMat({
-    id: entity.id,
-    payload: {
-      name: entity.material,
-      merk: entity.merk,
-      qty: parseFloat(e.quantity),
-      additional_scope_uuid: entity.additional_scope_uuid,
-      global_unit_uuid: entity.global_unit_uuid,
-      project_uuid: entity.project_uuid,
-    },
+const handleSuccess = () => {
+  toastRef.value?.showToast({
+    title: "Success",
+    description: "Saved successfully",
+    type: "success",
+  });
+  params.currentPage = 1;
+  refetchConsMat();
+};
+
+const handleError = (error: any) => {
+  toastRef.value?.showToast({
+    title: "Error",
+    description: error?.response?.data?.message || "Something went wrong",
+    type: "error",
   });
 };
+
+const handleCreate = () => {
+  selected_item.value = null;
+  open_form.value = true;
+};
+
+const handleUpdate = (item: ConsumableMaterialStdInterface) => {
+  selected_item.value = item;
+  open_form.value = true;
+};
+
+const handleDelete = (item: ConsumableMaterialStdInterface) => {
+  selected_item.value = item;
+  open_delete.value = true;
+};
+
+const onDelete = () => {
+  deleteConsMatStd(selected_item.value?.uuid as string);
+};
+
+const setFilter = () => {
+  params.filters = [
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "activity.equipment.scopeStandart.additional_scope_uuid",
+      value: route.params.id_scope,
+    },
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "activity.uuid",
+      value: String(dataForm.value?.activity_uuid),
+    },
+  ];
+};
+
+const resetFilter = () => {
+  dataForm.value = null;
+  params.filters = [
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "activity.equipment.scopeStandart.project_uuid",
+      value: route.params.id_project,
+    },
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "activity.original_uuid",
+      value: "",
+    },
+  ];
+};
+
+const handleOnFilter = (data: ConsumableMaterialStdCreateModelInterface) => {
+  dataForm.value = data;
+  setFilter();
+  refetchConsMat();
+};
+
+const handleResetFilter = () => {
+  resetFilter();
+  refetchConsMat();
+};
+
+const handleRemoveSuccess = () => {
+  refetchConsMat();
+};
+
+onMounted(() => {
+  breadcrumb.value = [
+    {
+      name: "Consumable Material Std",
+      as_link: false,
+      url: "",
+    },
+  ];
+});
 </script>
 
 <template>
-  <Toast ref="toastRef" />
-  <Table
-    label-create="Material"
-    :columns="ColumnsAddScopeDetailConsMat"
-    :entities="entitiesConsMat"
-    :loading="isLoadingConsMat"
-    :pagination="pagination"
-    :is-create="false"
-    :is-action="false"
-    @change-page="changePage"
-    @change-limit="changeLimit"
-  >
-    <!-- <template #column_merk="{ entity }">
-      <div class="w-full flex justify-center">
-        <FormUploadOnly
-          :value="entity.merk"
-          :label="entity.material"
-          @save="(e) => saveFile(e, entity)"
-        />
+  <div class="relative w-full">
+    <Button icon_only="plus" class="absolute right-0" size="sm" rounded="full" color="blue" @click="handleCreate"
+      v-if="dataForm?.activity_uuid" />
+
+    <div class="flex gap-8">
+      <div class="basis-1/5">
+        <FilterConsumableMaterialStd @filter="handleOnFilter" @reset-filter="handleResetFilter"
+          :loading="isLoadingConsMat" />
       </div>
-    </template> -->
-    <template #column_quantity="{ entity }">
-      <div class="w-full flex justify-center">
-        <FormQuantity
-          ref="quantity"
-          :value="entity.quantity || ''"
-          :label="entity.material"
-          :loading="isLoadingUpdate"
-          @save="(e) => saveQuantity(e, entity)"
-        />
-      </div>
-    </template>
-    <template #column_unit="{ entity }">
-      <div class="w-full flex justify-center">
-        <div
-          v-if="entity.unit"
-          class="border border-neutral-50 rounded-lg px-2 min-w-[100px] text-base text-neutral-50 text-center"
-        >
-          {{ entity.unit }}
+      <div class="flex-1 overflow-auto">
+        <div class="max-w-full min-w-full">
+          <Breadcrumb :items="breadcrumb" />
+          <Table label-create="Material" :columns="ColumnsConsumableMaterial" :entities="dataConsMat?.data || []"
+            :loading="isLoadingConsMat" :pagination="pagination" :is-create="false" :is-action="false" class="mt-6"
+            v-model:model-search="params.search" @change-page="changePage" @change-limit="changeLimit"
+            @search="searchTable">
+            <template #column_action="{ entity }">
+              <div class="flex items-center justify-center gap-4">
+                <Icon name="pencil" class="icon-action-table" @click="handleUpdate(entity)" />
+                <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
+              </div>
+            </template>
+            <template #column_material="{ entity }">
+              <p class="text-base text-neutral-50 text-left underline cursor-pointer">
+                {{ entity.consmat?.name ?? "-" }}
+              </p>
+            </template>
+            <template #column_merk="{ entity }">
+              <p class="text-base text-neutral-50 text-left underline cursor-pointer">
+                {{ entity.consmat?.merk ?? "-" }}
+              </p>
+            </template>
+            <template #column_price="{ entity }">
+              <p class="text-base text-neutral-50 text-left underline cursor-pointer">
+                Rp. {{ numberFormat(entity.consmat?.price) ?? "-" }}
+              </p>
+            </template>
+            <template #column_unit="{ entity }">
+              <p class="text-base text-neutral-50 text-left underline cursor-pointer">
+                {{ entity.consmat?.global_unit?.name ?? "-" }}
+              </p>
+            </template>
+          </Table>
         </div>
-        <div v-else>-</div>
       </div>
-    </template>
-  </Table>
+    </div>
+  </div>
+
+  <Toast ref="toastRef" />
+  <FormConsumableMaterialStd v-model="open_form" :data-form="dataForm" :selected-value="selected_item"
+    @success="handleSuccess" @error="handleError" @removeSucess="handleRemoveSuccess" />
+  <ModalDelete v-model="open_delete" :title="selected_item?.consmat?.name" :loading="isLoadingDelete"
+    @delete="onDelete" />
 </template>

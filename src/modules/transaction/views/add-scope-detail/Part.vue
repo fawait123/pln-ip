@@ -1,68 +1,73 @@
 <script setup lang="ts">
 import type { AxiosError } from "axios";
-import { computed, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import { useRoute } from "vue-router";
 
-import { Table, Toast } from "@/components";
+import {
+  Breadcrumb,
+  Button,
+  Icon,
+  ModalDelete,
+  Table,
+  Toast,
+} from "@/components";
 import { useMutation, useQuery } from "@tanstack/vue-query";
 import type { IPagination } from "@/types/GlobalType";
-
-import { ColumnsAddScopeDetailPart } from "../../constants/AddScope";
+import type { BreadcrumbType } from "@/components/navigations/Breadcrumb.vue";
 import type {
-  PartInterface,
-  ResponsePartInterface,
-  UpdatePartInterface,
-} from "../../types/PartType";
-import FormQuantity from "../../components/FormQuantity.vue";
-import { useTransactionStore } from "../../stores/TransactionStore";
+  PartStdCreateModelInterface,
+  PartStdInterface,
+} from "@/modules/master/types/PartStdType";
 
-const entitiesPart = ref<PartInterface[]>([]);
+import { ColumnsPart } from "@/modules/transaction/constants/PartConstant";
+import { useTransactionStore } from "@/modules/transaction/stores/TransactionStore";
+import FilterPartStd from "@/modules/transaction/components/add-scope/FilterPartStd.vue";
+import FormPartStd from "@/modules/transaction/components/FormPartStd.vue";
 
 const transactionStore = useTransactionStore();
 const route = useRoute();
 const params = reactive({
   search: "",
-  filter: `additional_scope_uuid,${route.params.id_scope}`,
+  filter: "",
+  filters: [
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "activity.equipment.scopeStandart.additional_scope_uuid",
+      value: route.params.id_scope,
+    },
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "activity.original_uuid",
+      value: "",
+    },
+  ],
   currentPage: 1,
   perPage: 10,
 });
 const total_item = ref(0);
 const toastRef = ref<InstanceType<typeof Toast> | null>(null);
-const quantity = ref<any>(null);
+const timeout = ref(0);
+const dataForm = ref<PartStdCreateModelInterface | null>(null);
+const selected_item = ref<PartStdInterface | null>(null);
+const breadcrumb = ref<BreadcrumbType[]>([]);
+const open_form = ref(false);
+const open_delete = ref(false);
 
-//--- GET PART
+//--- GET PART STD
 const {
   data: dataPart,
   isFetching: isLoadingPart,
   refetch: refetchPart,
 } = useQuery({
-  queryKey: ["getAddScopePart"],
+  queryKey: ["getPart"],
   queryFn: async () => {
     try {
       const { data } = await transactionStore.getPart(params);
-      const response = data as IPagination<ResponsePartInterface[]>;
+      const response = data as IPagination<PartStdInterface[]>;
 
       total_item.value = response.total;
-
-      const new_arr: PartInterface[] =
-        response.data?.map((item) => {
-          return {
-            id: item.uuid,
-            part: item.name,
-            document: null,
-            quantity: item.qty.toString(),
-            unit: item.global_unit?.name,
-            number_drawing: item.no_drawing,
-            global_unit_uuid: item.global_unit_uuid,
-            project_uuid: item.project_uuid,
-            additional_scope_uuid: item.additional_scope_uuid,
-            note: item.note,
-            size: item?.size || "",
-            location: item?.location || "",
-          };
-        }) || [];
-      console.log("AAA", new_arr);
-      entitiesPart.value = new_arr;
 
       return response;
     } catch (error: any) {
@@ -74,25 +79,19 @@ const {
 });
 //--- END
 
-//--- UPDATE PART
-const { mutate: updatePart, isPending: isLoadingUpdate } = useMutation({
-  mutationFn: async ({
-    payload,
-    id,
-  }: {
-    payload: UpdatePartInterface;
-    id: string;
-  }) => {
-    return await transactionStore.updatePart(payload, id);
+//--- DELETE PART STD
+const { mutate: deletePartStd, isPending: isLoadingDelete } = useMutation({
+  mutationFn: async (id: string) => {
+    return await transactionStore.deletePartStd(id);
   },
-  onSuccess: async () => {
-    refetchPart();
-    quantity.value.modelOpenInputData = false;
+  onSuccess: () => {
     toastRef.value?.showToast({
       title: "Success",
-      description: "Saved successfully",
+      description: "Deleted successfully",
       type: "success",
     });
+    open_delete.value = false;
+    refetchPart();
   },
   onError: (error: any) => {
     console.log(error);
@@ -124,54 +123,158 @@ const changeLimit = (e: string) => {
   refetchPart();
 };
 
-const saveQuantity = (e: { quantity: string }, entity: PartInterface) => {
-  updatePart({
-    id: entity.id,
-    payload: {
-      name: entity.part,
-      qty: parseFloat(e.quantity),
-      noDrawing: entity.number_drawing,
-      additional_scope_uuid: entity.additional_scope_uuid,
-      global_unit_uuid: entity.global_unit_uuid,
-      project_uuid: entity.project_uuid,
-      note: entity.note,
-    },
+function searchTable() {
+  clearTimeout(timeout.value);
+  timeout.value = window.setTimeout(() => {
+    params.currentPage = 1;
+    refetchPart();
+  }, 1000);
+}
+
+const handleSuccess = () => {
+  toastRef.value?.showToast({
+    title: "Success",
+    description: "Saved successfully",
+    type: "success",
+  });
+  params.currentPage = 1;
+  refetchPart();
+};
+
+const handleError = (error: any) => {
+  toastRef.value?.showToast({
+    title: "Error",
+    description: error?.response?.data?.message || "Something went wrong",
+    type: "error",
   });
 };
+
+const handleCreate = () => {
+  selected_item.value = null;
+  open_form.value = true;
+};
+
+const handleUpdate = (item: PartStdInterface) => {
+  selected_item.value = item;
+  open_form.value = true;
+};
+
+const handleDelete = (item: PartStdInterface) => {
+  selected_item.value = item;
+  open_delete.value = true;
+};
+
+const onDelete = () => {
+  deletePartStd(selected_item.value?.uuid as string);
+};
+
+const setFilter = () => {
+  params.filters = [
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "activity.equipment.scopeStandart.additional_scope_uuid",
+      value: route.params.id_scope,
+    },
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "activity.uuid",
+      value: String(dataForm.value?.activity_uuid),
+    },
+  ];
+};
+
+const resetFilter = () => {
+  dataForm.value = null;
+  params.filters = [
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "activity.equipment.scopeStandart.project_uuid",
+      value: route.params.id_project,
+    },
+    {
+      group: "AND",
+      operator: "EQ",
+      column: "activity.original_uuid",
+      value: "",
+    },
+  ];
+};
+
+const handleOnFilter = (data: PartStdCreateModelInterface) => {
+  dataForm.value = data;
+  setFilter();
+  refetchPart();
+};
+
+const handleResetFilter = () => {
+  resetFilter();
+  refetchPart();
+};
+
+const handleRemoveSuccess = () => {
+  refetchPart();
+};
+
+onMounted(() => {
+  breadcrumb.value = [
+    {
+      name: "Part Std",
+      as_link: false,
+      url: "",
+    },
+  ];
+});
 </script>
 
 <template>
-  <Toast ref="toastRef" />
-  <Table
-    label-create="Part"
-    :columns="ColumnsAddScopeDetailPart"
-    :entities="entitiesPart"
-    :loading="isLoadingPart"
-    :pagination="pagination"
-    :is-create="false"
-    :is-action="false"
-    @change-page="changePage"
-    @change-limit="changeLimit"
-  >
-    <template #column_quantity="{ entity }">
-      <div class="w-full flex justify-center">
-        <FormQuantity
-          ref="quantity"
-          :value="entity.quantity || ''"
-          :label="entity.part"
-          :loading="isLoadingUpdate"
-          @save="(e) => saveQuantity(e, entity)"
-        />
+  <div class="relative w-full">
+    <Button icon_only="plus" class="absolute right-0" size="sm" rounded="full" color="blue" @click="handleCreate"
+      v-if="dataForm?.activity_uuid" />
+
+    <div class="flex gap-8">
+      <div class="basis-1/5">
+        <FilterPartStd @filter="handleOnFilter" @reset-filter="handleResetFilter" :loading="isLoadingPart" />
       </div>
-    </template>
-    <template #column_unit="{ entity }">
-      <div class="w-full flex justify-center">
-        <div
-          class="border border-neutral-50 rounded-lg px-2 min-w-[100px] text-base text-neutral-50 text-center"
-        >
-          {{ entity.unit }}
+      <div class="flex-1 overflow-auto">
+        <div class="max-w-full min-w-full">
+          <Breadcrumb :items="breadcrumb" />
+          <Table label-create="Part" :columns="ColumnsPart" :entities="dataPart?.data || []" :loading="isLoadingPart"
+            :pagination="pagination" :is-create="false" class="mt-6" v-model:model-search="params.search"
+            @change-page="changePage" @change-limit="changeLimit" @search="searchTable">
+            <template #column_action="{ entity }">
+              <div class="flex items-center justify-center gap-4">
+                <Icon name="pencil" class="icon-action-table" @click="handleUpdate(entity)" />
+                <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
+              </div>
+            </template>
+            <template #column_part="{ entity }">
+              <p class="text-base text-neutral-50 text-left underline cursor-pointer">
+                {{ entity.part?.name ?? "-" }}
+              </p>
+            </template>
+
+            <template #column_unit="{ entity }">
+              <p class="text-base text-neutral-50 text-left underline cursor-pointer">
+                {{ entity.part?.global_unit?.name ?? "-" }}
+              </p>
+            </template>
+
+            <template #column_number_drawing="{ entity }">
+              <p class="text-base text-neutral-50 text-left underline cursor-pointer">
+                {{ entity.part?.no_drawing ?? "-" }}
+              </p>
+            </template>
+          </Table>
         </div>
       </div>
-    </template>
-  </Table>
+    </div>
+  </div>
+
+  <Toast ref="toastRef" />
+  <FormPartStd v-model="open_form" :data-form="dataForm" :selected-value="selected_item" @success="handleSuccess"
+    @error="handleError" @removeSucess="handleRemoveSuccess" />
+  <ModalDelete v-model="open_delete" :title="selected_item?.part?.name" :loading="isLoadingDelete" @delete="onDelete" />
 </template>

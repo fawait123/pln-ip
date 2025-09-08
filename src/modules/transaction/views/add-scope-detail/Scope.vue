@@ -39,6 +39,12 @@ const params = reactive({
             operator: "EQ",
             column: "additionalScope.uuid",
             value: route.params.id_scope,
+        },
+        {
+            group: "AND",
+            operator: "EQ",
+            column: "sub_bidang_uuid",
+            value: "",
         }
     ],
     currentPage: 1,
@@ -456,6 +462,12 @@ const resetFilter = () => {
             operator: "EQ",
             column: "additionalScope.uuid",
             value: route.params.id_scope,
+        },
+        {
+            group: "AND",
+            operator: "EQ",
+            column: "sub_bidang_uuid",
+            value: "",
         }
     ];
 }

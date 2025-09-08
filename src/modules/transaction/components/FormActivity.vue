@@ -108,19 +108,14 @@ watch(modelValue, (value) => {
 });
 
 //--- GET SCOPE
-const params_activity = reactive<IParams>({
+const params_activity = reactive<IParams & { from_transaction: boolean, project_uuid: string }>({
   search: "",
   filter: "",
-  filters: [
-    {
-      group: "AND",
-      operator: "EQ",
-      column: "equipment.scopeStandart.inspection_type_uuid",
-      value: route.params.id_inspection,
-    },
-  ],
+  filters: [],
   currentPage: 1,
   perPage: 10,
+  from_transaction: true,
+  project_uuid: route.params.id_project as string,
 });
 const {
   data: dataScope,
@@ -187,29 +182,6 @@ watch(
           return { value: item?.uuid, label: item?.name };
         }) || [];
     options_scope.value = new_data;
-  },
-  { deep: true, immediate: true }
-);
-
-watch(
-  () => props.dataForm,
-  (val) => {
-    params_activity.filters = [
-      {
-        group: "AND",
-        operator: "EQ",
-        column: "equipment.scopeStandart.inspection_type_uuid",
-        value: route.params.id_inspection,
-      },
-      {
-        group: "AND",
-        operator: "EQ",
-        column: "equipment_uuid",
-        value: val?.equipment_uuid,
-      },
-    ];
-
-    refetchScope();
   },
   { deep: true, immediate: true }
 );

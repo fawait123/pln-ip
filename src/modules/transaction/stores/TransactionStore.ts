@@ -426,6 +426,17 @@ export const useTransactionStore = defineStore(
         });
     };
 
+    const deleteAdScope = async (id: string) => {
+      return await api
+        .delete(`/transaction/additional-scope/${id}`)
+        .then((res) => {
+          return Promise.resolve(res);
+        })
+        .catch((err) => {
+          return Promise.reject(err);
+        });
+    };
+
     const createAddScope = async (payload: CreateAddScopeInterface) => {
       return await api
         .post(`/transaction/additional-scope/resource/asset`, payload)
@@ -747,7 +758,8 @@ export const useTransactionStore = defineStore(
       cloneEquipment,
       cloneAdScopeStandar,
       getProject,
-      approveProject
+      approveProject,
+      deleteAdScope
     };
   },
   {

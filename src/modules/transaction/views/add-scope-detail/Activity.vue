@@ -20,7 +20,7 @@ import type {
     ActivityModelCreateInterface,
 } from "@/modules/master/types/AcitivityType";
 import FormActivity from "@/modules/transaction/components/FormActivity.vue";
-import FilterActivity from "@/modules/transaction/components/FilterActivity.vue";
+import FilterActivity from "@/modules/transaction/components/add-scope/FilterActivity.vue";
 import { useRoute } from "vue-router";
 import { useTransactionStore } from "@/modules/transaction/stores/TransactionStore";
 
@@ -231,11 +231,6 @@ onMounted(() => {
                     @change-limit="changeLimit" @search="searchTable">
                     <template #column_action="{ entity }">
                         <div class="flex items-center justify-center gap-4">
-                            <!-- <Icon
-                name="pencil"
-                class="icon-action-table"
-                @click="handleUpdate(entity)"
-              /> -->
                             <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
                         </div>
                     </template>

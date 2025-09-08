@@ -98,6 +98,27 @@ export const routeTransaction = [
     meta: { layout: AddScopeLayout, requireAuth: false, role: "planner" },
   },
   {
+    path: "/:id/create/unit/:id_unit/:id_machine/:menu/:id_project/:id_inspection/add-scope/:id_scope/consumable-material",
+    name: "add scope detail consumable material",
+    component: () =>
+      import("@/modules/transaction/views/add-scope-detail/ConsumableMaterial.vue"),
+    meta: { layout: AddScopeLayout, requireAuth: false, role: "planner" },
+  },
+  {
+    path: "/:id/create/unit/:id_unit/:id_machine/:menu/:id_project/:id_inspection/add-scope/:id_scope/manpower",
+    name: "add scope detail manpower",
+    component: () =>
+      import("@/modules/transaction/views/add-scope-detail/Manpower.vue"),
+    meta: { layout: AddScopeLayout, requireAuth: false, role: "planner" },
+  },
+  {
+    path: "/:id/create/unit/:id_unit/:id_machine/:menu/:id_project/:id_inspection/add-scope/:id_scope/part",
+    name: "add scope detail part",
+    component: () =>
+      import("@/modules/transaction/views/add-scope-detail/Part.vue"),
+    meta: { layout: AddScopeLayout, requireAuth: false, role: "planner" },
+  },
+  {
     path: "/:id/create/unit/:id_unit/:id_machine/:menu/:id_project/:id_inspection/qc-plan",
     name: "transaction qc plan",
     component: () => import("@/modules/transaction/views/QcPlan.vue"),

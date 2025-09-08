@@ -9,25 +9,18 @@ import {
     useMutation,
 } from "@tanstack/vue-query";
 import type { IPagination, IParams, ResponseDocumentInterface } from "@/types/GlobalType";
-import type { FilterScopeInterface, FormAdScopeInterface, FormScopeInterface } from "../types/ScopeType";
+import type { FilterScopeInterface, FormScopeInterface } from "../types/ScopeType";
 import { useMasterStore } from "@/modules/master/stores/MasterStore";
 import type { ScopeInterface } from "@/modules/master/types/ScopeType";
 import Select from "@/components/fields/Select.vue";
 import { useRoute } from "vue-router";
-import { useTransactionStore } from "@/modules/transaction/stores/TransactionStore";
-
-const props = defineProps({
-    dataForm: {
-        type: Object as PropType<FilterScopeInterface | null>
-    }
-});
+import { useTransactionStore } from "../stores/TransactionStore";
 
 type OptionType = {
     value: string;
     label: string;
 };
 const transactionStore = useTransactionStore();
-const localForm = ref<FilterScopeInterface | null | undefined>(props.dataForm)
 const uploadProgress = ref<number>(0);
 const modelUpload = ref<File | null>(null);
 const documentValues = ref<ResponseDocumentInterface | null>(null);
@@ -61,7 +54,7 @@ const handleSubmit = async () => {
 
     createScope({
         scope_standart_uuid: model.value.scope_standart_uuid,
-        additional_scope_uuid: route.params.id_scope as string,
+        project_uuid: route.params.id_project as string,
     });
 };
 
@@ -78,8 +71,8 @@ const resetValue = () => {
 
 // create documnet
 const { mutate: createScope, isPending: isLoadingScope } = useMutation({
-    mutationFn: async (payload: FormAdScopeInterface) => {
-        return transactionStore.cloneAdScopeStandar(payload);
+    mutationFn: async (payload: FormScopeInterface) => {
+        return transactionStore.cloneScopeStandar(payload);
     },
     onSuccess: (data) => {
         modelValue.value = false;
@@ -101,26 +94,25 @@ watch(modelValue, (value) => {
         setValue()
     }
 });
+
+const handleChangeFile = (e: File) => {
+    modelUpload.value = e;
+}
+
+const removeSuccess = () => {
+    documentValues.value = null;
+    emit('removeSucess');
+}
+
 //--- GET SCOPE
-const params_scope = reactive<IParams>({
+const params_scope = reactive<IParams & { from_transaction: boolean, project_uuid: string }>({
     search: "",
     filter: "",
-    filters: [
-        {
-            group: "AND",
-            operator: "EQ",
-            column: "additionalScope.uuid",
-            value: route.params.id_scope,
-        },
-        {
-            group: "AND",
-            operator: "EQ",
-            column: "sub_bidang_uuid",
-            value: localForm.value?.sub_bidang_uuid,
-        },
-    ],
+    filters: [],
     currentPage: 1,
     perPage: 10,
+    from_transaction: true,
+    project_uuid: route.params.id_project as string
 });
 const {
     data: dataScope,
@@ -133,7 +125,7 @@ const {
     enabled: !is_loading_scope.value,
     queryFn: async ({ pageParam = 1 }) => {
         try {
-            const { data } = await masterStore.getScope({
+            const { data } = await masterStore.getAdditionalScope({
                 ...params_scope,
                 currentPage: pageParam,
             });
@@ -191,29 +183,6 @@ watch(
     },
     { deep: true, immediate: true }
 );
-
-watch(
-    () => props.dataForm,
-    (val) => {
-        params_scope.filters = [
-            {
-                group: "AND",
-                operator: "EQ",
-                column: "additional_scope_uuid",
-                value: route.params.id_scope,
-            },
-            {
-                group: "AND",
-                operator: "EQ",
-                column: "sub_bidang_uuid",
-                value: val?.sub_bidang_uuid,
-            },
-        ]
-
-        refetchScope();
-    },
-    { deep: true, immediate: true }
-)
 </script>
 
 <template>

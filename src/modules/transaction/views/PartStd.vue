@@ -179,7 +179,7 @@ const setFilter = () => {
     {
       group: "AND",
       operator: "EQ",
-      column: "activity.original_uuid",
+      column: "activity.uuid",
       value: String(dataForm.value?.activity_uuid),
     },
   ];

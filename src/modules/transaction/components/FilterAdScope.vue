@@ -4,19 +4,17 @@ import { reactive, ref, computed, type PropType, watch } from "vue";
 import { Button, Select } from "@/components";
 import useVuelidate from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
-import { useInfiniteQuery } from "@tanstack/vue-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/vue-query";
 import type { IPagination, IParams } from "@/types/GlobalType";
 import { mergeArrays } from "@/helpers/global";
+
 import { useMasterStore } from "@/modules/master/stores/MasterStore";
-import type { ScopeInterface } from "@/modules/master/types/ScopeType";
+import type {
+    ScopeAdditionalFilterInterface,
+    ScopeInterface,
+} from "@/modules/master/types/ScopeType";
 import type { SubBidangInterface } from "@/modules/master/types/SubBidangType";
 import type { BidangInterface } from "@/modules/master/types/BidangType";
-import type {
-    EquipmentInterface,
-    EquipmentModelCreateInterface,
-} from "@/modules/master/types/EquipmentType";
-import { useRoute } from "vue-router";
-import { useTransactionStore } from "../stores/TransactionStore";
 
 type OptionType = {
     value: string;
@@ -25,7 +23,7 @@ type OptionType = {
 
 const props = defineProps({
     selectedValue: {
-        type: Object as PropType<EquipmentInterface | null>,
+        type: Object as PropType<ScopeInterface | null>,
     },
     loading: {
         type: Boolean,
@@ -33,26 +31,19 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["success", "error", "filter", "resetFilter"]);
-const route = useRoute();
-const masterStore = useMasterStore();
-const transactionStore = useTransactionStore();
 
+const masterStore = useMasterStore();
+
+const queryClient = useQueryClient();
 const modelValue = defineModel<boolean>({ default: false });
-const is_loading_sub_bidang = ref(false);
-const options_sub_bidang = ref<OptionType[]>([]);
 const is_loading_bidang = ref(false);
 const options_bidang = ref<OptionType[]>([]);
-const is_loading_scope = ref(false);
-const options_scope = ref<OptionType[]>([]);
+const is_loading_sub_bidang = ref(false);
+const options_sub_bidang = ref<OptionType[]>([]);
 
-const model = ref<EquipmentModelCreateInterface>({
-    location_uuid: "",
-    unit_uuid: "",
-    machine_uuid: "",
-    inspection_type_uuid: "",
-    sub_bidang_uuid: "",
+const model = ref<ScopeAdditionalFilterInterface>({
     bidang_uuid: "",
-    scope_standart_uuid: "",
+    sub_bidang_uuid: "",
 });
 const v$_form = reactive(useVuelidate());
 const rules = computed(() => {
@@ -63,72 +54,8 @@ const rules = computed(() => {
         bidang_uuid: {
             required: helpers.withMessage(`This field is required`, required),
         },
-        location_uuid: {
-            required: helpers.withMessage(`This field is required`, required),
-        },
-        unit_uuid: {
-            required: helpers.withMessage(`This field is required`, required),
-        },
-        machine_uuid: {
-            required: helpers.withMessage(`This field is required`, required),
-        },
-        inspection_type_uuid: {
-            required: helpers.withMessage(`This field is required`, required),
-        },
-        scope_standart_uuid: {
-            required: helpers.withMessage(`This field is required`, required),
-        },
     };
 });
-
-//--- GET SCOPE
-const params_scope = reactive<IParams>({
-    search: "",
-    filter: "",
-    filters: [
-        {
-            group: "AND",
-            operator: "EQ",
-            column: "project_uuid",
-            value: route.params.id_project,
-        },
-    ],
-    currentPage: 1,
-    perPage: 10,
-});
-const {
-    data: dataScope,
-    refetch: refetchScope,
-    fetchNextPage: fetchNextPageScope,
-    hasNextPage: hasNextPageScope,
-    isFetchingNextPage: isFetchingNextPageScope,
-} = useInfiniteQuery({
-    queryKey: ["getScopeEquipment"],
-    enabled: !props.selectedValue && !is_loading_scope.value,
-    queryFn: async ({ pageParam = 1 }) => {
-        try {
-            const { data } = await transactionStore.getScopeStandar({
-                ...params_scope,
-                currentPage: pageParam,
-            });
-
-            const response = data.data as IPagination<ScopeInterface[]>;
-
-            return response;
-        } catch (error: any) {
-            throw error.response;
-        } finally {
-            is_loading_scope.value = false;
-        }
-    },
-    refetchOnWindowFocus: false,
-    getNextPageParam: (lastPage) => {
-        if (!lastPage?.data?.length) return undefined;
-        return lastPage.current_page + 1;
-    },
-    initialPageParam: 1,
-});
-//--- END
 
 //--- GET BIDANG
 const params_bidang = reactive<IParams>({
@@ -228,59 +155,18 @@ const handleSubmit = async () => {
 };
 
 const setValue = () => {
-    model.value.sub_bidang_uuid =
-        props.selectedValue?.scope_standart?.sub_bidang_uuid || "";
-    model.value.bidang_uuid =
-        props.selectedValue?.scope_standart?.sub_bidang?.bidang_uuid || "";
-
-    model.value.location_uuid =
-        props.selectedValue?.scope_standart?.inspection_type?.machine?.unit
-            ?.location_uuid || "";
-    model.value.unit_uuid =
-        props.selectedValue?.scope_standart?.inspection_type?.machine?.unit_uuid ||
-        "";
-    model.value.machine_uuid =
-        props.selectedValue?.scope_standart?.inspection_type?.machine_uuid || "";
-    model.value.inspection_type_uuid =
-        props.selectedValue?.scope_standart?.inspection_type_uuid || "";
-    model.value.scope_standart_uuid =
-        props.selectedValue?.scope_standart_uuid || "";
+    model.value.sub_bidang_uuid = props.selectedValue?.sub_bidang_uuid || "";
+    model.value.bidang_uuid = props.selectedValue?.sub_bidang?.bidang_uuid || "";
 };
 
 const resetValue = () => {
     model.value = {
-        location_uuid: "",
-        unit_uuid: "",
-        machine_uuid: "",
-        inspection_type_uuid: "",
         sub_bidang_uuid: "",
         bidang_uuid: "",
-        scope_standart_uuid: "",
     };
-    refetchBidang();
     emit("resetFilter");
 };
 
-// scope
-const timeout_scope = ref(0);
-const searchScope = () => {
-    clearTimeout(timeout_scope.value);
-    timeout_scope.value = window.setTimeout(() => {
-        is_loading_scope.value = true;
-        params_scope.currentPage = 1;
-        refetchScope();
-    }, 1000);
-};
-const scrollScope = (e: Event) => {
-    const { scrollTop, scrollHeight, clientHeight } = e.target as HTMLElement;
-    if (
-        scrollTop + clientHeight >= scrollHeight - 1 &&
-        hasNextPageScope.value &&
-        !isFetchingNextPageScope.value
-    ) {
-        fetchNextPageScope();
-    }
-};
 // bidang
 const timeout_bidang = ref(0);
 const searchBidang = () => {
@@ -340,6 +226,7 @@ watch(modelValue, (value) => {
 });
 
 const selectBidang = (e: OptionType) => {
+    queryClient.removeQueries({ queryKey: ["getSubBidangScope"] });
     model.value.sub_bidang_uuid = "";
     params_sub_bidang.filters = [
         {
@@ -352,24 +239,6 @@ const selectBidang = (e: OptionType) => {
     refetchSubBidang();
 };
 
-const selectSubBidang = (e: OptionType) => {
-    params_scope.filters = [
-        {
-            group: "AND",
-            operator: "EQ",
-            column: "project_uuid",
-            value: route.params.id_project,
-        },
-        {
-            group: "AND",
-            operator: "EQ",
-            column: "sub_bidang_uuid",
-            value: e.value,
-        },
-    ];
-
-    refetchScope();
-}
 // bidang
 watch(
     dataBidang,
@@ -384,15 +253,12 @@ watch(
             options_bidang.value = mergeArrays(
                 [
                     {
-                        value: props.selectedValue?.scope_standart?.sub_bidang?.bidang_uuid,
-                        label:
-                            props.selectedValue?.scope_standart?.sub_bidang?.bidang?.name,
+                        value: props.selectedValue?.sub_bidang?.bidang_uuid,
+                        label: props.selectedValue?.sub_bidang?.bidang?.name,
                     },
                 ],
                 new_data.filter(
-                    (item) =>
-                        item.value !==
-                        props.selectedValue?.scope_standart?.sub_bidang?.bidang_uuid
+                    (item) => item.value !== props.selectedValue?.sub_bidang?.bidang_uuid
                 )
             );
         } else {
@@ -409,6 +275,7 @@ watch(
     { deep: true, immediate: true }
 );
 // end bidang
+
 // sub bidang
 watch(
     dataSubBidang,
@@ -423,13 +290,12 @@ watch(
             options_sub_bidang.value = mergeArrays(
                 [
                     {
-                        value: props.selectedValue?.scope_standart?.sub_bidang_uuid,
-                        label: props.selectedValue?.scope_standart?.sub_bidang?.name,
+                        value: props.selectedValue?.sub_bidang_uuid,
+                        label: props.selectedValue?.sub_bidang?.name,
                     },
                 ],
                 new_data.filter(
-                    (item) =>
-                        item.value !== props.selectedValue?.scope_standart?.sub_bidang_uuid
+                    (item) => item.value !== props.selectedValue?.sub_bidang_uuid
                 )
             );
         } else {
@@ -446,46 +312,12 @@ watch(
     { deep: true, immediate: true }
 );
 // end sub bidang
-
-watch(
-    [modelValue, dataScope],
-    ([newModel, newScope]) => {
-        if (props.selectedValue) {
-            const new_data: OptionType[] =
-                newScope?.pages
-                    .flatMap((page) => page?.data)
-                    ?.map((item) => {
-                        return { value: item.uuid, label: item.name };
-                    }) || [];
-            options_scope.value = mergeArrays(
-                [
-                    {
-                        value: props.selectedValue.scope_standart_uuid,
-                        label: props.selectedValue.scope_standart?.name,
-                    },
-                ],
-                new_data.filter(
-                    (item) => item.value !== props.selectedValue?.scope_standart_uuid
-                )
-            );
-        } else {
-            const new_data: OptionType[] =
-                newScope?.pages
-                    .flatMap((page) => page?.data)
-                    ?.map((item) => {
-                        return { value: item?.uuid, label: item?.name };
-                    }) || [];
-            options_scope.value = new_data;
-        }
-    },
-    { deep: true, immediate: true }
-);
 </script>
 
 <template>
     <div
         class="flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-y-auto mx-[-20px] p-5 bg-white shadow-md rounded-md">
-        <span class="text-blue-950 font-semibold">Pilih Jenis Inspeksi</span>
+        <span class="text-blue-950 font-semibold">Pilih Scope Standart</span>
         <form class="" @submit.prevent="handleSubmit">
             <Select v-model="model.bidang_uuid" label="Bidang" options_label="label" options_value="value"
                 v-model:model-search="params_bidang.search" :search="true" :loading="is_loading_bidang"
@@ -494,12 +326,7 @@ watch(
             <Select v-model="model.sub_bidang_uuid" label="Sub Bidang" options_label="label" options_value="value"
                 v-model:model-search="params_sub_bidang.search" :search="true" :loading="is_loading_sub_bidang"
                 :loading-next-page="isFetchingNextPageSubBidang" :rules="rules.sub_bidang_uuid"
-                :options="options_sub_bidang" @scroll="scrollSubBidang" @search="searchSubBidang"
-                @select="selectSubBidang" />
-            <Select v-model="model.scope_standart_uuid" label="Scope" options_label="label" options_value="value"
-                v-model:model-search="params_scope.search" :search="true" :loading="is_loading_scope"
-                :loading-next-page="isFetchingNextPageScope" :rules="rules.scope_standart_uuid" :options="options_scope"
-                @scroll="scrollScope" @search="searchScope" />
+                :options="options_sub_bidang" @scroll="scrollSubBidang" @search="searchSubBidang" />
 
             <div class="w-full flex items-center gap-4 mt-4">
                 <Button text="Reset" class="w-full" variant="secondary" :disabled="props.loading" @click="resetValue" />

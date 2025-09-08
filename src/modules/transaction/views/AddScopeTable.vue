@@ -3,7 +3,7 @@ import { computed, reactive, ref } from "vue";
 import type { AxiosError } from "axios";
 import { useRoute, useRouter } from "vue-router";
 
-import { ButtonDots, Table, Toast } from "@/components";
+import { Button, ButtonDots, Icon, ModalDelete, Table, Toast } from "@/components";
 import type { ValueUploadType } from "@/components/fields/Upload.vue";
 import { useMutation, useQuery } from "@tanstack/vue-query";
 import type { CreateDocumentInterface, IPagination } from "@/types/GlobalType";
@@ -19,9 +19,11 @@ import type { TColor } from "../types/ScopeType";
 import FormAssetWelness from "../components/FormAssetWelness.vue";
 import FormWithUploadFile from "../components/FormWithUploadFile.vue";
 import { useTransactionStore } from "../stores/TransactionStore";
+import FormAdScope from "../components/FormAdScope.vue";
 
+const open_form = ref(false);
 const entitiesScope = ref<AddScopeInterface[]>([]);
-
+const selected_item = ref<AddScopeInterface>();
 const transactionStore = useTransactionStore();
 const globalStore = useGlobalStore();
 const router = useRouter();
@@ -181,6 +183,31 @@ const {
   refetchOnWindowFocus: false,
 });
 //--- END
+
+// delete scope
+const { mutate: deleteScope, isPending: isLoadingDelete } = useMutation({
+  mutationFn: async (id: string) => {
+    return await transactionStore.deleteAdScope(id);
+  },
+  onSuccess: () => {
+    refetchScope();
+    toastRef.value?.showToast({
+      title: "Success",
+      description: "Deleted successfully",
+      type: "success",
+    });
+    open_delete.value = false;
+  },
+  onError: (error: any) => {
+    console.log(error);
+    toastRef.value?.showToast({
+      title: "Error",
+      description: error?.response?.data?.message || "Something went wrong",
+      type: "error",
+    });
+  },
+});
+// end
 
 //--- CREATE ADD SCOPE
 const { mutate: createAddScope } = useMutation({
@@ -373,58 +400,97 @@ function searchTable() {
     refetchScope();
   }, 1000);
 }
+
+const onDelete = () => {
+  deleteScope(selected_item.value?.id as string);
+};
+
+const handleDelete = (e: AddScopeInterface) => {
+  selected_item.value = e;
+  open_delete.value = true;
+};
+
+const handleCreate = () => {
+  open_form.value = true;
+};
+
+const handleSuccess = () => {
+  toastRef.value?.showToast({
+    title: "Success",
+    description: "Saved successfully",
+    type: "success",
+  });
+  params.currentPage = 1;
+  refetchScope();
+};
+
+const handleError = (error: any) => {
+  toastRef.value?.showToast({
+    title: "Error",
+    description: error?.response?.data?.message || "Something went wrong",
+    type: "error",
+  });
+};
 </script>
 
 <template>
-  <Toast ref="toastRef" />
-  <Table label-create="Asset" :columns="ColumnsScope" :entities="entitiesScope" :loading="isLoadingScope"
-    :pagination="pagination" :is-create="false" v-model:model-search="params.search" @change-page="changePage"
-    @change-limit="changeLimit" @search="searchTable">
-    <template #header_action>
-      <div class="px-3 py-1.5">
-        <p class="v-table-th-text">Action</p>
-      </div>
-    </template>
-    <template #column_asset_welness="{ entity }">
-      <div class="w-full flex justify-center">
-        <FormAssetWelness ref="asset_welness" :value="entity.asset_welness" :label="entity.asset"
-          :loading="is_loading_create" @save="(e) => saveAssetWelness(e, entity)" />
-      </div>
-    </template>
-    <template #column_oh_recom="{ entity }">
-      <div class="w-full flex justify-center">
-        <FormWithUploadFile ref="oh_recom" :value="entity.oh_recom" :label="entity.asset" :loading="is_loading_create"
-          @save="(e) => saveFieldWithFile(e, entity, 'oh-recom')" />
-      </div>
-    </template>
-    <template #column_wo_priority="{ entity }">
-      <div class="w-full flex justify-center">
-        <FormWithUploadFile ref="wo_priority" :value="entity.wo_priority" :label="entity.asset"
-          :loading="is_loading_create" @save="(e) => saveFieldWithFile(e, entity, 'wo-priority')" />
-      </div>
-    </template>
-    <template #column_history="{ entity }">
-      <div class="w-full flex justify-center">
-        <FormWithUploadFile ref="history" :value="entity.history" :label="entity.asset" :loading="is_loading_create"
-          @save="(e) => saveFieldWithFile(e, entity, 'history')" />
-      </div>
-    </template>
-    <template #column_rla="{ entity }">
-      <div class="w-full flex justify-center">
-        <FormWithUploadFile ref="rla" :value="entity.rla" :label="entity.asset" :loading="is_loading_create"
-          @save="(e) => saveFieldWithFile(e, entity, 'rla')" />
-      </div>
-    </template>
-    <template #column_ncr="{ entity }">
-      <div class="w-full flex justify-center">
-        <FormWithUploadFile ref="ncr" :value="entity.ncr" :label="entity.asset" :loading="is_loading_create"
-          @save="(e) => saveFieldWithFile(e, entity, 'ncr')" />
-      </div>
-    </template>
-    <template #column_action="{ entity }">
-      <div class="flex items-center justify-center gap-2">
-        <ButtonDots :day="entity.day" @detail="toDetail(entity.id)" @squence="toSquence(entity)" />
-      </div>
-    </template>
-  </Table>
+  <div class="relative w-full">
+    <Toast ref="toastRef" />
+    <ModalDelete v-model="open_delete" :title="selected_item?.asset" :loading="isLoadingDelete" @delete="onDelete" />
+    <Button icon_only="plus" class="absolute right-0" size="sm" rounded="full" color="blue" @click="handleCreate" />
+    <Table label-create="Asset" :columns="ColumnsScope" :entities="entitiesScope" :loading="isLoadingScope"
+      @delete="handleDelete" :pagination="pagination" :is-create="false" v-model:model-search="params.search"
+      @change-page="changePage" @change-limit="changeLimit" @search="searchTable">
+      <template #header_action>
+        <div class="px-3 py-1.5">
+          <p class="v-table-th-text">Action</p>
+        </div>
+      </template>
+      <template #column_asset_welness="{ entity }">
+        <div class="w-full flex justify-center">
+          <FormAssetWelness ref="asset_welness" :value="entity.asset_welness" :label="entity.asset"
+            :loading="is_loading_create" @save="(e) => saveAssetWelness(e, entity)" />
+        </div>
+      </template>
+      <template #column_oh_recom="{ entity }">
+        <div class="w-full flex justify-center">
+          <FormWithUploadFile ref="oh_recom" :value="entity.oh_recom" :label="entity.asset" :loading="is_loading_create"
+            @save="(e) => saveFieldWithFile(e, entity, 'oh-recom')" />
+        </div>
+      </template>
+      <template #column_wo_priority="{ entity }">
+        <div class="w-full flex justify-center">
+          <FormWithUploadFile ref="wo_priority" :value="entity.wo_priority" :label="entity.asset"
+            :loading="is_loading_create" @save="(e) => saveFieldWithFile(e, entity, 'wo-priority')" />
+        </div>
+      </template>
+      <template #column_history="{ entity }">
+        <div class="w-full flex justify-center">
+          <FormWithUploadFile ref="history" :value="entity.history" :label="entity.asset" :loading="is_loading_create"
+            @save="(e) => saveFieldWithFile(e, entity, 'history')" />
+        </div>
+      </template>
+      <template #column_rla="{ entity }">
+        <div class="w-full flex justify-center">
+          <FormWithUploadFile ref="rla" :value="entity.rla" :label="entity.asset" :loading="is_loading_create"
+            @save="(e) => saveFieldWithFile(e, entity, 'rla')" />
+        </div>
+      </template>
+      <template #column_ncr="{ entity }">
+        <div class="w-full flex justify-center">
+          <FormWithUploadFile ref="ncr" :value="entity.ncr" :label="entity.asset" :loading="is_loading_create"
+            @save="(e) => saveFieldWithFile(e, entity, 'ncr')" />
+        </div>
+      </template>
+      <template #column_action="{ entity }">
+        <div class="flex items-center justify-center gap-2">
+          <!-- <ButtonDots :day="entity.day" @detail="toDetail(entity.id)" @squence="toSquence(entity)" /> -->
+          <Icon name="eye" class="cursor-pointer text-white" @click="toDetail(entity.id)" />
+          <Icon name="trash" class="cursor-pointer text-white" @click="handleDelete(entity)" />
+        </div>
+      </template>
+    </Table>
+
+    <FormAdScope v-model="open_form" :selected-value="selected_item" @success="handleSuccess" @error="handleError" />
+  </div>
 </template>

@@ -66,19 +66,14 @@ const rules = computed(() => {
 });
 
 //--- GET PART
-const params_part = reactive<IParams>({
+const params_part = reactive<IParams & { from_transaction: true, project_uuid: string }>({
   search: "",
   filter: "",
-  filters: [
-    {
-      group: "AND",
-      operator: "EQ",
-      column: "inspection_type_uuid",
-      value: route.params.id_inspection,
-    },
-  ],
+  filters: [],
   currentPage: 1,
   perPage: 10,
+  from_transaction: true,
+  project_uuid: route.params.id_project as string,
 });
 const {
   data: dataPart,
@@ -226,48 +221,19 @@ watch(
 </script>
 
 <template>
-  <Modal
-    width="440"
-    height="200"
-    :showButtonClose="false"
-    :title="props.selectedValue ? 'Ubah Part' : 'Tambah Part'"
-    v-model="modelValue"
-  >
-    <form
-      class="flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-y-auto mx-[-20px] px-5"
-      @submit.prevent="handleSubmit"
-    >
-      <Select
-        v-model="model.part_uuid"
-        v-model:model-search="params_part.search"
-        label="Part"
-        options_label="label"
-        options_value="value"
-        :search="true"
-        :loading="is_loading_part"
-        :loading-next-page="isFetchingNextPagePart"
-        :rules="rules.part_uuid"
-        :options="options_part"
-        @scroll="scrollPart"
-        @search="searchPart"
-      />
+  <Modal width="440" height="200" :showButtonClose="false" :title="props.selectedValue ? 'Ubah Part' : 'Tambah Part'"
+    v-model="modelValue">
+    <form class="flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-y-auto mx-[-20px] px-5"
+      @submit.prevent="handleSubmit">
+      <Select v-model="model.part_uuid" v-model:model-search="params_part.search" label="Part" options_label="label"
+        options_value="value" :search="true" :loading="is_loading_part" :loading-next-page="isFetchingNextPagePart"
+        :rules="rules.part_uuid" :options="options_part" @scroll="scrollPart" @search="searchPart" />
 
       <div class="w-full flex items-center gap-4 mt-4">
-        <Button
-          text="Batal"
-          class="w-full"
-          variant="secondary"
-          :disabled="isLoadingCreate"
-          @click="modelValue = false"
-        />
-        <Button
-          type="submit"
-          text="Simpan"
-          class="w-full"
-          color="blue"
-          :disabled="isLoadingCreate"
-          :loading="isLoadingCreate"
-        />
+        <Button text="Batal" class="w-full" variant="secondary" :disabled="isLoadingCreate"
+          @click="modelValue = false" />
+        <Button type="submit" text="Simpan" class="w-full" color="blue" :disabled="isLoadingCreate"
+          :loading="isLoadingCreate" />
       </div>
     </form>
   </Modal>

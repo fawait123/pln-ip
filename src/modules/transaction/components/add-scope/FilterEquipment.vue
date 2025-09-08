@@ -4,7 +4,7 @@ import { reactive, ref, computed, type PropType, watch } from "vue";
 import { Button, Select } from "@/components";
 import useVuelidate from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
-import { useInfiniteQuery } from "@tanstack/vue-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/vue-query";
 import type { IPagination, IParams } from "@/types/GlobalType";
 import { mergeArrays } from "@/helpers/global";
 import { useMasterStore } from "@/modules/master/stores/MasterStore";
@@ -16,7 +16,7 @@ import type {
     EquipmentModelCreateInterface,
 } from "@/modules/master/types/EquipmentType";
 import { useRoute } from "vue-router";
-import { useTransactionStore } from "../stores/TransactionStore";
+import { useTransactionStore } from "../../stores/TransactionStore";
 
 type OptionType = {
     value: string;
@@ -36,7 +36,6 @@ const emit = defineEmits(["success", "error", "filter", "resetFilter"]);
 const route = useRoute();
 const masterStore = useMasterStore();
 const transactionStore = useTransactionStore();
-
 const modelValue = defineModel<boolean>({ default: false });
 const is_loading_sub_bidang = ref(false);
 const options_sub_bidang = ref<OptionType[]>([]);
@@ -89,8 +88,8 @@ const params_scope = reactive<IParams>({
         {
             group: "AND",
             operator: "EQ",
-            column: "project_uuid",
-            value: route.params.id_project,
+            column: "additionalScope.uuid",
+            value: route.params.id_scope,
         },
     ],
     currentPage: 1,
@@ -357,8 +356,8 @@ const selectSubBidang = (e: OptionType) => {
         {
             group: "AND",
             operator: "EQ",
-            column: "project_uuid",
-            value: route.params.id_project,
+            column: "additionalScope.uuid",
+            value: route.params.id_scope,
         },
         {
             group: "AND",

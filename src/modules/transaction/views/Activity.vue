@@ -175,7 +175,7 @@ const setFilter = () => {
     {
       group: "AND",
       operator: "EQ",
-      column: "equipment.original_uuid",
+      column: "equipment.uuid",
       value: String(dataForm.value?.equipment_uuid),
     },
   ];
@@ -241,11 +241,6 @@ onMounted(() => {
           class="mt-6" @change-page="changePage" @change-limit="changeLimit" @search="searchTable">
           <template #column_action="{ entity }">
             <div class="flex items-center justify-center gap-4">
-              <!-- <Icon
-                name="pencil"
-                class="icon-action-table"
-                @click="handleUpdate(entity)"
-              /> -->
               <Icon name="trash" class="icon-action-table" @click="handleDelete(entity)" />
             </div>
           </template>
